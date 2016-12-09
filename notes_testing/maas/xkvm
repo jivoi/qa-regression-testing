@@ -1,0 +1,286 @@
+#!/bin/bash
+
+set -f
+
+VERBOSITY=0
+TEMP_D=""
+DEF_BRIDGE="virbr0"
+TAPDEVS=( )
+# OVS_CLEANUP gets populated with bridge:devname pairs used with ovs
+OVS_CLEANUP=( )
+MAC_PREFIX="52:54:00:12:34"
+declare -A KVM_DEVOPTS
+
+error() { echo "$@" 1>&2; }
+errorp() { printf "$@" 1>&2; }
+fail() { [ $# -eq 0 ] || error "$@"; exit 1; }
+failp() { [ $# -eq 0 ] || errorp "$@"; exit 1; }
+
+bad_Usage() { Usage 1>&2; [ $# -eq 0 ] || error "$@"; exit 1; }
+randmac() {
+	_RET=$(printf "%02x:%02x:%02x:%02x:%02x:%02x" \
+		"$((${RANDOM}%256))" "$((${RANDOM}%256))" "$((${RANDOM}%256))" \
+		"$((${RANDOM}%256))" "$((${RANDOM}%256))" "$((${RANDOM}%256))")
+}
+cleanup() {
+	[ -z "${TEMP_D}" -o ! -d "${TEMP_D}" ] || rm -Rf "${TEMP_D}"
+	if [ ${#TAPDEVS[@]} -ne 0 ]; then
+		local name item
+		for item in "${TAPDEVS[@]}"; do
+			[ "${item}" = "skip" ] && continue
+			error "removing" "$item"
+			name="${item%:*}"
+			tunctl -d "${name}" || error "failed removal of $name"
+		done
+		if [ ${#OVS_CLEANUP[@]} -ne 0 ]; then
+			# with linux bridges, there seems to be no harm in just deleting
+			# the device (not detaching from the bridge).  However, with
+			# ovs, you have to remove them from the bridge, or later it
+			# will refuse to add the same name.
+			error "cleaning up ovs ports: ${OVS_CLEANUP[@]}"
+			sudo sh -c 'for item in "$@"; do
+				name=${item#*:}
+				bridge=${item%:*}
+				ovs-vsctl del-port $bridge $name; done' -- \
+				"${OVS_CLEANUP[@]}"
+		fi
+	fi
+}
+
+debug() {
+	local level=${1}; shift;
+	[ "${level}" -gt "${VERBOSITY}" ] && return
+	error "${@}"
+}
+
+Usage() {
+	cat <<EOF
+Usage: ${0##*/} [ options ] -- kvm-args [ ... ]
+
+   run kvm with a tap interface.
+
+   options:
+      -n | --netdev NETDEV    netdev can be 'user' or a bridge.
+                              default is to bridge to $DEF_BRIDGE
+
+   NETDEV:
+    Above, 'NETDEV' is a comma delimited string
+    The first field must be 
+     * bridge name: (br0 or virbr0): attach a device to this bridge
+     * literal 'user': use qemu user networking
+    
+    Additional fields are optional, and can be anything that is acceptable
+    to kvm either as:
+      * '-device virtio-net-pci' option (see 'kvm -device virtio-net-pci,?')
+      * '-net [user|tap]' option 
+
+   Example:
+     * xkvm --netdev br0,macaddr=:05 -- -drive file=disk.img,if=virtio -curses
+       attach a tap device to bridge 'br0' with mac address
+         '${MAC_PREFIX}:05'
+
+     * xkvm --netdev user,mac=random --netdev br1,model=e1000,mac=auto -- -curses
+       attach virtio user networking nic with random mac address
+       attach tap device to br1 bridge as e1000 with unspecified mac
+EOF
+}
+
+isdevopt() {
+	local model="$1" input="${2%%=*}"
+	local out="" opt="" opts=()
+	if [ -z "${KVM_DEVOPTS[$model]}" ]; then
+		out=$(kvm -device "$model,?" 2>&1) &&
+			out=$(echo "$out" | sed -e "s,${model}[.],," -e 's,=.*,,') &&
+			KVM_DEVOPTS[$model]="$out" ||
+			{ error "bad device model $model?"; exit 1; }
+	fi
+	opts=( ${KVM_DEVOPTS[$model]} )
+	for opt in "${KVM_DEVOPTS[@]}"; do
+		[ "$input" = "$opt" ] && return 0
+	done
+	return 1
+}
+
+main() {
+	local short_opts="hn:v"
+	local long_opts="help,netdev:,verbose"
+	local getopt_out=""
+	getopt_out=$(getopt --name "${0##*/}" \
+		--options "${short_opts}" --long "${long_opts}" -- "$@") &&
+		eval set -- "${getopt_out}" || { bad_Usage; return 1; }
+
+	local bridge="$DEF_BRIDGE"
+	local netdevs="" need_tap="" ret="" p="" i="" pt="" cur="" conn=""
+	netdevs=( )
+	addargs=( )
+
+	while [ $# -ne 0 ]; do
+		cur=${1}; next=${2};
+		case "$cur" in
+			-h|--help) Usage; exit 0;;
+			-n|--netdev)
+				netdevs[${#netdevs[@]}]=$next; shift;;
+			-v|--verbose) VERBOSITY=$((${VERBOSITY}+1));;
+			--) shift; break;;
+		esac
+		shift;
+	done
+
+	[ ${#netdevs[@]} -eq 0 ] && netdevs=( "${DEF_BRIDGE}" )
+	pt=( "$@" )
+
+	# now go through and split out options
+	# -device virtio-net-pci,netdev=virtnet0,mac=52:54:31:15:63:02
+	# -netdev type=tap,id=virtnet0,vhost=on,script=/etc/kvm/kvm-ifup.br0,downscript=no
+	local oifs="$IFS" netopts="" devopts="" id="" need_taps=0 model=""
+	local device_args netdev_args
+	device_args=( )
+	netdev_args=( )
+	connections=( )
+	for((i=0;i<${#netdevs[@]};i++)); do
+		id=$(printf "net%02d" "$i")
+		netopts="";
+		devopts=""
+		mac=""
+		#vhost="off"
+
+		IFS=","; set -- ${netdevs[$i]}; IFS="$oifs"
+		bridge=$1; shift;
+		if [ "$bridge" = "user" ]; then
+			netopts="type=user"
+			ntype="user"
+			connections[$i]="user"
+		else
+			need_taps=1
+			ntype="tap"
+			netopts="type=tap"
+			connections[$i]="$bridge"
+		fi
+		netopts="${netopts},id=$id"
+		[ "$ntype" = "tap" ] && netopts="${netopts},script=no,downscript=no"
+
+		model="virtio-net-pci"
+		for tok in "$@"; do
+			[ "${tok#model=}" = "${tok}" ] && continue
+			case "${tok#model=}" in
+				virtio) model=virtio-net-pci;;
+				*) model=${tok#model=};;
+			esac
+		done
+
+		for tok in "$@"; do
+			case "$tok" in
+				mac=*) mac="${tok#mac=}"; continue;;
+				macaddr=*) mac=${tok#macaddr=}; continue;;
+				model=*) continue;;
+			esac
+
+			isdevopt "$model" "$tok" && devopts="${devopts},$tok" ||
+				netopts="${netopts},${tok}"
+		done
+		devopts=${devopts#,}
+		netopts=${netopts#,}
+
+		[ "$mac" = "random" ] && randmac && mac="$_RET"
+
+		if [ "$mac" != "auto" ]; then
+			[ -z "$mac" ] && mac=$(printf ":%02x" "$i")
+			[ -z "${mac#:??}" ] && mac="${MAC_PREFIX}${mac}"
+			devopts="${devopts:+${devopts},}mac=${mac}"
+		fi
+		devopts="$model,netdev=$id${devopts:+,${devopts}}"
+		#netopts="${netopts},vhost=${vhost}"
+
+		device_args[$i]="$devopts"
+		netdev_args[$i]="$netopts"
+	done
+
+	trap cleanup EXIT
+
+	if [ $need_taps -ne 0 ]; then
+		local missing="" missing_pkgs="" reqs="" req="" pkgs="" pkg=""
+		reqs=( kvm      ifconfig  brctl        tunctl )
+		pkgs=( qemu-kvm net-tools bridge-utils uml-utilities )
+		for((i=0;i<${#reqs[@]};i++)); do
+			req=${reqs[$i]}
+			pkg=${pkgs[$i]}
+			command -v "$req" >/dev/null || {
+				missing="${missing:+${missing} }${req}"
+				missing_pkgs="${missing_pkgs:+${missing_pkgs} }$pkg"
+			}
+		done
+		if [ -n "$missing" ]; then
+			local reply cmd=""
+			cmd=( sudo apt-get --quiet install ${missing_pkgs} )
+			error "missing prereqs: $missing";
+			error "install them now with the following?: ${cmd[*]}"
+			read reply && [ "$reply" = "y" -o "$reply" = "Y" ] ||
+				{ error "run: apt-get install ${missing_pkgs}"; return 1; }
+			"${cmd[@]}" || { error "failed to install packages"; return 1; }
+		fi
+
+		local me=""
+		me=$(whoami) || { error "failed to run whoami!"; return 1; }
+
+		error "creating tap devices: ${connections[*]}"
+		taps=$(sudo sh -ec '
+			ovsbrs=""
+			if command -v ovs-vsctl >/dev/null 2>&1; then
+				out=$(ovs-vsctl list-br)
+				out=$(echo "$out" | sed "s/\n/,/")
+				ovsbrs=",$out,"
+			fi
+			user=$1;
+			shift;
+			for b in "$@"; do
+				[ "$b" = "user" ] && echo skip && continue
+				[ "${ovsbrs#*,${b},}" != "${ovsbrs}" ] && btype="ovs" ||
+					btype="brctl"
+				tap=$(tunctl -b -u "$user")
+				echo "$tap:$btype"
+				echo "created $tap:$btype on $b" 1>&2
+				ifconfig "$tap" 0.0.0.0 up 1>&2
+				if [ "$btype" = "ovs" ]; then
+					ovs-vsctl add-port "$b" "$tap" 1>&2
+				else
+					brctl addif "$b" "$tap" 1>&2
+				fi
+			done
+			' -- "$me" "${connections[@]}")
+		
+		ret=$?
+		TAPDEVS=( ${taps} )
+		for((i=0;i<${#TAPDEVS[@]};i++)); do
+			cur=${TAPDEVS[$i]}
+			[ "${cur#*:}" = "ovs" ] || continue
+			conn=${connections[$i]}
+			OVS_CLEANUP[${#OVS_CLEANUP[@]}]="${conn}:${cur%:*}"
+		done
+
+		error "tapdevs='${TAPDEVS[@]}'"
+		[ ${#OVS_CLEANUP[@]} -eq 0 ] || error "OVS_CLEANUP='${OVS_CLEANUP[*]}'"
+		[ $ret -eq 0 ] || return $ret
+
+		for((i=0;i<${#TAPDEVS[@]};i++)); do
+			cur=${TAPDEVS[$i]}
+			[ "$cur" = "skip" ] && continue
+			netdev_args[$i]="${netdev_args[$i]},ifname=${cur%:*}";
+		done
+	fi
+
+	netargs=()
+	for((i=0;i<${#device_args[@]};i++)); do
+		netargs[${#netargs[@]}]="-device"
+		netargs[${#netargs[@]}]="${device_args[$i]}"
+		netargs[${#netargs[@]}]="-netdev"
+		netargs[${#netargs[@]}]="${netdev_args[$i]}"
+	done
+
+	error kvm "${netargs[@]}" "${pt[@]}"
+	kvm "${netargs[@]}" "${pt[@]}"
+}
+
+
+main "$@"
+
+# vi: ts=4 noexpandtab

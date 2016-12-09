@@ -1,0 +1,128 @@
+<html><body><table border="1">
+<tr><th>Num</th><th>httpd.conf Options</th>
+<th>httpd.conf AllowOverride</th>
+<th>.htaccess Options</th>
+<th>Old Result</th>
+<th>New Result</th>
+</th></tr>
+<tr><th>1</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>2</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>3</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>4</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>5</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>6</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>7</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes +IncludesNoExec</td><td>200/ssi-noexec</td><td>500</td></tr>
+<tr><th>8</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes -IncludesNoExec</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>9</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>10</th><td>Options None</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>11</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>12</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>13</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>14</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>15</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>16</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>17</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options -Includes +IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>18</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options +Includes -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>19</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec +Includes</td><td>500</td><td>200/ssi-exec</td></tr>
+<tr><th>20</th><td>Options None</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec -Includes</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>21</th><td>Options None</td><td>AllowOverride All</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>22</th><td>Options None</td><td>AllowOverride All</td><td>Options +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>23</th><td>Options None</td><td>AllowOverride All</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>24</th><td>Options None</td><td>AllowOverride All</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>25</th><td>Options None</td><td>AllowOverride All</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>26</th><td>Options None</td><td>AllowOverride All</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>27</th><td>Options None</td><td>AllowOverride All</td><td>Options -Includes +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>28</th><td>Options None</td><td>AllowOverride All</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>29</th><td>Options None</td><td>AllowOverride All</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>30</th><td>Options None</td><td>AllowOverride All</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>31</th><td>Options None</td><td>AllowOverride None</td><td>Options +Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>32</th><td>Options None</td><td>AllowOverride None</td><td>Options +IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>33</th><td>Options None</td><td>AllowOverride None</td><td>Options Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>34</th><td>Options None</td><td>AllowOverride None</td><td>Options IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>35</th><td>Options None</td><td>AllowOverride None</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>36</th><td>Options None</td><td>AllowOverride None</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>37</th><td>Options None</td><td>AllowOverride None</td><td>Options -Includes +IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>38</th><td>Options None</td><td>AllowOverride None</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>39</th><td>Options None</td><td>AllowOverride None</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>40</th><td>Options None</td><td>AllowOverride None</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>41</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>42</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec</td><td>200/ssi-exec</td><td>200/ssi-noexec</td></tr>
+<tr><th>43</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>44</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>45</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>46</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>47</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes +IncludesNoExec</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>48</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes -IncludesNoExec</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>49</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>50</th><td>Options IncludesNoExec</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>51</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>52</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>53</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>54</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>55</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>56</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>57</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options -Includes +IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>58</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options +Includes -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>59</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec +Includes</td><td>500</td><td>200/ssi-exec</td></tr>
+<tr><th>60</th><td>Options IncludesNoExec</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec -Includes</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>61</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>62</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options +IncludesNoExec</td><td>200/ssi-exec</td><td>200/ssi-noexec</td></tr>
+<tr><th>63</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>64</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>65</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>66</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>67</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options -Includes +IncludesNoExec</td><td>200/ssi-exec</td><td>200/ssi-noexec</td></tr>
+<tr><th>68</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>69</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>70</th><td>Options IncludesNoExec</td><td>AllowOverride All</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>71</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options +Includes</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>72</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>73</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options Includes</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>74</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>75</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options -Includes</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>76</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options -IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>77</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options -Includes +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>78</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>79</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>80</th><td>Options IncludesNoExec</td><td>AllowOverride None</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>81</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>82</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec</td><td>200/ssi-noexec</td><td>200/ssi-exec</td></tr>
+<tr><th>83</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>84</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>85</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>86</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>87</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -Includes +IncludesNoExec</td><td>200/ssi-noexec</td><td>500</td></tr>
+<tr><th>88</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +Includes -IncludesNoExec</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>89</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options -IncludesNoExec +Includes</td><td>200/ssi-exec</td><td>500</td></tr>
+<tr><th>90</th><td>Options Includes</td><td>AllowOverride Options=IncludesNoExec</td><td>Options +IncludesNoExec -Includes</td><td>200/no-ssi</td><td>500</td></tr>
+<tr><th>91</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>92</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec</td><td>500</td><td>200/ssi-exec</td></tr>
+<tr><th>93</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>94</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>95</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>96</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>97</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options -Includes +IncludesNoExec</td><td>500</td><td>200/ssi-noexec</td></tr>
+<tr><th>98</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options +Includes -IncludesNoExec</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>99</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options -IncludesNoExec +Includes</td><td>500</td><td>200/ssi-exec</td></tr>
+<tr><th>100</th><td>Options Includes</td><td>AllowOverride Options=Includes</td><td>Options +IncludesNoExec -Includes</td><td>500</td><td>200/no-ssi</td></tr>
+<tr><th>101</th><td>Options Includes</td><td>AllowOverride All</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>102</th><td>Options Includes</td><td>AllowOverride All</td><td>Options +IncludesNoExec</td><td>200/ssi-noexec</td><td>200/ssi-exec</td></tr>
+<tr><th>103</th><td>Options Includes</td><td>AllowOverride All</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>104</th><td>Options Includes</td><td>AllowOverride All</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>105</th><td>Options Includes</td><td>AllowOverride All</td><td>Options -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>106</th><td>Options Includes</td><td>AllowOverride All</td><td>Options -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>107</th><td>Options Includes</td><td>AllowOverride All</td><td>Options -Includes +IncludesNoExec</td><td colspan="2">200/ssi-noexec</td></tr>
+<tr><th>108</th><td>Options Includes</td><td>AllowOverride All</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>109</th><td>Options Includes</td><td>AllowOverride All</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>110</th><td>Options Includes</td><td>AllowOverride All</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/no-ssi</td></tr>
+<tr><th>111</th><td>Options Includes</td><td>AllowOverride None</td><td>Options +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>112</th><td>Options Includes</td><td>AllowOverride None</td><td>Options +IncludesNoExec</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>113</th><td>Options Includes</td><td>AllowOverride None</td><td>Options Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>114</th><td>Options Includes</td><td>AllowOverride None</td><td>Options IncludesNoExec</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>115</th><td>Options Includes</td><td>AllowOverride None</td><td>Options -Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>116</th><td>Options Includes</td><td>AllowOverride None</td><td>Options -IncludesNoExec</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>117</th><td>Options Includes</td><td>AllowOverride None</td><td>Options -Includes +IncludesNoExec</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>118</th><td>Options Includes</td><td>AllowOverride None</td><td>Options +Includes -IncludesNoExec</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>119</th><td>Options Includes</td><td>AllowOverride None</td><td>Options -IncludesNoExec +Includes</td><td colspan="2">200/ssi-exec</td></tr>
+<tr><th>120</th><td>Options Includes</td><td>AllowOverride None</td><td>Options +IncludesNoExec -Includes</td><td colspan="2">200/ssi-exec</td></tr>
+</table></body></html>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element should have a left margin of 3 picas (the plus sign
+in the style should make no difference).</PARAGRAPH>
+</TEST>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>Due to 'auto' values applied to the left and right margins, the
+ element should be centered within its parent.  The gray rectangle should
+ therefore appear in the middle of the viewport (e.g., the browser window).
+  The text inside the gray rectangle should not be centered.</PARAGRAPH>
+</TEST>

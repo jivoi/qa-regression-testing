@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This paragraph should be set to a width of 0.5in.  This is extra text
+to ensure that this will be a fair test of the width property.</PARAGRAPH>
+</TEST>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBackground1" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="height" value="2.0in"/>
+    <parentProperty name="width" value="2.0in"/>
+    <parentProperty name="background-color" value="yellow"/>
+      <fo foName="block">
+       <foText>The "background-color" property of this block container was set to "yellow".</foText>
+      </fo>
+  </testcase>

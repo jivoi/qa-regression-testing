@@ -1,0 +1,22 @@
+Testsuite
+---------
+openldap2.3 on hardy does not have the test suite turned on by default
+(openldap in 9.10 (at least) and later does). In order to run it, do:
+
+$ sudo apt-get build-dep openldap2.3
+$ sudo apt-get install time
+$ apt-get source openldap2.3
+$ cd openldap2.3-<version>
+$ fakeroot debian/rules build
+$ RESOLV_MULTI=off make -C debian/build test 2>&1 | tee ../test.results
+
+Look in tests/scripts for the scripts. At script test035-meta and after scripts
+start failing regularly which is because of back_meta not working right (see
+2.4.10-1) (http://www.mail-archive.com/openldap-its@openldap.org/msg00520.html).
+
+If you remove these scripts, then the tests will pass:
+test035-meta
+test035-meta-concurrency
+
+Test run output is in debian/build/testrun. A preliminary patch to fix the
+back_meta tests is in this directory.

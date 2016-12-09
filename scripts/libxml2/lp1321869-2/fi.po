@@ -1,0 +1,3 @@
+msgid "Application table"
+msgstr "Sovellustaulukko"
+

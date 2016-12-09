@@ -1,0 +1,162 @@
+Ubuntu 6.06 - 10.04 (dpatch)
+----------------------------
+If the output of 'what-patch' claims dpatch or if patches in the debian/patches
+directory use the 'dpatch' extension, use these instructions.
+
+Patching python is different than other packages. It claims to use dpatch but
+does not. These instructions are known to work with python2.4 and python2.5
+in Ubuntu (6.06 - 10.04).
+
+1. apply all the patches
+$ fakeroot debian/rules patch
+
+2. create a patch file in the normal way (ie, copy over the patched source
+   dir, the make changes in there, and perform a diff with:
+$ diff -Naurp python2.5-2.5.2 python2.5-2.5.2.new > /tmp/patch
+
+3. Adjust /tmp/patch to have:
+#! /bin/sh -e
+
+# DEP-3 metadata here
+
+dir=
+if [ $# -eq 3 -a "$2" = '-d' ]; then
+    pdir="-d $3"
+    dir="$3/"
+elif [ $# -ne 1 ]; then
+    echo >&2 "usage: `basename $0`: -patch|-unpatch [-d <srcdir>]"
+    exit 1
+fi
+case "$1" in
+    -patch)
+        patch $pdir -f --no-backup-if-mismatch -p0 < $0
+        ;;
+    -unpatch)
+        patch $pdir -f --no-backup-if-mismatch -R -p0 < $0
+        ;;
+    *)
+        echo >&2 "usage: `basename $0`: -patch|-unpatch [-d <srcdir>]"
+        exit 1
+esac
+exit 0
+
+--- Modules/expat/xmltok_impl.c 2006-06-19 18:21:25.000000000 -0500
++++ Modules/expat/xmltok_impl.c 2010-01-19 21:03:03.045569626 -0600
+@@ -1741,7 +1741,7 @@
+... <rest of patch> ...
+
+Note that the python2.5-2.5.2/ and python2.5-2.5.2.new/ were stripped off the
+front of the paths for the files.
+
+4. change into the directory of the original source and unpatch it:
+$ fakeroot debian/rules unpatch
+
+5. Move the patch into debian/patches
+$ mv /tmp/patch ./debian/patches/name_of_patch.dpatch
+
+6. update debian_patches in debian/rules:
+# which patches should be applied?
+debian_patches = \
+	deb-setup \
+	...
+	manpage-fix \
+	name_of_patch \
+...
+
+At this point, the package will hopefully build with the patch applied.
+
+
+Ubuntu 10.10 and higher (quilt)
+-------------------------------
+If the output of 'what-patch' claims quilt, use these instructions.
+
+Patch system claims to use quilt, but uses a series.in file. To patch:
+
+1. fakeroot debian/rules patch
+
+2. create a patch file in the normal way (ie, copy over the patched source
+   dir, the make changes in there, and perform a diff with:
+$ diff -Naurp python3.2-3.2 python3.2-3.2.new > /tmp/patch
+
+3. add DEP-3 comments to /tmp/patch like normal
+
+4. clean the original directory:
+$ cd python3.2-3.2
+$ fakeroot debian/rules clean
+
+5. add /tmp/patch to debian/patches. Eg:
+$ cp /tmp/patch debian/patches/CVE-2011-1521.diff
+
+6. add patch in debian/patches to series.in file
+$ echo CVE-2011-1521.diff >> debian/patches/series.in
+
+7. test that it worked:
+$ fakeroot debian/rules patch
+$ fakeroot debian/rules clean
+
+NOTE: once 'fakeroot debian/rules patch' is run, you can use 'quilt' to edit
+patches. Eg:
+$ fakeroot debian/rules patch
+$ quilt pop -a
+$ quilt push foobar.diff
+$ quilt refresh
+$ quilt pop -a
+$ quilt push -a
+$ fakeroot debian/rules clean
+
+IMPORTANT: you cannot use 'quilt' to add new patches though, since you have to
+edit both the series file and the series.in file (well, you can, but it is less
+straightforward).
+
+
+Testing
+-------
+The testsuite should be run during the build. Can run yourself with:
+$ sudo apt-get build-dep python2.7
+$ cd ./python* ; fakeroot debian/rules patch
+$ ./configure && make
+$ make EXTRATESTOPTS="-j 50" testall # highly parallelized
+$ make EXTRATESTOPTS="-v" testall    # verbose test output
+
+Can run a reduced set of tests with:
+$ make quicktests
+
+Running an individual test:
+$ ./python ./Lib/test/test_urllib2.py
+
+Running all tests but one (in this case, the gui tests):
+$ ./python ./Lib/test/regrtest.py -uall,-gui -v
+
+* python 3.2.2-0ubuntu1 core dumps with './configure && make && make testall'.
+  See build_testing/python/README.testing for how to workaround this.
+
+
+Flaky tests
+-----------
+Note that ./Lib/test/test_robotparser.py may fail if it doesn't have this
+commit:
+http://hg.python.org/cpython/rev/e6e37f1e29ca
+
+./Lib/test/test_bsddb3.py is known to fail when the system is under load.
+
+./Lib/test/test_urllib2net.py is not enabled on the buildds, and seems racy (it
+sometimes fails under umt/sbuild, but doesn't if you run it manually)
+
+./Lib/test/test_timeout.py: same as test_urllib2net.py
+
+python 2.4.5-1ubuntu4.3 (at least?) and higher segfaults with 'make testall
+2>&1 | tee /tmp/foo'. This was introduced in something in debian/patches because
+it doesn't segfault without applying the patches.
+
+Lib/test/test_os.py: the new test_urandom_subprocess() occasionally fails on
+a length check. Subsequent runs are ok.
+
+
+QRT
+---
+There are various python[23]*.py scripts. These are all wrappers around
+test-python.py. Since they wrap test-python.py output, it can be useful to
+see the full output of test-python.py. This can be done with something like
+this:
+$ ./test-python.py python2.7 -v
+$ ./test-python.py python3.2 -v

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBorderStyle9" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="border-before-style" value="solid"/>
+     <parentProperty name="border-after-style" value="solid"/>
+     <parentProperty name="border-start-style" value="solid"/>
+     <parentProperty name="border-end-style" value="solid"/>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="border-before-style" value="inherit"/>
+            <foProperty name="border-after-style" value="inherit"/>
+            <foProperty name="border-start-style" value="inherit"/>
+            <foProperty name="border-end-style" value="inherit"/>
+            <fo foName="block">
+              <foText>The style properties (solid) of this table cell were gotten by specifying "inherit" in its style properties.</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

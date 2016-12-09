@@ -1,0 +1,60 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+NAME       := qa-regression-testing
+TOPDIR     := /opt/canonical.com/$(NAME)
+REPO_VERSION=$(shell bzr revno 2>/dev/null)
+EXPORT_DIR := ./$(NAME)-0.$(REPO_VERSION)
+EXPORT_DIR := ./$(NAME)-0.$(REPO_VERSION)
+EXPORT_TAR := ./$(NAME)_0.$(REPO_VERSION).tar.gz
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	rm -rf ./$(NAME)*
+	dh_clean
+
+get-orig-source: clean
+	mkdir $(EXPORT_DIR)
+	/usr/bin/bzr export -r $(REPO_VERSION) $(EXPORT_DIR)
+	sed -i "s/$(NAME) \(.*\)(.*)/$(NAME) \(0.$(REPO_VERSION))\1/" $(CURDIR)/debian/changelog
+	dch -r -D UNRELEASED -c $(CURDIR)/debian/changelog
+	cp -f $(CURDIR)/debian/changelog $(EXPORT_DIR)/debian
+	tar --exclude scripts/private --exclude scripts/pdfs --exclude scripts/results --exclude scripts/data -czf $(EXPORT_TAR) $(NAME)-0.$(REPO_VERSION)
+
+build: build-stamp
+
+build-stamp:
+	dh_testdir
+	touch $@
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	dh_install
+	dh_link
+
+binary-arch: build
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_install
+	dh_lintian
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary install

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element is unstyled save for a background color of gray.  However, it contains
+an <SPAN>inline element of padding 0.3pc and background-color of red, giving it a red
+background and 0.3pc padding</SPAN>.  Padding
+ on inline elements does not affect line-height
+calculations, so all lines in this element should have the same line-height.
+Individual properties are being tested here.</PARAGRAPH>
+</TEST>

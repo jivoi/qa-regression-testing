@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block border-left-color="maroon" border-left-style="double" border-left-width="medium" border-bottom-color="maroon" border-bottom-style="double" border-bottom-width="medium" border-right-color="maroon" border-right-style="double" border-right-width="medium" border-top-color="maroon" border-top-style="double" border-top-width="medium">This element should have a medium maroon double border around it, even though "border-width"
+(complete property) was not explicitly set.  Individual properties are tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

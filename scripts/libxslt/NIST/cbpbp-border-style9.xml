@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have thick double top and bottom borders, and thick grooved side
+borders.  The color of all four sides should be based on purple.  Individual
+properties are being tested here.</PARAGRAPH>
+</TEST>

@@ -1,0 +1,21 @@
+QA Regression Testing
+---------------------
+
+The test scripts in this archive have been designed to be run in a
+completely trusted environment. As such, they may not have been written in
+accordance to the security best practices for general purpose software and
+have not been audited for security issues.
+
+Among other things, the included scripts may:
+- create temporary files with predictable file names
+- create user accounts with predictable passwords
+- start networking daemons with improper access control
+- automatically modify the pam stack
+- automatically modify /etc/passwd and /etc/shadow
+- automatically modify the sudo configuration
+- do file manipulation while running as root
+- perform data destructive tests
+- leave the machine in an inconsistent state
+
+RUN THESE SCRIPTS AT YOUR OWN RISK!
+

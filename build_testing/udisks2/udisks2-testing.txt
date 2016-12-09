@@ -1,0 +1,26 @@
+udisks has extensive tests that are _not_ run at build time.
+
+In a VM, do the following:
+
+sudo apt-get build-dep udisks2
+sudo apt-get install devscripts fakeroot libatasmart-bin lvm2 kpartx dmeventd
+
+apt-get source udisks2
+Go into the source directory, and build with "debuild".
+
+Once finished building, run the tests:
+--------------------------------------
+
+sudo src/tests/integration-tests (tests from source tree)
+
+mv src/udisksd src/udisksd.old
+sudo src/tests/integration-tests (tests system udisks2)
+
+i386 note:
+----------
+On i386, the tests may fail immediately with a "cannot allocate memory"
+error when trying to modprobe the scsi_debug module. If this happens, the
+systems needs to be rebooted with "vmalloc=300M" added to the kernel boot
+command line.
+
+

@@ -1,0 +1,23 @@
+icu has a build test-suite.
+
+It is now run automatically on all releases, including precise. Make sure
+you check the build logs to see if it ran successfully.
+
+
+Can use patternexample.odt to test ICU in LibreOffice. This was
+found in https://bugzilla.redhat.com/show_bug.cgi?id=429023
+
+Can use Format/Cells to test ICU in LibreOffice in precise. (Later releases
+use harfbuzz)
+
+Watch for regressions, ie LP: 1429043
+
+Can also test by inserting special characters in LibreOffice Writer:
+$ oowriter --strace
+Insert > Special Character
+
+See Mageia bugs for that testing trick:
+https://bugs.mageia.org/show_bug.cgi?id=15435
+https://bugs.mageia.org/show_bug.cgi?id=15145
+
+Copyright (C) 2009-2013 Canonical Ltd.

@@ -1,0 +1,39 @@
+To run the built-in 'make test' tests, do:
+
+$ sudo apt-get build-dep openldap2.2	(or openldap2.3)
+$ sudo apt-get install time		(needed on feisty and higher)
+$ fakeroot debian/rules build
+$ cd debian/build/tests
+$ make tests
+
+The test scripts are in <top level source dir>/tests/scripts (ie *not*
+debian/build)
+
+Results:
+
+Dapper:		got to test021-- all passed
+Edgy: 		got to test021-- all passed
+Feisty:		got to test044-dynlist-- all passed
+Gutsy:		test030-relay, test035-meta and test036-meta-concurrency fail
+		(will need to move these out of the way for later tests to pass)
+
+For gutsy failed tests, see:
+http://www.openldap.org/lists/openldap-software/200701/msg00392.html
+http://www.openldap.org/lists/openldap-software/200702/msg00004.html
+http://www.openldap.org/its/index.cgi/Build?expression=ldap_back_proxy_authz_ctrl;statetype=-1
+http://www.openldap.org/its/index.cgi/Development?id=4713
+http://www.openldap.org/its/index.cgi/Build?id=4830;expression=ldap_back_proxy_authz_ctrl;statetype=-1
+
+From irc:
+15:08 < slangasek> jdstrand: ah, I think I've seen an error such as that
+reported against the Debian package, but I don't currently find a bug report
+for it.  Is OpenLDAP 2.3 shipping its own embedded copy of libltdl that we're
+stripping out?
+16:12 < slangasek> jdstrand: make test is sloooow
+17:05 < slangasek> jdstrand: ok, from what I see, openldap is assuming a
+libltdl that uses RTLD_GLOBAL; that's a bug in libltdl upstream that's fixed in
+the Debian/Ubuntu package (using RTLD_GLOBAL causes namespace collisions in the
+general case), so openldap's modules need to be fixed to not rely on this
+
+
+Copyright (C) 2008 Canonical Ltd.

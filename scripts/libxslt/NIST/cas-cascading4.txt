@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block color="gray">This gray paragraph contains a span element.
+<fo:inline color="green">This span element should be green.</fo:inline>
+Here is some more text of the paragraph.
+</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

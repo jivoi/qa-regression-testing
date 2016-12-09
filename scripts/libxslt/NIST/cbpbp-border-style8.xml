@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a thick olive outset border all the way around.
+Individual properties are being tested here.</PARAGRAPH>
+</TEST>

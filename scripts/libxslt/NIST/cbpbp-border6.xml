@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a medium maroon double border around it, even though "border-width"
+(complete property) was not explicitly set.  Individual properties are tested here.</PARAGRAPH>
+</TEST>

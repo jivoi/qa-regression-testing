@@ -1,0 +1,5 @@
+These came from clamav-0.94.dfsg.1's test/ directory:
+    cd /tmp
+    apt-get source clamav
+    cd clamav-*/test
+    top_srcdir=/tmp/clamav-0.94.dfsg.1 make -f Makefile.am

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoBorderWidth5" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+      <parentText>width properties for image are set to "thick" and no border style set for the before and after borders.</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.jpg"/>
+       <foProperty name="border-before-width" value="thick"/>
+       <foProperty name="border-after-width" value="thick"/>
+       <foProperty name="border-start-width" value="thick"/>
+       <foProperty name="border-end-width" value="thick"/>
+       <foProperty name="border-start-style" value="solid"/>
+       <foProperty name="border-end-style" value="solid"/>
+      </fo>
+  </testcase>

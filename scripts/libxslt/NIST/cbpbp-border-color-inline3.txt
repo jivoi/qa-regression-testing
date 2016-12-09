@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray">
+This is an unstyled element, save for the background color, and containing an <fo:inline border-left-width="medium" border-left-style="solid" border-left-color="yellow" border-bottom-width="medium" border-bottom-style="solid" border-bottom-color="blue" border-top-width="medium" border-top-style="solid" border-top-color="purple" border-right-width="medium" border-right-style="solid" border-right-color="green"> inline
+ element of border-color "purple green blue yellow" solid</fo:inline>, which should have a purple-green-blue-yellow medium-width solid border.
+  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.  The "medium-width" is explicit.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

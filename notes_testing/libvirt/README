@@ -1,0 +1,22 @@
+For testing libvirt, use:
+
+# Prepare the QRT script
+$ cd $QRT/scripts/libvirt
+$ wget http://people.canonical.com/~jamie/libvirt/qatest.tar.bz2.asc
+$ wget http://people.canonical.com/~jamie/libvirt/qatest.tar.bz2
+$ gpg --verify qatest.tar.bz2.asc qatest.tar.bz2
+$ cd $QRT/scripts
+$ ./make-test-tarball ./test-libvirt.py
+$ scp /tmp/qrt-test-libvirt.tar.gz <some vm>:/tmp # optional, but recommended
+
+# Then, on the VM or host:
+$ cd /tmp
+$ tar -zxvf ./qrt-test-libvirt.tar.gz
+$ cd /tmp/qrt-test-libvirt
+$ sudo ./test-libvirt.py setup-network
+$ sudo ./test-libvirt.py -v
+
+There is also an internal test suite that can be looked at. This is run during
+the build in later releases.
+
+MORE HERE

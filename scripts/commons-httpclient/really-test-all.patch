@@ -1,0 +1,14 @@
+Index: commons-httpclient-3.1/src/test/org/apache/commons/httpclient/TestAll.java
+===================================================================
+--- commons-httpclient-3.1.orig/src/test/org/apache/commons/httpclient/TestAll.java	2015-10-08 18:02:46.642854006 -0500
++++ commons-httpclient-3.1/src/test/org/apache/commons/httpclient/TestAll.java	2015-10-08 18:03:01.830797706 -0500
+@@ -103,6 +103,9 @@ public class TestAll extends TestCase {
+         // Proxy
+         suite.addTest(TestProxy.suite());
+         suite.addTest(TestProxyWithRedirect.suite());
++
++	// HTTPS
++	suite.addTest(TestHttps.suite());
+         return suite;
+     }
+ 

@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<title>recipes</title>
+</head>
+<body bgcolor="#ffffff">
+<h2>Our best recipes "à la française"</h2>
+<h3>The Pecan pie recipe</h3>
+<u>Ingredients:</u>Eggs, Sugar, Pecan nuts<br><u>Procedure:</u>
+    Scramble the eggs, add the sugar and the pecan nuts.<br>
+    Cook in the oven for 30 minutes.<br>
+
+    (<a href="http://x.y.com/">click here</a>)
+  <h3>The scramble eggs recipe</h3>
+<u>Ingredients:</u>Eggs<br><u>Procedure:</u>
+    Scramble the eggs.<br>
+    Cook in the pan for 4 minutes.<br>
+  </body>
+</html>

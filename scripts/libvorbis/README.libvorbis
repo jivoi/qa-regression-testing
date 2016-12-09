@@ -1,0 +1,107 @@
+The following ogg test files were provided by Will Drewry <wad@google.com>:
+
+002.ogg
+011.ogg
+014.ogg
+maptype2.ogg
+
+The files test CVE-2008-1419, CVE-2008-1420 and CVE-2008-1423 and were found here:
+
+http://static.dataspill.org/releases/ogg/examples/
+
+Here is the author's permission to include these files in this testing suite:
+
+Return-Path: <drewry@google.com>
+X-Original-To: marc.deslauriers@cleanmail.canonical.com
+Delivered-To: mdeslaur@mail.canonical.com
+Received: from cluster-j.mailcontrol.com (cluster-j.mailcontrol.com
+ [86.111.223.190]) by fiordland.canonical.com (Postfix) with ESMTP id
+ BF218B68103 for <marc.deslauriers@cleanmail.canonical.com>; Wed, 26 Nov
+ 2008 21:47:30 +0000 (GMT)
+Received: from arctowski.canonical.com (arctowski.canonical.com
+ [91.189.94.158]) by rly28j.srv.mailcontrol.com (MailControl) with ESMTP id
+ mAQLlQIY017984 for <marc.deslauriers@cleanmail.canonical.com>; Wed, 26 Nov
+ 2008 21:47:26 GMT
+Received: from fiordland.canonical.com ([91.189.94.145]) by
+ arctowski.canonical.com with esmtp (Exim 4.60) (envelope-from
+ <drewry@google.com>) id 1L5SEI-0001gX-0a for
+ marc.deslauriers@cleanmail.canonical.com; Wed, 26 Nov 2008 21:47:26 +0000
+Received: from smtp-out.google.com (smtp-out.google.com [216.239.45.13]) by
+ fiordland.canonical.com (Postfix) with ESMTP id A73B0B68103 for
+ <marc.deslauriers@canonical.com>; Wed, 26 Nov 2008 21:47:25 +0000 (GMT)
+Received: from wpaz33.hot.corp.google.com (wpaz33.hot.corp.google.com
+ [172.24.198.97]) by smtp-out.google.com with ESMTP id mAQLlNQp022340 for
+ <marc.deslauriers@canonical.com>; Wed, 26 Nov 2008 13:47:24 -0800
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+ t=1227736044; bh=MZ0v6fA/zKhhTPqjdM4kQVGgVs8=;
+ h=DomainKey-Signature:MIME-Version:Sender:In-Reply-To:References:
+ Date:X-Google-Sender-Auth:Message-ID:Subject:From:To:Content-Type:
+ Content-Transfer-Encoding; b=TgDFuPV6t5QE9ta8WH81LPHJt/cccJvNw6T+0
+ zT4ZvKBO9tyQ5GMSVArkt2UtO9dQAMLkm2E8x6c0+kCFmMi0Q==
+DomainKey-Signature: a=rsa-sha1; s=beta; d=google.com; c=nofws; q=dns;
+ h=mime-version:sender:in-reply-to:references:date:
+ x-google-sender-auth:message-id:subject:from:to:content-type:content-transfer-encoding;
+ b=etqjcuR4L20DXAa+nm/+MDIPAeS2JkTaWAJfN0mSiqN6Auan3s7KUyQRfb+Yx0XLd
+ n27wayfI9Mqg/WCr5Qy6g==
+Received: from ug-out-1314.google.com (ugdj40.prod.google.com
+ [10.66.136.40]) by wpaz33.hot.corp.google.com with ESMTP id mAQLlLbc005207
+ for <marc.deslauriers@canonical.com>; Wed, 26 Nov 2008 13:47:22 -0800
+Received: by ug-out-1314.google.com with SMTP id j40so1568355ugd.34 for
+ <marc.deslauriers@canonical.com>; Wed, 26 Nov 2008 13:47:21 -0800 (PST)
+MIME-Version: 1.0
+Sender: drewry@google.com
+Received: by 10.67.21.11 with SMTP id y11mr10675ugi.6.1227736040225; Wed,
+ 26  Nov 2008 13:47:20 -0800 (PST)
+In-Reply-To: <1227718579.7497.7.camel@mdlinux.technorage.com>
+References: <1227718579.7497.7.camel@mdlinux.technorage.com>
+Date: Wed, 26 Nov 2008 15:47:20 -0600
+X-Google-Sender-Auth: 31ccb49f9396757c
+Message-ID: <1de3ee250811261347y7885e465tdbd5d86e2b7a815b@mail.gmail.com>
+Subject: Re: [Fwd: Fwd: [vendor-sec] Multiple vulnerabilities in Ogg Tremor
+  (with some also effecting Vorbis)]
+From: Will Drewry <wad@google.com>
+To: Marc Deslauriers <marc.deslauriers@canonical.com>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+X-Mailcontrol-Inbound:
+ uq3drnD2P+ps5SfEb0fvr78+NoP1DHBZwGqKpaXB2eTgNv8D6KLIxb8+NoP1DHBZ8VSaBg0k0xw=
+X-Spam-Score: 0.7
+X-Scanned-By: MailControl A_08_51_00 (www.mailcontrol.com) on 10.74.0.138
+X-Evolution-Source: imap://mdeslaur@mail.canonical.com:993/
+
+Hi Marc,
+
+Thanks for the email. I'm glad to hear more packages are being
+updated!  I moved the directory to their final home and posted the
+basic details that were sent to v-s:
+
+   http://redpig.dataspill.org/releases/ogg/
+   http://redpig.dataspill.org/2008/05/multiple-vulnerabilities-in-ogg-tremor.html
+
+Feel free to integrate the examples whereever useful.  I've added a
+license file to the directory.
+
+   http://static.dataspill.org/releases/ogg/LICENSE
+
+It's simple but, hopefully, should clarify reuse.  If I can help out
+further, please let me know.
+
+cheers!
+will
+
+On Wed, Nov 26, 2008 at 10:56 AM, Marc Deslauriers
+<marc.deslauriers@canonical.com> wrote:
+> Hi,
+>
+> I work with the Ubuntu security team an am preparing updated packages
+> for libvorbis. I would like to test that the issues were fixed properly
+> but your directory of samples is no longer available.
+>
+> Are they available somewhere else? Can I integrate them into our
+> regression-testing suite?
+>
+> Thanks,
+>
+> Marc.
+>
+>

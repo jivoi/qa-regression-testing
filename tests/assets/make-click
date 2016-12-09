@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+
+framework="$1"
+if [ -z "$framework" ]; then
+    framework="ubuntu-sdk-13.10"
+fi
+
+tmpdir=`mktemp -d`
+trap "rm -rf $tmpdir" EXIT HUP INT QUIT TERM
+
+topdir=`pwd`
+rm -f ./*.click
+cp -L ./* "$tmpdir"
+
+bn=`basename "$PWD"`
+
+for i in *.c ; do
+    gcc "$tmpdir"/"$i" -o "$tmpdir"/`basename --suffix=.c $i`
+done
+arch=`dpkg --print-architecture`
+sed -e "s/###ARCH###/$arch/g" -e "s/###FRAMEWORK###/$framework/g" \
+    "$tmpdir"/manifest.json.in > "$tmpdir"/manifest.json
+click build "$tmpdir"
+
+mv ./*.click ../

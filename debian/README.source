@@ -1,0 +1,16 @@
+This is a bzr checkout of the lp:qa-regression-testing project. This will
+never have a proper tarball release.
+
+To built the tarball:
+$ bzr co lp:qa-regression-testing
+$ cd qa-regression-testing
+$ fakeroot debian/rules get-orig-source # this will update debian/changelog
+                                        # via 'dch'. Update it as required,
+                                        # then save.
+$ mv ./qa-regression-testing_*tar.gz ../
+$ fakeroot debian/rules clean
+
+To use the tarball to build a package:
+$ tar -zxvf ./qa-regression-testing_*tar.gz
+$ cd ./qa-regression-testing-0.*
+$ debuild

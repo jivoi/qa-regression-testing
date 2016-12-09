@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block text-indent="0.5in" background-color="aqua">Only the first line of this sentence should be indented half an inch, no matter
+where the lines might start, and regardless of any other markup which may be present.
+Here is some extra text to make this point more clearly.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

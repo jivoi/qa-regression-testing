@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block space-after.optimum="-10px" space-after.minimum="-11px" space-after.maximum="-9px" space-after.precedence="force" space-after.conditionality="retain" background-color="aqua">This element has a space-after of -10px, which should cause elements after it to be shifted
+"upward" on the page, and no top margin.  No other styles have been applied to it besides an aqua
+background.  In all other respects, the element should be normal.</fo:block>
+      <fo:block>
+          This is a reference line for the property set above.
+    </fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>There should be two centimeters between this paragraph
+and the one below, because negative margins collapse to a negative margin
+with the largest absolute value of the margins collapsed.</PARAGRAPH>
+<PARAGRAPH>This is a paragraph which should I make very long so you can
+easily see how much space there is between it and the one below it.</PARAGRAPH>
+</TEST>

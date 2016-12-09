@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray">
+This is an unstyled element, save for the background color, and containing 
+an <fo:inline border-left-width="10px" border-left-style="outset" border-left-color="teal" border-bottom-width="10px" border-bottom-style="outset" border-bottom-color="teal" border-top-width="10px" border-top-style="outset" border-top-color="teal" border-right-width="10px" border-right-style="outset" border-right-color="teal"> inline element of border 10px teal outset</fo:inline>, which should result in a 10-pixel
+outset teal border.  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

@@ -1,0 +1,42 @@
+= Basic functionality =
+Use test-moin.py
+
+= AnyWikiDraw =
+Creating an anywikidraw file:
+ 0. Install icedtea6-plugin in firefox
+ 0. Copy AnyWikiDrawForMoinMoin.jar from the moin source to
+    /usr/share/moin/htdocs/applets/anywikidraw/lib.
+ 0. Then add to a page:
+    {{drawing:well-formed.adraw}}
+ 0. Then click on the paperclip to edit it.
+ 0. Get the file in /var/lib:
+    sudo find /var/lib -name well-formed.adraw
+    /var/lib/mywiki/data/pages/TestMe/attachments/well-formed.adraw
+
+Adding it to a page:
+ 0. navigate to a page
+ 0. add 'well-formed.adraw' as an attachment
+ 0. Edit the page to have somwhere:
+{{drawing:well-formed.adraw}}
+
+Note: well-formed.adraw is in QRT/data
+
+= TWikiDraw =
+reating an twikidraw file:
+ 0. Install icedtea6-plugin in firefox
+ 0. Copy twikidraw.jar from the moin source to
+    /usr/share/moin/htdocs/applets/TWikiDrawPlugin/twikidraw.jar
+ 0. Then add to a page:
+    {{drawing:well-formed.tdraw}}
+ 0. Then click on the paperclip to edit it.
+ 0. Get the file in /var/lib:
+    sudo find /var/lib -name well-formed.tdraw
+    /var/lib/mywiki/data/pages/TestMe/attachments/well-formed.tdraw
+
+Adding it to a page:
+ 0. navigate to a page
+ 0. add 'well-formed.tdraw' as an attachment
+ 0. Edit the page to have somwhere:
+{{drawing:well-formed.tdraw}}
+
+Note: well-formed.tdraw is in QRT/data

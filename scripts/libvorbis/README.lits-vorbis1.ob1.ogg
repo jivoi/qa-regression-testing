@@ -1,0 +1,7 @@
+This ogg file was encoded with libvorbis 1.0beta1.
+It is to test a regression in the CVE-2008-1420 patch.
+
+It was downloaded from:
+
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=504421
+

@@ -1,0 +1,24 @@
+Comparing output from LTP is a good starting point for getting kernel test
+coverage.  The major down-side is that virtually no driver and hardware
+support is really tested.  LTP is good for testing interfaces and syscalls.
+
+Currently, ltp-full-20061222.tgz[1] is the base test suite (for Dapper) since
+more recent LTP doesn't appear to compile[2].
+
+After unpacking (e.g. on Dapper):
+
+  make
+  sudo make install
+  sudo ./runltp -p -q -l dapper-$(uname -r).log
+
+Performing a run before and after a kernel upgrade will allow us to compare
+any differences.  Note that LTP does appear to have some racey tests, so
+it may been required to run the test a few times to get the same output.  :(
+
+To re-run a specific set of tests, add the "-s" flag with a regex for the
+desired tests.
+
+-Kees Cook 2009-03-31
+
+[1] http://sourceforge.net/project/showfiles.php?group_id=3382&package_id=3308&release_id=473402
+[2] http://sourceforge.net/tracker/?func=detail&aid=2723934&group_id=3382&atid=103382

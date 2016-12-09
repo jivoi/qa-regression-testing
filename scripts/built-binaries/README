@@ -1,0 +1,4 @@
+This program is from the "hardening-includes" package
+which is only available in Lucid or newer.  As such,
+include the script here in whole form, since it stands
+alone easily.

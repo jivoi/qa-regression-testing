@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a border-width of 25px and border-style of solid.  However, it contains an <SPAN> inline
+ element of border-width thin and border-style solid</SPAN>, which should result in a thin solid border on 
+each side of each box in the inline element.  Individual properties are being tested here.</PARAGRAPH>
+</TEST>

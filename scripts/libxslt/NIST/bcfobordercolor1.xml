@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBorderColor1" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="height" value="2.0in"/>
+    <parentProperty name="width" value="2.0in"/>
+    <parentProperty name="border-before-color" value="red"/>
+    <parentProperty name="border-after-color" value="red"/>
+    <parentProperty name="border-start-color" value="red"/>
+    <parentProperty name="border-end-color" value="red"/>
+    <parentProperty name="border-before-style" value="solid"/>
+    <parentProperty name="border-after-style" value="solid"/>
+    <parentProperty name="border-start-style" value="solid"/>
+    <parentProperty name="border-end-style" value="solid"/>
+     <fo foName="block">
+       <foText>The border color properties of this block container were all set to "red".</foText>
+      </fo>
+  </testcase>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element's color should be green, and default font-size,
+ because 100px font-size style is commented out, but green style is not.</PARAGRAPH>
+</TEST>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a border right width of 25px and border-style of solid.
+However, it contains an <SPAN> inline element of border-right-width thin and border-style
+solid</SPAN>, which should result in a thin solid border on the right side of the
+last box of the inline element (and the UA's default border on the other three
+sides).</PARAGRAPH>
+</TEST>

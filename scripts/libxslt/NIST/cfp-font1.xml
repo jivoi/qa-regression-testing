@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be unstyled.  Default font-size is the "base font-size" referred to
+in other tests.  Individual properties may be used.</PARAGRAPH>
+</TEST>

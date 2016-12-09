@@ -1,0 +1,19 @@
+To run the built-in 'make check' tests, do:
+
+$ sudo apt-get build-dep rsync
+$ sudo apt-get install devscripts
+$ apt-get source rsync
+$ cd rsync*
+$ debuild
+$ cd debian/buildtree
+$ make check
+
+The test scripts are in <top level source dir>/testsuite (ie *not*
+debian/buildtree)
+
+Results:
+Precise: 34 passed, 5 skipped
+Trusty: 34 passed, 5 skipped
+
+Copyright (C) 2011-2016 Canonical Ltd.
+

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master page-height="11in" page-width="8.5in" margin-left="1.0in" margin-top="0.1in" margin-bottom="1.0in" margin-right="1.0in" master-name="test-page-master">
+      <fo:region-body margin-left="0.1in" margin-top="0.1in" margin-right="1.0in" margin-bottom="1.0in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block-container inline-progression-dimension="auto" block-progression-dimension="0.4in" overflow="hidden" space-after.optimum="0.4in" space-after.maximum="0.4in">
+        <fo:block padding-before="0.1in" padding-after="0.1in" padding-start="0.1in" padding-end="0.1in" background-color="red">
+  This block contains a block-progression-dimension of 0.4 inches and an inline-progression-dimension="auto" and there may be some text that overflows that dimension and may not be shown in this area.
+ </fo:block>
+      </fo:block-container>
+      <fo:block-container inline-progression-dimension="auto" block-progression-dimension="0.5in">
+        <fo:block padding-before="0.1in" padding-after="0.1in" padding-start="0.1in" padding-end="0.1in" background-color="red">
+   This block contains a block-progression-dimension of 0.5 inches and an inline-progression-dimension="auto" and there may be some text that overflows that dimension and not be shown in this area.
+ </fo:block>
+      </fo:block-container>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

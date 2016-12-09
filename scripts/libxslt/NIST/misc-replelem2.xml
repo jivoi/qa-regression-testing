@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<IMG SRC="oransqr.jpg"/>
+<PARAGRAPH>The above image should be a 50px (width="50px" height="auto") square.</PARAGRAPH>
+</TEST>

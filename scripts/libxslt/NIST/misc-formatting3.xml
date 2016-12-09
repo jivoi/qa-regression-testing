@@ -1,0 +1,7 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>There should be a one-centimeter margin between this paragraph and the
+next, because when there is one negative margin, the two margins shold be added (the minus
+sign should be kept).</PARAGRAPH>
+<PARAGRAPH>This is another paragraph.</PARAGRAPH>
+</TEST>

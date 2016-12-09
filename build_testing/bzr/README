@@ -1,0 +1,10 @@
+It is easy to do bzr tests:
+
+$ sudo apt-get install bzr python-testtools
+$ bzr selftest --no-plugins
+
+This will take roughly 30-45 minutes to run on regular hardware.
+As of maverick, many tests still fail.
+
+It will write a .bzr.log file with details of failures, which
+can be compared to the results/bzr/ directory.

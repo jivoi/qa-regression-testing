@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tafoColor2" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="border-before-color" value="red"/>
+     <parentProperty name="border-after-color" value="blue"/>
+     <parentProperty name="border-start-color" value="green"/>
+     <parentProperty name="border-end-color" value="yellow"/>
+     <parentProperty name="border-before-style" value="solid"/>
+     <parentProperty name="border-after-style" value="solid"/>
+     <parentProperty name="border-start-style" value="solid"/>
+     <parentProperty name="border-end-style" value="solid"/>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with the border color properties set to different colors (red, blue, green and yellow).</foText>          
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

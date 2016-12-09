@@ -1,0 +1,15 @@
+Blender doesn't work in a VM using a VNC display. It must be tested on real
+hardware (or maybe an SDL VM).
+
+On the main Blender download page[1], there's a section that has "Regression
+Files". These are zip files containing a bunch of blender files that test
+blender functionality.
+
+Since the Blender version in dapper is a little old, we need to get an older
+version of the Regression Files, available in the same directory[2].
+
+Start blender and open the files in the zip one by one. Most of them will have
+instructions that get displayed on the screen.
+
+[1] - http://www.blender.org/download/get-blender/
+[2] - http://mirror.cs.umn.edu/blender.org/demo/test/test240.zip

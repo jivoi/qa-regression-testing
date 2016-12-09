@@ -1,0 +1,27 @@
+Building ia32-libs:
+-------------------
+
+The ia32-libs package contains both source packages and binary packages
+for all 32-bit libraries that are listed in the fetch-and-build file.
+
+The fetch-and-build script is used to re-download the packages, and
+optionally to rebuild all the source packages. See debian/README.build for
+more information.
+
+When rebuilding for a security update, we don't need to recompile all the
+source packages. Simply using the fetch-and-build script is enough to pull
+down the binary packages from the archive.
+
+Make sure the sources.list.deb file contains the -security pocket to pull
+in updated packages.
+
+This is how I (mdeslaur) used the fetch-and-build script in a schroot:
+
+schroot -c hardy-i386 -u root
+apt-get install dctrl-tools
+su - mdeslaur
+./fetch-and-build
+
+I then exited the schroot once the package were all downloaded and built
+the package for amd64 with umt.
+

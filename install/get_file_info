@@ -1,0 +1,237 @@
+#!/bin/sh -e
+#
+#    get_file_info quality assurance test script
+#    Copyright (C) 2008-2011 Canonical Ltd.
+#    Author: Jamie Strandboge <jamie@canonical.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License version 2,
+#    as published by the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#    This script simply runs 'find' on the filesystem, and records
+#    permissions, ownership and filenames. It is intended to be run
+#    immediately after installation to ensure permissions are ok:
+#
+#    # /tmp/get_file_info [-c] [<flavor>]
+#
+#    Then compare previous versions:
+#    diff <old perms> <new perms>
+#
+#    This is useful for checking different ISO candidates or upgrades from
+#    one release to another.
+#
+#    Specifying '-c' does some rudimentary checks on the file
+#
+# TODO:
+#  - do more with /dev and /lib/modules
+#
+
+#
+# Start configuration
+#
+
+version="0.3"
+
+# Check the contents of these directories, but don't descend into subdirectories
+check_dirs_norecurse="/ /home/ /lib/modules/ /opt/click.ubuntu.com/ /run/ /usr/share/click/preinstalled/ /usr/src /var/ /var/lib/dpkg/ /var/lib/scrollkeeper"
+
+# Recursively check the contents of these directories
+check_dirs="/bin /boot /dev /dev/.udev /etc /lib /proc /root /sbin /usr /var/backups /var/cache /var/games /var/lib /var/local /var/log /var/mail /var/spool"
+
+# What to skip from recursive check. Used with 'egrep -v "($skipped)"'. May
+# want to coordinate with $check_dirs_norecurse
+skipped="/lib/modules/|/dev/.static/|/opt/click.ubuntu.com/|/proc/[2-9]$|/proc/[0-9]+$|/proc/[2-9]/|/proc/[0-9]{2,}/|/usr/share/click/preinstalled/|/usr/share/consolefonts/|/usr/share/doc/|/usr/share/gimp/.*/help/|/usr/share/gnome/help/|/usr/share/i18n/|/usr/share/locale/|/usr/share/man/|/usr/share/X11/locale/|/usr/share/zoneinfo/|/usr/src/|/var/cache/apt/archives/|/var/cache/man/|/var/lib/dpkg/|/var/lib/scrollkeeper"
+
+#
+# End configuration
+#
+
+. /etc/lsb-release
+
+help() {
+    echo "Usage:"
+    echo "  get_file_info [-c]"
+    echo "  get_file_info -r <report file>"
+}
+
+do_apparmor_check() {
+    file="$1"
+    dir="/etc/apparmor.d"
+    echo "\nAppArmor shipped:"
+    egrep "$dir/" "$file" | egrep -v ' d(\-|r|w|x){9} ' | awk '{print $1}' | sed "s#$dir/##" | grep -v '/'
+
+    echo "\nAppArmor cached:"
+    if egrep -q "^$dir/cache/" "$file" ; then
+         egrep "^$dir/cache/" "$file" | awk '{print $1}' | sed "s#$dir/cache/##" | egrep -v "\.features"
+    else
+        echo "None"
+    fi
+
+    echo "\nAppArmor disabled:"
+    if egrep -q "^$dir/disable/" "$file" ; then
+        egrep "^$dir/disable/" "$file" | awk '{print $1}' | sed "s#$dir/disable/##"
+    else
+        echo "None"
+    fi
+
+    echo "\nAppArmor force complain:"
+    if egrep -q "^$dir/force\-complain/" "$file" ; then
+        egrep "^$dir/force\-complain/" "$file" | awk '{print $1}' | sed "s#$dir/force\-complain/##"
+    else
+        echo "None"
+    fi
+
+    dir="/var/lib/apparmor/profiles"
+    echo "\nAppArmor shipped (click):"
+    egrep "$dir/" "$file" | egrep -v ' d(\-|r|w|x){9} ' | awk '{print $1}' | sed "s#$dir/##" | grep -v '/'
+
+    dir="/var/cache/apparmor"
+    echo "\nAppArmor cached (click):"
+    if egrep -q "^$dir/" "$file" ; then
+         egrep "^$dir/" "$file" | awk '{print $1}' | sed "s#$dir/##" | egrep -v "\.features"
+    else
+        echo "None"
+    fi
+}
+
+do_check() {
+    file="$1"
+
+    echo "\n------"
+    echo "Report"
+    echo "------"
+    echo "\nSuid/sgid files:"
+    egrep ' [cps\-](.{2}[sS]|.{5}[sS])' "$file" || echo "None"
+
+    echo "\nSuid/sgid directories:"
+    egrep ' d(.{2}[sS]|.{5}[sS])' "$file" || echo "None"
+
+    echo "\nGroup writable files/directories:"
+    # don't care about things in /usr/share that are root:root with group write
+    egrep ' [cdps\-].{4}w[x\-][r\-]-[x\-]' "$file" | egrep -v '^/usr/share/.* \-rw[x\-]rw[x\-]r\-[x\-] root root$' || echo "None"
+
+    echo "\nWorld writable files/directories:"
+    egrep ' [cdps\-].{7}w[x\-]' "$file" || echo "None"
+
+    echo "\nSticky files/directories:"
+    egrep ' [-[:alpha:]]{9}[tT]' "$file" || echo "None"
+
+    echo "\nsudoers files:"
+    egrep "^/etc/sudoers" "$file"
+
+    echo "\nsources.list files:"
+    egrep "sources\.list" "$file"
+
+    echo "\nPolicyKit files:"
+    egrep '/polkit-[0-9]/.*\.(conf|policy|pkla) ' "$file" | awk '{print $1}'
+
+    dir="/usr/share/dbus"
+    echo "\nDBus service and inerface files in $dir*/:"
+    egrep "^$dir" "$file" | awk '{print $1}' | sed "s#$dir-[0-9]/##" | egrep '/'
+
+    do_apparmor_check "$file"
+
+    echo "\nFiles not owned by root/root:"
+    egrep '^/' "$file" | egrep -v ' root root$'
+
+    echo "\nFiles owned by nobody:"
+    egrep ' .{10} nobody ' "$file" || echo "None"
+
+    echo "\nFiles with group 'nogroup':"
+    egrep ' .{10} .+ nogroup$' "$file" || echo "None"
+
+    echo "\n----------"
+    echo "End Report"
+    echo "----------"
+}
+
+# Report on a file
+if [ "$1" = "-r" ]; then
+    if [ -z "$2" ]; then
+        help
+        exit 1
+    fi
+    do_check "$2"
+    exit 0
+fi
+
+# Do system check
+do_check=""
+if [ "$1" = "-c" ]; then
+    do_check="yes"
+    shift
+fi
+
+find_args="-ls"
+tmp=`mktemp`
+trap "rm -f $tmp" EXIT HUP INT QUIT TERM
+
+# create header
+echo -n "Created by: " | tee -a "$tmp"
+basename $0 | tee -a "$tmp"
+echo "Version: $version" | tee -a "$tmp"
+echo -n "Date: " | tee -a "$tmp"
+date --utc | tee -a "$tmp"
+echo "" | tee -a "$tmp"
+
+echo "Checking non-recursive directories:"
+for d in $check_dirs_norecurse ; do
+    echo "Checking $d:" | tee -a "$tmp"
+    if [ ! -e "$d" ]; then
+        echo "  skipped (does not exist)" | tee -a "$tmp"
+        echo "" >> "$tmp"
+        continue
+    fi
+    find $d -maxdepth 1 $find_args | awk '{printf "%-56s %10s %s %s\n", $11, $3, $5, $6 }' | sort >> "$tmp"
+    echo "" >> "$tmp"
+done
+
+echo ""
+echo "Checking recursive directories:"
+for d in $check_dirs ; do
+    echo "Checking $d:" | tee -a "$tmp"
+    if [ ! -e "$d" ]; then
+        echo "  skipped (does not exist)" | tee -a "$tmp"
+        echo "" >> "$tmp"
+        continue
+    fi
+
+    # Don't descend into /dev/.udev, we will handle that explicitly
+    skipped_r="$skipped"
+    if [ "$d" = "/dev" ]; then
+        skipped_r="$skipped|/dev/.udev/"
+    fi
+
+    # Ignore symlinks in /dev/.udev
+    find_args_r="$find_args"
+    if [ "$d" = "/dev/.udev" ]; then
+        find_args_r="-not -type l $find_args"
+    fi
+
+    # block and character devices have an empty $11 field
+    find $d $find_args_r 2>/dev/null | egrep -v " ($skipped_r)" | awk '{if ($11 != "") printf "%-56s %10s %s %s\n", $11, $3, $5, $6 ; else printf "%-56s %10s %s %s\n", $10, $3, $5, $6 ;}' | sort >> "$tmp"
+    echo "" >> "$tmp"
+done
+
+if [ "$do_check" = "yes" ]; then
+    do_check "$tmp"
+fi
+
+fn="/tmp/${DISTRIB_ID}_${DISTRIB_RELEASE}_`uname -m`"
+if [ ! -z "$1" ]; then
+    fn="${fn}_$1"
+fi
+mv -i $tmp $fn
+chmod 644 $fn
+
+echo "Current file permissions are in $fn"
+exit 0
+

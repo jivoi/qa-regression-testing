@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<TEST>
+ <block1>
+   Area with blue border-rectangle.
+ </block1>
+ <block2>
+   Area with red border-rectangle.
+ </block2>
+ <block3>
+   Area with aqua border-rectangle.
+ </block3>
+</TEST>

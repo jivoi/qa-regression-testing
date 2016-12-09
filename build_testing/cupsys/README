@@ -1,0 +1,132 @@
+CUPS TESTING SUITE
+------------------
+
+Need this patch to allow 'make check' to work:
+diff -urNad cupsys-1.3.2~/test/run-stp-tests.sh cupsys-1.3.2/test/run-stp-tests.sh
+--- cupsys-1.3.2~/test/run-stp-tests.sh	2007-07-11 17:46:42.000000000 -0400
++++ cupsys-1.3.2/test/run-stp-tests.sh	2008-03-26 10:55:59.000000000 -0400
+@@ -302,6 +302,7 @@
+ DocumentRoot $root/doc
+ RequestRoot /tmp/cups-$user/spool
+ TempDir /tmp/cups-$user/spool/temp
++PidFile /tmp/cups-$user/cupsd.pid
+ MaxLogSize 0
+ AccessLog /tmp/cups-$user/log/access_log
+ ErrorLog /tmp/cups-$user/log/error_log
+
+
+After running 'make check' a report will be generated in
+test/cups-str-<VERSION>-<DATE>-<USER>.html
+
+
+
+RESULTS
+-------
+Hardy: (part of build)
+
+Gutsy (known to fail 1 test):
+    Print PDF Job to Test1                                       [FAIL]
+        RECEIVED: 164 bytes in response
+        BAD STATUS
+        status-code = 040a (client-error-document-format-not-supported)
+        EXPECTED: job-id
+        attributes-charset (charset) = "utf-8" 
+        attributes-natural-language (language) = "en" 
+        status-message (text) = "Unsupported format 'application/pdf'!" 
+        document-format (mimetype) = "application/pdf" 
+
+
+Feisty (known to fail 2 tests):
+    Print PDF Job to Test1                                       [FAIL]
+        RECEIVED: 164 bytes in response
+        BAD STATUS
+        status-code = 040a (Unsupported format 'application/pdf'!)
+        EXPECTED: job-id
+        attributes-charset (charset) = "utf-8" 
+        attributes-natural-language (language) = "en" 
+        status-message (text) = "Unsupported format 'application/pdf'!" 
+        document-format (mimetype) = "application/pdf" 
+
+    "5.1-lpadmin.sh":
+    Add Printer Test
+
+        lpadmin -p Test3 -v file:/dev/null -E -m deskjet.ppd
+    lpadmin: Unable to copy PPD file!
+        FAILED
+
+
+Edgy (know to fail 2 tests):
+    Print PDF Job to Test1                                       [FAIL]
+        RECEIVED: 164 bytes in response
+        BAD STATUS
+        status-code = 040a (Unsupported format 'application/pdf'!)
+        EXPECTED: job-id
+        attributes-charset (charset) = "utf-8" 
+        attributes-natural-language (language) = "en" 
+        status-message (text) = "Unsupported format 'application/pdf'!" 
+        document-format (mimetype) = "application/pdf"
+
+        lpadmin -p Test3 -v file:/dev/null -E -m deskjet.ppd
+    lpadmin: Unable to copy PPD file!
+        FAILED
+
+
+Dapper (fails 9 tests)
+    See results/cupsys/cups-str-dapper.html
+
+
+OTHER LEVELS
+------------
+In addition to 'make check', more thorough test can be run: 
+0 - No testing, keep the scheduler running for me (all systems)
+1 - Basic conformance test, no load testing (all systems)
+2 - Basic conformance test, some load testing (minimum 256MB VM, 50MB disk)
+3 - Basic conformance test, extreme load testing (minimum 1GB VM, 500MB disk)
+4 - Basic conformance test, torture load testing (minimum 2GB VM, 1GB disk)
+
+make check runs a 'level 1' test.
+
+$ apt-get install openssl valgrind
+$ cd test
+$ ./run-stp-tests.sh
+
+Note that valgrind did not work in the chroot.
+
+I ran a level '3' test with requiring SSL (no valgrind) and had the following:
+
+Hardy: 1 failure:
+FAIL: 13 warning messages, expected 0.
+
+W [14/Oct/2008:15:15:39 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:08 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:10 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:14 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:41 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:41 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:41 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:16:41 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:17:29 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:17:56 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:18:00 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:18:04 -0500] Max clients reached, holding new connections...
+W [14/Oct/2008:15:18:40 -0500] Max clients reached, holding new connections...
+
+Gutsy: same as make check
+
+Feisty: same as make check
+
+Edgy: same as make check
+
+Dapper: has one less failure (!)
+
+
+Ideas
+-----
+cupsys 1.3.7 has a much improved test suite-- perhaps it is possible to run it
+against earlier releases. Note that it might need the EINTR fix pitti applied
+to 1.3.7-1ubuntu1.
+
+1.2 releases:
+"test/ipptest.c:616: undefined reference to 
+               `cupsDoIORequest'" -- meh (testing on 1.2.7)
+

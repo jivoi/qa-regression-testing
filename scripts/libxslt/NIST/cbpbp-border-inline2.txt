@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray">
+This is an unstyled element, save for the background color, and containing 
+an <fo:inline border-left-width="10px" border-left-style="inset" border-left-color="olive" border-bottom-width="10px" border-bottom-style="inset" border-bottom-color="olive" border-top-width="10px" border-top-style="inset" border-top-color="olive" border-right-width="10px" border-right-style="inset" border-right-color="olive"> inline element of border 10px olive inset</fo:inline>, which should result in a 10-pixel
+inset olive border.  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcofoWidth" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="4.0in"/>
+       <foProperty name="background-color" value="aqua"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-column with "width" set to 4 inches</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

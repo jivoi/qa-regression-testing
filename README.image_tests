@@ -1,0 +1,62 @@
+Tests are also available for performing tests on images. All commands assume
+you are in the 'tests/' directory.
+
+Eg:
+$ cd tests/
+$ make list-suite-cmds
+...
+$ make list-suite-privileged-cmds
+
+To run all tests (this will run privileged tests as root and unprivileged tests
+as an unprivileged user ('phablet' if it exists, otherwise the user with uid
+1000):
+$ sudo ./image/run_tests.sh
+
+To run an individual test:
+$ ./image/unprivileged/check-packages
+$ sudo ./image/privileged/check-apparmor
+
+
+Continuous Integration on Ubuntu
+--------------------------------
+As of 2013-11-07, these tests are integrated in CI here:
+http://bazaar.launchpad.net/~ubuntu-test-case-dev/ubuntu-test-cases/touch/files/head:/tests/security
+
+Note, CI does *not* use make or run_tests.sh, but dynamically discovers the
+tests.
+
+How to run via UTAH on a target Ubuntu Touch device:
+ * On the target device (ie, the one with Ubuntu Touch), make the image
+   read/write:
+   # adb shell touch /userdata/.writable_image
+   # adb shell reboot
+
+   Note, can also use:
+   $ phablet-config writable-image
+ * On the host device:
+   $ sudo add-apt-repository ppa:utah/stable
+   $ sudo apt-get update
+   $ sudo apt-get install utah-client utah
+   $ bzr branch lp:ubuntu-test-cases/touch ubuntu-test-cases-touch
+   $ cd ubuntu-test-cases-touch
+   $ ./scripts/jenkins.sh -s <ADB serial> -a security
+
+   Alternatively, you can run "QUICK" (ie no reboots) with:
+   $ ./scripts/jenkins.sh -Q -s <ADB serial> -a security
+
+Note: '<ADB serial>' is the output from 'adb devices'
+
+
+Testing manually on Ubuntu Touch
+--------------------------------
+$ adb push ./tests /tmp/tests
+$ adb shell /tmp/tests/image/run_tests.sh
+
+Older images with adb running as root:
+$ adb shell /tmp/tests/image/privileged/some_root_test
+$ adb shell sudo -i -u phablet /tmp/tests/image/unprivileged/some_non-root_test
+
+Newer images with adb running as non-root:
+$ adb shell sudo /tmp/tests/image/privileged/some_root_test
+$ adb shell /tmp/tests/image/unprivileged/some_non-root_test
+

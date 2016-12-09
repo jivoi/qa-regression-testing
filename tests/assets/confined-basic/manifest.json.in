@@ -1,0 +1,15 @@
+{
+  "name": "com.example.confined-basic",
+  "version": "0.1",
+  "maintainer": "Jamie Strandboge <jamie@ubuntu.com>",
+  "title": "Test basic confinement",
+  "description": "Example app to test basic confinement",
+  "framework": "###FRAMEWORK###",
+  "architecture": "###ARCH###",
+  "hooks": {
+    "confined-basic": {
+      "apparmor": "confined-basic.json",
+      "desktop": "confined-basic.desktop"
+    }
+  }
+}

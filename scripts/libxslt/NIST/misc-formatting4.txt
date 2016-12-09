@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block text-align="center"> 
+           The XSL Formatting Objects Test Suite Version 1.0 
+        </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block margin-top="" margin-bottom="-1cm" padding-top="" padding-bottom="2cm">There should be two centimeters between this paragraph
+and the one below, because negative margins collapse to a negative margin
+with the largest absolute value of the margins collapsed.</fo:block>
+      <fo:block margin-top="-1cm" margin-bottom="1cm" padding-top="1cm" padding-bottom="0">This is a paragraph which should I make very long so you can
+easily see how much space there is between it and the one below it.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

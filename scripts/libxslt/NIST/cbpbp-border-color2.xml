@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a medium width purple border surrounding it.
+Individual properties are used here.</PARAGRAPH>
+</TEST>

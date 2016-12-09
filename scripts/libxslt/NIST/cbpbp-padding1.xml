@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a padding of 0, and a background color of silver.
+Individual properties are tested here.</PARAGRAPH>
+</TEST>

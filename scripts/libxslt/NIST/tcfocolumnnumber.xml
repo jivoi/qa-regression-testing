@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoColumnNumber" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="column-number" value="3"/>
+            <fo foName="block">
+              <foText>This is the first cell, however, this text should appear in column 3</foText>
+            </fo>
+          </fo>
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="aqua"/>
+            <foProperty name="column-number" value="1"/>
+            <fo foName="block">
+              <foText>This is the second cell, however this text should appear in column 1.</foText>
+            </fo>
+          </fo>
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="yellow"/>
+            <foProperty name="column-number" value="2"/>
+            <fo foName="block">
+              <foText>This is the third cell, however this text should appear in column 2.</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

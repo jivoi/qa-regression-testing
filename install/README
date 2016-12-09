@@ -1,0 +1,158 @@
+-------------
+get_file_info
+-------------
+
+get_file_info will run find over the filesystem, and keep track of
+permissions, ownership and filenames for various files.  This script was
+written to get a baseline for each new release or ISO candidate for comparing
+with previous releases/candidates. This allows for a simple way to detect
+changes.
+
+IMPORTANT:
+If possible, this should be run in a freshly installed virtual machine. This
+will help with installed files and /proc checks. For best results, compare
+machines with identical installation preferences (eg server, amd64, no RAID,
+install openssh, etc). See 'Installation Baselines' below for more information.
+
+Typical usage is:
+$ sudo ./get_file_info server
+
+This will create a file such as /tmp/Ubuntu_8.04_x86_64_server.
+
+
+Helpful commands
+----------------
+
+Checking for suid/sgid files:
+$ egrep ' [cps\-](.{2}[sS]|.{5}[sS])' ./Ubuntu_8.10_x86_64_server
+
+Checking for suid/sgid files and directories:
+$ egrep ' [cdps\-](.{2}[sS]|.{5}[sS])' ./Ubuntu_8.10_x86_64_server
+
+Checking for world writable files and directories:
+$ egrep ' [cdps\-].{7}w[x\-]' ./Ubuntu_8.10_x86_64_server
+
+Checking for sticky files and directories:
+$ egrep ' [-[:alpha:]]{9}[tT]' ./Ubuntu_8.10_x86_64_server
+
+
+Comparing releases:
+$ diff ./Ubuntu_8.04_x86_64_server ./Ubuntu_8.10_x86_64_server
+
+New/changed suid/sgid files between releases (showing old if exists):
+$ diff ./Ubuntu_8.04_x86_64_server ./Ubuntu_8.10_x86_64_server | egrep '^[<>].* -(.{2}[sS]|.{5}[sS])'
+
+
+Reports
+-------
+Some of the above commands can be achieved with:
+$ sudo get_file_info -c	# generate list and report on it
+$ get_file_info -r <file>	# report on file containing 'get_file_info'
+                                # output
+
+------------
+audit_checks
+------------
+audit_checks runs on the system and reports on and checks for various security
+sensitive configurations. Eg:
+- apparmor
+- apt
+- pam
+- policykit
+- sudoers
+- netstat
+- ...
+
+This script was written to get a baseline for each new release or ISO candidate
+for comparing with previous releases/candidates. This allows for a simple way
+to detect changes.
+
+IMPORTANT:
+If possible, this should be run in a freshly installed virtual machine. For
+best results, compare machines with identical installation preferences (eg
+server, amd64, no RAID, install openssh, etc). See 'Installation Baselines'
+below for more information.
+
+Requirements:
+$ sudo apt-get install apparmor-utils
+
+Typical usage is:
+$ sudo -H ./audit_checks > Ubuntu_<version>_<arch>_<type>
+
+A better policy kit tool is 'pk-list' from ubuntu-security-tools. This tool is
+what is used when checking files into ./audit_checks_results. Eg:
+$ sudo -H ./audit_checks --pk-list-path=<path to UST>/audits/pk-list > Ubuntu_<version>_<arch>_<type>
+
+---------------------------------------------
+Installation Baselines for Desktop and Server
+---------------------------------------------
+Follow the above procedure to create a report of the given type (eg 'server',
+'livecd', etc), omitting '-c', and add to the get_file_info_results/ directory.
+
+Eg:
+1. Install new version of Ubuntu on <machine> (with encrypted home). Use *only*
+the defaults with a first user of 'ubuntu', all tasks for Server, and additional
+3rd party software on the desktop. As of 12.10, encrypt the installation, use
+LVM and use encrypted home. As of 13.10, setup UbuntuOne with a test user on
+the desktop install (pre-existing or not).
+   a) postfix should be setup as an Internet Site, with mail forwarded to the
+      'ubuntu' user. Other options are defaults
+   b) for ssh to work after a reboot, may have to run:
+      '$ sudo virsh -c qemu:///system net-destroy default'
+2. Install openssh-server on <machine>
+3. scp get_file_info ubuntu@<machine>:/tmp
+4. ssh -t ubuntu@<machine> 'sudo /tmp/get_file_info <type>'
+5. scp ubuntu@<machine>:/tmp/Ubuntu_<version>_<arch>_<type> get_file_info_results/Ubuntu_<version>_<arch>_<type>
+
+It is highly convenient when adding a non-release version to append additional
+information. Eg:
+Ubuntu_8.10_x86_64_livecd_with_updates_20090415
+Ubuntu_9.04_x86_64_server_RC1
+
+You can now run reports on the new file:
+$ get_file_info -r <file>
+
+Or compare to a previous release:
+$ get_file_info -r ./Ubuntu_8.04_x86_64_server > /tmp/hardy-server-report
+$ get_file_info -r ./Ubuntu_8.10_x86_64_server > /tmp/intrepid-server-report
+$ diff -Naur /tmp/hardy-server-report /tmp/intrepid-server-report
+
+
+Keep in mind, it is always a good idea to go through the whole file every
+now and again.
+
+
+---------------------------------------
+Installation Baselines for Ubuntu Touch
+---------------------------------------
+
+For file checks:
+1. Install new version of Ubuntu Touch on device:
+   $ phablet-flash ubuntu-system
+   after reboot, connect to the network
+2. adb push get_file_info /tmp
+3. adb shell /tmp/get_file_info touch
+4. adb pull /tmp/Ubuntu_<version>_<arch>_touch .
+
+For audit_checks:
+1. adb shell touch /userdata/.writable_image
+2. adb shell reboot
+3. adb shell apt-get install apparmor-utils
+4. adb push audit_checks /tmp
+5. adb shell /tmp/audit_checks > Ubuntu_13.10_armv7l_touch_nexus7_image93.audit
+
+Optionally:
+5. (optional) adb push $UST/audits/pk-list /tmp
+6. adb shell /tmp/audit_checks --pk-list-path=/tmp/pk-list > Ubuntu_13.10_armv7l_touch_nexus7_image93.audit
+
+It is highly convenient when adding a non-release version to append additional
+information. You should also add the device type. Eg:
+Ubuntu_13.10_armv7l_touch_nexus7_image93
+
+You can now run reports on the new file:
+$ get_file_info -r <file>
+
+Or compare to a previous release:
+$ get_file_info -r ./Ubuntu_8.04_x86_64_server > /tmp/hardy-server-report
+$ get_file_info -r ./Ubuntu_8.10_x86_64_server > /tmp/intrepid-server-report
+$ diff -Naur /tmp/hardy-server-report /tmp/intrepid-server-report

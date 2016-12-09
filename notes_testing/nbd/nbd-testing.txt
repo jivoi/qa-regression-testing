@@ -1,0 +1,41 @@
+nbd has a test suite that is run during build. To test client/server with
+a couple of virtual machines:
+
+On server:
+apt-get install nbd-server
+dd if=/dev/zero of=/opt/imagefile bs=1024 count=100000
+mkfs -t ext4 /opt/imagefile
+
+Create /etc/nbd-server/config containing:
+
+[generic]
+[imagefile]
+  exportname = /opt/imagefile
+
+Restart daemon:
+/etc/init.d/nbd-server restart
+
+On client:
+apt-get install nbd-client
+mkdir /mnt/imagefile
+
+nbd-client servername /dev/nbd0 -name imagefile
+mount /dev/nbd0 /mnt/imagefile
+
+Create files, and check md5sums, etc.
+
+To unmount:
+nbd-client -d /dev/nbd0
+
+
+To test old style configuration:
+
+On server:
+[generic]
+  oldstyle = true
+[imagefile]
+  exportname = /opt/imagefile
+  port = 10000
+
+On client:
+nbd-client servername 10000 /dev/nbd0

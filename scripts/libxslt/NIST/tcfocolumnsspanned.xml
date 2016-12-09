@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoColumnsSpanned" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <fo foName="block">
+              <foText>This cell spans one column</foText>
+            </fo>
+          </fo>
+          <fo foName="table-cell">
+            <foProperty name="number-columns-spanned" value="2"/>
+            <foProperty name="background-color" value="aqua"/>
+            <fo foName="block">
+              <foText>This cells spans two columns</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

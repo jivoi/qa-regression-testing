@@ -1,0 +1,9 @@
+New security patches should not be added at the end of the patches/00list file
+in Ubuntu 8.10 and later or they won't be applied. Ubuntu 8.10 and later have
+two patches at the end of 00list that are needed for the dhcp ldap packages.
+These ldap packages are built first, then the patches are rolled back and the
+non-ldap (default) dhcp packages are built. As such, patches *must* be listed
+before these ldap patches for the patches to be applied to all builds. See
+debian/rules for more information.
+
+Copyright (C) 2010 Canonical Ltd.

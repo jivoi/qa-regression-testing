@@ -1,0 +1,161 @@
+= Testing =
+
+There are are test-openjdk-6.py and test-openjdk-7.py scripts. These are
+wrappers around test-openjdk.py. These scripts guide you through the testing
+as described in 'Old', below (with a few things omitted).  Since they wrap
+test-openjdk.py output, it can be useful to see the full output of
+test-openjdk.py. This can be done with something like this:
+
+$ ./test-openjdk.py --jdk=openjdk-6 -v # main in precise and lower
+$ ./test-openjdk.py --jdk=openjdk-7 -v # main in quantal and higher
+
+It is also a good idea to test tomcat* as well:
+$ ./test-tomcat6.py -v # main in precise and lower
+$ ./test-tomcat7.py -v # main in quantal and higher
+
+* test-tomcat*.py are sensitive to host load, so best to run under one VM
+  rather than multiple VMs concurrently
+
+= Log Comparisons =
+The extract-test-results.sh script will extract test results from LP openjdk
+builds.
+
+1. $ mkdir previous current
+2. download and decompress old LP build logs into ./previous
+   ${UCT}/scripts/sis-changes --action buildlogs --ppa ubuntu --download ./previous $SRCPKG && gunzip ./previous/*.gz
+3. download and decompress new LP build logs into ./current
+   ${UCT}/scripts/sis-changes --action buildlogs --download ./current $SRCPKG && gunzip ./current/*.gz
+4. extract-test-results.sh precise trusty vivid wily
+
+How to interpret the results:
+ * if it used to fail and continues to fail, ignore
+ * if it used to fail but now doesn't, ok
+ * if it sometimes fails (either within a single build or across builds),
+   document as flaky in README
+ * if it used to pass and continues to pass, ok
+ * if it is a new test and passes, ok
+ * if it is a new test and fails, investigate a bit, but don't be overly
+   paranoid (often the first introduction of a test is not as robust as it
+   could be)
+ * if it used to pass and fails, investigate and report upstream
+
+
+== Intermittent failures ==
+The following are known flaky tests. These may be disabled in a future update
+to the package:
+
+Lucid (openjdk-6):
+runtime/6626217/Test6626217.sh
+tools/javac/api/T6877206.java
+tools/javac/6627362/T6627362.java
+runtime/6929067/Test6929067.sh
+compiler/6653795/UnsafeGetAddressTest.java
+
+Oneiric (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+tools/javac/api/T6877206.java
+
+Precise:
+runtime/6626217/Test6626217.sh (openjdk-6, openjdk-7)
+tools/javac/api/T6877206.java (openjdk-6)
+javax/swing/text/JTextComponent/5074573/bug5074573.java (openjdk-7)
+tools/javac/6627362/T6627362.java (openjdk-6)
+compiler/5091921/Test7005594.java (openjdk-6)
+compiler/6942326/Test.java (openjdk-6)
+runtime/7162488/Test7162488.sh (openjdk-6)
+compiler/6653795/UnsafeGetAddressTest.java (openjdk-6)
+
+Quantal:
+runtime/6626217/Test6626217.sh (openjdk-6, openjdk-7)
+tools/javac/api/T6877206.java (openjdk-6, openjdk-7)
+tools/javac/6627362/T6627362.java (openjdk-6)
+compiler/5091921/Test7005594.java (openjdk-6)
+compiler/6942326/Test.java (openjdk-6)
+runtime/7162488/Test7162488.sh (openjdk-6)
+
+Raring (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+tools/javac/api/T6877206.java
+
+Saucy (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+tools/javac/api/T6877206.java
+runtime/7158988/FieldMonitor.java
+
+Trusty (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+compiler/6653795/UnsafeGetAddressTest.java
+
+Utopic (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+
+Vivid (openjdk-6, openjdk-7):
+runtime/6626217/Test6626217.sh
+compiler/6653795/UnsafeGetAddressTest.java
+compiler/codegen/IntRotateWithImmediate.java
+
+
+= Old =
+
+Running "eclipse" and "netbeans" are pretty full tests of Java.
+Also, installing openjdk-6-jre-zero and invoking eclipse via:
+
+  eclipse -vm /usr/lib/jvm/java-6-openjdk/jre/lib/$(dpkg --print-architecture)/zero/libjvm.so
+
+and
+
+  eclipse -vm /usr/lib/jvm/java-6-openjdk/jre/lib/$(dpkg --print-architecture)/jamvm/libjvm.so
+
+to test the alternate zero vm. Similarly for netbeans:
+
+  netbeans -J-cacao # fails on maverick
+  netbeans -J-hotspot
+  netbeans -J-zero
+
+
+Additionally, validating "icedtea6-plugin" loads these URLs is reasonable:
+    http://www.javatester.org/version.html
+    http://www.w3.org/People/mimasa/test/object/java/clock
+    http://www.java.com/de/download/help/testvm.xml # FAILS w/ (at least) openjdk-6
+    http://www.gnu.org/software/classpath/
+    http://netalyzr.icsi.berkeley.edu/
+
+    http://decloak.net/ # be careful with this one
+
+java games:
+    http://dan-ball.jp/en/javagame/dust/
+    http://lggwg.com/main/download
+
+VolanoMark: http://www.volano.com/benchmarks.html
+
+  up the hard limit for fd for test user to 10240; then log out and back
+    in, e.g.:
+      sudo sh -c 'echo "ubuntu     hard   nofile 10240" >> /etc/security/limits.conf'
+  wget -c http://www.volano.com/files/volano_benchmark_2_9_0.class
+  java volano_benchmark_2_9_0 -o volano-2.9.0
+  cd volano-2.9.0/
+  chmod +x *.sh
+  edit startup.sh
+  ./loopserver.sh openjdk
+  ./loopclient.sh openjdk
+
+(perhaps an opportunity to automate for QRT)
+
+From https://bugs.launchpad.net/ubuntu/+source/firefox/+bug/891707
+
+  http://pscode.org/jws/api.html
+
+Also, a collection of URLs and webstart test apps that the upstream
+IcedTea project has collected:
+
+  http://icedtea.classpath.org/wiki/IcedTea-Web-Tests
+
+ * webex login with 'guest, guest@example.com' works with openjdk-7 in
+   trusty and utopic as of 2015/01/26, but still fails in precise openjdk-7.
+   precise openjdk-6 works fine. trusty openjdk-6 it sorta worked (leave
+   meeting dialog was corrupted)
+ ** blackboard works with openjdk-7 in trusty and utopic, but doesn't start
+    on precise openjdk-7. precise openjdk-6 works fine. trusty openjdk-6 it
+    doesn't launch
+ *** you can no longer run applets in chromium-browser
+

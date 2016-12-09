@@ -1,0 +1,57 @@
+#!/bin/bash
+set -e
+
+[[ $1 == "-s" ]] && {
+    SHORT=yes
+    shift
+}
+
+
+
+[[ $1 == "-c" ]] && {
+    CONTINUE=yes
+    shift
+}
+
+KEYSTONE_URL=${1:-localhost}
+USER=${2:-admin:admin}
+PASSWORD=${3:-ADMIN}
+
+if [[ $KEYSTONE_URL != http* ]];then
+    KEYSTONE_URL="http://$KEYSTONE_URL:5000/v2.0/tokens"
+fi
+
+if [[ $USER == *:* ]];then
+    TENANT=${USER%%:*}
+    USER=${USER##*:}
+else
+    TENANT=$USER
+fi
+
+#curl -s -d "{\"auth\": {\"passwordCredentials\": {\"username\": \"$1\", \"password\": \"$2\"}}}" -H 'Content-type: application/json' http://$3:5000/v2.0/tokens | python -m json.tool
+curl -s -d "{\"auth\": {\"tenantName\": \"$TENANT\", \"passwordCredentials\": {\"username\": \"$USER\", \"password\": \"$PASSWORD\"}}}" -H 'Content-type: application/json' $KEYSTONE_URL >/tmp/.auth.json || { echo "Cannot conntect to ${KEYSTONE_URL}"; exit 1; }
+ 
+[[ -z ${SHORT} ]] && echo "${KEYSTONE_URL}:"
+grep -q 'access' /tmp/.auth.json || {
+    curl -v -d "{\"auth\": {\"tenantName\": \"$TENANT\", \"passwordCredentials\": {\"username\": \"$USER\", \"password\": \"$PASSWORD\"}}}" -H 'Content-type: application/json' $KEYSTONE_URL
+    echo
+    exit
+}
+
+python -mjson.tool < /tmp/.auth.json > /tmp/.pauth.json
+TOKEN=$(grep -2 "token" /tmp/.pauth.json|grep id|sed 's/.* "//;s/".*//'|tr -d '\r')
+
+URL=$( grep -B10 object-store /tmp/.pauth.json|grep internalURL|sed 's/.* "//;s/".*//'|tr -d '\r')
+
+if [[ ${SHORT} ]];then
+    echo "TOKEN='${TOKEN}'"
+    echo "STORAGE_URL='${URL}'"
+    echo "KEYSTONE_URL='${KEYSTONE_URL}'"
+    exit
+fi
+
+cat /tmp/.pauth.json
+echo "curl -H 'X-Auth-Token: ${TOKEN}' ${URL}"
+[[ -n ${CONTINUE} ]] || exit
+curl -v -H "X-Auth-Token: ${TOKEN}" ${URL}
+echo

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoPadding2" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+      <parentText>the "padding" properties for image were set to different values (0.1in, 0.15in, 0.2in, and 0.25in.</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.jpg"/>
+       <foProperty name="background-color" value="red"/>
+       <foProperty name="padding-before" value="0.1in"/>
+       <foProperty name="padding-after" value="0.15in"/>
+       <foProperty name="padding-start" value="0.2in"/>
+       <foProperty name="padding-end" value="0.25in"/>
+      </fo>
+  </testcase>

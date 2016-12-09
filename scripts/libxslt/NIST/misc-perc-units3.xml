@@ -1,0 +1,5 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This paragraph should have a left margin of 25% (.25in) of its conatining block.  The 
+background color should be aqua.</PARAGRAPH>
+</TEST>

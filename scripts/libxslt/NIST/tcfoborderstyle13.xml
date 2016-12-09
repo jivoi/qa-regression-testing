@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBorderStyle13" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="border-end-style" value="dotted"/>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="border-before-style" value="solid"/>
+            <foProperty name="border-after-style" value="solid"/>
+            <foProperty name="border-start-style" value="solid"/>
+            <foProperty name="border-end-style" value="inherit"/>
+            <fo foName="block">
+              <foText>Only the "border-end-style" property (dotted) of this table cell was gotten by specifying "inherit" in its style properties.</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

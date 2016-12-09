@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBorderStyle2" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <fo foName="list-item">
+     <foProperty name="background-color" value="red"/>
+     <foProperty name="border-before-style" value="dashed"/>
+     <foProperty name="border-after-style" value="dashed"/>
+     <foProperty name="border-start-style" value="dashed"/>
+     <foProperty name="border-end-style" value="dashed"/>
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>The border style for this list item should be "dashed".</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

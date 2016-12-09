@@ -1,0 +1,76 @@
+hplip is composed essentially of the following:
+
+- A ghostscript driver (hpijs)
+- A cups backend (hp)
+- A sane backend (hpaio)
+- A user interface (hp-toolkit)
+- Command line tools (hp-*)
+- A daemon for the user interface and command-line tools (hpssd)
+
+Most of these require a physical printer/scanner to be attached to the local computer, so they can't be tested using a script.
+
+The best way to test hplip is by using a virtual machines with a redirected usb port to a local port that has a HP multifunction device plugged in.
+
+The version of libvirt that comes with Intrepid has support for USB devices in it's XML file[1], but doesn't seem to pass these parameters to kvm. For now, we can get USB support by using kvm directly on the disk images.
+
+Make sure the printer is plugged in and turned on.
+
+Get your printer's usb device number:
+
+mdeslaur@mdlinux:~$ lsusb
+Bus 007 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 006 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 005 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 004 Device 006: ID 03f0:7d04 Hewlett-Packard Deskjet F2100 Printer series
+Bus 004 Device 002: ID 045e:0040 Microsoft Corp. Wheel Mouse Optical
+Bus 004 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 001 Device 004: ID 0483:2016 SGS Thomson Microelectronics Fingerprint Reader
+Bus 001 Device 003: ID 0a5c:2110 Broadcom Corp. Bluetooth Controller
+Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+
+Start the virtual machine you want to use in virt-manager. Get the command line it used:
+
+mdeslaur@mdlinux:~$ ps aux | grep kvm
+root     11253  8.9  7.3 518072 292392 ?       Sl   08:27   1:02 /usr/bin/kvm -S -M pc -m 256 -smp 1 -name sec-gutsy-i386 -monitor pty -boot c -drive file=/home/mdeslaur/machines/sec-gutsy-i386/disk0.qcow2,if=ide,index=0,boot=on -net nic,macaddr=00:16:36:0d:98:5e,vlan=0,model=e1000 -net tap,fd=14,script=,vlan=0,ifname=vnet2 -serial none -parallel none -usb -vnc 127.0.0.1:2
+
+Install hplip:
+
+$ sudo apt-get -y install hplip hplip-gui (no hplip-gui in dapper)
+
+Make sure you're a member of the "lpadmin" group in the VM.
+
+Power down the virtual machine.
+
+kvm needs to access /proc/bus/usb, which is no longer used. Work around this issue temporarily:
+
+sudo mount -t usbfs usbfs /proc/bus/usb/
+sudo chmod -R a+rw /proc/bus/usb/
+
+Launch KVM directly, but with "-S" removed to start automatically, "-vnc 127.0.0.1:2" removed to get an SDL console, and "-usbdevice host:03f0:7d04" added for the usb device:
+
+mdeslaur@mdlinux:~$ /usr/bin/kvm -M pc -m 256 -smp 1 -name sec-gutsy-i386 -monitor pty -boot c -drive file=/home/mdeslaur/machines/sec-gutsy-i386/disk0.qcow2,if=ide,index=0,boot=on -net nic,macaddr=00:16:36:0d:98:5e,vlan=0,model=e1000 -net tap,fd=14,script=,vlan=0,ifname=vnet2 -serial none -parallel none -usb -usbdevice host:03f0:7d04
+
+Networking will not work, but this is not needed to test the local printer.
+
+Make sure the following works:
+
+* Setting up the printer
+* Printing the test page (goodbye ink cartridge!)
+* Using hp-toolbox:
+  - Status tab should say "The printer is idle."
+  - Supplies tab should indicate ink levels of printer
+  - On Tools tab, select "View Device Information" and make
+    sure stuff is populated
+  - On Fuctions tab, select "Scan a document" and test scanning
+    by using the "Acquire preview" button
+
+
+Notes on Dapper:
+
+- hp-toolbox is included in the main hplip package, but it doesn't appear in the menus.
+- gnome-cups-setup doesn't seem to use "hp:" ports by default, so hp-toolbox will not work. You must manually select the printer, and change the port to "hp:" instead of "usb:"
+
+
+[1] - http://www.libvirt.org/formatdomain.html#elementsUSB

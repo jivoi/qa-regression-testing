@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBackground1" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="2.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <fo foName="block">
+              <foText>table cell (red)</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

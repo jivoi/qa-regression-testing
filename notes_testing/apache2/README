@@ -1,0 +1,25 @@
+In addition to our test scripts for apache, upstream has a test
+framework at:
+
+  http://httpd.apache.org/test/
+
+In particular, the Perl Framework:
+
+  http://svn.apache.org/viewvc/httpd/test/framework/trunk/
+
+Alas, attempts to use it have been unsuccessful as it doesn't seem to
+properly parse the includes in /etc/apache2/apache2.conf to determine
+which modules are enabled and need to be loaded in the test
+configuration; e.g. setting up the tree with:
+
+  perl Makefile.PL -apxs  /usr/bin/apxs2 -httpd_conf /etc/apache2/apache2.conf
+
+and then running
+
+  t/TEST
+
+fails due to parsing errors in the config file because necessary modules
+aren't being loaded.
+
+Work to fix issues, automate this and integrate it within our test
+script would be great!

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoContentWidth" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="background-color" value="aqua"/>
+      <parentText>The "content-width" of this "external-graphic" is set to "0.5in"</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.gif"/>
+       <foProperty name="content-width" value="0.5in"/>
+      </fo>
+  </testcase>

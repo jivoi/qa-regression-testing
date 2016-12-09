@@ -1,0 +1,18 @@
+libyaml has a test suite that is _not_ run at build time, but I couldn't
+figure out how to get it to run.
+
+There is a nice test suite in pyyaml, that uses libyaml.
+
+In a VM, do the following:
+
+sudo apt-get build-dep pyyaml
+apt-get source pyyaml
+
+Go into the source directory, and run the tests:
+
+python setup.py test > /tmp/output.txt 2>&1
+
+This should automatically detect pyyaml, build against it, and run the
+tests. Make sure everything succeeds.
+
+

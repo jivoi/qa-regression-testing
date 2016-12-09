@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element has no left margin.  The following elements have
+all been given a left margin and their left (outer) edges should therefore
+be appropriately shifted to the right of this paragraph's left edge.</PARAGRAPH>
+</TEST>

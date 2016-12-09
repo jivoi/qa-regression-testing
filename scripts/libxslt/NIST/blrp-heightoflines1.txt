@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block font-size="14px" line-height="30px">This paragraph should have a font size of 14px and a line height
+of 20px.  This means that the lines of text within it should be separated by
+six pixels, three of which are part of the line-box of each line.  Any images
+within the paragraph should increase the height of the line-box so that they fit
+within the line box, such as<fo:external-graphic content-width="200px" content-height="200px" src="oransqr.jpg"/>.  This is
+additional text to make sure that there is enough room left below the image so that this
+line does not hit the image that is text-top aligned. (NOTE: vertical-align not used
+here, so may affect result)</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

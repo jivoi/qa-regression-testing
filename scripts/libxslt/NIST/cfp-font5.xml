@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be in a cursive font, 'small' in size, with a line-height
+of 20px.  The actual value
+of the font-size may be UA-dependent.  Extra text is included for the purposes of testing this
+more effectively.  Individual properties may be used.</PARAGRAPH>
+</TEST>

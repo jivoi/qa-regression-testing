@@ -1,0 +1,16 @@
+QA Regression Testing
+---------------------
+
+This is a work in progress. The layout is as follows:
+
+build_testing/		notes on running test suites against a build
+results/		files containing the results of various test runs
+scripts/		scripts for regression testing against packages
+scripts/private		symlink to directory with embargoed reproducers
+tests			tests for image testing, etc
+
+See the README.security file for important information before running
+scripts from this archive.
+
+Copyright (C) 2008-2013 Canonical Ltd.
+

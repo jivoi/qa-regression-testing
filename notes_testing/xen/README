@@ -1,0 +1,235 @@
+------------------
+Xen on Ubuntu 8.04
+------------------
+Based on:
+http://www.howtoforge.com/ubuntu-8.04-server-install-xen-from-ubuntu-repositories
+http://www.howtoforge.com/xen_tools_xen_shell_argo
+
+The wiki has a bunch of stuff with /lib/tls. I just used libc6-xen on the host
+and the guest, and it seems ok. This all happened automatically when installing
+ubuntu-xen-server.
+
+So this does appear to be needed for xen to be performant:
+$ sudo mv /lib/tls /lib/tls.disabled
+
+
+--------------
+Setup the host
+--------------
+1. Install hardy server
+2. apt-get install ubuntu-xen-server
+3. add to /etc/modules (loop max_loop=64) # doesn't seem to be needed anymore
+
+
+-------------------
+Setup the xen-tools
+-------------------
+1. ls -l /usr/lib/xen-tools  # shows what hosts are available to install
+2. mkdir /home/xen           # writable by root
+3. setup /etc/xen-tools/xen-tools.conf:
+[...]
+dir = /home/xen
+[...]
+dist   = hardy     # Default distribution to install.
+[...]
+gateway   = 192.168.0.1
+netmask   = 255.255.255.0
+broadcast = 192.168.0.255
+# or:
+dhcp = 1
+[...]
+passwd = 1
+[...]
+mirror = http://archive.ubuntu.com/ubuntu/
+[...]
+
+The dist line holds the default distribution that you want to install in a
+virtual machine. The contents of the /usr/lib/xen-tools directory reveals which
+distributions are available (see above).
+
+The kernel line must contain our Xen kernel, and the initrd line its ramdisk.
+The default /etc/xen-tools/xen-tools.conf file has the values kernel =
+/boot/vmlinuz-`uname -r` and initrd = /boot/initrd.img-`uname -r` which
+automatically translate to the correct kernel and ramdisk, so we don't have to
+modify these lines.
+
+The passwd = 1 line makes that you can specify a root password when you create
+a new guest domain. In the mirror line specify an Ubuntu mirror close to you.
+
+If want static IP addresses, make sure you specify a gateway and netmask. If
+you don't, and you don't specify a gateway and netmask on the command line when
+using xen-create-image, your guest domains won't have networking even if you
+specified an IP address! This does not have to be specified when using dhcp.
+
+WARNING: xen uses bridged networking, so when the VM comes up, it is live and
+on the network. Make sure to choose good passwords, etc.
+
+4. restart xen:
+$ sudo /etc/rc2.d/S21xendomains stop
+$ sudo /etc/rc2.d/S20xend stop
+$ sudo /etc/rc2.d/S20xend start
+$ sudo /etc/rc2.d/S21xendomains start
+
+
+--------------
+Create a guest
+--------------
+Eg:
+$ sudo xen-create-image --hostname=xen1.example.com --size=2Gb --swap=256Mb --ide \
+--ip=192.168.0.101 --netmask=255.255.255.0 --gateway=192.168.0.1 --force \
+--dir=/home/xen --memory=64Mb --arch=i386 --kernel=/boot/vmlinuz-2.6.24-16-xen \
+--initrd=/boot/initrd.img-2.6.24-16-xen --install-method=debootstrap --dist=hardy \
+--mirror=http://archive.ubuntu.com/ubuntu/ --passwd
+
+So I did (with output):
+$ sudo xen-create-image --hostname=xen1.example.com --size=2Gb --swap=256Mb --ide --arch=i386 --install-method=debootstrap --dist=hardy --passwd
+
+General Information
+--------------------
+Hostname       :  xen1.example.com
+Distribution   :  hardy
+Partitions     :  swap            256Mb (swap)
+                  /               2Gb   (ext3)
+Image type     :  sparse
+Memory size    :  128Mb
+Kernel path    :  /boot/vmlinuz-2.6.24-28-xen
+Initrd path    :  /boot/initrd.img-2.6.24-28-xen
+
+Networking Information
+----------------------
+IP Address     : DHCP [MAC: 00:16:3E:61:5E:64]
+
+
+Creating partition image: /home/xen/domains/xen1.example.com/swap.img
+Done
+
+Creating swap on /home/xen/domains/xen1.example.com/swap.img
+Done
+
+Creating partition image: /home/xen/domains/xen1.example.com/disk.img
+Done
+
+Creating ext3 filesystem on /home/xen/domains/xen1.example.com/disk.img
+Done
+Installation method: debootstrap
+Done
+
+Running hooks
+Done
+
+No role scripts were specified.  Skipping
+
+Creating Xen configuration file
+Done
+Setting up root password
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+All done
+
+
+Logfile produced at:
+	 /var/log/xen-tools/xen1.example.com.log
+--
+
+
+There should now be a xen1.example.com configuration file -
+/etc/xen/xen1.example.com.cfg.
+
+The 'file:' configuration option for disks is depracted, so will have to adjust
+the cfg for the VM (see http://ubuntuforums.org/showthread.php?t=770902):
+
+Adjust /etc/xen/xen1.example.com.cfg from:
+disk        = [
+                  'file:/home/xen/domains/xen1.example.com/swap.img,hda1,w',
+                  'file:/home/xen/domains/xen1.example.com/disk.img,hda2,w',
+              ]
+
+to:
+disk        = [
+                  'tap:aio:/home/xen/domains/xen1.example.com/swap.img,hda1,w',
+                  'tap:aio:/home/xen/domains/xen1.example.com/disk.img,hda2,w',
+              ]
+
+(Please note: if you have a dual-core CPU and want the virtual machine to use
+both CPU cores, please add the line vcpus = '2' to the configuration file, like
+this:
+
+...
+kernel      = '/boot/vmlinuz-2.6.24-16-xen'
+ramdisk     = '/boot/initrd.img-2.6.24-16-xen'
+memory      = '64'
+vcpus       = '2'
+...
+
+
+------------
+Using the VM
+------------
+To start the virtual machine, run:
+$ sudo xm create /etc/xen/xen1.example.com.cfg
+Using config file "/etc/xen/xen1.example.com.cfg".
+Started domain xen1.example.com
+
+To connect to the console:
+$ sudo xm console xen1.example.com
+...
+1] AppArmor: AppArmor Filesystem Enabled
+[    0.203539] NET: Registered protocol family 2
+...
+Ubuntu 8.04 xen1.example.com xvc0
+
+xen1.example.com login:
+
+
+To leave the xen console, use '^]'.
+
+
+Can ssh into it (may need to look in the dhcpd logs for this):
+$ ssh root@192.168.2.194
+
+
+To list VMs created with xen-create-image:
+$ sudo xen-list-images
+Name: xen1.example.com
+Memory: 128
+
+
+To delete a VM created wieh xen-create-image
+$ sudo xen-delete-image --dir=/home/xen xen1.example.com
+
+
+To update packages in guest domains (see man page):
+$ xen-update-image --dir=/home/xen xen1.example.com
+
+Listing VMs:
+$ sudo xm list
+Name                                        ID   Mem VCPUs      State   Time(s)
+Domain-0                                     0   620     1     r-----    144.0
+xen1.example.com                          1   128     1     -b----     12.7
+
+
+Stopping a VM:
+$ sudo xm shutdown xen1.example.com
+
+
+Starting automatically at boot:
+$ sudo ln -s /etc/xen/xen1.example.com.cfg /etc/xen/auto
+
+
+On reboot and shutdown, xen will 'save' running VMs on shutdown and then
+'restore' them on boot (using xc_restore). When testing kernels this should
+definitely be done (LP: #620994)
+
+
+Here are the most important Xen commands:
+xm create -c /path/to/config	start a virtual machine, with a console. Omit
+                                '-c' to start with a xm console
+xm shutdown <name>		Stop a virtual machine.
+xm destroy <name>		Stop a virtual machine immediately without
+				shutting it down. It's as if you switch off the
+				power button.
+xm list				List all running systems.
+xm console <name>		Log in on a virtual machine.
+xm help				List of all commands.
+

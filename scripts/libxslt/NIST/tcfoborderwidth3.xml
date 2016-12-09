@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBorderWidth3" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="2.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="border-before-width" value="medium"/>
+            <foProperty name="border-after-width" value="medium"/>
+            <foProperty name="border-start-width" value="medium"/>
+            <foProperty name="border-end-width" value="medium"/>
+            <foProperty name="border-before-style" value="solid"/>
+            <foProperty name="border-after-style" value="solid"/>
+            <foProperty name="border-start-style" value="solid"/>
+            <foProperty name="border-end-style" value="solid"/>
+            <fo foName="block">
+              <foText>All four border widths of this cell are set to "medium"</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

@@ -1,0 +1,63 @@
+How to test clvmd:
+(These are rough notes, and may not be complete)
+
+Based in part on: https://wiki.ubuntu.com/ClusterStack/LucidTesting#BONUS%20:%20RHCS%20Samba%20file%20server%20cluster
+
+- Set up two server installations in virt-manager.
+  - Call them node01 and node02
+  - 192.168.122.201 and 192.168.122.202
+  - Make sure the host files only have the real IP for the node (and not 127.0.x.x)
+  - Partition them with LVM. 10GB total, 8GB for /, 1GB for swap, 1GB unallocated
+  - Set up a 500MB shared storage virtio image that is common to both
+    - Make sure cache on the shared storage volume is disabled:
+      (ie: <driver name='qemu' type='raw' cache='none'/>)
+
+- Install redhat-cluster-suite (apt-get install redhat-cluster-suite)
+
+- On the first node only, prepare the shared storage quorum disk:
+  # parted /dev/vdb mklabel msdos
+  # parted /dev/vdb mkpart primary 0 50MB
+  # parted /dev/vdb mkpart primary 50MB 100%
+  # parted /dev/vdb set 2 lvm on
+  # mkqdisk -l bar01 -c /dev/vdb1
+
+- Reread the partition table on both nodes with "partprobe"
+
+- Copy the cluster.conf file from this directory to /etc/cluster/cluster.conf
+
+- Start the base cluster software on both nodes simultaneously:
+  # /etc/init.d/cman start
+
+- Make sure quorum is reached (cman starts successfully on both nodes)
+
+- Set up lvm cluster locking in /etc/lvm/lvm.conf:
+  - for Lucid:
+    - locking_type = 4 (3 for older versions)
+  - for Karmic and earlier (in the global{} section):
+    - locking_type = 2
+    - locking_library = "liblvm2clusterlock.so"
+    - library_dir = "/lib/lvm2"
+
+
+- Start up the additional daemons and make sure they start up ok:
+  # /etc/init.d/clvm start
+  # /etc/init.d/rgmanager start
+
+- Stop the clvm daemon on the second node and start it manually to get debug spew:
+  # /etc/init.d/clvm stop
+  # /sbin/clvmd -d
+
+- On the first node, create a new volume group:
+  # lvm pvcreate /dev/vdb2
+  # vgcreate -c y vg1 /dev/vdb2
+
+- See if the new volume group is visible and is clustered:
+  # vgdisplay
+  (Can also test this on node02)
+
+- Perform some changes to the volume group, and check node02's debug spew
+  - vgchange -c n vg1
+  - vgchange -c y vg1
+  - clvmd -R
+
+

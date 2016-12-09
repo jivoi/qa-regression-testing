@@ -1,0 +1,8 @@
+Things to test for when doing webkit updates:
+
+epiphany-browser via test-browser.py
+software center
+ubuntuone music store
+ubuntuone files
+devhelp
+rekonq (qt4 webkit)

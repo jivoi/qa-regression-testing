@@ -1,0 +1,16 @@
+Puppet has a test suite in the puppet-testsuite package.
+
+To test in a VM (as root):
+
+apt-get install puppet puppet-testsuite
+cd /usr/share/puppet-testsuite
+rake test > /tmp/results.txt 2>&1
+
+On karmic, and possibly in previous releases, the test suite has an
+incorrect path specified, and must be fixed with the patch located in
+the current directory.
+
+On karmic, some tests are known to fail. See the results directory.
+
+
+

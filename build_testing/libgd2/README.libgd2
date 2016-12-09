@@ -1,0 +1,25 @@
+LIBGD2 TESTING
+--------------
+libgd2 2.0.35 has a lot of tests that can be used on previous versions. Here
+is how:
+
+$ apt-get install cmake 
+$ dpkg-buildpackage -rfakeroot
+$ tar -zxvf /tmp/libgd20tests-2.0.35.tar.gz
+$ dapper and edgy: copy over CMakeLists.txt and config.h.cmake from feisty
+$ cmake -DBUILD_TEST=1 .
+$ make
+$ ctest .
+
+Dapper: needs cmake from edgy (a simple recompile of cmake on dapper is fine).
+It also needs CMakeLists.txt and config.h.cmake from feisty
+
+Edgy: needs CMakeLists.txt and config.h.cmake from feisty
+
+
+** IMPORTANT **
+bug00005 sometimes causes a DoS (race condition in cmake?), so you will need to
+kill it or disable it
+
+
+Copyright (C) 2008 Canonical Ltd.

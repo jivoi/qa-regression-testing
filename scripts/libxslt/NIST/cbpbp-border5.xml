@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have no border around it, as the border-style was not set, and it should not
+be offset in any way.  Individual properties are tested here. </PARAGRAPH>
+</TEST>

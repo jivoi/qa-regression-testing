@@ -1,0 +1,26 @@
+add global option parser to handle reporting package prerequisites
+
+convert ubuntu_release() tests into self.lsb_release['Release'] tests:
+    test-apache2.py
+    testlib_dns.py
+    testlib_httpd.py
+    testlib_multimedia.py
+    test-xine.py
+
+convert _check_mime_type() tests into self.assertFileType():
+    test-ffmpeg.py
+    test-ghostscript.py
+    test-libsndfile.py
+    test-libvorbis.py
+    test-libwmf.py
+    test-netpbm-free.py
+    test-poppler.py
+
+Define "resources" that can be requested... this is starting to stray
+into the "framework" side of things.  Basically, if I have a regression
+test I'm running and I need to verify that email delivery is still working
+from it (e.g. Moodle) I need to know about an email address, IMAP host,
+username, and password.  With those details, the regression test can
+log into that resource and continue verification.  Similar things are needed
+for testing Kerberos or Samba: "I need a Kerberos server", "I need a Samba
+mount", etc.

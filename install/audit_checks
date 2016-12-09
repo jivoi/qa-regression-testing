@@ -1,0 +1,508 @@
+#!/usr/bin/python
+#
+#    audit_checks quality assurance test script
+#    Copyright (C) 2011-2012 Canonical Ltd.
+#    Author: Jamie Strandboge <jamie@canonical.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License version 2,
+#    as published by the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#    This script output normalized output for sensitive configuration
+
+import glob
+import os
+import re
+import signal
+import subprocess
+import sys
+
+def help():
+    print '''Usage:
+$ sudo -H audit_checks'''
+
+#
+# Helpers
+#
+def error(s):
+    '''Error output'''
+    print >> sys.stderr, "ERROR: %s" % (s)
+    sys.exit(1)
+
+def warn(s):
+    '''Warning output'''
+    print >> sys.stderr, "WARN: %s" % (s)
+
+def is_root():
+    '''Verify script is running as root'''
+    if os.getuid() != 0:
+        error("This script must be run as root")
+
+    # so we don't create root owned files in the user's HOME
+    if 'HOME' in os.environ and os.environ['HOME'] != "/root":
+        error("Must use '-H' option to sudo")
+
+def check_requirements():
+    '''Verify requirements of this script'''
+    bins = ['aa-status', 'aa-unconfined', 'lsb_release']
+    for b in bins:
+        rc, output = cmd(['which', b])
+        if rc != 0:
+            error("Could not find '%s' in PATH" % b)
+
+# Stolen from QRT
+def _subprocess_setup():
+    # Python installs a SIGPIPE handler by default. This is usually not what
+    # non-Python subprocesses expect.
+    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
+def cmd(command, input = None, stderr = subprocess.STDOUT, stdout = subprocess.PIPE, stdin = None, timeout = None):
+    '''Try to execute given command (array) and return its stdout, or return
+    a textual error if it failed.'''
+
+    try:
+        sp = subprocess.Popen(command, stdin=stdin, stdout=stdout, stderr=stderr, close_fds=True, preexec_fn=_subprocess_setup)
+    except OSError, e:
+        return [127, str(e)]
+
+    out, outerr = sp.communicate(input)
+    # Handle redirection of stdout
+    if out == None:
+        out = ''
+    # Handle redirection of stderr
+    if outerr == None:
+        outerr = ''
+    return [sp.returncode,out+outerr]
+
+def cmd_pipe(command1, command2, input = None, stderr = subprocess.STDOUT, stdin = None):
+    '''Try to pipe command1 into command2.'''
+    try:
+        sp1 = subprocess.Popen(command1, stdin=stdin, stdout=subprocess.PIPE, stderr=stderr, close_fds=True)
+        sp2 = subprocess.Popen(command2, stdin=sp1.stdout, stdout=subprocess.PIPE, stderr=stderr, close_fds=True)
+    except OSError, e:
+        return [127, str(e)]
+
+    out = sp2.communicate(input)[0]
+    return [sp2.returncode,out]
+
+def header(s, sub=False):
+    '''Header for each test'''
+    formatted = "\n= %s =" % (s)
+    if sub:
+        formatted = "== %s ==" % (s)
+    print formatted
+
+def normalize_file_report(s, prefix=" ", sort=False, skip_pattern='^\s*(#|$)', unique=False):
+    '''Normalize string'''
+    d = None
+    if unique:
+        d = dict()
+    else:
+        d = []
+
+    pat_skip = re.compile(r'%s' % skip_pattern)
+    for line in s.splitlines():
+        if pat_skip.search(line):
+            continue
+
+        new_s = line
+        if prefix != None:
+            l = line.strip()
+            new_s = "%s%s" % (prefix, " ".join(l.split()))
+
+        if unique:
+            d[new_s] = True
+        else:
+            d.append(new_s)
+
+    if unique:
+        normalized = d.keys()
+    else:
+        normalized = d
+
+    if sort:
+        normalized.sort()
+
+    return "\n".join(normalized)
+
+def get_all_files_in_dir(d):
+    '''Recursively find all files in a directory'''
+    files = []
+    if not os.path.isdir(d):
+        return files
+
+    for f in glob.glob("%s/*" % d):
+        if os.path.isdir(f):
+            tmp = get_all_files_in_dir(f)
+            if len(tmp) > 0:
+                files += tmp
+        else:
+            files.append(f)
+
+    return files
+
+#
+# End helpers
+#
+
+#
+# Tests
+#
+def do_template():
+    '''TEMPLATE checks'''
+    header("TEMPLATE report (<template command>)")
+    rc, report = cmd(['template', 'args'])
+    print report
+
+def do_apt_key():
+    '''apt-key checks'''
+    header("Apt Key report (apt-key list)")
+    rc, report = cmd(['apt-key', 'list'])
+    print report,
+
+    # http://seclists.org/fulldisclosure/2011/Sep/222
+    header("Fraudulent keyring check")
+    bad = ['DB046AD3', 'BCB59BEF', '6B0C7AB7', '6580087B', '9F3AED62']
+    bad_cksum = "832da93a1fa1bfe10520c1460c97cd61b407bad09cecac21f78ff004f47e26ef"
+    found = False
+    for k in glob.glob("/usr/share/keyrings/*"):
+        rc, report = cmd(['gpg', '--no-default-keyring', '--keyring', k, '--list-sigs'])
+        for i in bad:
+            if i in report:
+                warn("FOUND BAD KEY '%s' IN %s!!!" % (i, k))
+                found = True
+
+        rc, report = cmd(['sha256sum', k])
+        if bad_cksum in report:
+            warn("FOUND BAD SHA265 in %s!!!" % k)
+            found = True
+    if not found:
+        print "pass"
+
+def do_apparmor():
+    '''AppArmor checks'''
+    header("AppArmor status report (aa-status)")
+    rc, report = cmd(['aa-status'])
+    pat_pid = re.compile(r' \([0-9]+\)\s*')
+    for line in report.splitlines():
+        if pat_pid.search(line):
+            print pat_pid.sub(" (<pid removed>)", line)
+        else:
+            print line
+
+    header("AppArmor unconfined report (aa-unconfined)")
+    rc, report = cmd(['aa-unconfined'])
+    seen = dict()
+    for line in report.splitlines():
+        if "not confined" not in line:
+            continue
+        b = line.split()[1]
+        seen[b] = True
+
+    unconfined = seen.keys()
+    unconfined.sort()
+    print "\n".join(unconfined)
+
+    header("AppArmor profiles report")
+    profiles = glob.glob("/etc/apparmor.d/*")
+    profiles.sort()
+    pat_skip = re.compile(r'^\s*(#|$)')
+    pat_start = re.compile(r'\s{\s*$')
+    pat_stop = re.compile(r'\s*}\s*$')
+    for p in profiles:
+        if os.path.isdir(p):
+            continue
+
+        header("apparmor_parser -p %s" % p, sub=True)
+        rc, report = cmd(['apparmor_parser', '-p', p])
+        if rc != 0:
+            warn("'%s' did not parse!" % (p))
+
+        # TODO: this doesn't handle multiple profiles in on file well (eg
+        # /etc/apparmor.d/sbin.dhclient)
+        in_profile = False
+        rules_dict = dict()
+        for line in report.splitlines():
+            if pat_skip.search(line):
+                continue
+
+            if pat_start.search(line):
+                in_profile = True
+                print line
+                continue
+            elif pat_stop.search(line):
+                in_profile = False
+                rules = rules_dict.keys()
+                rules.sort()
+                print "\n".join(rules)
+                print line
+                continue
+
+            if in_profile:
+                rule = line.strip()
+                rules_dict["  %s" % (" ".join(rule.split()))] = True
+                continue
+
+            print line
+
+def do_sudoers():
+    '''/etc/sudoers checks'''
+    header("sudoers report")
+
+    files = glob.glob("/etc/sudoers.d/*")
+    files.sort()
+    for f in ['/etc/sudoers'] + files:
+        contents = file(f).read()
+        file(f).close()
+        print normalize_file_report(contents, unique=True),
+    print ""
+
+def do_pam():
+    '''pam checks'''
+    header("PAM report")
+    files = glob.glob("/etc/pam.d/*")
+    files.sort()
+    for f in ['/etc/pam.conf'] + files:
+        contents = file(f).read()
+        file(f).close()
+
+        header("%s" % f, sub=True)
+        out = normalize_file_report(contents)
+        if out != "":
+            print out
+        print ""
+
+def do_dbus_services(service_type):
+    '''dbus service checks'''
+    header("DBus services (%s) report" % service_type)
+    files = glob.glob("/etc/dbus-1/%s.d/*" % service_type)
+    files.append("/etc/dbus-1/%s.conf" % service_type)
+    files.sort()
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+
+        header("%s" % f, sub=True)
+        out = normalize_file_report(contents)
+        if out != "":
+            print out
+        print ""
+
+def do_logindefs():
+    '''/etc/login.defs checks'''
+    header("/etc/login.defs report")
+    contents = file("/etc/login.defs").read()
+    file("/etc/login.defs").close()
+    print normalize_file_report(contents, sort=True)
+
+def do_securetty():
+    '''/etc/securetty checks'''
+    header("/etc/securetty report")
+    contents = file("/etc/securetty").read()
+    file("/etc/securetty").close()
+    print normalize_file_report(contents, sort=True)
+
+def do_etcsecurity():
+    '''/etc/security checks'''
+    header("/etc/security report")
+    files = get_all_files_in_dir("/etc/security")
+    files.sort()
+
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+
+        header("%s" % f, sub=True)
+        if f == "/etc/security/namespace.init": # this is a shell script
+            out = normalize_file_report(contents, prefix=None)
+        else:
+            out = normalize_file_report(contents)
+        if out != "":
+            print out
+        print ""
+
+def do_sources_list():
+    '''/etc/apt/sources.list* checks'''
+    header("sources.list report")
+
+    rc, report = cmd(['lsb_release', '-c'])
+    release = report.split()[1]
+
+    files = glob.glob("/etc/apt/sources.list.d/*")
+    files.sort()
+    for f in ['/etc/apt/sources.list'] + files:
+        contents = file(f).read()
+        redacted = re.sub(r'%s' % release, "<release removed>", contents)
+        file(f).close()
+        print normalize_file_report(redacted, sort=True, unique=True),
+    print ""
+
+def do_policykit_pklist(exe):
+    '''PolicyKit checks via pk-list'''
+    for arg in ['--list-default-actions',
+                '--list-package-overrides',
+                '--list-local-overrides',
+                '--list-merged']:
+        rc, output = cmd([exe, '--skip-header', '--quiet', arg])
+        print output
+
+def do_policykit():
+    '''PolicKit checks'''
+    header("PolicyKit report")
+
+    header("Local authority configuration", sub=True)
+    files = []
+    # admin added localauthority
+    dirs = glob.glob("/etc/polkit-1/localauthority/*")
+    dirs.sort()
+    tmp = []
+    for d in dirs:
+        tmp = glob.glob("%s/*" % d)
+        tmp.sort()
+        if len(tmp) > 0:
+            files += tmp
+
+    # packaging added localauthority.d
+    tmp = glob.glob("/etc/polkit-1/localauthority.conf.d/*")
+    tmp.sort()
+    files += tmp
+
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+        out = normalize_file_report(contents)
+        if out != "":
+            print "%s:" % f
+            print out
+    print ""
+
+    header("Local authority policy", sub=True)
+    files = []
+    dirs = glob.glob("/var/lib/polkit-1/localauthority/*")
+    dirs.sort()
+    tmp = []
+    for d in dirs:
+        tmp = glob.glob("%s/*" % d)
+        tmp.sort()
+        if len(tmp) > 0:
+            files += tmp
+
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+        out = normalize_file_report(contents)
+        if out != "":
+            print "%s:" % f
+            print out
+    print ""
+
+    header("Null backend configuration", sub=True)
+    files = glob.glob("/etc/polkit-1/nullbackend.conf.d/*")
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+        out = normalize_file_report(contents)
+        if out != "":
+            print "%s:" % f
+            print out
+    print ""
+
+    header("System wide policy", sub=True)
+    files = glob.glob("/usr/share/polkit-1/actions/*")
+    for f in files:
+        contents = file(f).read()
+        file(f).close()
+        out = normalize_file_report(contents, prefix=None, skip_pattern="(\s+<(description xml|message xml|icon_name)|^\s*$)")
+        if out != "":
+            print "%s:" % f
+            print out
+    print ""
+
+def do_netstat():
+    '''netstat report'''
+    header("Listening services (netstat -ltupn)")
+    rc, report = cmd(['netstat', '-ltupn'])
+
+    r = dict()
+    pat_addr = re.compile(r'^(127\.|0\.|::)')
+    for line in report.splitlines():
+        if not line.startswith("tcp") and not line.startswith("udp"):
+            continue
+
+        exe_idx = 5
+        if line.startswith("tcp"):
+            exe_idx = 6
+            if "LISTEN" not in line:
+                continue
+
+        tmp = line.split()
+        proto = tmp[0]
+        addr = tmp[3]
+        exe = tmp[exe_idx].split('/')[1]
+
+        if not pat_addr.search(addr):
+            addr = "<address removed>:%s" % addr.split(':')[-1]
+
+        val = "%s/%s" % (addr, proto)
+        if r.has_key(exe) and val not in r[exe]:
+            r[exe].append(val)
+        else:
+            r[exe] = [val]
+
+    keys = r.keys()
+    keys.sort()
+    for k in keys:
+        print "%s:" %k
+        r[k].sort()
+        for v in r[k]:
+            print " %s" % v
+
+#
+# End tests
+#
+
+if __name__ == '__main__':
+    import optparse
+    parser = optparse.OptionParser()
+    parser.add_option("--pk-list-path",
+                      help="Specify path to pk-list and use it instead of internal policykit reporting",
+                      action="store",
+                      metavar="PATH")
+    (opt, args) = parser.parse_args()
+
+    is_root()
+    check_requirements()
+
+    if opt.pk_list_path and not os.path.exists(opt.pk_list_path):
+        error("Could not find '%s'" % opt.pk_list_path)
+
+    # The tests
+    do_apt_key()
+    do_sources_list()
+
+    do_apparmor()
+
+    do_sudoers()
+
+    do_pam()
+    do_logindefs()
+    do_securetty()
+    do_etcsecurity()
+
+    do_dbus_services("session")
+    do_dbus_services("system")
+
+    if opt.pk_list_path:
+        do_policykit_pklist(opt.pk_list_path)
+    else:
+        do_policykit()
+
+    do_netstat()

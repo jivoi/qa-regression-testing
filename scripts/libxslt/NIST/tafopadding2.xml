@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tafoPadding2" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="background-color" value="red"/>
+     <parentProperty name="padding-before" value="0.1in"/>
+     <parentProperty name="padding-after" value="0.2in"/>
+     <parentProperty name="padding-start" value="0.3in"/>
+     <parentProperty name="padding-end" value="0.4in"/>
+     <parentProperty name="border-before-style" value="solid"/>
+     <parentProperty name="border-after-style" value="solid"/>
+     <parentProperty name="border-start-style" value="solid"/>
+     <parentProperty name="border-end-style" value="solid"/>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with the padding properties set to different values ("0.1in", "0.2in", "0.3in" and "0.4in").</foText>          
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

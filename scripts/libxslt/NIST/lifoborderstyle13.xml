@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBorderStyle13" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <parentProperty name="border-end-style" value="dotted"/>
+   <fo foName="list-item">
+     <foProperty name="background-color" value="red"/>
+     <foProperty name="border-before-style" value="solid"/>
+     <foProperty name="border-after-style" value="solid"/>
+     <foProperty name="border-start-style" value="solid"/>
+     <foProperty name="border-end-style" value="inherit"/>
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>Only the "border-end-style" property (dotted) for this list item was gotten by specifying "inherit"  (may also show the list block end style).</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

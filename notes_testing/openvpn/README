@@ -1,0 +1,28 @@
+TLS
+---
+Test TLS with password protected certificate:
+sudo  openvpn --dev tun --tls-server --cert good_pass.crt --key good_pass.key --ca cacert.pem --dh dh1024.pem
+
+Test TLS without password protected certificate:
+sudo  openvpn --dev tun --tls-server --cert good.crt --key good.key --ca cacert.pem --dh dh1024.pem
+
+Test TLS with bad certificate:
+sudo  openvpn --dev tun --tls-server --cert bad.pem --key bad.key --ca cacert.pem --dh dh1024.pem
+
+
+Use --tls-client --remote <ip address>' instead of --tls-server for client
+connections:
+sudo  openvpn --dev tun --tls-client --remote 192.168.122.1 --cert good_pass.crt --key good_pass.key --ca cacert.pem --dh dh1024.pem
+
+sudo  openvpn --dev tun --tls-client --remote 192.168.122.1 --cert good.crt --key good.key --ca cacert.pem --dh dh1024.pem
+
+sudo  openvpn --dev tun --tls-client --remote 192.168.122.1 --cert bad.pem --key bad.key --ca cacert.pem --dh dh1024.pem
+
+
+Shared Keys
+-----------
+openvpn --genkey --secret good.key
+sudo openvpn --remote 127.0.0.1 --dev tun --secret /usr/share/doc/openvpn-blacklist/examples/bad.key
+sudo openvpn --remote 127.0.0.1 --dev tun --secret good.key
+sudo openvpn --remote 127.0.0.1 --dev tun --secret nonexistent
+

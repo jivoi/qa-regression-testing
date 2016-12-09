@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block border-left-color="red" border-left-style="solid" border-left-width="left" border-bottom-color="red" border-bottom-style="solid" border-bottom-width="left" border-right-color="red" border-right-style="solid" border-right-width="left" border-top-color="red" border-top-style="solid" border-top-width="left">This element should have no border around it, as its declaration is invalid and should be ignored.
+Individual properties are tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

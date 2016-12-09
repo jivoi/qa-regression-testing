@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be surrounded by a medium width border which is purple on top,
+green on the right side, blue on the bottom, and yellow on the left side.
+Individual properties are tested here.</PARAGRAPH>
+</TEST>

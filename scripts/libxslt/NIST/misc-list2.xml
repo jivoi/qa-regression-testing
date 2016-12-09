@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<TEST>
+<IMG SRC="oransqr.jpg"/>
+<LIST>
+ <ITEM>This is the first list item, with a lot of text to see if the text wraps around to the correct left indentation
+ when the end of line is reached.  The correct indentation should be aligned with the line above, not with the image
+ used as the list item marker.  This marker should be an orange square.</ITEM>
+ <ITEM>This is the second list item, with a lot of text to see if the text wraps around to the correct left
+ indentation when the end of line is reached.  The correct indentation should be aligned with the line above, not with the 
+ image used as the list item marker.  This marker should be an orange square.</ITEM>
+</LIST>
+</TEST>

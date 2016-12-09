@@ -1,0 +1,12 @@
+ubuntu-sso-client has an excellent test suite that needs to be run manually.
+
+In a VM:
+- apt-get build-dep ubuntu-sso-client
+- apt-get install ubuntuone-dev-tools python-mocker pep8 pylint xvfb
+- apt-get install ubuntu-sso-client-qt python-qt4reactor (precise+)
+- get the source:
+  - original: apt-get source ubuntu-sso-client
+  - patched: copy over source tree to VM
+- enter source tree
+- ./run-tests > /tmp/results.txt 2>&1
+

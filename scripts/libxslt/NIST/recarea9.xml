@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TEST>
+ <block1>
+  This block contains a block-progression-dimension of 0.4 inches and an inline-progression-dimension="auto" and there may be some text that overflows that dimension and may not be shown in this area.
+ </block1>
+ <block2>
+   This block contains a block-progression-dimension of 0.5 inches and an inline-progression-dimension="auto" and there may be some text that overflows that dimension and not be shown in this area.
+ </block2>
+</TEST>

@@ -1,0 +1,140 @@
+------------------------------------------------------------
+revno: 3201
+fixes bug: https://launchpad.net/bugs/1470985
+committer: Steve Beattie <sbeattie@ubuntu.com>
+branch nick: apparmor
+timestamp: Tue 2015-07-14 10:29:35 -0700
+message:
+  regression tests: more ptrace adjustments for arm64 upstream changes
+  
+  In the commit "Rev 3169: regression tests: have
+  ptrace use PTRACE_GETREGSET by default", I created
+  some ifdef magic to use the per arch general purpose
+  register data structures for various architectures,
+  including arm64.  Unfortunately, in the upstream glibc commit
+  http://repo.or.cz/w/glibc.git/commitdiff/7d05a8168b45c0580e1f9a79c2dd26c8f0d31fca
+  <bits/ptrace.h> is no longer included in the arm64 specific user.h,
+  which defined the structure as 'struct user_pt_regs'; instead user.h
+  was converted to define 'struct user_regs_struct'. Because of this,
+the
+  ptrace test fails to compile on arm64 when glibc is 2.20 or newer.
+  
+  This patch adjusts the ptrace test to use the newer structure on arm64
+  if it's detected that a newer glibc is detected and reverts to using
+  the older one for older glibcs. It also adds an error when compiling
+  on architectures that haven't been incorporated yet.
+  
+  Signed-off-by: Steve Beattie <steve@nxnw.org>
+  Acked-by: John Johansen <john.johansen@canonical.com>
+------------------------------------------------------------
+revno: 3169
+fixes bug: https://launchpad.net/bugs/1470985
+committer: Steve Beattie <sbeattie@ubuntu.com>
+branch nick: apparmor
+timestamp: Thu 2015-07-02 23:24:54 -0700
+message:
+  regression tests: have ptrace use PTRACE_GETREGSET by default
+  
+  Bug: https://bugs.launchpad.net/apparmor/+bug/1470985
+  
+  The ptrace regression test fails to compile on the arm64 platform,
+  because it uses PTRACE_GETREGS and not the newer PTRACE_GETREGSET
+  interface for getting access to arch-specific register information[0].
+  However, fixing it is complicated by the fact that the struct name
+  for for the general purpose registers is not named consistently
+  across architectures. This patch attempts to address those issues,
+  and compiles at least on i386, amd64, arm64, arm (armhf), ppc64,
+  and ppc64el. The test is verified to continue to function correctly
+  on i386 and amd64.
+  
+  [0] https://sourceware.org/ml/archer/2010-q3/msg00193.html
+  
+  Signed-off-by: Steve Beattie <steve@nxnw.org>
+  Acked-by: John Johansen <john.johansen@canonical.com>
+
+--- a/tests/regression/apparmor/ptrace.c	2008-03-27 17:27:39 +0000
++++ b/tests/regression/apparmor/ptrace.c	2015-07-14 18:22:16 +0000
+@@ -7,7 +7,9 @@
+ #include <sys/ptrace.h>
+ #include <signal.h>
+ #include <sys/user.h>
++#include <sys/uio.h>
+ #include <errno.h>
++#include <elf.h>
+ 
+ #define NUM_CHLD_SYSCALLS 10
+ 
+@@ -34,10 +36,56 @@
+ 	return rc;
+ }
+ 
++#ifdef PTRACE_GETREGSET
++#  if defined(__x86_64__) || defined(__i386__)
++#    define ARCH_REGS_STRUCT struct user_regs_struct
++#  elif defined(__aarch64__)
++#    if (__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 20))
++#      define ARCH_REGS_STRUCT struct user_regs_struct
++#    else
++#      define ARCH_REGS_STRUCT struct user_pt_regs
++#    endif
++#  elif defined(__arm__) || defined(__powerpc__) || defined(__powerpc64__)
++#    define ARCH_REGS_STRUCT struct pt_regs
++#  else
++#    error "Need to define ARCH_REGS_STRUCT for this architecture"
++#  endif
++
++int read_ptrace_registers(pid_t pid)
++{
++	ARCH_REGS_STRUCT regs;
++	struct iovec iov;
++
++	iov.iov_base = &regs;
++	iov.iov_len = sizeof(regs);
++
++	memset(&regs, 0, sizeof(regs));
++	if (ptrace(PTRACE_GETREGSET, pid, NT_PRSTATUS, &iov) == -1) {
++		perror("FAIL:  parent ptrace(PTRACE_GETREGS) failed - ");
++		return errno;
++	}
++
++	return 0;
++}
++#else /* ! PTRACE_GETREGSET so use PTRACE_GETREGS instead */
++int read_ptrace_registers(pid_t pid)
++{
++	struct user regs;
++
++	memset(&regs, 0, sizeof(regs));
++	if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1) {
++		perror("FAIL:  parent ptrace(PTRACE_GETREGS) failed - ");
++		return errno;
++	}
++
++	return 0;
++}
++#endif
++
++
+ /* return 0 on success.  Child failure -errorno, parent failure errno */
+ int do_parent(pid_t pid, int trace, int num_syscall)
+ {
+-	struct user regs;
+ 	int status, i;
+ 	unsigned int rc;
+ 
+@@ -88,11 +136,9 @@
+ 		if (!WIFSTOPPED(status))
+ 			return interp_status(status);
+ 	
+-		memset(&regs, 0, sizeof(regs));
+-		if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1) {
+-			perror("FAIL:  parent ptrace(PTRACE_GETREGS) failed - ");
+-			return errno;
+-		}
++		rc = read_ptrace_registers(pid);
++		if (rc != 0)
++			return rc;
+ 	}
+ 
+ 	if (ptrace(PTRACE_DETACH, pid, NULL, NULL) == -1) {
+

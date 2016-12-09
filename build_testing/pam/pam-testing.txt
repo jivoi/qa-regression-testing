@@ -1,0 +1,63 @@
+pam has two test suites. The one in the "tests" is run at build time. The
+one in the "xtests" directory is not. This is how to run "xtests":
+
+In a schroot, do the following:
+
+sudo apt-get build-dep pam
+sudo apt-get install libpam-cracklib
+
+You must have the binary packages that you want to test installed, so if
+testing a patched version, go into the "binary" directory and install
+the updated pam packages.
+
+Go into the source directory, and build with "dpkg-buildpackage -rfakeroot".
+
+Once finished building, run the tests:
+
+sudo make xtests
+
+All tests should pass. If the cracklib test fail, you need to make sure
+the libpam-cracklib package is installed.
+
+IMPORTANT: ABI Changes
+----------------------
+
+PAM security updates shouldn't contain any ABI changes, even adding symbols
+to libpam. While it is possible to make sure package dependencies are
+followed properly between pam-modules and libpam0g, running daemons that
+use pam can be problematic. They may have libpam open, but which
+dynamically loads a pam module upon authentication. In this case, the old
+version of libpam is used, against a new pam module. See
+/var/lib/dpkg/info/libpam0g:$arch.postinst for a list of packages that
+could be impacted by pam ABI changes.
+
+See bug #790538 for an example of cron failing once ABI altered pam
+packages have been installed. In the bug, xdm also failed when pam was
+updated, which resulted in new users not being able to log in, and if
+xdm is restarted, logged in users would get logged out.
+
+Although there are provisions in the pam packaging .postinst script for
+restarting daemons when the package is updated, security updates should
+refrain from doing that if possible to make updates install unattended. The
+security issue should be fixed in an ABI compatible way instead.
+
+Here is a simple procedure for making sure the cron daemon still works
+after a pam update:
+
+1- modify /etc/crontab to add: "* * * * * root touch /tmp/roottest.txt"
+2- as a user, do a crontab -e, and add "* * * * * touch /tmp/usertest.txt"
+3- use "tail -f /var/log/syslog" to make sure the two files are getting
+   updated every minute
+4- do an "apt-get dist-upgrade" to install the updated pam packages
+5- without rebooting or restarting cron, make sure the files are still
+   being updated every minute by doing "tail -f /var/log/syslog"
+
+The test-pam.py test script performs a cron test to try and detect that
+particular failure. In order for the test to be accurate, the cron daemon
+must have been started with the original pam packages, and left running
+without a reboot or a restart after the pam packages have been updated.
+
+References:
+- https://bugs.launchpad.net/ubuntu/+source/pam/+bug/790538
+- https://wiki.ubuntu.com/IncidentReports/2011-05-31-pam-security-update-breaks-cron
+- https://blueprints.launchpad.net/ubuntu/+spec/foundations-o-pam-restarts

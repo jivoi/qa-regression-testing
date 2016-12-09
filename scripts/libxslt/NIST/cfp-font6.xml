@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be in a sans-serif font, italicized and small caps, with a
+weight of 900.  Its font-size should be 150% the containing block font size, and its line-height should
+be 150% of the containing-block line-height.  Extra text is included for the purposes
+of testing this more effectively.</PARAGRAPH>
+</TEST>

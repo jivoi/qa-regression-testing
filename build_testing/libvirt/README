@@ -1,0 +1,30 @@
+libvirt
+-------
+
+Has a 'make check'. To run do:
+
+$ sudo apt-get install qemu kvm libxml2-utils	# hardy and jaunty
+$ sudo apt-get install qemu-kvm libxml2-utils 	# karmic and higher
+$ sudo apt-get build-dep libvirt		# see below for jaunty
+$ cd ./libvirt*
+$ fakeroot debian/rules build
+$ make check					# do twice so initial build is
+						# not in results
+$ export MYDIR=`dirname $PWD` ; make check 2>&1 | sed "s#$MYDIR/##g" > /tmp/libvirt_<version>.make_check
+
+Then put /tmp/libvirt_<version>.make_check in results/libvirt/*
+
+Building on 9.04
+----------------
+Due to https://bugs.launchpad.net/launchpad-buildd/+bug/412186, libvirt will
+build on a buildd but not sbuild or pbuilder because it Build-Depends on
+open-iscsi, and open-iscsi's initscript has logic to not start if /sys is
+not mounted. If /sys is mounted, the initscript will fail and you can't build
+the package locally. This is fixed in 9.10 which introduced the
+open-iscsi-utils package and has libvirt Build-Depends on it.
+
+To workaround with sbuilder, temporarily comment out this line from
+/etc/schroot/mount-defaults:
+/sys           /sys            none    rw,rbind        0       0
+
+When done building, uncomment the above line.

@@ -1,0 +1,77 @@
+#!/bin/sh
+################################################################################
+# Copyright 2013 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; version 2.1.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Author: Jamie Strandboge <jamie@canonical.com>
+################################################################################
+
+set -e
+
+# Failure counter
+F_I=0
+
+# Success counter
+S_I=0
+
+# Total counter
+T_I=0
+
+echo
+echo -n "Checking 'aa-status --enabled' ... "
+if aa-status --enabled ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'aa-status --enforced' ... "
+if ! aa-status --enforced >/dev/null ; then
+    echo "!FAIL! (error)"
+    F_I=$(($F_I +1))
+else
+    ENFORCING=`aa-status --enforced`
+    if [ ${ENFORCING} -eq 0 ]; then
+        echo "!FAIL! (nothing enforced)"
+        F_I=$(($F_I +1))
+    else
+        echo "($ENFORCING) [OK]"
+        S_I=$(($S_I +1))
+    fi
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking usability in upstart user jobs ... "
+if sudo -H -u bin grep -q Y /sys/module/apparmor/parameters/enabled ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+
+#######################################
+# Print summary
+echo
+echo "AppArmor tests:"
+echo " Passed: ${S_I}/${T_I}"
+echo " Failed: ${F_I}/${T_I}"
+echo
+
+exit ${F_I}

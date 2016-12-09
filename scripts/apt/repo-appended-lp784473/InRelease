@@ -1,0 +1,34 @@
+Date: Thu, 07 Jul 2011 12:28:35 UTC
+MD5Sum:
+ c3a48d472f5f17a3280a9da907d5d2c6              907 Packages
+ 0a6ca9ed102d71686854bbcf65082462              606 Packages.gz
+SHA1:
+ fa17c8b7246f214268a47e3efc292100f16c9eaa              907 Packages
+ 45fa26f96214c7634d5e71f38aafad1fa46fa664              606 Packages.gz
+SHA256:
+ f50790adeb2167735c63bc3a68b913f138a7d9dd322662281688e5399436badc              907 Packages
+ 97fbf44f1b0f404d9e2cd7226c346db015f2f4f066a6b18392acfce3e1b0f103              606 Packages.gz
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Date: Wed, 08 Apr 2009 13:37:32 UTC
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e                0 Packages
+ 90756962b6980e22317f3b8d61bdb4f5               28 Packages.gz
+ d41d8cd98f00b204e9800998ecf8427e                0 Release
+SHA1:
+ da39a3ee5e6b4b0d3255bfef95601890afd80709                0 Packages
+ cf9583d4dbd621778d613b8352135341d638a243               28 Packages.gz
+ da39a3ee5e6b4b0d3255bfef95601890afd80709                0 Release
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855                0 Packages
+ a192d375276bdf5a04eeb8f63d0fcaa664a3e2a682daaf6750cedfe420b94913               28 Packages.gz
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855                0 Release
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAk4cOXoACgkQCcsOswz3+KSKLACgq+Ulw/v6Wk/PkKzosjhrWf/u
+ndwAoIq2nOa69vOa63y5Lsee3N2bVaVR
+=C62f
+-----END PGP SIGNATURE-----

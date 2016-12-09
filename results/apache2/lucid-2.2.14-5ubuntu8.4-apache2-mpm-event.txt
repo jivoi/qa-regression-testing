@@ -1,0 +1,533 @@
+make[1]: Entering directory `/home/mdeslaur/apache2/httpd-framework/Apache-Test'
+cp lib/Apache/TestRun.pm ../blib/lib/Apache/TestRun.pm
+cp lib/Apache/TestClient.pm ../blib/lib/Apache/TestClient.pm
+cp lib/Apache/TestMM.pm ../blib/lib/Apache/TestMM.pm
+cp lib/Apache/TestCommonPost.pm ../blib/lib/Apache/TestCommonPost.pm
+cp lib/Apache/TestRunPHP.pm ../blib/lib/Apache/TestRunPHP.pm
+cp lib/Apache/TestConfigParrot.pm ../blib/lib/Apache/TestConfigParrot.pm
+cp lib/Apache/Test.pm ../blib/lib/Apache/Test.pm
+cp lib/Apache/TestConfigC.pm ../blib/lib/Apache/TestConfigC.pm
+cp lib/Apache/TestServer.pm ../blib/lib/Apache/TestServer.pm
+cp lib/Apache/TestReportPerl.pm ../blib/lib/Apache/TestReportPerl.pm
+cp lib/Apache/TestConfig.pm ../blib/lib/Apache/TestConfig.pm
+cp lib/Apache/TestConfigPerl.pm ../blib/lib/Apache/TestConfigPerl.pm
+cp lib/Apache/TestHarness.pm ../blib/lib/Apache/TestHarness.pm
+cp lib/Apache/TestUtil.pm ../blib/lib/Apache/TestUtil.pm
+cp lib/Apache/TestSmoke.pm ../blib/lib/Apache/TestSmoke.pm
+cp lib/Apache/TestTrace.pm ../blib/lib/Apache/TestTrace.pm
+cp lib/Apache/TestSmokePerl.pm ../blib/lib/Apache/TestSmokePerl.pm
+cp lib/Apache/TestCommon.pm ../blib/lib/Apache/TestCommon.pm
+cp lib/Apache/TestConfigParse.pm ../blib/lib/Apache/TestConfigParse.pm
+cp lib/Apache/TestConfigPHP.pm ../blib/lib/Apache/TestConfigPHP.pm
+cp lib/Apache/Test5005compat.pm ../blib/lib/Apache/Test5005compat.pm
+cp lib/Apache/TestBuild.pm ../blib/lib/Apache/TestBuild.pm
+cp lib/Apache/TestMB.pm ../blib/lib/Apache/TestMB.pm
+cp lib/Apache/TestPerlDB.pm ../blib/lib/Apache/TestPerlDB.pm
+cp lib/Apache/TestRequest.pm ../blib/lib/Apache/TestRequest.pm
+cp lib/Apache/TestHandler.pm ../blib/lib/Apache/TestHandler.pm
+cp lib/Apache/TestRunParrot.pm ../blib/lib/Apache/TestRunParrot.pm
+cp lib/Bundle/ApacheTest.pm ../blib/lib/Bundle/ApacheTest.pm
+cp lib/Apache/TestRunPerl.pm ../blib/lib/Apache/TestRunPerl.pm
+cp lib/Apache/TestHarnessPHP.pm ../blib/lib/Apache/TestHarnessPHP.pm
+cp lib/Apache/TestReport.pm ../blib/lib/Apache/TestReport.pm
+cp lib/Apache/TestSSLCA.pm ../blib/lib/Apache/TestSSLCA.pm
+cp lib/Apache/TestSort.pm ../blib/lib/Apache/TestSort.pm
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/Apache-Test/Apache-TestItSelf'
+cp lib/MyTest/Util.pm ../../blib/lib/MyTest/Util.pm
+Manifying ../../blib/man3/MyTest::Util.3pm
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/Apache-Test/Apache-TestItSelf'
+Manifying ../blib/man3/Apache::TestRun.3pm
+Manifying ../blib/man3/Apache::TestSmoke.3pm
+Manifying ../blib/man3/Apache::TestRequest.3pm
+Manifying ../blib/man3/Apache::TestServer.3pm
+Manifying ../blib/man3/Apache::TestTrace.3pm
+Manifying ../blib/man3/Apache::TestConfig.3pm
+Manifying ../blib/man3/Apache::TestMM.3pm
+Manifying ../blib/man3/Apache::TestRunPHP.3pm
+Manifying ../blib/man3/Bundle::ApacheTest.3pm
+Manifying ../blib/man3/Apache::Test.3pm
+Manifying ../blib/man3/Apache::TestRunPerl.3pm
+Manifying ../blib/man3/Apache::TestReport.3pm
+Manifying ../blib/man3/Apache::TestMB.3pm
+Manifying ../blib/man3/Apache::TestUtil.3pm
+make[1]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/Apache-Test'
+/usr/bin/perl -Iblib/arch -Iblib/lib \
+	t/TEST  -clean
+[warning] setting ulimit to allow core files
+ulimit -c unlimited; /usr/bin/perl /home/mdeslaur/apache2/httpd-framework/t/TEST -clean
+APACHE_TEST_GROUP= APACHE_TEST_HTTPD= APACHE_TEST_PORT= APACHE_TEST_USER= APACHE_TEST_APXS= \
+	/usr/bin/perl -Iblib/arch -Iblib/lib \
+	t/TEST  -bugreport -verbose=0 
+[warning] setting ulimit to allow core files
+ulimit -c unlimited; /usr/bin/perl /home/mdeslaur/apache2/httpd-framework/t/TEST -bugreport -verbose=0
+[warning] generating SSL CA for asf
+[   info] openssl req -new -x509 -keyout keys/ca.pem -out certs/ca.crt -days 365 -config conf/ca.cnf
+Generating a 1024 bit RSA private key
+........................................................................++++++
+................................++++++
+writing new private key to 'keys/ca.pem'
+-----
+[   info] openssl pkcs12 -export -in certs/ca.crt -inkey keys/ca.pem -out export/ca.p12 -passin pass:httpd -passout pass:httpd
+[   info] openssl genrsa -out keys/client_revoked.pem  1024
+Generating RSA private key, 1024 bit long modulus
+...........................++++++
+.........++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/client_revoked.pem -out csr/client_revoked.csr -passin pass:httpd -passout pass:httpd -config conf/client_revoked.cnf
+[   info] openssl ca -policy policy_anything -in csr/client_revoked.csr -out certs/client_revoked.crt -passin pass:httpd -config conf/client_revoked.cnf -batch -extensions comment
+Using configuration from conf/client_revoked.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test'
+commonName            :T61STRING:'client_revoked'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:28 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl pkcs12 -export -in certs/client_revoked.crt -inkey keys/client_revoked.pem -out export/client_revoked.p12 -passin pass:httpd -passout pass:httpd
+[   info] openssl ca -revoke certs/client_revoked.crt -config conf/cacrl.cnf -passin pass:httpd
+Using configuration from conf/cacrl.cnf
+Adding Entry with serial number 01 to DB for /C=US/ST=California/L=San Francisco/O=ASF/OU=httpd-test/CN=client_revoked/emailAddress=test-dev@httpd.apache.org
+Revoking Certificate 01.
+Data Base Updated
+[   info] openssl ca -gencrl -out crl/ca-bundle.crl -config conf/cacrl.cnf -passin pass:httpd
+Using configuration from conf/cacrl.cnf
+[   info] generating proxy cert: proxy/client_revoked.pem
+[   info] openssl dsaparam -inform PEM -out dsa-param 1024
+Generating DSA parameters, 1024 bit long prime
+This could take some time
+................+..............+.........+...+.........+.....+.+++++++++++++++++++++++++++++++++++++++++++++++++++*
++...........+..........+........+..+++++++++++++++++++++++++++++++++++++++++++++++++++*
+[   info] openssl gendsa dsa-param -out keys/server_des3_dsa.pem -des3 -passout pass:httpd
+Generating DSA key, 1024 bits
+[   info] openssl req -new -key keys/server_des3_dsa.pem -out csr/server_des3_dsa.csr -passin pass:httpd -passout pass:httpd -config conf/server_des3_dsa.cnf
+[   info] openssl ca -policy policy_anything -in csr/server_des3_dsa.csr -out certs/server_des3_dsa.crt -passin pass:httpd -config conf/server_des3_dsa.cnf -batch -extensions comment
+Using configuration from conf/server_des3_dsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/dsa-des3-test'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:28 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl gendsa dsa-param -out keys/server2_des3_dsa.pem -des3 -passout pass:httpd
+Generating DSA key, 1024 bits
+[   info] openssl req -new -key keys/server2_des3_dsa.pem -out csr/server2_des3_dsa.csr -passin pass:httpd -passout pass:httpd -config conf/server2_des3_dsa.cnf
+[   info] openssl ca -policy policy_anything -in csr/server2_des3_dsa.csr -out certs/server2_des3_dsa.crt -passin pass:httpd -config conf/server2_des3_dsa.cnf -batch -extensions comment
+Using configuration from conf/server2_des3_dsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/dsa-des3-test-2'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl gendsa dsa-param -out keys/server2_dsa_dsa.pem 
+Generating DSA key, 1024 bits
+[   info] openssl req -new -key keys/server2_dsa_dsa.pem -out csr/server2_dsa_dsa.csr -passin pass:httpd -passout pass:httpd -config conf/server2_dsa_dsa.cnf
+[   info] openssl ca -policy policy_anything -in csr/server2_dsa_dsa.csr -out certs/server2_dsa_dsa.crt -passin pass:httpd -config conf/server2_dsa_dsa.cnf -batch -extensions comment
+Using configuration from conf/server2_dsa_dsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/dsa-test-2'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl gendsa dsa-param -out keys/server2_dsa.pem 
+Generating DSA key, 1024 bits
+[   info] openssl req -new -key keys/server2_dsa.pem -out csr/server2_dsa.csr -passin pass:httpd -passout pass:httpd -config conf/server2_dsa.cnf
+[   info] openssl ca -policy policy_anything -in csr/server2_dsa.csr -out certs/server2_dsa.crt -passin pass:httpd -config conf/server2_dsa.cnf -batch -extensions comment
+Using configuration from conf/server2_dsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/dsa-test-2'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl gendsa dsa-param -out keys/server_dsa.pem 
+Generating DSA key, 1024 bits
+[   info] openssl req -new -key keys/server_dsa.pem -out csr/server_dsa.csr -passin pass:httpd -passout pass:httpd -config conf/server_dsa.cnf
+[   info] openssl ca -policy policy_anything -in csr/server_dsa.csr -out certs/server_dsa.crt -passin pass:httpd -config conf/server_dsa.cnf -batch -extensions comment
+Using configuration from conf/server_dsa.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/dsa-test'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl genrsa -out keys/server_des3.pem -des3 -passout pass:httpd 1024
+Generating RSA private key, 1024 bit long modulus
+.......................................................++++++
+..............................................................++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/server_des3.pem -out csr/server_des3.csr -passin pass:httpd -passout pass:httpd -config conf/server_des3.cnf
+[   info] openssl ca -policy policy_anything -in csr/server_des3.csr -out certs/server_des3.crt -passin pass:httpd -config conf/server_des3.cnf -batch -extensions comment
+Using configuration from conf/server_des3.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/rsa-des3-test'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl genrsa -out keys/server2.pem  1024
+Generating RSA private key, 1024 bit long modulus
+............++++++
+................................................................++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/server2.pem -out csr/server2.csr -passin pass:httpd -passout pass:httpd -config conf/server2.cnf
+[   info] openssl ca -policy policy_anything -in csr/server2.csr -out certs/server2.crt -passin pass:httpd -config conf/server2.cnf -batch -extensions comment
+Using configuration from conf/server2.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/rsa-test-2'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl genrsa -out keys/client_ok.pem  1024
+Generating RSA private key, 1024 bit long modulus
+..........++++++
+..........++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/client_ok.pem -out csr/client_ok.csr -passin pass:httpd -passout pass:httpd -config conf/client_ok.cnf
+[   info] openssl ca -policy policy_anything -in csr/client_ok.csr -out certs/client_ok.crt -passin pass:httpd -config conf/client_ok.cnf -batch -extensions comment
+Using configuration from conf/client_ok.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test'
+commonName            :T61STRING:'client_ok'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl pkcs12 -export -in certs/client_ok.crt -inkey keys/client_ok.pem -out export/client_ok.p12 -passin pass:httpd -passout pass:httpd
+[   info] generating proxy cert: proxy/client_ok.pem
+[   info] openssl genrsa -out keys/server2_des3.pem -des3 -passout pass:httpd 1024
+Generating RSA private key, 1024 bit long modulus
+........++++++
+...............++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/server2_des3.pem -out csr/server2_des3.csr -passin pass:httpd -passout pass:httpd -config conf/server2_des3.cnf
+[   info] openssl ca -policy policy_anything -in csr/server2_des3.csr -out certs/server2_des3.crt -passin pass:httpd -config conf/server2_des3.cnf -batch -extensions comment
+Using configuration from conf/server2_des3.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/rsa-des3-test-2'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl genrsa -out keys/client_snakeoil.pem  1024
+Generating RSA private key, 1024 bit long modulus
+...........++++++
+........................................++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/client_snakeoil.pem -out csr/client_snakeoil.csr -passin pass:httpd -passout pass:httpd -config conf/client_snakeoil.cnf
+[   info] openssl ca -policy policy_anything -in csr/client_snakeoil.csr -out certs/client_snakeoil.crt -passin pass:httpd -config conf/client_snakeoil.cnf -batch -extensions comment
+Using configuration from conf/client_snakeoil.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'AU'
+stateOrProvinceName   :PRINTABLE:'Queensland'
+localityName          :PRINTABLE:'Mackay'
+organizationName      :PRINTABLE:'Snake Oil, Ltd.'
+organizationalUnitName:PRINTABLE:'Staff'
+commonName            :T61STRING:'client_snakeoil'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] openssl pkcs12 -export -in certs/client_snakeoil.crt -inkey keys/client_snakeoil.pem -out export/client_snakeoil.p12 -passin pass:httpd -passout pass:httpd
+[   info] generating proxy cert: proxy/client_snakeoil.pem
+[   info] openssl genrsa -out keys/server.pem  1024
+Generating RSA private key, 1024 bit long modulus
+........................................++++++
+....................................++++++
+e is 65537 (0x10001)
+[   info] openssl req -new -key keys/server.pem -out csr/server.csr -passin pass:httpd -passout pass:httpd -config conf/server.cnf
+[   info] openssl ca -policy policy_anything -in csr/server.csr -out certs/server.crt -passin pass:httpd -config conf/server.cnf -batch -extensions comment
+Using configuration from conf/server.cnf
+Check that the request matches the signature
+Signature ok
+The Subject's Distinguished Name is as follows
+countryName           :PRINTABLE:'US'
+stateOrProvinceName   :PRINTABLE:'California'
+localityName          :PRINTABLE:'San Francisco'
+organizationName      :PRINTABLE:'ASF'
+organizationalUnitName:PRINTABLE:'httpd-test/rsa-test'
+commonName            :PRINTABLE:'localhost'
+emailAddress          :IA5STRING:'test-dev@httpd.apache.org'
+Certificate is to be certified until Nov 24 22:18:29 2011 GMT (365 days)
+
+Write out database with 1 new entries
+Data Base Updated
+[   info] linked ca-bundle.crl to 9d0c6ffe.r0
+make[1]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules'
+cd test_apr_uri && make .libs/mod_test_apr_uri.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_apr_uri'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_test_apr_uri.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_test_apr_uri.lo mod_test_apr_uri.c && touch mod_test_apr_uri.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_test_apr_uri.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_test_apr_uri.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_apr_uri'
+cd test_pass_brigade && make .libs/mod_test_pass_brigade.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_pass_brigade'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_test_pass_brigade.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_test_pass_brigade.lo mod_test_pass_brigade.c && touch mod_test_pass_brigade.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_test_pass_brigade.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_test_pass_brigade.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_pass_brigade'
+cd authany && make .libs/mod_authany.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/authany'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_authany.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_authany.lo mod_authany.c && touch mod_authany.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_authany.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_authany.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/authany'
+cd list_modules && make .libs/mod_list_modules.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/list_modules'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_list_modules.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_list_modules.lo mod_list_modules.c && touch mod_list_modules.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_list_modules.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_list_modules.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/list_modules'
+cd client_add_filter && make .libs/mod_client_add_filter.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/client_add_filter'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_client_add_filter.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_client_add_filter.lo mod_client_add_filter.c && touch mod_client_add_filter.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_client_add_filter.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_client_add_filter.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/client_add_filter'
+cd input_body_filter && make .libs/mod_input_body_filter.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/input_body_filter'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_input_body_filter.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_input_body_filter.lo mod_input_body_filter.c && touch mod_input_body_filter.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_input_body_filter.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_input_body_filter.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/input_body_filter'
+cd eat_post && make .libs/mod_eat_post.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/eat_post'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_eat_post.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_eat_post.lo mod_eat_post.c && touch mod_eat_post.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_eat_post.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_eat_post.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/eat_post'
+cd random_chunk && make .libs/mod_random_chunk.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/random_chunk'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_random_chunk.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_random_chunk.lo mod_random_chunk.c && touch mod_random_chunk.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_random_chunk.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_random_chunk.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/random_chunk'
+cd test_ssl && make .libs/mod_test_ssl.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_ssl'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_test_ssl.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_test_ssl.lo mod_test_ssl.c && touch mod_test_ssl.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_test_ssl.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_test_ssl.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_ssl'
+cd echo_post && make .libs/mod_echo_post.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/echo_post'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_echo_post.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_echo_post.lo mod_echo_post.c && touch mod_echo_post.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_echo_post.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_echo_post.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/echo_post'
+cd test_rwrite && make .libs/mod_test_rwrite.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_rwrite'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_test_rwrite.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_test_rwrite.lo mod_test_rwrite.c && touch mod_test_rwrite.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_test_rwrite.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_test_rwrite.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/test_rwrite'
+cd nntp_like && make .libs/mod_nntp_like.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/nntp_like'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_nntp_like.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_nntp_like.lo mod_nntp_like.c && touch mod_nntp_like.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_nntp_like.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_nntp_like.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/nntp_like'
+cd echo_post_chunk && make .libs/mod_echo_post_chunk.so
+make[2]: Entering directory `/home/mdeslaur/apache2/httpd-framework/c-modules/echo_post_chunk'
+/usr/bin/apxs2 -D APACHE2  -I/home/mdeslaur/apache2/httpd-framework/c-modules -c mod_echo_post_chunk.c
+/usr/share/apr-1.0/build/libtool --silent --mode=compile --tag=disable-static x86_64-linux-gnu-gcc -prefer-pic -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread     -I/usr/include/apache2  -I/usr/include/apr-1.0   -I/usr/include/apr-1.0  -I/home/mdeslaur/apache2/httpd-framework/c-modules -DAPACHE2  -c -o mod_echo_post_chunk.lo mod_echo_post_chunk.c && touch mod_echo_post_chunk.slo
+/usr/share/apr-1.0/build/libtool --silent --mode=link --tag=disable-static x86_64-linux-gnu-gcc -o mod_echo_post_chunk.la  -rpath /usr/lib/apache2/modules -module -avoid-version    mod_echo_post_chunk.lo
+make[2]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules/echo_post_chunk'
+make[1]: Leaving directory `/home/mdeslaur/apache2/httpd-framework/c-modules'
+/usr/sbin/apache2  -d /home/mdeslaur/apache2/httpd-framework/t -f /home/mdeslaur/apache2/httpd-framework/t/conf/httpd.conf -D APACHE2 -D PERL_USEITHREADS
+using Apache/2.2.14 (event MPM)
+
+waiting 360 seconds for server to start: ..
+waiting 360 seconds for server to start: ok (waited 0 secs)
+server localhost:8529 started
+server localhost:8530 listening (mod_nntp_like)
+server localhost:8531 listening (mod_nntp_like_ssl)
+server localhost:8532 listening (mod_ssl)
+server localhost:8533 listening (ssl_optional_cc)
+server localhost:8534 listening (ssl_pr33791)
+server localhost:8535 listening (mod_vhost_alias)
+server localhost:8536 listening (mod_proxy)
+server localhost:8537 listening (proxy_http_bal1)
+server localhost:8538 listening (proxy_http_bal2)
+server localhost:8539 listening (proxy_http_balancer)
+server localhost:8540 listening (mod_include)
+server localhost:8541 listening (proxy_http_reverse)
+server localhost:8542 listening (mod_headers)
+server localhost:8543 listening (error_document)
+server localhost:8544 listening (mod_cache)
+server localhost:8545 listening (proxy_http_https)
+server localhost:8546 listening (proxy_https_https)
+server localhost:8547 listening (proxy_https_http)
+[   info] adding source lib /home/mdeslaur/apache2/httpd-framework/Apache-Test/lib to @INC
+[   info] adding source lib /home/mdeslaur/apache2/httpd-framework/Apache-Test/lib to @INC
+[   info] adding source lib /home/mdeslaur/apache2/httpd-framework/Apache-Test/lib to @INC
+t/apache/404.t .............. ok
+t/apache/acceptpathinfo.t ... ok
+t/apache/byterange.t ........ ok
+t/apache/byterange2.t ....... ok
+t/apache/chunkinput.t ....... ok
+t/apache/contentlength.t .... ok
+t/apache/errordoc.t ......... ok
+t/apache/etags.t ............ ok
+t/apache/getfile.t .......... ok
+t/apache/headers.t .......... ok
+t/apache/limits.t ........... ok
+t/apache/options.t .......... ok
+t/apache/passbrigade.t ...... ok
+t/apache/post.t ............. ok
+t/apache/pr18757.t .......... ok
+t/apache/pr35292.t .......... ok
+t/apache/pr35330.t .......... ok
+t/apache/pr37166.t .......... ok
+t/apache/rwrite.t ........... ok
+t/apr/uri.t ................. ok
+t/filter/case.t ............. skipped: cannot find module 'case_filter'
+t/filter/case_in.t .......... skipped: cannot find module 'case_filter_in'
+t/filter/input_body.t ....... ok
+t/http11/basicauth.t ........ ok
+t/http11/chunked.t .......... ok
+t/http11/chunked2.t ......... skipped: cannot find module 'bucketeer'
+t/http11/post.t ............. ok
+t/modules/access.t .......... ok
+t/modules/alias.t ........... ok
+t/modules/asis.t ............ ok
+t/modules/autoindex.t ....... ok
+t/modules/autoindex2.t ...... ok
+t/modules/cache.t ........... ok
+t/modules/cgi.t ............. ok
+t/modules/dav.t ............. ok
+t/modules/deflate.t ......... ok
+t/modules/digest.t .......... ok
+t/modules/dir.t ............. ok
+t/modules/env.t ............. ok
+t/modules/expires.t ......... ok
+t/modules/headers.t ......... ok
+t/modules/include.t ......... ok
+t/modules/info.t ............ ok
+# Failed test 99 in t/modules/negotiation.t at line 173 *TODO*
+t/modules/negotiation.t ..... ok
+t/modules/proxy.t ........... ok
+t/modules/proxy_balancer.t .. ok
+t/modules/rewrite.t ......... ok
+t/modules/setenvif.t ........ ok
+t/modules/status.t .......... ok
+t/modules/vhost_alias.t ..... ok
+t/php/all.t ................. skipped: cannot find one of php4 or php5 or sapi_apache2.c
+t/protocol/echo.t ........... skipped: cannot find module 'mod_echo'
+t/protocol/nntp-like.t ...... skipped: deferred accept() prohibits testing with 2.1
+t/security/CVE-2003-0542.t .. ok
+t/security/CVE-2004-0747.t .. ok
+t/security/CVE-2004-0811.t .. ok
+t/security/CVE-2004-0940.t .. ok
+t/security/CVE-2004-0942.t .. ok
+t/security/CVE-2004-0958.t .. skipped: cannot find one of php4 or php5 or sapi_apache2.c
+t/security/CVE-2004-0959.t .. skipped: cannot find one of php4 or php5 or sapi_apache2.c, PHP not installed
+t/security/CVE-2005-2491.t .. ok
+t/security/CVE-2005-2700.t .. ok
+t/security/CVE-2005-3352.t .. ok
+t/security/CVE-2005-3357.t .. ok
+t/security/CVE-2006-5752.t .. ok
+t/security/CVE-2007-5000.t .. ok
+t/security/CVE-2007-6388.t .. ok
+t/security/CVE-2008-2364.t .. ok
+t/ssl/basicauth.t ........... ok
+t/ssl/env.t ................. ok
+t/ssl/extlookup.t ........... ok
+t/ssl/fakeauth.t ............ ok
+t/ssl/headers.t ............. ok
+t/ssl/http.t ................ ok
+t/ssl/pr12355.t ............. ok
+t/ssl/pr43738.t ............. ok
+t/ssl/proxy.t ............... ok
+t/ssl/require.t ............. ok
+t/ssl/v2.t .................. ok
+t/ssl/varlookup.t ........... ok
+t/ssl/verify.t .............. ok
+All tests successful.
+Files=81, Tests=2556, 79 wallclock secs ( 1.97 usr  0.85 sys + 35.27 cusr  9.87 csys = 47.96 CPU)
+Result: PASS
+[warning] server localhost:8529 shutdown
+[warning] port 8529 still in use...
+done

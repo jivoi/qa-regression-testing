@@ -1,0 +1,2 @@
+Testsuite available via 'make check'. It cannot be enabled on buildd's. See
+LP: #904014

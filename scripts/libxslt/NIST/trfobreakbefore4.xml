@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="trfoBreakBefore4" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column">
+       <foProperty name="column-width" value="5.0in"/>
+     </fo>
+     <fo foName="table-column">
+       <foProperty name="column-width" value="5.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <foProperty name="background-color" value="red"/>
+          <foProperty name="break-after" value="page"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This test generate three pages (page number two should be blank).  This text should appear on the first page.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="background-color" value="red"/>
+          <foProperty name="break-before" value="odd-page"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This text should appear on the third page.</foText>
+           </fo>
+          </fo>
+        </fo>
+      </fo>
+  </testcase>

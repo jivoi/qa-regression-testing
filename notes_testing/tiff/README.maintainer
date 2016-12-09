@@ -1,0 +1,16 @@
+
+The tiff upstream maintainers have a tendency to make mistakes that
+introduce binary incompatibility between one version of tiff and
+another.  In order to verify binary compatibility, it is strongly
+recommended to build a new library and install the new library without
+installing the new tools.  Then test the tools with the test images
+provided by upstream.
+
+Additionally, when checking the sources to look for ABI changes, you
+must check both the public header files (tiff.h and tiffio.h) and the
+source file libtiff/tif_dirinfo.c which maps tag names to types.
+Changes in the tag name to type mapping also result in binary
+incompatibility because of the field setting and getting functions
+using variable arguments.
+
+ -- Jay Berkenbilt <qjb@debian.org>, Tue Mar 28 21:37:40 2006

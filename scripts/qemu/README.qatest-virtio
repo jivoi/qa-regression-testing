@@ -1,0 +1,31 @@
+------------------
+qatest-i386-virtio
+------------------
+
+Grab the qatest-i386-virtio image and put in this directory with:
+$ wget http://people.canonical.com/~jamie/libvirt/qatest-virtio.tar.bz2.asc
+$ wget http://people.canonical.com/~jamie/libvirt/qatest-virtio.tar.bz2
+$ gpg --verify qatest-virtio.tar.bz2.asc qatest-virtio.tar.bz2
+
+The qatest-i386-virtio image runs Ubuntu 10.04 LTS using virtio disk with the
+following users:
+
+User	Password
+----------------
+root	pass
+qatest	pass
+
+This image is ubuntu-minimal with openssh-server installed. It uses 128M of
+RAM and has a 2048M ide disk with a 1898M root partition (vda1) and a 150M swap
+(vda5). It was created using vm-builder with kvm, but because we want to use
+nested virtualization, the VM was converted to qemu.
+
+This can be started with the following:
+$ qemu -M pc-0.12 -m 128 -name qatest-i386-virtio -rtc base=utc -drive file=./qatest-virtio/qatest-virtio.img,if=none,id=drive-virtio-disk0,boot=on,format=raw -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0
+
+For networking, /etc/udev/rules.d/70-persistent-net.rules was edited to remove
+all entries and /etc/network/interface was edited to bring up eth0 - eth15.
+
+The guest has ssh running and can be logged into with:
+$ ssh -i ./ssh/qatest-virtio.id_rsa -p 4422 -oUserKnownHostsFile=./ssh/known_hosts qatest@127.0.0.1
+$ ssh -i ./ssh/qatest-virtio.id_rsa -p 4422 -oUserKnownHostsFile=./ssh/known_hosts root@127.0.0.1

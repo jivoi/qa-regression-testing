@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This is an unstyled element, save for the background color, and containing an <SPAN> inline
+ element of border-style none purple thick</SPAN>, which should have no border at all.  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.</PARAGRAPH>
+</TEST>

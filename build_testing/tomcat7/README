@@ -1,0 +1,25 @@
+https://bugs.launchpad.net/ubuntu/+source/tomcat7/+bug/1115053 attempted to
+fix a large number of CVEs, however tomcat7 does not have the in build test
+suite enabled until Ubuntu 12.10. The testsuite is quite useful and uncovered
+a number of problems with the submitted patches.
+
+These debdiffs enable a testsuite target for 11.10 and 12.04 LTS (not enabled
+in the build) and should be enabled in the next security upload. See
+README.source for details.
+
+Once these are applied, running the testsuite is a manner of:
+1. applying patches
+2. as root in a chroot:
+# apt-get build-dep tomcat7
+# apt-get install junit4 libjstl1.1-java libjakarta-taglibs-standard-java
+3. as a normal user in the same chroot:
+$ debian/rules testsuite
+
+Then comparing the files in output/build/logs/* with the tarballs in this
+directory.
+
+Note: Several tests are fail intermittently with 7.0.26 (12.04):
+TEST-org.apache.catalina.tribes.group.TestGroupChannelMemberArrival.BIO.txt
+TEST-org.apache.catalina.tribes.group.TestGroupChannelMemberArrival.NIO.txt
+TEST-org.apache.catalina.comet.TestCometProcessor.NIO.txt
+TEST-org.apache.catalina.connector.TestCoyoteAdapter.BIO.txt

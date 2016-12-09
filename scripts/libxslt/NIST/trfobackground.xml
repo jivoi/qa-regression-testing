@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="trfoBackground" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <foProperty name="height" value="0.5in"/>
+          <foProperty name="background-color" value="red"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-row with a red background.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="height" value="0.5in"/>
+          <foProperty name="background-color" value="blue"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-row with a blue background.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="height" value="0.5in"/>
+          <foProperty name="background-color" value="yellow"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table row with a yellow background.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

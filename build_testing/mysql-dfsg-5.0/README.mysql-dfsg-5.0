@@ -1,0 +1,216 @@
+MYSQL TESTING
+-------------
+
+Hardy and later run the test suite during build, so inspect the build logs
+to make sure there are no regressions. Any regression should fail the build.
+
+Dapper does not run the test suite. Here are instructions for Dapper:
+
+This is not an automatic test, but rather instructions and notes on how to test
+MySQL.  It is best to run the tests before patching so you know what is
+expected to fail and compare it to what fails after patching.
+
+First build mysql-server with:
+$ sudo apt-get update ; apt-get source mysql-server ; sudo apt-get build-dep mysql-server
+$ cd mysql-server-<version>
+$ debuild
+
+
+Then run the tests in the 'mysql-test' directory:
+$ cd mysql-test
+$ perl mysql-test-run.pl --force
+
+If want to run a specific test (eg for a patch that was developed), just do:
+$ cd mysql-test
+$ perl mysql-test-run.pl <testname>
+
+Can also run multiple tests:
+$ cd mysql-test
+$ perl mysql-test-run.pl create grant view
+
+If you want to rebuild after running these tests, will need to do (at least):
+$ rm -rf mysql-test/var
+$ rm mysql-test/nbd/ndbcluster sql/gen_lex_hash
+
+Some tests are known to fail:
+Dapper:		none as of 5.0.22-0ubuntu6.06.7
+Edgy:		mysql_client_test* as of 5.0.24a-9ubuntu2.3
+Feisty:		mysql_client_test* as of 5.0.38-0ubuntu1.3
+Gutsy:		none as of 5.0.45-1ubuntu3
+
+* core dump on i386-only per mysql_client_test.log
+
+
+
+Benchmarking
+------------
+$ sudo apt-get install libdbd-mysql-perl libdbi-perl
+$ sudo /etc/init.d/mysql reset-password
+$ mysql -u root -p
+mysql> create database test;
+mysql> quit
+$ cd sql-bench
+$ make
+$ ./run-all-tests --user root --pass foo
+
+Example output:
+$ ./run-all-tests --user root --pass foo
+Benchmark DBD suite: 2.15
+Date of test:        2008-04-01 15:36:38
+Running tests on:    Linux 2.6.24-12-generic x86_64
+Arguments:           
+Comments:            
+Limits from:         
+Server version:      MySQL 5.0.22 Debian_0ubuntu6.06.9 log
+Optimization:        None
+Hardware:            
+
+alter-table: Total time: 35 wallclock secs ( 0.05 usr  0.01 sys +  0.00 cusr  0.00 csys =  0.06 CPU)
+ATIS: Total time:  7 wallclock secs ( 5.22 usr  0.17 sys +  0.00 cusr  0.00 csys =  5.39 CPU)
+big-tables: Total time:  8 wallclock secs ( 4.15 usr  0.27 sys +  0.00 cusr  0.00 csys =  4.42 CPU)
+connect: Total time: 92 wallclock secs (26.60 usr  9.09 sys +  0.00 cusr  0.00 csys = 35.69 CPU)
+create: Total time: 175 wallclock secs ( 3.06 usr  0.82 sys +  0.00 cusr  0.00 csys =  3.88 CPU)
+insert: Total time: 1199 wallclock secs (297.30 usr 30.35 sys +  0.00 cusr  0.00 csys = 327.65 CPU)
+select: Total time: 84 wallclock secs (27.75 usr  1.98 sys +  0.00 cusr  0.00 csys = 29.73 CPU)
+transactions: Test skipped because the database doesn't support transactions
+wisconsin: Total time:  6 wallclock secs ( 2.03 usr  0.52 sys +  0.00 cusr  0.00 csys =  2.55 CPU)
+
+All 9 test executed successfully
+
+Totals per operation:
+Operation             seconds     usr     sys     cpu   tests
+alter_table_add                       14.00    0.02    0.00    0.02     100 
+alter_table_drop                      15.00    0.01    0.00    0.01      91 
+connect                                6.00    3.31    0.63    3.94   10000 
+connect+select_1_row                   9.00    3.90    0.72    4.62   10000 
+connect+select_simple                  8.00    3.60    0.79    4.39   10000 
+count                                  7.00    0.03    0.00    0.03     100 
+count_distinct                         0.00    0.12    0.01    0.13    1000 
+count_distinct_2                       0.00    0.12    0.00    0.12    1000 
+count_distinct_big                     6.00    4.73    0.09    4.82     120 
+count_distinct_group                   0.00    0.57    0.02    0.59    1000 
+count_distinct_group_on_key            0.00    0.12    0.02    0.14    1000 
+count_distinct_group_on_key_parts      1.00    0.58    0.02    0.60    1000 
+count_distinct_key_prefix              1.00    0.11    0.02    0.13    1000 
+count_group_on_key_parts               0.00    0.55    0.01    0.56    1000 
+count_on_key                          22.00    5.50    0.61    6.11   50100 
+create+drop                           41.00    0.84    0.26    1.10   10000 
+create_MANY_tables                    85.00    0.80    0.18    0.98   10000 
+create_index                           3.00    0.00    0.00    0.00       8 
+create_key+drop                       43.00    0.94    0.23    1.17   10000 
+create_table                           0.00    0.00    0.00    0.00      31 
+delete_all_many_keys                 197.00    0.00    0.01    0.01       1 
+delete_big                             0.00    0.00    0.00    0.00       1 
+delete_big_many_keys                 197.00    0.00    0.01    0.01     128 
+delete_key                             3.00    0.19    0.10    0.29   10000 
+delete_range                           6.00    0.00    0.00    0.00      12 
+drop_index                             3.00    0.00    0.00    0.00       8 
+drop_table                             0.00    0.01    0.00    0.01      28 
+drop_table_when_MANY_tables            2.00    0.20    0.07    0.27   10000 
+insert                                45.00    6.63    3.61   10.24  350768 
+insert_duplicates                     11.00    2.04    1.03    3.07  100000 
+insert_key                           222.00    3.24    1.31    4.55  100000 
+insert_many_fields                     3.00    0.14    0.03    0.17    2000 
+insert_select_1_key                    1.00    0.00    0.00    0.00       1 
+insert_select_2_keys                   3.00    0.00    0.00    0.00       1 
+min_max                                2.00    0.00    0.00    0.00      60 
+min_max_on_key                        16.00    9.53    0.99   10.52   85000 
+multiple_value_insert                  2.00    0.18    0.00    0.18  100000 
+once_prepared_select                  22.00    5.86    1.19    7.05  100000 
+order_by_big                          19.00   13.03    0.20   13.23      10 
+order_by_big_key                      18.00   13.24    0.34   13.58      10 
+order_by_big_key2                     16.00   12.94    0.16   13.10      10 
+order_by_big_key_desc                 17.00   13.48    0.33   13.81      10 
+order_by_big_key_diff                 18.00   12.76    0.18   12.94      10 
+order_by_big_key_prefix               16.00   12.91    0.17   13.08      10 
+order_by_key2_diff                     2.00    1.22    0.02    1.24     500 
+order_by_key_prefix                    1.00    0.66    0.03    0.69     500 
+order_by_range                         2.00    0.64    0.00    0.64     500 
+outer_join                             2.00    0.00    0.00    0.00      10 
+outer_join_found                       1.00    0.00    0.00    0.00      10 
+outer_join_not_found                   2.00    0.00    0.00    0.00     500 
+outer_join_on_key                      2.00    0.00    0.00    0.00      10 
+prepared_select                       33.00   12.11    1.25   13.36  100000 
+select_1_row                          13.00    2.58    0.99    3.57  100000 
+select_1_row_cache                     6.00    2.08    0.87    2.95  100000 
+select_2_rows                         16.00    2.77    1.03    3.80  100000 
+select_big                            17.00   12.86    0.18   13.04      80 
+select_big_str                         6.00    2.10    0.90    3.00   10000 
+select_cache                           1.00    1.09    0.08    1.17   10000 
+select_cache2                         46.00    1.12    0.14    1.26   10000 
+select_column+column                  15.00    2.31    1.06    3.37  100000 
+select_diff_key                        0.00    0.06    0.01    0.07     500 
+select_distinct                        1.00    0.97    0.01    0.98     800 
+select_group                           2.00    0.70    0.04    0.74    2911 
+select_group_when_MANY_tables          4.00    0.28    0.07    0.35   10000 
+select_join                            0.00    0.30    0.00    0.30     100 
+select_key                            57.00   25.74    2.48   28.22  200000 
+select_key2                           56.00   27.50    2.31   29.81  200000 
+select_key2_return_key                55.00   23.56    2.55   26.11  200000 
+select_key2_return_prim               56.00   24.89    2.95   27.84  200000 
+select_key_prefix                     58.00   25.95    2.68   28.63  200000 
+select_key_prefix_join                 3.00    2.68    0.01    2.69     100 
+select_key_return_key                 54.00   24.47    2.15   26.62  200000 
+select_many_fields                     5.00    4.01    0.24    4.25    2000 
+select_range                           7.00    5.04    0.10    5.14     410 
+select_range_key2                      3.00    2.53    0.17    2.70   25010 
+select_range_prefix                    4.00    2.66    0.16    2.82   25010 
+select_simple                          7.00    2.10    1.11    3.21  100000 
+select_simple_cache                    6.00    1.85    0.99    2.84  100000 
+select_simple_join                     1.00    0.32    0.02    0.34     500 
+update_big                            13.00    0.00    0.00    0.00      10 
+update_of_key                         19.00    0.90    0.63    1.53   50000 
+update_of_key_big                     10.00    0.01    0.01    0.02     501 
+update_of_primary_key_many_keys       50.00    0.02    0.01    0.03     256 
+update_with_key                       44.00    5.35    3.09    8.44  300000 
+update_with_key_prefix                14.00    3.34    1.33    4.67  100000 
+wisc_benchmark                         2.00    1.37    0.12    1.49     114 
+TOTALS                              1796.00  360.37   43.13  403.50 3425950
+
+
+Other Tests
+-----------
+tests/fork_big.pl
+
+$ sudo apt-get install libdbd-mysql-perl libdbi-perl
+$ sudo /etc/init.d/mysql reset-password
+$ mysql -u root -p
+mysql> create database test;
+mysql> quit
+$ cd test
+$ ./fork_big.pl --user root --pass foo
+
+Debugging
+---------
+Build with --with-debug=full and export DEB_BUILD_OPTIONS="nostrip noopt"
+
+
+Caveats
+-------
+Unfortunately, you may not run these tests in parallel (eg the tests for Dapper
+at the same time as Edgy) because the tests use the same hard-coded port when
+performing network tests.
+
+Several tests seem to be load-dependent (ie they will fail if mysqld responds
+too slowly)
+
+The mysql-test suite is *very* sensitive about long paths, so don't run
+it from a deeply nested directory.
+
+
+Chroot
+------
+If running in a buildd schroot, then need to:
+
+adjust /etc/hosts to do:
+echo '127.0.0.1 localhost' > /etc/hosts
+
+
+Debugging
+---------
+http://dev.mysql.com/doc/refman/5.0/en/debugging-server.html
+
+
+
+
+Copyright (C) 2008 Canonical Ltd.

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block margin-left="100px" space-after.optimum="100px" space-after.minimum="99.9px" space-after.maximum="100.1px" space-after.precedence="force" space-after.conditionality="retain" space-before.optimum="100px" space-before.minimum="99.1px" space-before.maximum="100.1px" space-before.precedence="force" space-before.conditionality="retain" margin-right="100px" background-color="silver">This element should have a margin of 100px.
+Individual properties are tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

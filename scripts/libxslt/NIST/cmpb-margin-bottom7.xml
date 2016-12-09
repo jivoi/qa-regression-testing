@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element has a space-after of -10px, which should cause elements after it to be shifted
+"upward" on the page, and no top margin.  No other styles have been applied to it besides an aqua
+background.  In all other respects, the element should be normal.</PARAGRAPH>
+</TEST>

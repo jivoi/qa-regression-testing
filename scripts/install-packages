@@ -1,0 +1,111 @@
+#!/usr/bin/python
+import sys
+import subprocess
+
+specials = {}
+
+def cmd_out(cmd):
+    return subprocess.Popen(cmd,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT).communicate()[0]
+
+def is_release(r):
+    out = cmd_out(['lsb_release', '-c']).strip()
+    if out.startswith("Codename:") and out.endswith(r):
+        return True
+    return False
+
+def install(pkg):
+    out = cmd_out(['dpkg', '-s', pkg])
+    if '\nStatus: install ok installed\n' in out:
+        return True
+    if subprocess.call(['apt-get', 'install', '-y', '--force-yes', pkg]) == 0:
+        return True
+    return False
+
+# Load special strings for package name replacements. (These cannot have
+# spaces in them because package names aren't expecting to have spaces in
+# them either.)
+specials['UNAME-R'] = cmd_out(['uname', '-r']).strip()
+
+rc = 0
+for test in sys.argv[1:]:
+  for line in open(test):
+    if not line.startswith('# QRT'):
+        continue
+    items = line.strip().split(' ')
+    # Toss comment.
+    items.pop(0)
+    option = items.pop(0)
+
+    # Parse package list for special strings.
+    pkgs = []
+    for pkg in items:
+        while pkg.count('`') > 1:
+            before, special, after = pkg.split('`', 2)
+            if not special in specials:
+                print >>sys.stderr, "Unknown special string '%s'" % (special)
+                sys.exit(1)
+            pkg = "%s%s%s" % (before, specials[special], after)
+        pkgs.append(pkg)
+
+    if option == "QRT-Depends:" or option == "QRT-Privilege:":
+        # Not handled my this script.
+        continue
+    elif option == "QRT-Packages:":
+        for pkg in ['python-apt', 'lsb-release'] + pkgs:
+            print "Requiring '%s' ..." % (pkg)
+            if not install(pkg):
+                print >>sys.stderr, "Missing required package '%s'" % (pkg)
+                rc = 1
+    elif option == "QRT-Alternates:":
+        installed = False
+        attempted_install = False # used for dealing with skipped packages
+
+        # Properly handle multiple skipped packages. Go through the list and
+        # figure out what should be skipped for this release.
+        to_install = []
+        skipped = []
+        for pkg in pkgs:
+            tmp = pkg.split(':')
+            pkg = tmp[0]
+            # handle <pkg>
+            if len(tmp) == 1:
+                to_install.append(pkg)
+                continue
+            elif len(tmp) > 1:
+                rel = tmp[1]
+                # handle <pkg>:!<rel>
+                if rel.startswith('!'):
+                    rel = rel.lstrip('!')
+                    if is_release(rel):
+                        print "Skipping '%s' for this release" % (pkg)
+                        skipped.append(pkg)
+                        continue
+                    else:
+                        to_install.append(pkg)
+                # handle <pkg>:<rel>
+                elif is_release(rel):
+                    to_install.append(pkg)
+                    continue
+
+        # Now that we know what should be skipped, install anything that isn't
+        # skipped
+        for pkg in to_install:
+            tmp = pkg.split(':')
+            pkg = tmp[0]
+            if pkg in skipped:
+                continue
+            print "Trying '%s' ..." % (pkg)
+            attempted_install = True
+            if install(pkg):
+                installed = True
+                continue
+
+        if attempted_install and not installed and len(to_install) > 1:
+            print >>sys.stderr, "Missing one of required packages from '%s'" % (",".join(to_install))
+            rc = 1
+    else:
+        # Unknown option; complain but don't fail.
+        print >>sys.stderr, "Unknown option '%s'" % (option)
+sys.exit(rc)

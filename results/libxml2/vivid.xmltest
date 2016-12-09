@@ -1,0 +1,2756 @@
+Checking ./xmltest/invalid/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "001.ent">
+<doc/>
+Checking ./xmltest/invalid/002.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "002.ent">
+<doc/>
+Checking ./xmltest/invalid/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "003.ent">
+<doc/>
+Checking ./xmltest/invalid/004.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "004.ent">
+<doc/>
+Checking ./xmltest/invalid/005.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "005.ent">
+<doc/>
+Checking ./xmltest/invalid/006.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "006.ent">
+<doc/>
+Checking ./xmltest/not-wf/ext-sa/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e SYSTEM "001.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/not-wf/ext-sa/002.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "002.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/not-wf/ext-sa/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "003.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/not-wf/not-sa/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "001.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/002.xml ...
+Entity: line 1: parser error : XML declaration allowed only at the start of the document
+ %e; 
+    ^
+Entity: line 1: 
+<?xml version='1.0' encoding='UTF-8'?>
+     ^
+Checking ./xmltest/not-wf/not-sa/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "003.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/004.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "004.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/005.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "005.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/006.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "006.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/007.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "007.ent">
+<doc/>
+Checking ./xmltest/not-wf/not-sa/008.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "008.ent">
+<doc/>
+Checking ./xmltest/not-wf/sa/001.xml ...
+./xmltest/not-wf/sa/001.xml:3: parser error : error parsing attribute name
+?
+^
+./xmltest/not-wf/sa/001.xml:3: parser error : attributes construct error
+?
+^
+./xmltest/not-wf/sa/001.xml:3: parser error : Couldn't find end of Start Tag doc line 2
+?
+^
+./xmltest/not-wf/sa/001.xml:4: parser error : error parsing attribute name
+<a</a>
+  ^
+./xmltest/not-wf/sa/001.xml:4: parser error : attributes construct error
+<a</a>
+  ^
+./xmltest/not-wf/sa/001.xml:4: parser error : Couldn't find end of Start Tag a line 4
+<a</a>
+  ^
+./xmltest/not-wf/sa/001.xml:4: parser error : Opening and ending tag mismatch: doc line 1 and a
+<a</a>
+      ^
+./xmltest/not-wf/sa/001.xml:5: parser error : Extra content at the end of the document
+</doc>
+^
+Checking ./xmltest/not-wf/sa/002.xml ...
+./xmltest/not-wf/sa/002.xml:2: parser error : StartTag: invalid element name
+<.doc></.doc>
+ ^
+./xmltest/not-wf/sa/002.xml:2: parser error : expected '>'
+<.doc></.doc>
+        ^
+./xmltest/not-wf/sa/002.xml:2: parser error : Opening and ending tag mismatch: doc line 1 and unparseable
+<.doc></.doc>
+        ^
+./xmltest/not-wf/sa/002.xml:2: parser error : Extra content at the end of the document
+<.doc></.doc>
+        ^
+Checking ./xmltest/not-wf/sa/003.xml ...
+./xmltest/not-wf/sa/003.xml:1: parser error : xmlParsePI : no target name
+<doc><? ?></doc>
+       ^
+Checking ./xmltest/not-wf/sa/004.xml ...
+./xmltest/not-wf/sa/004.xml:2: parser error : ParsePI: PI target never end ...
+./xmltest/not-wf/sa/004.xml:2: parser error : Premature end of data in tag doc line 1
+Checking ./xmltest/not-wf/sa/005.xml ...
+./xmltest/not-wf/sa/005.xml:2: parser error : ParsePI: PI target never end ...
+./xmltest/not-wf/sa/005.xml:2: parser error : Premature end of data in tag doc line 1
+Checking ./xmltest/not-wf/sa/006.xml ...
+./xmltest/not-wf/sa/006.xml:1: parser error : Double hyphen within comment: <!-- a comment 
+<doc><!-- a comment -- another --></doc>
+                    ^
+Checking ./xmltest/not-wf/sa/007.xml ...
+./xmltest/not-wf/sa/007.xml:1: parser error : EntityRef: expecting ';'
+<doc>&amp no refc</doc>
+         ^
+Checking ./xmltest/not-wf/sa/008.xml ...
+./xmltest/not-wf/sa/008.xml:1: parser error : xmlParseEntityRef: no name
+<doc>&.entity;</doc>
+      ^
+Checking ./xmltest/not-wf/sa/009.xml ...
+./xmltest/not-wf/sa/009.xml:1: parser error : CharRef: invalid decimal value
+<doc>&#RE;</doc>
+       ^
+./xmltest/not-wf/sa/009.xml:1: parser error : xmlParseCharRef: invalid xmlChar value 0
+<doc>&#RE;</doc>
+       ^
+Checking ./xmltest/not-wf/sa/010.xml ...
+./xmltest/not-wf/sa/010.xml:1: parser error : xmlParseEntityRef: no name
+<doc>A & B</doc>
+        ^
+Checking ./xmltest/not-wf/sa/011.xml ...
+./xmltest/not-wf/sa/011.xml:1: parser error : Specification mandate value for attribute a1
+<doc a1></doc>
+       ^
+Checking ./xmltest/not-wf/sa/012.xml ...
+./xmltest/not-wf/sa/012.xml:1: parser error : AttValue: " or ' expected
+<doc a1=v1></doc>
+        ^
+./xmltest/not-wf/sa/012.xml:1: parser error : attributes construct error
+<doc a1=v1></doc>
+        ^
+./xmltest/not-wf/sa/012.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc a1=v1></doc>
+        ^
+./xmltest/not-wf/sa/012.xml:1: parser error : Extra content at the end of the document
+<doc a1=v1></doc>
+        ^
+Checking ./xmltest/not-wf/sa/013.xml ...
+./xmltest/not-wf/sa/013.xml:1: parser error : Unescaped '<' not allowed in attributes values
+<doc a1="v1'></doc>
+             ^
+./xmltest/not-wf/sa/013.xml:1: parser error : attributes construct error
+<doc a1="v1'></doc>
+             ^
+./xmltest/not-wf/sa/013.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc a1="v1'></doc>
+             ^
+./xmltest/not-wf/sa/013.xml:1: parser error : Extra content at the end of the document
+<doc a1="v1'></doc>
+             ^
+Checking ./xmltest/not-wf/sa/014.xml ...
+./xmltest/not-wf/sa/014.xml:1: parser error : Unescaped '<' not allowed in attributes values
+<doc a1="<foo>"></doc>
+         ^
+./xmltest/not-wf/sa/014.xml:1: parser error : attributes construct error
+<doc a1="<foo>"></doc>
+         ^
+./xmltest/not-wf/sa/014.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc a1="<foo>"></doc>
+         ^
+./xmltest/not-wf/sa/014.xml:1: parser error : Extra content at the end of the document
+<doc a1="<foo>"></doc>
+         ^
+Checking ./xmltest/not-wf/sa/015.xml ...
+./xmltest/not-wf/sa/015.xml:1: parser error : AttValue: " or ' expected
+<doc a1=></doc>
+        ^
+Checking ./xmltest/not-wf/sa/016.xml ...
+./xmltest/not-wf/sa/016.xml:1: parser error : error parsing attribute name
+<doc a1="v1" "v2"></doc>
+             ^
+./xmltest/not-wf/sa/016.xml:1: parser error : attributes construct error
+<doc a1="v1" "v2"></doc>
+             ^
+./xmltest/not-wf/sa/016.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc a1="v1" "v2"></doc>
+             ^
+./xmltest/not-wf/sa/016.xml:1: parser error : Extra content at the end of the document
+<doc a1="v1" "v2"></doc>
+             ^
+Checking ./xmltest/not-wf/sa/017.xml ...
+./xmltest/not-wf/sa/017.xml:2: parser error : CData section not finished
+</doc
+./xmltest/not-wf/sa/017.xml:2: parser error : Premature end of data in tag doc line 1
+Checking ./xmltest/not-wf/sa/018.xml ...
+./xmltest/not-wf/sa/018.xml:1: parser error : StartTag: invalid element name
+<doc><![CDATA [ stuff]]></doc>
+      ^
+./xmltest/not-wf/sa/018.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc><![CDATA [ stuff]]></doc>
+      ^
+./xmltest/not-wf/sa/018.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc><![CDATA [ stuff]]></doc>
+                     ^
+./xmltest/not-wf/sa/018.xml:1: parser error : internal error: detected an error in element content
+
+<doc><![CDATA [ stuff]]></doc>
+                     ^
+Checking ./xmltest/not-wf/sa/019.xml ...
+./xmltest/not-wf/sa/019.xml:1: parser error : Opening and ending tag mismatch: doc line 1 and unparseable
+<doc></>
+        ^
+Checking ./xmltest/not-wf/sa/020.xml ...
+./xmltest/not-wf/sa/020.xml:1: parser error : xmlParseEntityRef: no name
+<doc a1="A & B"></doc>
+            ^
+Checking ./xmltest/not-wf/sa/021.xml ...
+./xmltest/not-wf/sa/021.xml:1: parser error : EntityRef: expecting ';'
+<doc a1="a&b"></doc>
+            ^
+Checking ./xmltest/not-wf/sa/022.xml ...
+./xmltest/not-wf/sa/022.xml:1: parser error : CharRef: invalid decimal value
+<doc a1="&#123:"></doc>
+              ^
+./xmltest/not-wf/sa/022.xml:1: parser error : xmlParseCharRef: invalid xmlChar value 0
+<doc a1="&#123:"></doc>
+              ^
+Checking ./xmltest/not-wf/sa/023.xml ...
+./xmltest/not-wf/sa/023.xml:1: parser error : error parsing attribute name
+<doc 12="34"></doc>
+     ^
+./xmltest/not-wf/sa/023.xml:1: parser error : attributes construct error
+<doc 12="34"></doc>
+     ^
+./xmltest/not-wf/sa/023.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc 12="34"></doc>
+     ^
+./xmltest/not-wf/sa/023.xml:1: parser error : Extra content at the end of the document
+<doc 12="34"></doc>
+     ^
+Checking ./xmltest/not-wf/sa/024.xml ...
+./xmltest/not-wf/sa/024.xml:2: parser error : StartTag: invalid element name
+<123></123>
+ ^
+./xmltest/not-wf/sa/024.xml:2: parser error : expected '>'
+<123></123>
+       ^
+./xmltest/not-wf/sa/024.xml:2: parser error : Opening and ending tag mismatch: doc line 1 and unparseable
+<123></123>
+       ^
+./xmltest/not-wf/sa/024.xml:2: parser error : Extra content at the end of the document
+<123></123>
+       ^
+Checking ./xmltest/not-wf/sa/025.xml ...
+./xmltest/not-wf/sa/025.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc>]]></doc>
+     ^
+./xmltest/not-wf/sa/025.xml:1: parser error : internal error: detected an error in element content
+
+<doc>]]></doc>
+     ^
+Checking ./xmltest/not-wf/sa/026.xml ...
+./xmltest/not-wf/sa/026.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc>]]]></doc>
+     ^
+./xmltest/not-wf/sa/026.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc>]]]></doc>
+      ^
+./xmltest/not-wf/sa/026.xml:1: parser error : internal error: detected an error in element content
+
+<doc>]]]></doc>
+      ^
+Checking ./xmltest/not-wf/sa/027.xml ...
+./xmltest/not-wf/sa/027.xml:5: parser error : Comment not terminated
+./xmltest/not-wf/sa/027.xml:5: parser error : Premature end of data in tag doc line 1
+Checking ./xmltest/not-wf/sa/028.xml ...
+./xmltest/not-wf/sa/028.xml:5: parser error : ParsePI: PI a never end ...
+./xmltest/not-wf/sa/028.xml:5: parser error : Premature end of data in tag doc line 1
+Checking ./xmltest/not-wf/sa/029.xml ...
+./xmltest/not-wf/sa/029.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc>abc]]]>def</doc>
+     ^
+./xmltest/not-wf/sa/029.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc>abc]]]>def</doc>
+         ^
+./xmltest/not-wf/sa/029.xml:1: parser error : internal error: detected an error in element content
+
+<doc>abc]]]>def</doc>
+         ^
+Checking ./xmltest/not-wf/sa/030.xml ...
+./xmltest/not-wf/sa/030.xml:1: parser error : PCDATA invalid Char value 12
+<doc>A form feed () is not legal in data</doc>
+                  ^
+Checking ./xmltest/not-wf/sa/031.xml ...
+./xmltest/not-wf/sa/031.xml:1: parser error : ParsePI: PI pi never end ...
+<doc><?pi a form feed () is not allowed in a pi?></doc>
+                       ^
+./xmltest/not-wf/sa/031.xml:1: parser error : PCDATA invalid Char value 12
+<doc><?pi a form feed () is not allowed in a pi?></doc>
+                       ^
+Checking ./xmltest/not-wf/sa/032.xml ...
+./xmltest/not-wf/sa/032.xml:1: parser error : xmlParseComment: invalid xmlChar value 12
+<doc><!-- a form feed () is not allowed in a comment --></doc>
+                       ^
+./xmltest/not-wf/sa/032.xml:1: parser error : PCDATA invalid Char value 12
+<doc><!-- a form feed () is not allowed in a comment --></doc>
+                       ^
+Checking ./xmltest/not-wf/sa/033.xml ...
+./xmltest/not-wf/sa/033.xml:1: parser error : PCDATA invalid Char value 27
+<doc>abcdef</doc>
+        ^
+Checking ./xmltest/not-wf/sa/034.xml ...
+./xmltest/not-wf/sa/034.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc>A form-feed is not white space or a name character</doc>
+    ^
+./xmltest/not-wf/sa/034.xml:1: parser error : Extra content at the end of the document
+<doc>A form-feed is not white space or a name character</doc>
+    ^
+Checking ./xmltest/not-wf/sa/035.xml ...
+./xmltest/not-wf/sa/035.xml:1: parser error : StartTag: invalid element name
+<doc>1 < 2 but not in XML</doc>
+        ^
+Checking ./xmltest/not-wf/sa/036.xml ...
+./xmltest/not-wf/sa/036.xml:2: parser error : Extra content at the end of the document
+Illegal data
+^
+Checking ./xmltest/not-wf/sa/037.xml ...
+./xmltest/not-wf/sa/037.xml:2: parser error : Extra content at the end of the document
+&#32;
+^
+Checking ./xmltest/not-wf/sa/038.xml ...
+./xmltest/not-wf/sa/038.xml:1: parser error : Attribute x redefined
+<doc x="foo" y="bar" x="baz"></doc>
+                            ^
+Checking ./xmltest/not-wf/sa/039.xml ...
+./xmltest/not-wf/sa/039.xml:1: parser error : expected '>'
+<doc><a></aa></doc>
+           ^
+Checking ./xmltest/not-wf/sa/040.xml ...
+./xmltest/not-wf/sa/040.xml:2: parser error : Extra content at the end of the document
+<doc></doc>
+^
+Checking ./xmltest/not-wf/sa/041.xml ...
+./xmltest/not-wf/sa/041.xml:2: parser error : Extra content at the end of the document
+<doc></doc>
+^
+Checking ./xmltest/not-wf/sa/042.xml ...
+./xmltest/not-wf/sa/042.xml:1: parser error : Extra content at the end of the document
+<doc/></doc/>
+      ^
+Checking ./xmltest/not-wf/sa/043.xml ...
+./xmltest/not-wf/sa/043.xml:2: parser error : Extra content at the end of the document
+Illegal data
+^
+Checking ./xmltest/not-wf/sa/044.xml ...
+./xmltest/not-wf/sa/044.xml:1: parser error : Extra content at the end of the document
+<doc/><doc/>
+      ^
+Checking ./xmltest/not-wf/sa/045.xml ...
+./xmltest/not-wf/sa/045.xml:2: parser error : error parsing attribute name
+<a/
+  ^
+./xmltest/not-wf/sa/045.xml:2: parser error : attributes construct error
+<a/
+  ^
+./xmltest/not-wf/sa/045.xml:2: parser error : Couldn't find end of Start Tag a line 2
+<a/
+  ^
+Checking ./xmltest/not-wf/sa/046.xml ...
+./xmltest/not-wf/sa/046.xml:2: parser error : error parsing attribute name
+<a/</a>
+  ^
+./xmltest/not-wf/sa/046.xml:2: parser error : attributes construct error
+<a/</a>
+  ^
+./xmltest/not-wf/sa/046.xml:2: parser error : Couldn't find end of Start Tag a line 2
+<a/</a>
+  ^
+./xmltest/not-wf/sa/046.xml:2: parser error : Opening and ending tag mismatch: doc line 1 and a
+<a/</a>
+       ^
+./xmltest/not-wf/sa/046.xml:3: parser error : Extra content at the end of the document
+</doc>
+^
+Checking ./xmltest/not-wf/sa/047.xml ...
+./xmltest/not-wf/sa/047.xml:2: parser error : error parsing attribute name
+<a / >
+   ^
+./xmltest/not-wf/sa/047.xml:2: parser error : attributes construct error
+<a / >
+   ^
+./xmltest/not-wf/sa/047.xml:2: parser error : Couldn't find end of Start Tag a line 2
+<a / >
+   ^
+Checking ./xmltest/not-wf/sa/048.xml ...
+./xmltest/not-wf/sa/048.xml:3: parser error : Extra content at the end of the document
+<![CDATA[]]>
+^
+Checking ./xmltest/not-wf/sa/049.xml ...
+./xmltest/not-wf/sa/049.xml:3: parser error : Opening and ending tag mismatch: doc line 1 and a
+<![CDATA[]]></a>
+                ^
+./xmltest/not-wf/sa/049.xml:4: parser error : Extra content at the end of the document
+</doc>
+^
+Checking ./xmltest/not-wf/sa/050.xml ...
+./xmltest/not-wf/sa/050.xml:1: parser error : Document is empty
+Checking ./xmltest/not-wf/sa/051.xml ...
+./xmltest/not-wf/sa/051.xml:2: parser error : StartTag: invalid element name
+<![CDATA[]]>
+ ^
+./xmltest/not-wf/sa/051.xml:2: parser error : Extra content at the end of the document
+<![CDATA[]]>
+ ^
+Checking ./xmltest/not-wf/sa/052.xml ...
+./xmltest/not-wf/sa/052.xml:2: parser error : Start tag expected, '<' not found
+&#32;
+^
+Checking ./xmltest/not-wf/sa/053.xml ...
+./xmltest/not-wf/sa/053.xml:1: parser error : Opening and ending tag mismatch: doc line 1 and DOC
+<doc></DOC>
+           ^
+Checking ./xmltest/not-wf/sa/054.xml ...
+./xmltest/not-wf/sa/054.xml:2: parser error : Space required after the Public Identifier
+<!ENTITY foo PUBLIC "some public id">
+                                    ^
+./xmltest/not-wf/sa/054.xml:2: parser error : SystemLiteral " or ' expected
+<!ENTITY foo PUBLIC "some public id">
+                                    ^
+./xmltest/not-wf/sa/054.xml:2: parser error : SYSTEM or PUBLIC, the URI is missing
+<!ENTITY foo PUBLIC "some public id">
+                                    ^
+Checking ./xmltest/not-wf/sa/055.xml ...
+./xmltest/not-wf/sa/055.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<doc></doc>
+^
+./xmltest/not-wf/sa/055.xml:2: parser error : DOCTYPE improperly terminated
+<doc></doc>
+^
+Checking ./xmltest/not-wf/sa/056.xml ...
+./xmltest/not-wf/sa/056.xml:1: parser error : DOCTYPE improperly terminated
+<!DOCTYPE doc -- a comment -- []>
+              ^
+./xmltest/not-wf/sa/056.xml:1: parser error : Start tag expected, '<' not found
+<!DOCTYPE doc -- a comment -- []>
+               ^
+Checking ./xmltest/not-wf/sa/057.xml ...
+./xmltest/not-wf/sa/057.xml:2: parser error : xmlParseEntityDecl: entity e not terminated
+<!ENTITY e "whatever" -- a comment -->
+                      ^
+Checking ./xmltest/not-wf/sa/058.xml ...
+./xmltest/not-wf/sa/058.xml:3: parser error : ')' required to finish ATTLIST enumeration
+<!ATTLIST doc a1 (foo,bar) #IMPLIED>
+                     ^
+./xmltest/not-wf/sa/058.xml:3: parser error : Space required after the attribute type
+<!ATTLIST doc a1 (foo,bar) #IMPLIED>
+                     ^
+./xmltest/not-wf/sa/058.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 (foo,bar) #IMPLIED>
+                     ^
+./xmltest/not-wf/sa/058.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 (foo,bar) #IMPLIED>
+                     ^
+./xmltest/not-wf/sa/058.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 (foo,bar) #IMPLIED>
+                     ^
+Checking ./xmltest/not-wf/sa/059.xml ...
+./xmltest/not-wf/sa/059.xml:3: parser error : AttValue: " or ' expected
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+./xmltest/not-wf/sa/059.xml:3: parser error : Attribute default value declaration error
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+./xmltest/not-wf/sa/059.xml:3: parser error : Space required after the attribute default value
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+./xmltest/not-wf/sa/059.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+./xmltest/not-wf/sa/059.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+./xmltest/not-wf/sa/059.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 NMTOKEN v1>
+                         ^
+Checking ./xmltest/not-wf/sa/060.xml ...
+./xmltest/not-wf/sa/060.xml:3: parser error : '(' required to start ATTLIST enumeration
+<!ATTLIST doc a1 NAME #IMPLIED>
+                 ^
+./xmltest/not-wf/sa/060.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 NAME #IMPLIED>
+                 ^
+./xmltest/not-wf/sa/060.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 NAME #IMPLIED>
+                 ^
+./xmltest/not-wf/sa/060.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 NAME #IMPLIED>
+                 ^
+Checking ./xmltest/not-wf/sa/061.xml ...
+./xmltest/not-wf/sa/061.xml:2: parser error : Space required after the Public Identifier
+<!ENTITY e PUBLIC "whatever""e.ent">
+                            ^
+Checking ./xmltest/not-wf/sa/062.xml ...
+./xmltest/not-wf/sa/062.xml:2: parser error : Space required after the entity name
+<!ENTITY foo"some text">
+            ^
+Checking ./xmltest/not-wf/sa/063.xml ...
+./xmltest/not-wf/sa/063.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<![INCLUDE[ ]]>
+^
+./xmltest/not-wf/sa/063.xml:2: parser error : DOCTYPE improperly terminated
+<![INCLUDE[ ]]>
+^
+./xmltest/not-wf/sa/063.xml:2: parser error : StartTag: invalid element name
+<![INCLUDE[ ]]>
+ ^
+./xmltest/not-wf/sa/063.xml:2: parser error : Extra content at the end of the document
+<![INCLUDE[ ]]>
+ ^
+Checking ./xmltest/not-wf/sa/064.xml ...
+./xmltest/not-wf/sa/064.xml:3: parser error : Space required after the attribute type
+<!ATTLIST e a1 CDATA"foo">
+                    ^
+./xmltest/not-wf/sa/064.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST e a1 CDATA"foo">
+                    ^
+./xmltest/not-wf/sa/064.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST e a1 CDATA"foo">
+                    ^
+./xmltest/not-wf/sa/064.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST e a1 CDATA"foo">
+                    ^
+Checking ./xmltest/not-wf/sa/065.xml ...
+./xmltest/not-wf/sa/065.xml:3: parser error : Space required after the attribute name
+<!ATTLIST doc a1(foo|bar) #IMPLIED>
+                ^
+./xmltest/not-wf/sa/065.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1(foo|bar) #IMPLIED>
+                ^
+./xmltest/not-wf/sa/065.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1(foo|bar) #IMPLIED>
+                ^
+./xmltest/not-wf/sa/065.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1(foo|bar) #IMPLIED>
+                ^
+Checking ./xmltest/not-wf/sa/066.xml ...
+./xmltest/not-wf/sa/066.xml:3: parser error : Space required after the attribute type
+<!ATTLIST doc a1 (foo|bar)#IMPLIED>
+                          ^
+./xmltest/not-wf/sa/066.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 (foo|bar)#IMPLIED>
+                          ^
+./xmltest/not-wf/sa/066.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 (foo|bar)#IMPLIED>
+                          ^
+./xmltest/not-wf/sa/066.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 (foo|bar)#IMPLIED>
+                          ^
+Checking ./xmltest/not-wf/sa/067.xml ...
+./xmltest/not-wf/sa/067.xml:3: parser error : Space required after the attribute type
+<!ATTLIST doc a1 (foo)"foo">
+                      ^
+./xmltest/not-wf/sa/067.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 (foo)"foo">
+                      ^
+./xmltest/not-wf/sa/067.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 (foo)"foo">
+                      ^
+./xmltest/not-wf/sa/067.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 (foo)"foo">
+                      ^
+Checking ./xmltest/not-wf/sa/068.xml ...
+./xmltest/not-wf/sa/068.xml:3: parser error : Space required after 'NOTATION'
+<!ATTLIST doc a1 NOTATION(foo) #IMPLIED>
+                         ^
+./xmltest/not-wf/sa/068.xml:3: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST doc a1 NOTATION(foo) #IMPLIED>
+                         ^
+./xmltest/not-wf/sa/068.xml:3: parser error : DOCTYPE improperly terminated
+<!ATTLIST doc a1 NOTATION(foo) #IMPLIED>
+                         ^
+./xmltest/not-wf/sa/068.xml:3: parser error : Start tag expected, '<' not found
+<!ATTLIST doc a1 NOTATION(foo) #IMPLIED>
+                         ^
+Checking ./xmltest/not-wf/sa/069.xml ...
+./xmltest/not-wf/sa/069.xml:4: parser error : Space required before 'NDATA'
+<!ENTITY foo SYSTEM "foo.eps"NDATA eps>
+                             ^
+Checking ./xmltest/not-wf/sa/070.xml ...
+./xmltest/not-wf/sa/070.xml:1: parser error : Double hyphen within comment: <!-- a comment ending with three dashes 
+<!-- a comment ending with three dashes --->
+                                        ^
+./xmltest/not-wf/sa/070.xml:4: parser error : Comment not terminated
+./xmltest/not-wf/sa/070.xml:4: parser error : Start tag expected, '<' not found
+Checking ./xmltest/not-wf/sa/071.xml ...
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+Entity: line 1: parser error : Detected an entity reference loop
+./xmltest/not-wf/sa/071.xml:6: parser error : Detected an entity reference loop
+<doc>&e1;</doc>
+         ^
+Checking ./xmltest/not-wf/sa/072.xml ...
+./xmltest/not-wf/sa/072.xml:1: parser error : Entity 'foo' not defined
+<doc>&foo;</doc>
+          ^
+Checking ./xmltest/not-wf/sa/073.xml ...
+./xmltest/not-wf/sa/073.xml:4: parser error : Entity 'f' not defined
+<doc>&f;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/074.xml ...
+Entity: line 1: parser error : chunk is not well balanced
+</foo><foo>
+^
+./xmltest/not-wf/sa/074.xml:5: parser error : Entity 'e' failed to parse
+<foo>&e;</foo>
+        ^
+Checking ./xmltest/not-wf/sa/075.xml ...
+./xmltest/not-wf/sa/075.xml:6: parser error : Detected an entity reference loop
+<doc a="&e1;"></doc>
+            ^
+Checking ./xmltest/not-wf/sa/076.xml ...
+./xmltest/not-wf/sa/076.xml:1: parser error : Entity 'foo' not defined
+<doc a="&foo;"></doc>
+             ^
+Checking ./xmltest/not-wf/sa/077.xml ...
+./xmltest/not-wf/sa/077.xml:4: parser error : Entity 'bar' not defined
+<doc a="&foo;"></doc>
+             ^
+Checking ./xmltest/not-wf/sa/078.xml ...
+./xmltest/not-wf/sa/078.xml:3: parser error : Entity 'foo' not defined
+<!ATTLIST doc a CDATA "&foo;">
+                            ^
+Checking ./xmltest/not-wf/sa/079.xml ...
+./xmltest/not-wf/sa/079.xml:6: parser error : Detected an entity reference loop
+<!ATTLIST doc a CDATA "&e1;">
+                           ^
+Checking ./xmltest/not-wf/sa/080.xml ...
+./xmltest/not-wf/sa/080.xml:6: parser error : Detected an entity reference loop
+<!ATTLIST doc a CDATA #FIXED "&e1;">
+                                  ^
+Checking ./xmltest/not-wf/sa/081.xml ...
+./xmltest/not-wf/sa/081.xml:4: parser error : Attribute references external entity 'e'
+<doc a="&e;"></doc>
+           ^
+Checking ./xmltest/not-wf/sa/082.xml ...
+./xmltest/not-wf/sa/082.xml:4: parser error : Attribute references external entity 'e'
+<!ATTLIST doc a CDATA "&e;">
+                          ^
+Checking ./xmltest/not-wf/sa/083.xml ...
+./xmltest/not-wf/sa/083.xml:4: parser error : Entity reference to unparsed entity e
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/084.xml ...
+./xmltest/not-wf/sa/084.xml:4: parser error : Entity reference to unparsed entity e
+<!ATTLIST doc a CDATA "&e;">
+                          ^
+Checking ./xmltest/not-wf/sa/085.xml ...
+./xmltest/not-wf/sa/085.xml:1: parser error : Unfinished System or Public ID " or ' expected
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                      ^
+./xmltest/not-wf/sa/085.xml:1: parser error : Space required after the Public Identifier
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                      ^
+./xmltest/not-wf/sa/085.xml:1: parser error : SystemLiteral " or ' expected
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                      ^
+./xmltest/not-wf/sa/085.xml:1: parser error : SYSTEM or PUBLIC, the URI is missing
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                      ^
+./xmltest/not-wf/sa/085.xml:1: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/085.xml:1: parser error : DOCTYPE improperly terminated
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/085.xml:1: parser error : Start tag expected, '<' not found
+<!DOCTYPE doc PUBLIC "[" "null.ent">
+                       ^
+Checking ./xmltest/not-wf/sa/086.xml ...
+./xmltest/not-wf/sa/086.xml:2: parser error : Unfinished System or Public ID " or ' expected
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+./xmltest/not-wf/sa/086.xml:2: parser error : Space required after the Public Identifier
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+./xmltest/not-wf/sa/086.xml:2: parser error : SystemLiteral " or ' expected
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+./xmltest/not-wf/sa/086.xml:2: parser error : SYSTEM or PUBLIC, the URI is missing
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+./xmltest/not-wf/sa/086.xml:2: parser error : Space required before 'NDATA'
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+./xmltest/not-wf/sa/086.xml:2: parser error : xmlParseEntityDecl: entity foo not terminated
+<!ENTITY foo PUBLIC "[" "null.xml">
+                     ^
+Checking ./xmltest/not-wf/sa/087.xml ...
+./xmltest/not-wf/sa/087.xml:2: parser error : Unfinished System or Public ID " or ' expected
+<!NOTATION foo PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/087.xml:2: parser error : '>' required to close NOTATION declaration
+<!NOTATION foo PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/087.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!NOTATION foo PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/087.xml:2: parser error : DOCTYPE improperly terminated
+<!NOTATION foo PUBLIC "[" "null.ent">
+                       ^
+./xmltest/not-wf/sa/087.xml:2: parser error : Start tag expected, '<' not found
+<!NOTATION foo PUBLIC "[" "null.ent">
+                       ^
+Checking ./xmltest/not-wf/sa/088.xml ...
+./xmltest/not-wf/sa/088.xml:6: parser error : Unescaped '<' not allowed in attributes values
+<doc a="&e;></doc>
+            ^
+./xmltest/not-wf/sa/088.xml:6: parser error : attributes construct error
+<doc a="&e;></doc>
+            ^
+./xmltest/not-wf/sa/088.xml:6: parser error : Couldn't find end of Start Tag doc line 6
+<doc a="&e;></doc>
+            ^
+./xmltest/not-wf/sa/088.xml:6: parser error : Extra content at the end of the document
+<doc a="&e;></doc>
+            ^
+Checking ./xmltest/not-wf/sa/089.xml ...
+./xmltest/not-wf/sa/089.xml:2: parser error : xmlParseEntityDecl: entity foo not terminated
+<!ENTITY % foo SYSTEM "foo.xml" NDATA bar>
+                                ^
+Checking ./xmltest/not-wf/sa/090.xml ...
+Entity: line 1: parser error : Unescaped '<' not allowed in attributes values
+<foo a='<'></foo>
+        ^
+Entity: line 1: parser error : attributes construct error
+<foo a='<'></foo>
+        ^
+Entity: line 1: parser error : Couldn't find end of Start Tag foo line 1
+<foo a='<'></foo>
+        ^
+Entity: line 1: parser error : StartTag: invalid element name
+<foo a='<'></foo>
+         ^
+Entity: line 1: parser error : chunk is not well balanced
+<foo a='<'></foo>
+           ^
+Entity: line 1: parser error : chunk is not well balanced
+<foo a='<'></foo>
+           ^
+./xmltest/not-wf/sa/090.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/091.xml ...
+./xmltest/not-wf/sa/091.xml:3: parser error : xmlParseEntityDecl: entity foo not terminated
+<!ENTITY % foo SYSTEM "foo.xml" NDATA n>
+                                ^
+Checking ./xmltest/not-wf/sa/092.xml ...
+Entity: line 1: parser error : xmlParseEntityRef: no name
+<foo a='&'></foo>
+         ^
+./xmltest/not-wf/sa/092.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/093.xml ...
+./xmltest/not-wf/sa/093.xml:1: parser error : CharRef: invalid decimal value
+<doc>&#X58;</doc>
+       ^
+./xmltest/not-wf/sa/093.xml:1: parser error : xmlParseCharRef: invalid xmlChar value 0
+<doc>&#X58;</doc>
+       ^
+Checking ./xmltest/not-wf/sa/094.xml ...
+./xmltest/not-wf/sa/094.xml:1: parser error : Malformed declaration expecting version
+<?xml VERSION="1.0"?>
+      ^
+./xmltest/not-wf/sa/094.xml:1: parser error : Blank needed here
+<?xml VERSION="1.0"?>
+      ^
+./xmltest/not-wf/sa/094.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml VERSION="1.0"?>
+      ^
+Checking ./xmltest/not-wf/sa/095.xml ...
+./xmltest/not-wf/sa/095.xml:1: parser error : Malformed declaration expecting version
+<?xml encoding="UTF-8" version="1.0"?>
+      ^
+./xmltest/not-wf/sa/095.xml:1: parser error : Blank needed here
+<?xml encoding="UTF-8" version="1.0"?>
+      ^
+./xmltest/not-wf/sa/095.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml encoding="UTF-8" version="1.0"?>
+                       ^
+Checking ./xmltest/not-wf/sa/096.xml ...
+./xmltest/not-wf/sa/096.xml:1: parser error : Blank needed here
+<?xml version="1.0"encoding="UTF-8" ?>
+                   ^
+Checking ./xmltest/not-wf/sa/097.xml ...
+./xmltest/not-wf/sa/097.xml:1: parser error : String not closed expecting " or '
+<?xml version="1.0' encoding="UTF-8" ?>
+                  ^
+./xmltest/not-wf/sa/097.xml:1: parser error : Blank needed here
+<?xml version="1.0' encoding="UTF-8" ?>
+                  ^
+./xmltest/not-wf/sa/097.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0' encoding="UTF-8" ?>
+                  ^
+Checking ./xmltest/not-wf/sa/098.xml ...
+./xmltest/not-wf/sa/098.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0" version="1.0"?>
+                    ^
+Checking ./xmltest/not-wf/sa/099.xml ...
+./xmltest/not-wf/sa/099.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0" valid="no" ?>
+                    ^
+Checking ./xmltest/not-wf/sa/100.xml ...
+./xmltest/not-wf/sa/100.xml:1: parser error : standalone accepts only 'yes' or 'no'
+<?xml version="1.0" standalone="YES" ?>
+                                ^
+./xmltest/not-wf/sa/100.xml:1: parser error : String not closed expecting " or '
+<?xml version="1.0" standalone="YES" ?>
+                                ^
+./xmltest/not-wf/sa/100.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0" standalone="YES" ?>
+                                ^
+Checking ./xmltest/not-wf/sa/101.xml ...
+./xmltest/not-wf/sa/101.xml:1: parser error : Invalid XML encoding name
+<?xml version="1.0" encoding=" UTF-8"?>
+                              ^
+./xmltest/not-wf/sa/101.xml:1: parser error : String not closed expecting " or '
+<?xml version="1.0" encoding=" UTF-8"?>
+                              ^
+./xmltest/not-wf/sa/101.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0" encoding=" UTF-8"?>
+                               ^
+Checking ./xmltest/not-wf/sa/102.xml ...
+./xmltest/not-wf/sa/102.xml:1: parser error : String not closed expecting " or '
+<?xml version="1.0 " ?>
+                  ^
+./xmltest/not-wf/sa/102.xml:1: parser error : parsing XML declaration: '?>' expected
+<?xml version="1.0 " ?>
+                   ^
+Checking ./xmltest/not-wf/sa/103.xml ...
+Entity: line 1: parser error : Premature end of data in tag foo line 1
+./xmltest/not-wf/sa/103.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/104.xml ...
+Entity: line 1: parser error : Premature end of data in tag foo line 1
+./xmltest/not-wf/sa/104.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;</foo></doc>
+        ^
+./xmltest/not-wf/sa/104.xml:4: parser error : Opening and ending tag mismatch: doc line 4 and foo
+<doc>&e;</foo></doc>
+              ^
+./xmltest/not-wf/sa/104.xml:4: parser error : Extra content at the end of the document
+<doc>&e;</foo></doc>
+              ^
+Checking ./xmltest/not-wf/sa/105.xml ...
+./xmltest/not-wf/sa/105.xml:2: parser error : StartTag: invalid element name
+<![CDATA[]]>
+ ^
+./xmltest/not-wf/sa/105.xml:2: parser error : Extra content at the end of the document
+<![CDATA[]]>
+ ^
+Checking ./xmltest/not-wf/sa/106.xml ...
+./xmltest/not-wf/sa/106.xml:2: parser error : Start tag expected, '<' not found
+&#32;<doc></doc>
+^
+Checking ./xmltest/not-wf/sa/107.xml ...
+./xmltest/not-wf/sa/107.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<![CDATA[]]>
+^
+./xmltest/not-wf/sa/107.xml:2: parser error : DOCTYPE improperly terminated
+<![CDATA[]]>
+^
+./xmltest/not-wf/sa/107.xml:2: parser error : StartTag: invalid element name
+<![CDATA[]]>
+ ^
+./xmltest/not-wf/sa/107.xml:2: parser error : Extra content at the end of the document
+<![CDATA[]]>
+ ^
+Checking ./xmltest/not-wf/sa/108.xml ...
+./xmltest/not-wf/sa/108.xml:2: parser error : StartTag: invalid element name
+<![CDATA [  ]]>
+ ^
+./xmltest/not-wf/sa/108.xml:2: parser error : Sequence ']]>' not allowed in content
+<![CDATA [  ]]>
+ ^
+./xmltest/not-wf/sa/108.xml:2: parser error : Sequence ']]>' not allowed in content
+<![CDATA [  ]]>
+            ^
+./xmltest/not-wf/sa/108.xml:2: parser error : internal error: detected an error in element content
+
+<![CDATA [  ]]>
+            ^
+Checking ./xmltest/not-wf/sa/109.xml ...
+./xmltest/not-wf/sa/109.xml:4: parser error : Start tag expected, '<' not found
+&e;
+^
+Checking ./xmltest/not-wf/sa/110.xml ...
+./xmltest/not-wf/sa/110.xml:5: parser error : Extra content at the end of the document
+&e;
+^
+Checking ./xmltest/not-wf/sa/111.xml ...
+./xmltest/not-wf/sa/111.xml:4: parser error : error parsing attribute name
+<doc &e;></doc>
+     ^
+./xmltest/not-wf/sa/111.xml:4: parser error : attributes construct error
+<doc &e;></doc>
+     ^
+./xmltest/not-wf/sa/111.xml:4: parser error : Couldn't find end of Start Tag doc line 4
+<doc &e;></doc>
+     ^
+./xmltest/not-wf/sa/111.xml:4: parser error : Extra content at the end of the document
+<doc &e;></doc>
+     ^
+Checking ./xmltest/not-wf/sa/112.xml ...
+./xmltest/not-wf/sa/112.xml:2: parser error : StartTag: invalid element name
+<![cdata[data]]>
+ ^
+./xmltest/not-wf/sa/112.xml:2: parser error : Sequence ']]>' not allowed in content
+<![cdata[data]]>
+ ^
+./xmltest/not-wf/sa/112.xml:2: parser error : Sequence ']]>' not allowed in content
+<![cdata[data]]>
+             ^
+./xmltest/not-wf/sa/112.xml:2: parser error : internal error: detected an error in element content
+
+<![cdata[data]]>
+             ^
+Checking ./xmltest/not-wf/sa/113.xml ...
+./xmltest/not-wf/sa/113.xml:2: parser error : EntityValue: '&' forbidden except for entities references
+<!ENTITY % foo "&">
+                 ^
+Checking ./xmltest/not-wf/sa/114.xml ...
+./xmltest/not-wf/sa/114.xml:2: parser error : EntityValue: '&' forbidden except for entities references
+<!ENTITY foo "&">
+               ^
+Checking ./xmltest/not-wf/sa/115.xml ...
+./xmltest/not-wf/sa/115.xml:4: parser error : xmlParseStringEntityRef: no name
+<doc a="&e;"></doc>
+           ^
+Checking ./xmltest/not-wf/sa/116.xml ...
+Entity: line 1: parser error : CharRef: invalid decimal value
+Entity: line 1: parser error : xmlParseCharRef: invalid xmlChar value 0
+./xmltest/not-wf/sa/116.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;7;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/117.xml ...
+Entity: line 1: parser error : xmlParseEntityRef: no name
+./xmltest/not-wf/sa/117.xml:4: parser error : Entity 'e' failed to parse
+<doc>&e;#97;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/118.xml ...
+./xmltest/not-wf/sa/118.xml:4: parser error : xmlParseEntityRef: no name
+<doc>&&e;97;</doc>
+      ^
+Checking ./xmltest/not-wf/sa/119.xml ...
+Entity: line 1: parser error : xmlParseEntityRef: no name
+./xmltest/not-wf/sa/119.xml:5: parser error : Entity 'e' failed to parse
+&e;#38;
+   ^
+Checking ./xmltest/not-wf/sa/120.xml ...
+Entity: line 1: parser error : xmlParseEntityRef: no name
+./xmltest/not-wf/sa/120.xml:5: parser error : Entity 'e' failed to parse
+&e;
+   ^
+Checking ./xmltest/not-wf/sa/121.xml ...
+./xmltest/not-wf/sa/121.xml:2: parser error : xmlParseEntityDecl: no name
+<!ENTITY #DEFAULT "default">
+         ^
+./xmltest/not-wf/sa/121.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ENTITY #DEFAULT "default">
+         ^
+./xmltest/not-wf/sa/121.xml:2: parser error : DOCTYPE improperly terminated
+<!ENTITY #DEFAULT "default">
+         ^
+./xmltest/not-wf/sa/121.xml:2: parser error : Start tag expected, '<' not found
+<!ENTITY #DEFAULT "default">
+         ^
+Checking ./xmltest/not-wf/sa/122.xml ...
+./xmltest/not-wf/sa/122.xml:2: parser error : xmlParseElementChildrenContentDecl : ',' expected
+<!ELEMENT doc (a, (b) | c)?>
+                      ^
+./xmltest/not-wf/sa/122.xml:2: parser error : expected '>'
+<!ELEMENT doc (a, (b) | c)?>
+                      ^
+./xmltest/not-wf/sa/122.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (a, (b) | c)?>
+                      ^
+./xmltest/not-wf/sa/122.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (a, (b) | c)?>
+                      ^
+./xmltest/not-wf/sa/122.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (a, (b) | c)?>
+                      ^
+Checking ./xmltest/not-wf/sa/123.xml ...
+./xmltest/not-wf/sa/123.xml:2: parser error : expected '>'
+<!ELEMENT doc ((doc?)))>
+                      ^
+./xmltest/not-wf/sa/123.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc ((doc?)))>
+                      ^
+./xmltest/not-wf/sa/123.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc ((doc?)))>
+                      ^
+./xmltest/not-wf/sa/123.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc ((doc?)))>
+                      ^
+Checking ./xmltest/not-wf/sa/124.xml ...
+./xmltest/not-wf/sa/124.xml:2: parser error : ContentDecl : Name or '(' expected
+<!ELEMENT doc (doc|#PCDATA)*>
+                   ^
+./xmltest/not-wf/sa/124.xml:2: parser error : expected '>'
+<!ELEMENT doc (doc|#PCDATA)*>
+                   ^
+./xmltest/not-wf/sa/124.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (doc|#PCDATA)*>
+                   ^
+./xmltest/not-wf/sa/124.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (doc|#PCDATA)*>
+                   ^
+./xmltest/not-wf/sa/124.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (doc|#PCDATA)*>
+                   ^
+Checking ./xmltest/not-wf/sa/125.xml ...
+./xmltest/not-wf/sa/125.xml:2: parser error : ContentDecl : Name or '(' expected
+<!ELEMENT doc ((#PCDATA))>
+                ^
+./xmltest/not-wf/sa/125.xml:2: parser error : ContentDecl : ',' '|' or ')' expected
+<!ELEMENT doc ((#PCDATA))>
+                ^
+./xmltest/not-wf/sa/125.xml:2: parser error : expected '>'
+<!ELEMENT doc ((#PCDATA))>
+                ^
+./xmltest/not-wf/sa/125.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc ((#PCDATA))>
+                ^
+./xmltest/not-wf/sa/125.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc ((#PCDATA))>
+                ^
+./xmltest/not-wf/sa/125.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc ((#PCDATA))>
+                ^
+Checking ./xmltest/not-wf/sa/126.xml ...
+./xmltest/not-wf/sa/126.xml:2: parser error : expected '>'
+<!ELEMENT doc (#PCDATA)+>
+                       ^
+./xmltest/not-wf/sa/126.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (#PCDATA)+>
+                       ^
+./xmltest/not-wf/sa/126.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (#PCDATA)+>
+                       ^
+./xmltest/not-wf/sa/126.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (#PCDATA)+>
+                       ^
+Checking ./xmltest/not-wf/sa/127.xml ...
+./xmltest/not-wf/sa/127.xml:2: parser error : expected '>'
+<!ELEMENT doc (#PCDATA)?>
+                       ^
+./xmltest/not-wf/sa/127.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (#PCDATA)?>
+                       ^
+./xmltest/not-wf/sa/127.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (#PCDATA)?>
+                       ^
+./xmltest/not-wf/sa/127.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (#PCDATA)?>
+                       ^
+Checking ./xmltest/not-wf/sa/128.xml ...
+./xmltest/not-wf/sa/128.xml:2: parser error : xmlParseElementDecl: 'EMPTY', 'ANY' or '(' expected
+<!ELEMENT doc CDATA>
+              ^
+./xmltest/not-wf/sa/128.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc CDATA>
+              ^
+./xmltest/not-wf/sa/128.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc CDATA>
+              ^
+./xmltest/not-wf/sa/128.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc CDATA>
+              ^
+Checking ./xmltest/not-wf/sa/129.xml ...
+./xmltest/not-wf/sa/129.xml:2: parser error : xmlParseElementDecl: 'EMPTY', 'ANY' or '(' expected
+<!ELEMENT doc - - (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/129.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc - - (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/129.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc - - (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/129.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc - - (#PCDATA)>
+              ^
+Checking ./xmltest/not-wf/sa/130.xml ...
+./xmltest/not-wf/sa/130.xml:2: parser error : expected '>'
+<!ELEMENT doc (doc?) +(foo)>
+                     ^
+./xmltest/not-wf/sa/130.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (doc?) +(foo)>
+                     ^
+./xmltest/not-wf/sa/130.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (doc?) +(foo)>
+                     ^
+./xmltest/not-wf/sa/130.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (doc?) +(foo)>
+                     ^
+Checking ./xmltest/not-wf/sa/131.xml ...
+./xmltest/not-wf/sa/131.xml:2: parser error : expected '>'
+<!ELEMENT doc (doc?) -(foo)>
+                     ^
+./xmltest/not-wf/sa/131.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (doc?) -(foo)>
+                     ^
+./xmltest/not-wf/sa/131.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (doc?) -(foo)>
+                     ^
+./xmltest/not-wf/sa/131.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (doc?) -(foo)>
+                     ^
+Checking ./xmltest/not-wf/sa/132.xml ...
+./xmltest/not-wf/sa/132.xml:2: parser error : xmlParseElementChildrenContentDecl : ',' expected
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+./xmltest/not-wf/sa/132.xml:2: parser error : xmlParseElementChildrenContentDecl : ',' expected
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+./xmltest/not-wf/sa/132.xml:2: parser error : expected '>'
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+./xmltest/not-wf/sa/132.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+./xmltest/not-wf/sa/132.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+./xmltest/not-wf/sa/132.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (a, (b, c), (d, (e, f) | g))?>
+                                     ^
+Checking ./xmltest/not-wf/sa/133.xml ...
+./xmltest/not-wf/sa/133.xml:2: parser error : ContentDecl : ',' '|' or ')' expected
+<!ELEMENT doc (a *)>
+                 ^
+./xmltest/not-wf/sa/133.xml:2: parser error : expected '>'
+<!ELEMENT doc (a *)>
+                 ^
+./xmltest/not-wf/sa/133.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (a *)>
+                 ^
+./xmltest/not-wf/sa/133.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (a *)>
+                 ^
+./xmltest/not-wf/sa/133.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (a *)>
+                 ^
+Checking ./xmltest/not-wf/sa/134.xml ...
+./xmltest/not-wf/sa/134.xml:2: parser error : expected '>'
+<!ELEMENT doc (a) *>
+                  ^
+./xmltest/not-wf/sa/134.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (a) *>
+                  ^
+./xmltest/not-wf/sa/134.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (a) *>
+                  ^
+./xmltest/not-wf/sa/134.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (a) *>
+                  ^
+Checking ./xmltest/not-wf/sa/135.xml ...
+./xmltest/not-wf/sa/135.xml:2: parser error : ContentDecl : ',' '|' or ')' expected
+<!ELEMENT doc (a & b)?>
+                 ^
+./xmltest/not-wf/sa/135.xml:2: parser error : expected '>'
+<!ELEMENT doc (a & b)?>
+                 ^
+./xmltest/not-wf/sa/135.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (a & b)?>
+                 ^
+./xmltest/not-wf/sa/135.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (a & b)?>
+                 ^
+./xmltest/not-wf/sa/135.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (a & b)?>
+                 ^
+Checking ./xmltest/not-wf/sa/136.xml ...
+./xmltest/not-wf/sa/136.xml:2: parser error : xmlParseElementDecl: 'EMPTY', 'ANY' or '(' expected
+<!ELEMENT doc O O (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/136.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc O O (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/136.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc O O (#PCDATA)>
+              ^
+./xmltest/not-wf/sa/136.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc O O (#PCDATA)>
+              ^
+Checking ./xmltest/not-wf/sa/137.xml ...
+./xmltest/not-wf/sa/137.xml:2: parser error : Space required after the element name
+<!ELEMENT doc(#PCDATA)>
+             ^
+Checking ./xmltest/not-wf/sa/138.xml ...
+./xmltest/not-wf/sa/138.xml:2: parser error : ContentDecl : ',' '|' or ')' expected
+<!ELEMENT doc (doc*?)>
+                   ^
+./xmltest/not-wf/sa/138.xml:2: parser error : expected '>'
+<!ELEMENT doc (doc*?)>
+                   ^
+./xmltest/not-wf/sa/138.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (doc*?)>
+                   ^
+./xmltest/not-wf/sa/138.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (doc*?)>
+                   ^
+./xmltest/not-wf/sa/138.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (doc*?)>
+                   ^
+Checking ./xmltest/not-wf/sa/139.xml ...
+./xmltest/not-wf/sa/139.xml:2: parser error : ContentDecl : Name or '(' expected
+<!ELEMENT doc ()>
+               ^
+./xmltest/not-wf/sa/139.xml:2: parser error : expected '>'
+<!ELEMENT doc ()>
+               ^
+./xmltest/not-wf/sa/139.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc ()>
+               ^
+./xmltest/not-wf/sa/139.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc ()>
+               ^
+./xmltest/not-wf/sa/139.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc ()>
+               ^
+Checking ./xmltest/not-wf/sa/140.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "<&#x309a;></&#x309a;>">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/not-wf/sa/141.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "<X&#xe5c;></X&#xe5c;>">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/not-wf/sa/142.xml ...
+./xmltest/not-wf/sa/142.xml:4: parser error : xmlParseCharRef: invalid xmlChar value 0
+<doc>&#0;</doc>
+         ^
+Checking ./xmltest/not-wf/sa/143.xml ...
+./xmltest/not-wf/sa/143.xml:4: parser error : xmlParseCharRef: invalid xmlChar value 31
+<doc>&#31;</doc>
+          ^
+Checking ./xmltest/not-wf/sa/144.xml ...
+./xmltest/not-wf/sa/144.xml:4: parser error : xmlParseCharRef: invalid xmlChar value 65535
+<doc>&#xFFFF;</doc>
+             ^
+Checking ./xmltest/not-wf/sa/145.xml ...
+./xmltest/not-wf/sa/145.xml:4: parser error : xmlParseCharRef: invalid xmlChar value 55296
+<doc>&#xD800;</doc>
+             ^
+Checking ./xmltest/not-wf/sa/146.xml ...
+./xmltest/not-wf/sa/146.xml:4: parser error : xmlParseCharRef: invalid xmlChar value 1114112
+<doc>&#x110000;</doc>
+               ^
+Checking ./xmltest/not-wf/sa/147.xml ...
+./xmltest/not-wf/sa/147.xml:2: parser error : XML declaration allowed only at the start of the document
+<?xml version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/148.xml ...
+./xmltest/not-wf/sa/148.xml:2: parser error : XML declaration allowed only at the start of the document
+<?xml version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/149.xml ...
+./xmltest/not-wf/sa/149.xml:3: parser error : XML declaration allowed only at the start of the document
+<?xml version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/150.xml ...
+./xmltest/not-wf/sa/150.xml:2: parser error : XML declaration allowed only at the start of the document
+<?xml version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/151.xml ...
+./xmltest/not-wf/sa/151.xml:3: parser error : XML declaration allowed only at the start of the document
+<?xml version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/152.xml ...
+./xmltest/not-wf/sa/152.xml:1: parser error : Malformed declaration expecting version
+<?xml encoding="UTF-8"?>
+      ^
+./xmltest/not-wf/sa/152.xml:1: parser error : Blank needed here
+<?xml encoding="UTF-8"?>
+      ^
+Checking ./xmltest/not-wf/sa/153.xml ...
+Entity: line 1: parser error : XML declaration allowed only at the start of the document
+<?xml encoding='UTF-8'?>
+     ^
+./xmltest/not-wf/sa/153.xml:5: parser error : Entity 'e' failed to parse
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/154.xml ...
+./xmltest/not-wf/sa/154.xml:1: parser error : Invalid PI name
+<?XML version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/155.xml ...
+./xmltest/not-wf/sa/155.xml:1: parser error : Invalid PI name
+<?xmL version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/156.xml ...
+./xmltest/not-wf/sa/156.xml:2: parser error : Invalid PI name
+<?xMl version="1.0"?>
+     ^
+Checking ./xmltest/not-wf/sa/157.xml ...
+./xmltest/not-wf/sa/157.xml:2: parser error : Invalid PI name
+<?xmL?>
+     ^
+Checking ./xmltest/not-wf/sa/158.xml ...
+./xmltest/not-wf/sa/158.xml:4: parser error : ATTLIST: no name for Element
+<!ATTLIST #NOTATION gif a1 CDATA #IMPLIED>
+          ^
+./xmltest/not-wf/sa/158.xml:4: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ATTLIST #NOTATION gif a1 CDATA #IMPLIED>
+          ^
+./xmltest/not-wf/sa/158.xml:4: parser error : DOCTYPE improperly terminated
+<!ATTLIST #NOTATION gif a1 CDATA #IMPLIED>
+          ^
+./xmltest/not-wf/sa/158.xml:4: parser error : Start tag expected, '<' not found
+<!ATTLIST #NOTATION gif a1 CDATA #IMPLIED>
+          ^
+Checking ./xmltest/not-wf/sa/159.xml ...
+./xmltest/not-wf/sa/159.xml:3: parser error : EntityValue: '&' forbidden except for entities references
+<!ENTITY e "<![CDATA[Tim & Michael]]>">
+                                     ^
+./xmltest/not-wf/sa/159.xml:5: parser error : Entity 'e' not defined
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/160.xml ...
+./xmltest/not-wf/sa/160.xml:4: parser error : PEReferences forbidden in internal subset
+<!ENTITY foo "%e;">
+                 ^
+Checking ./xmltest/not-wf/sa/161.xml ...
+./xmltest/not-wf/sa/161.xml:3: parser error : ContentDecl : Name or '(' expected
+<!ELEMENT doc (%e;)>
+               ^
+./xmltest/not-wf/sa/161.xml:3: parser error : expected '>'
+<!ELEMENT doc (%e;)>
+               ^
+Entity: line 1: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+ %e; 
+    ^
+Entity: line 1: 
+#PCDATA
+^
+Entity: line 1: parser error : DOCTYPE improperly terminated
+ %e; 
+    ^
+Entity: line 1: 
+#PCDATA
+^
+Entity: line 1: parser error : Start tag expected, '<' not found
+ %e; 
+    ^
+Entity: line 1: 
+#PCDATA
+^
+Checking ./xmltest/not-wf/sa/162.xml ...
+./xmltest/not-wf/sa/162.xml:4: parser error : PEReferences forbidden in internal subset
+<!ENTITY % e2 "%e1;">
+                   ^
+Checking ./xmltest/not-wf/sa/163.xml ...
+./xmltest/not-wf/sa/163.xml:5: parser error : PEReference in prolog
+%e;
+^
+./xmltest/not-wf/sa/163.xml:5: parser error : Start tag expected, '<' not found
+%e;
+^
+Checking ./xmltest/not-wf/sa/164.xml ...
+./xmltest/not-wf/sa/164.xml:4: parser error : DOCTYPE improperly terminated
+] %e; >
+  ^
+./xmltest/not-wf/sa/164.xml:4: parser error : Start tag expected, '<' not found
+] %e; >
+  ^
+Checking ./xmltest/not-wf/sa/165.xml ...
+./xmltest/not-wf/sa/165.xml:2: parser error : Space required after '<!ENTITY'
+<!ENTITY% e "">
+        ^
+Checking ./xmltest/not-wf/sa/166.xml ...
+./xmltest/not-wf/sa/166.xml:1: parser error : Char 0xFFFF out of allowed range
+<doc>￿</doc>
+     ^
+./xmltest/not-wf/sa/166.xml:1: parser error : PCDATA invalid Char value 65535
+<doc>￿</doc>
+     ^
+Checking ./xmltest/not-wf/sa/167.xml ...
+./xmltest/not-wf/sa/167.xml:1: parser error : Char 0xFFFE out of allowed range
+<doc>￾</doc>
+     ^
+./xmltest/not-wf/sa/167.xml:1: parser error : PCDATA invalid Char value 65534
+<doc>￾</doc>
+     ^
+Checking ./xmltest/not-wf/sa/168.xml ...
+./xmltest/not-wf/sa/168.xml:1: parser error : Char 0xD800 out of allowed range
+<doc>���</doc>
+     ^
+./xmltest/not-wf/sa/168.xml:1: parser error : PCDATA invalid Char value 55296
+<doc>���</doc>
+     ^
+Checking ./xmltest/not-wf/sa/169.xml ...
+./xmltest/not-wf/sa/169.xml:1: parser error : Char 0xDC00 out of allowed range
+<doc>���</doc>
+     ^
+./xmltest/not-wf/sa/169.xml:1: parser error : PCDATA invalid Char value 56320
+<doc>���</doc>
+     ^
+Checking ./xmltest/not-wf/sa/170.xml ...
+./xmltest/not-wf/sa/170.xml:1: parser error : Char 0x1C0000 out of allowed range
+<doc>����</doc>
+     ^
+./xmltest/not-wf/sa/170.xml:1: parser error : PCDATA invalid Char value 1835008
+<doc>����</doc>
+     ^
+Checking ./xmltest/not-wf/sa/171.xml ...
+./xmltest/not-wf/sa/171.xml:1: parser error : Char 0xFFFF out of allowed range
+<!-- ￿ -->
+     ^
+./xmltest/not-wf/sa/171.xml:1: parser error : xmlParseComment: invalid xmlChar value 65535
+<!-- ￿ -->
+     ^
+./xmltest/not-wf/sa/171.xml:1: parser error : Start tag expected, '<' not found
+<!-- ￿ -->
+     ^
+Checking ./xmltest/not-wf/sa/172.xml ...
+./xmltest/not-wf/sa/172.xml:1: parser error : Char 0xFFFF out of allowed range
+<?pi ￿?>
+     ^
+./xmltest/not-wf/sa/172.xml:1: parser error : ParsePI: PI pi never end ...
+<?pi ￿?>
+     ^
+./xmltest/not-wf/sa/172.xml:1: parser error : Start tag expected, '<' not found
+<?pi ￿?>
+     ^
+Checking ./xmltest/not-wf/sa/173.xml ...
+./xmltest/not-wf/sa/173.xml:1: parser error : Char 0xFFFF out of allowed range
+<doc a="￿"></doc>
+        ^
+./xmltest/not-wf/sa/173.xml:1: parser error : invalid character in attribute value
+<doc a="￿"></doc>
+        ^
+./xmltest/not-wf/sa/173.xml:1: parser error : attributes construct error
+<doc a="￿"></doc>
+        ^
+./xmltest/not-wf/sa/173.xml:1: parser error : Couldn't find end of Start Tag doc line 1
+<doc a="￿"></doc>
+        ^
+./xmltest/not-wf/sa/173.xml:1: parser error : Extra content at the end of the document
+<doc a="￿"></doc>
+        ^
+Checking ./xmltest/not-wf/sa/174.xml ...
+./xmltest/not-wf/sa/174.xml:1: parser error : Char 0xFFFF out of allowed range
+<doc><![CDATA[￿]]></doc>
+              ^
+./xmltest/not-wf/sa/174.xml:1: parser error : Unregistered error message
+<doc><![CDATA[￿]]></doc>
+              ^
+./xmltest/not-wf/sa/174.xml:1: parser error : Char 0xFFFF out of allowed range
+<doc><![CDATA[￿]]></doc>
+              ^
+./xmltest/not-wf/sa/174.xml:1: parser error : PCDATA invalid Char value 65535
+<doc><![CDATA[￿]]></doc>
+              ^
+./xmltest/not-wf/sa/174.xml:1: parser error : Sequence ']]>' not allowed in content
+<doc><![CDATA[￿]]></doc>
+                 ^
+./xmltest/not-wf/sa/174.xml:1: parser error : internal error: detected an error in element content
+
+<doc><![CDATA[￿]]></doc>
+                 ^
+Checking ./xmltest/not-wf/sa/175.xml ...
+./xmltest/not-wf/sa/175.xml:3: parser error : Char 0xFFFF out of allowed range
+<!ENTITY % e "￿">
+              ^
+./xmltest/not-wf/sa/175.xml:3: parser error : EntityValue: " or ' expected
+<!ENTITY % e "￿">
+              ^
+./xmltest/not-wf/sa/175.xml:3: parser error : xmlParseEntityDecl: entity e not terminated
+<!ENTITY % e "￿">
+              ^
+Checking ./xmltest/not-wf/sa/176.xml ...
+./xmltest/not-wf/sa/176.xml:4: parser error : Premature end of data in tag doc line 4
+Checking ./xmltest/not-wf/sa/177.xml ...
+./xmltest/not-wf/sa/177.xml:4: parser error : Char 0xFFFF out of allowed range
+<doc>A￿</doc>
+      ^
+./xmltest/not-wf/sa/177.xml:4: parser error : PCDATA invalid Char value 65535
+<doc>A￿</doc>
+      ^
+Checking ./xmltest/not-wf/sa/178.xml ...
+./xmltest/not-wf/sa/178.xml:5: parser error : Unescaped '<' not allowed in attributes values
+<doc a="&#34;></doc>
+              ^
+./xmltest/not-wf/sa/178.xml:5: parser error : attributes construct error
+<doc a="&#34;></doc>
+              ^
+./xmltest/not-wf/sa/178.xml:5: parser error : Couldn't find end of Start Tag doc line 5
+<doc a="&#34;></doc>
+              ^
+./xmltest/not-wf/sa/178.xml:5: parser error : Extra content at the end of the document
+<doc a="&#34;></doc>
+              ^
+Checking ./xmltest/not-wf/sa/179.xml ...
+./xmltest/not-wf/sa/179.xml:5: parser error : EntityValue: " or ' expected
+./xmltest/not-wf/sa/179.xml:5: parser error : xmlParseEntityDecl: entity e not terminated
+Checking ./xmltest/not-wf/sa/180.xml ...
+./xmltest/not-wf/sa/180.xml:3: parser error : Entity 'e' not defined
+<!ATTLIST doc a CDATA "&e;">
+                          ^
+Checking ./xmltest/not-wf/sa/181.xml ...
+Entity: line 1: parser error : Unregistered error message
+./xmltest/not-wf/sa/181.xml:5: parser error : Entity 'e' failed to parse
+<doc>&e;]]></doc>
+        ^
+./xmltest/not-wf/sa/181.xml:5: parser error : Sequence ']]>' not allowed in content
+<doc>&e;]]></doc>
+        ^
+./xmltest/not-wf/sa/181.xml:5: parser error : internal error: detected an error in element content
+
+<doc>&e;]]></doc>
+        ^
+Checking ./xmltest/not-wf/sa/182.xml ...
+Entity: line 1: parser error : Comment not terminated
+./xmltest/not-wf/sa/182.xml:5: parser error : Entity 'e' failed to parse
+<doc>&e;--></doc>
+        ^
+Checking ./xmltest/not-wf/sa/183.xml ...
+./xmltest/not-wf/sa/183.xml:2: parser error : MixedContentDecl : '|' or ')*' expected
+<!ELEMENT doc (#PCDATA | foo*)* >
+                            ^
+./xmltest/not-wf/sa/183.xml:2: parser error : expected '>'
+<!ELEMENT doc (#PCDATA | foo*)* >
+                            ^
+./xmltest/not-wf/sa/183.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (#PCDATA | foo*)* >
+                            ^
+./xmltest/not-wf/sa/183.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (#PCDATA | foo*)* >
+                            ^
+./xmltest/not-wf/sa/183.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (#PCDATA | foo*)* >
+                            ^
+Checking ./xmltest/not-wf/sa/184.xml ...
+./xmltest/not-wf/sa/184.xml:2: parser error : xmlParseElementMixedContentDecl : Name expected
+<!ELEMENT doc (#PCDATA | (foo))* >
+                         ^
+./xmltest/not-wf/sa/184.xml:2: parser error : expected '>'
+<!ELEMENT doc (#PCDATA | (foo))* >
+                         ^
+./xmltest/not-wf/sa/184.xml:2: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
+
+<!ELEMENT doc (#PCDATA | (foo))* >
+                         ^
+./xmltest/not-wf/sa/184.xml:2: parser error : DOCTYPE improperly terminated
+<!ELEMENT doc (#PCDATA | (foo))* >
+                         ^
+./xmltest/not-wf/sa/184.xml:2: parser error : Start tag expected, '<' not found
+<!ELEMENT doc (#PCDATA | (foo))* >
+                         ^
+Checking ./xmltest/not-wf/sa/185.xml ...
+./xmltest/not-wf/sa/185.xml:3: parser error : Entity 'e' not defined
+<doc>&e;</doc>
+        ^
+Checking ./xmltest/not-wf/sa/186.xml ...
+./xmltest/not-wf/sa/186.xml:5: parser error : attributes construct error
+<a b="c"d="e"/>
+        ^
+./xmltest/not-wf/sa/186.xml:5: parser error : Couldn't find end of Start Tag a line 5
+<a b="c"d="e"/>
+        ^
+./xmltest/not-wf/sa/186.xml:5: parser error : Extra content at the end of the document
+<a b="c"d="e"/>
+        ^
+Checking ./xmltest/valid/ext-sa/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "001.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/002.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "002.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "003.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/004.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "004.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/005.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (e)*>
+<!ELEMENT e EMPTY>
+<!ENTITY e SYSTEM "005.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/006.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA | e)*>
+<!ELEMENT e EMPTY>
+<!ENTITY e SYSTEM "006.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/007.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "007.ent">
+]>
+<doc>X&e;Z</doc>
+Checking ./xmltest/valid/ext-sa/008.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "008.ent">
+]>
+<doc>X&e;Z</doc>
+Checking ./xmltest/valid/ext-sa/009.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "009.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/010.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "010.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/011.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e PUBLIC "a not very interesting file" "011.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/ext-sa/012.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e1 "&e2;">
+<!ENTITY e2 "&e3;">
+<!ENTITY e3 SYSTEM "012.ent">
+<!ENTITY e4 "&e5;">
+<!ENTITY e5 "(e5)">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&e1;</doc>
+Checking ./xmltest/valid/ext-sa/013.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (e)>
+<!ELEMENT e (#PCDATA)>
+<!ATTLIST e a1 CDATA "a1 default">
+<!ATTLIST e a2 NMTOKENS "a2 default">
+<!ENTITY x SYSTEM "013.ent">
+]>
+<doc>&x;</doc>
+Checking ./xmltest/valid/ext-sa/014.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e SYSTEM "014.ent">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/not-sa/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "001.ent" [
+<!ELEMENT doc EMPTY>
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/002.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "002.ent" [
+<!ELEMENT doc EMPTY>
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "003-1.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/004.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "004-1.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/005.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "005-1.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/006.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "006.ent" [
+<!ATTLIST doc a1 CDATA "v1">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/007.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "007.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/008.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc PUBLIC "whatever" "008.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/009.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc PUBLIC "whatever" "009.ent" [
+<!ATTLIST doc a2 CDATA "v2">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/010.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "010.ent" [
+<!ATTLIST doc a1 CDATA "v1">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/011.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e SYSTEM "011.ent">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/012.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e SYSTEM "012.ent">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/013.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "013.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/014.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "014.ent" [
+<!ENTITY % e "INCLUDE">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/015.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "015.ent" [
+<!ENTITY % e "IGNORE">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/016.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "016.ent" [
+<!ENTITY % e "INCLUDE">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/017.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "017.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/018.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "018.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/019.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "019.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/020.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "020.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/021.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "021.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/022.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "022.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/023.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "023.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/024.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "024.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/025.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "025.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/026.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc ANY>
+<!ENTITY % e SYSTEM "026.ent">
+<!ATTLIST doc a1 CDATA "x1">
+<!ATTLIST doc a2 CDATA "x2">
+]>
+<doc/>
+Checking ./xmltest/valid/not-sa/027.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "027.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/028.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "028.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/029.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "029.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/030.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "030.ent">
+<doc/>
+Checking ./xmltest/valid/not-sa/031.xml ...
+./xmltest/valid/not-sa/031.xml:2: parser error : Entity 'e' not defined
+<doc>&e;</doc>
+        ^
+<?xml version="1.0"?>
+<!DOCTYPE doc SYSTEM "031-1.ent">
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/001.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/002.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/003.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/004.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="v1"/>
+Checking ./xmltest/valid/sa/005.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="v1"/>
+Checking ./xmltest/valid/sa/006.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="v1"/>
+Checking ./xmltest/valid/sa/007.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc> </doc>
+Checking ./xmltest/valid/sa/008.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&amp;&lt;&gt;"'</doc>
+Checking ./xmltest/valid/sa/009.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc> </doc>
+Checking ./xmltest/valid/sa/010.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="v1"/>
+Checking ./xmltest/valid/sa/011.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+<!ATTLIST doc a2 CDATA #IMPLIED>
+]>
+<doc a1="v1" a2="v2"/>
+Checking ./xmltest/valid/sa/012.xml ...
+./xmltest/valid/sa/012.xml:5: namespace error : Failed to parse QName ':'
+<doc :="v1"></doc>
+      ^
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc : CDATA #IMPLIED>
+]>
+<doc :="v1"/>
+Checking ./xmltest/valid/sa/013.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc _.-0123456789 CDATA #IMPLIED>
+]>
+<doc _.-0123456789="v1"/>
+Checking ./xmltest/valid/sa/014.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc abcdefghijklmnopqrstuvwxyz CDATA #IMPLIED>
+]>
+<doc abcdefghijklmnopqrstuvwxyz="v1"/>
+Checking ./xmltest/valid/sa/015.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc ABCDEFGHIJKLMNOPQRSTUVWXYZ CDATA #IMPLIED>
+]>
+<doc ABCDEFGHIJKLMNOPQRSTUVWXYZ="v1"/>
+Checking ./xmltest/valid/sa/016.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><?pi?></doc>
+Checking ./xmltest/valid/sa/017.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><?pi some data ? > <??></doc>
+Checking ./xmltest/valid/sa/018.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><![CDATA[<foo>]]></doc>
+Checking ./xmltest/valid/sa/019.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><![CDATA[<&]]></doc>
+Checking ./xmltest/valid/sa/020.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><![CDATA[<&]>]]]></doc>
+Checking ./xmltest/valid/sa/021.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><!-- a comment --></doc>
+Checking ./xmltest/valid/sa/022.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><!-- a comment ->--></doc>
+Checking ./xmltest/valid/sa/023.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/024.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (foo)>
+<!ELEMENT foo (#PCDATA)>
+<!ENTITY e "&#60;foo></foo>">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/025.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (foo)*>
+<!ELEMENT foo (#PCDATA)>
+]>
+<doc><foo/><foo/></doc>
+Checking ./xmltest/valid/sa/026.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (foo)*>
+<!ELEMENT foo EMPTY>
+]>
+<doc><foo/><foo/></doc>
+Checking ./xmltest/valid/sa/027.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (foo)*>
+<!ELEMENT foo ANY>
+]>
+<doc><foo/><foo/></doc>
+Checking ./xmltest/valid/sa/028.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/029.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/030.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/031.xml ...
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/032.xml ...
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/033.xml ...
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/034.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/035.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/036.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+<?pi data?>
+Checking ./xmltest/valid/sa/037.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+<!-- comment -->
+Checking ./xmltest/valid/sa/038.xml ...
+<?xml version="1.0"?>
+<!-- comment -->
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/039.xml ...
+<?xml version="1.0"?>
+<?pi data?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/040.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="&quot;&lt;&amp;&gt;'"/>
+Checking ./xmltest/valid/sa/041.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+]>
+<doc a1="A"/>
+Checking ./xmltest/valid/sa/042.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>A</doc>
+Checking ./xmltest/valid/sa/043.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ATTLIST doc a1 CDATA #IMPLIED>
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc a1="foo bar"/>
+Checking ./xmltest/valid/sa/044.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (e)*>
+<!ELEMENT e EMPTY>
+<!ATTLIST e a1 CDATA "v1">
+<!ATTLIST e a2 CDATA "v2">
+<!ATTLIST e a3 CDATA #IMPLIED>
+]>
+<doc>
+<e a3="v3"/>
+<e a1="w1"/>
+<e a2="w2" a3="v3"/>
+</doc>
+Checking ./xmltest/valid/sa/045.xml ...
+./xmltest/valid/sa/045.xml:4: validity warning : Attribute a1 of element doc: already defined
+<!ATTLIST doc a1 CDATA "z1">
+                           ^
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA "v1">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/046.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA "v1">
+<!ATTLIST doc a2 CDATA "v2">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/047.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>X
+Y</doc>
+Checking ./xmltest/valid/sa/048.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>]</doc>
+Checking ./xmltest/valid/sa/049.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#xA3;</doc>
+Checking ./xmltest/valid/sa/050.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#xE40;&#xE08;&#xE21;&#xE2A;&#xE4C;</doc>
+Checking ./xmltest/valid/sa/051.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE เจมส์ [
+<!ELEMENT เจมส์ (#PCDATA)>
+]>
+<เจมส์/>
+Checking ./xmltest/valid/sa/052.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#x10000;&#x10FFFD;</doc>
+Checking ./xmltest/valid/sa/053.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "<e/>">
+<!ELEMENT doc (e)>
+<!ELEMENT e EMPTY>
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/054.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/055.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<?pi data?>
+<doc/>
+Checking ./xmltest/valid/sa/056.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>A</doc>
+Checking ./xmltest/valid/sa/057.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (a)*>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/058.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ATTLIST doc a1 NMTOKENS #IMPLIED>
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc a1="1 2"/>
+Checking ./xmltest/valid/sa/059.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (e)*>
+<!ELEMENT e EMPTY>
+<!ATTLIST e a1 CDATA #IMPLIED>
+<!ATTLIST e a2 CDATA #IMPLIED>
+<!ATTLIST e a3 CDATA #IMPLIED>
+]>
+<doc>
+<e a1="v1" a2="v2" a3="v3"/>
+<e a1="w1" a2="v2"/>
+<e a1="v1" a2="w2" a3="v3"/>
+</doc>
+Checking ./xmltest/valid/sa/060.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>X
+Y</doc>
+Checking ./xmltest/valid/sa/061.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#xA3;</doc>
+Checking ./xmltest/valid/sa/062.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#xE40;&#xE08;&#xE21;&#xE2A;&#xE4C;</doc>
+Checking ./xmltest/valid/sa/063.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE เจมส์ [
+<!ELEMENT เจมส์ (#PCDATA)>
+]>
+<เจมส์/>
+Checking ./xmltest/valid/sa/064.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#x10000;&#x10FFFD;</doc>
+Checking ./xmltest/valid/sa/065.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "&#60;">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/066.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA #IMPLIED>
+<!-- 34 is double quote --><!ENTITY e1 "&#34;">
+]>
+<doc a1="&e1;"/>
+Checking ./xmltest/valid/sa/067.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&#xD;</doc>
+Checking ./xmltest/valid/sa/068.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "&#13;">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/069.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!NOTATION n PUBLIC "whatever" >
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/070.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e "<!ELEMENT doc (#PCDATA)>">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/071.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a ID #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/072.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a IDREF #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/073.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a IDREFS #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/074.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a ENTITY #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/075.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a ENTITIES #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/076.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!NOTATION n1 SYSTEM "http://www.w3.org/" >
+<!NOTATION n2 SYSTEM "http://www.w3.org/" >
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a NOTATION (n1 | n2) #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/077.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a (1 | 2) #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/078.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #REQUIRED>
+]>
+<doc a="v"/>
+Checking ./xmltest/valid/sa/079.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #FIXED "v">
+]>
+<doc a="v"/>
+Checking ./xmltest/valid/sa/080.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #FIXED "v">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/081.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (a , b , c)>
+<!ELEMENT a (a)?>
+<!ELEMENT b (b)*>
+<!ELEMENT c (a | b)+>
+]>
+<doc><a/><b/><c><a/></c></doc>
+Checking ./xmltest/valid/sa/082.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e SYSTEM "e.dtd">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/083.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e PUBLIC "whatever" "e.dtd">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/084.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/085.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY % e "<foo>">
+<!ENTITY e "">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/086.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/087.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "<foo/&#62;">
+<!ELEMENT doc (foo)>
+<!ELEMENT foo EMPTY>
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/088.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "&lt;foo>">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/089.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e "&#x10000;&#x10FFFD;&#x10FFFF;">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/090.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!NOTATION n PUBLIC "whatever" >
+<!ATTLIST e a NOTATION (n) #IMPLIED>
+<!ELEMENT doc (e)*>
+<!ELEMENT e (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/091.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!NOTATION n SYSTEM "http://www.w3.org/" >
+<!ENTITY e SYSTEM "http://www.w3.org/" NDATA n>
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a ENTITY "e">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/092.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (a)*>
+<!ELEMENT a EMPTY>
+]>
+<doc>
+<a/>
+    <a/>	<a/>
+
+
+</doc>
+Checking ./xmltest/valid/sa/093.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>
+
+
+</doc>
+Checking ./xmltest/valid/sa/094.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY % e "foo">
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a1 CDATA "%e;">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/095.xml ...
+./xmltest/valid/sa/095.xml:3: validity warning : Attribute a1 of element doc: already defined
+<!ATTLIST doc a1 NMTOKENS #IMPLIED>
+                                  ^
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ATTLIST doc a1 CDATA #IMPLIED>
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc a1="1  2"/>
+Checking ./xmltest/valid/sa/096.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ATTLIST doc a1 NMTOKENS "1 2">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/097.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY % e SYSTEM "097.ent">
+<!ATTLIST doc a1 CDATA "v1">
+<!ATTLIST doc a2 CDATA "v2">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/098.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><?pi x
+y?></doc>
+Checking ./xmltest/valid/sa/099.xml ...
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/100.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ENTITY e PUBLIC ";!*#@$_%" "100.xml">
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/101.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "&#34;">
+]>
+<doc/>
+Checking ./xmltest/valid/sa/102.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="&quot;"/>
+Checking ./xmltest/valid/sa/103.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc>&lt;doc&gt;</doc>
+Checking ./xmltest/valid/sa/104.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x y"/>
+Checking ./xmltest/valid/sa/105.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x&#9;y"/>
+Checking ./xmltest/valid/sa/106.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x&#10;y"/>
+Checking ./xmltest/valid/sa/107.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x&#13;y"/>
+Checking ./xmltest/valid/sa/108.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "
+">
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x&e;y"/>
+Checking ./xmltest/valid/sa/109.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a=""/>
+Checking ./xmltest/valid/sa/110.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "&#13;&#10;">
+<!ATTLIST doc a CDATA #IMPLIED>
+]>
+<doc a="x&e;y"/>
+Checking ./xmltest/valid/sa/111.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST doc a NMTOKENS #IMPLIED>
+]>
+<doc a="x y"/>
+Checking ./xmltest/valid/sa/112.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (a | b)>
+<!ELEMENT a (#PCDATA)>
+]>
+<doc><a/></doc>
+Checking ./xmltest/valid/sa/113.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ATTLIST e a CDATA #IMPLIED>
+]>
+<doc/>
+Checking ./xmltest/valid/sa/114.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e "<![CDATA[&foo;]]>">
+]>
+<doc>&e;</doc>
+Checking ./xmltest/valid/sa/115.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY e1 "&e2;">
+<!ENTITY e2 "v">
+]>
+<doc>&e1;</doc>
+Checking ./xmltest/valid/sa/116.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+]>
+<doc><![CDATA[
+]]></doc>
+Checking ./xmltest/valid/sa/117.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY rsqb "]">
+]>
+<doc>&rsqb;</doc>
+Checking ./xmltest/valid/sa/118.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc (#PCDATA)>
+<!ENTITY rsqb "]]">
+]>
+<doc>&rsqb;</doc>
+Checking ./xmltest/valid/sa/119.xml ...
+<?xml version="1.0"?>
+<!DOCTYPE doc [
+<!ELEMENT doc ANY>
+]>
+<doc><!-- -á --></doc>

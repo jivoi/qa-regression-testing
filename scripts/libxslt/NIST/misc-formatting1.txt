@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:static-content flow-name="xsl-region-before">
+      <fo:block text-align="center"> 
+           The XSL Formatting Objects Test Suite Version 1.0 
+        </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block margin-top="" margin-bottom="2cm" padding-top="" padding-bottom="0">There should be a two-centimeter margin between this paragraph and the next,
+because adjacent vertical margins should collapse to the maximum of the margins.</fo:block>
+      <fo:block margin-top="2cm" margin-bottom="" padding-top="0" padding-bottom="">This is another paragraph.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

@@ -1,0 +1,19 @@
+Testing radvd:
+--------------
+
+radvd gives out ipv6 adresses by advertising them on the local network.
+Two machines are needed to test it: a server, and a client that gets
+restarted after the server daemon is running.
+
+To set up the server:
+
+- # apt-get install radvd
+- # cp /usr/share/doc/radvd/examples/simple-radvd.conf /etc/radvd.conf
+- Uncomment net.ipv6.conf.all.forwarding=1 in /etc/sysctl.conf
+- # sysctl -p
+- # /etc/init.d/radvd start
+
+Boot a client, look at eth0 ipv6 address. If server is not running, address
+should be link-local and start with fe80::. If server is running, client
+should get a 2001:db8 ipv6 address.
+

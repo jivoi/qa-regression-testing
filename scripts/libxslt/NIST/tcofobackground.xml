@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcofoBackground" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+       <foProperty name="background-color" value="red"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+       <foProperty name="background-color" value="blue"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+       <foProperty name="background-color" value="yellow"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a red table column.</foText>
+           </fo>
+          </fo>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a blue table column.</foText>
+           </fo>
+          </fo>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a yellow table column.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

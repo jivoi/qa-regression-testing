@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBreakAfter4" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <parentProperty name="background-color" value="aqua"/>
+   <fo foName="list-item">
+    <foProperty name="break-after" value="even-page"/>
+    <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>This test generates four pages.  This is item 1 from of a list of three items (Page three should be empty)</foText>
+     </fo>
+    </fo>
+   </fo>
+   <fo foName="list-item">
+    <foProperty name="break-after" value="even-page"/>
+    <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>2) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>This is item 2 from a list of three items (should be on second page)</foText>
+     </fo>
+    </fo>
+   </fo>
+   <fo foName="list-item">
+    <foProperty name="break-after" value="even-page"/>
+    <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>2) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>This is item 3 from a list of three items (should be on fourth page)</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

@@ -1,0 +1,13 @@
+diff -Naur httpd-framework.ori/c-modules/authany/mod_authany.c httpd-framework/c-modules/authany/mod_authany.c
+--- httpd-framework.ori/c-modules/authany/mod_authany.c	2009-03-05 08:12:08.000000000 -0500
++++ httpd-framework/c-modules/authany/mod_authany.c	2009-03-05 09:48:26.000000000 -0500
+@@ -5,9 +5,6 @@
+    require user any-user
+    AuthType Basic
+    AuthName authany
+-   <IfVersion >= 2.3>
+-      AuthBasicProvider any
+-   </IfVersion>
+ </Location>
+ 
+ #endif

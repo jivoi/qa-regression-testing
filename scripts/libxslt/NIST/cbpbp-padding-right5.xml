@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a right padding of 25% (.25 inches), which is calculated with
+respect to the width of the generating box.  Both the content background and the padding should
+be aqua (light blue).  The text has been right-aligned in order to make the right padding easier to see.</PARAGRAPH>
+</TEST>

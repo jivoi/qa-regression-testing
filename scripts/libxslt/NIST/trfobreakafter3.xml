@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="trfoBreakAfter3" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column">
+       <foProperty name="column-width" value="3.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <foProperty name="break-after" value="odd-page"/>
+          <foProperty name="background-color" value="red"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This test generates three pages (page number two should be empty).  This row should appear on the first page.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="background-color" value="red"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This row should appear on the third page.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

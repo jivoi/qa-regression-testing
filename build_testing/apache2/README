@@ -1,0 +1,8 @@
+The excellent run_framework.sh script in this directory will perform all
+the necessary magic to get the apache2 testing framework running.
+
+Copy the contents of this directory to a VM running the desired release
+and simply run the run_framwork.sh script. Errors printed on the console
+for the script may be normal, check the output files in the directory to
+see if the tests ran successfully.
+

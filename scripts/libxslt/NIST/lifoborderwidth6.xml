@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBorderWidth6" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <parentProperty name="border-before-width" value="thick"/>
+   <parentProperty name="border-after-width" value="thick"/>
+   <parentProperty name="border-start-width" value="thick"/>
+   <parentProperty name="border-end-width" value="thick"/>
+   <fo foName="list-item">
+     <foProperty name="background-color" value="red"/>
+     <foProperty name="border-before-width" value="inherit"/>
+     <foProperty name="border-after-width" value="inherit"/>
+     <foProperty name="border-start-width" value="inherit"/>
+     <foProperty name="border-end-width" value="inherit"/>
+     <foProperty name="border-before-style" value="solid"/>
+     <foProperty name="border-after-style" value="solid"/>
+     <foProperty name="border-start-style" value="solid"/>
+     <foProperty name="border-end-style" value="solid"/>
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>The border width properties for this list item were set "inherit" ("thick" value at parent).</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

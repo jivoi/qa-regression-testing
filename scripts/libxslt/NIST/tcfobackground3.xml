@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBackground3" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="2.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <foProperty name="background-color" value="yellow"/>
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="inherit"/>
+            <fo foName="block">
+              <foText>This table cell got its yellow background color by specifying "inherit" in its "background-color" property.</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

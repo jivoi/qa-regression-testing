@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>The color for this text was set to "(255,-10,0)" and should resolve to "(255,0,0)" (red) as per the CSS2 specs.</PARAGRAPH>
+</TEST>

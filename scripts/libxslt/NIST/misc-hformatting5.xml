@@ -1,0 +1,8 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>Due to 'auto' values applied to the left margin, the 
+element should be right justified within its parent.  The gray 
+rectangle should therefore appear on the right edge of the viewport
+(e.g., the browser window).  The text inside the gray rectangle 
+should not be centered.</PARAGRAPH>
+</TEST>

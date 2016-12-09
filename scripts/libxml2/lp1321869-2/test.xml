@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+	"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY % test-ent SYSTEM "test.ent">
+%test-ent;
+<!ENTITY language "&EnglishAmerican;">
+<!ENTITY language "C">
+]>
+<book>
+	<title>This is a title</title>
+
+	<bookinfo>
+		<title>This is a title</title>
+
+		<copyright>
+			<year>2014</year>
+			<holder>&test-name; blah blah.</holder>
+		</copyright>
+
+	</bookinfo>
+
+</book>

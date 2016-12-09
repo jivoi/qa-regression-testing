@@ -1,0 +1,2 @@
+Tests are disabled in the build due to problems with dbus. Should work fine
+outside of buildd.

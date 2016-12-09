@@ -1,0 +1,3 @@
+To make authentication work in Dapper's cups web interface, you
+must add the cupsys user to the shadow group.
+

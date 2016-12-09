@@ -1,0 +1,18 @@
+logrotate has a small test suite in the "test" directory.
+In theory, the QRT test should reproduce all the tests from the test
+directory.
+
+This is how to run it anyway:
+
+In a schroot, do the following:
+
+sudo apt-get build-dep logrotate
+
+Go into the source directory, and build with "dpkg-buildpackage -rfakeroot".
+
+Once finished building, run the tests:
+
+make test
+
+All tests should pass.
+

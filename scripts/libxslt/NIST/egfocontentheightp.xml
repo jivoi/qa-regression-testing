@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoContentHeightp" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="background-color" value="aqua"/>
+      <parentText>The "content-height" of this "external-graphic" is set to "50%"</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.gif"/>
+       <foProperty name="content-height" value="50%"/>
+      </fo>
+  </testcase>

@@ -1,0 +1,24 @@
+From https://bugs.launchpad.net/ubuntu/+source/mesa/+bug/1019444
+
+For general validation of mesa, the piglit test suite can be used.
+
+1. Install prerequisites:
+   * sudo apt-get --yes install cmake g++ mesa-common-dev libgl1-mesa-dev \
+        libtiff4-dev zlib1g-dev libpng12-dev python-numpy \
+	freeglut3-dev x11proto-gl-dev libxrender-dev
+2. Checkout the piglit test suite from upstream
+   * git clone git://anongit.freedesktop.org/git/piglit
+   * cd piglit; cmake . ; make
+3. DISPLAY=:0 piglit-run.py tests/all.tests mesa802.results
+4. Install mesa 8.0.4
+5. DISPLAY=:0 piglit-run.py tests/all.tests mesa804.results
+6. piglit-summary-html.py summary/compare mesa802.results mesa804.results
+
+The tests take several hours to run.
+
+Note: Piglit is not a comprehensive test suite and cannot guarantee
+that there are no regressions. However, it is being actively maintained
+and updated with new tests by the driver maintainers as they add
+features and fix bugs in mesa, so should have decent coverage for
+recently made code changes (which is where regressions are more likely
+to live).

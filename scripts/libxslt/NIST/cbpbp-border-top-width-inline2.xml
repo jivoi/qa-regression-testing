@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a border top width of 25px and border-style of solid.
+  There is an <SPAN>inline element of border-top-width 25px</SPAN>, which should
+have no top border width or visible border because no border style was set.</PARAGRAPH>
+</TEST>

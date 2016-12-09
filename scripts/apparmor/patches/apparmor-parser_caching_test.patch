@@ -1,0 +1,55 @@
+------------------------------------------------------------
+revno: 2083
+committer: Steve Beattie <sbeattie@ubuntu.com>
+branch nick: apparmor
+timestamp: Fri 2012-12-07 23:18:40 -0800
+message:
+  This patch modifies the parser's caching test to more accurately detect
+  whether or not the filesystem has a fine enough timestamp resolution.
+  Occasionally even on filesystems like ext3, the two files' creation
+  dates would differ when created less than a second apart, which would
+  typically cause the 'Cache is used when cache is newer' test to fail
+  because the cached file would have the same timestamp as the profile.
+  
+  The fix creates 10 files 0.1 seconds apart and ensures that all ten
+  have distinct timestamps.
+  
+  (The occasional failure was caught in testing runs like
+   https://bugs.launchpad.net/qa-regression-testing/+bug/1087061/ )
+  
+  Signed-off-by: Steve Beattie <sbeattie@ubuntu.com>
+  Acked-by: John Johansen <john.johansen@canonical.com>
+
+=== modified file 'parser/tst/caching.sh'
+---
+ parser/tst/caching.sh |   14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+Index: b/parser/tst/caching.sh
+===================================================================
+--- a/parser/tst/caching.sh
++++ b/parser/tst/caching.sh
+@@ -22,15 +22,17 @@ cp caching.profile $basedir/$profile
+ 
+ # Detect and slow down cache test when filesystem can't represent nanosecond delays.
+ timeout=0.1
+-touch $basedir/test1
+-sleep $timeout
+-touch $basedir/test2
+-TIMES=$(stat $basedir/test1 $basedir/test2 -c %z | cut -d" " -f2 | cut -d. -f2 | sort -u | wc -l)
+-if [ $TIMES -ne 2 ]; then
++_count=10
++for ((i = 0; i < ${_count} ; i++)) ; do
++	touch $basedir/test${i}
++	sleep $timeout
++done
++TIMES=$(stat $basedir/test* -c %z | cut -d" " -f2 | cut -d: -f3 | sort -u | wc -l)
++if [ $TIMES -ne ${_count} ]; then
+     echo "WARNING: $basedir lacks nanosecond timestamp resolution, falling back to slower test"
+     timeout=1
+ fi
+-rm -f $basedir/test1 $basedir/test2
++rm -f $basedir/test*
+ 
+ echo -n "Profiles are not cached by default: "
+ ../apparmor_parser $ARGS -q -r $basedir/$profile

@@ -1,0 +1,21 @@
+pymongo has a test suite that can be run manually.
+
+It must be run in a vm or on real hardware with at least 8GB of free disk
+space, or it won't work properly.
+
+apt-get build-dep pymongo
+apt-get install mongodb
+apt-get install python-nose
+apt-get install quilt
+apt-get install devscripts
+
+apt-get source pymongo
+
+Make sure hosts has the hostname set to 127.0.0.1, not 127.0.1.1.
+
+- go into source tree, and:
+nosetests
+
+Some tests may be unreliable and need to be run more than once.
+
+

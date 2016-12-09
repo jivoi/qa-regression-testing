@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<TEST>
+<IMG SRC="crosshair1.jpg"/>
+<LIST>
+ <ITEM>item1</ITEM>
+ <ITEM>item2</ITEM>
+ <ITEM>item3</ITEM>
+ <ITEM>item4</ITEM>
+ <ITEM>item5</ITEM>
+ </LIST>
+</TEST>

@@ -1,0 +1,848 @@
+#!/bin/bash
+set -e
+
+user="swift"
+base="/srv"
+
+if getent passwd $user | grep -q $user ; then
+    echo "Skipping installing dependencies and $user user"
+else
+    echo "Getting dependencies"
+    apt-get build-dep swift
+    apt-get install curl memcached rsync sqlite3 xfsprogs git-core python-configobj python-coverage fakeroot python-mock libffi-dev python-setuptools python-coverage python-dev python-nose python-simplejson python-xattr python-eventlet python-greenlet python-pastedeploy python-netifaces python-pip python-dnspython
+#    apt-get install swift # sets up the swift:swift user
+    apt-get clean
+
+    # Adding user
+    adduser --system --quiet --disabled-login --disabled-password --no-create-home --group --shell /bin/false swift
+fi
+
+loop="$base/swift-disk"
+if [ -f "$loop" ]; then
+    echo "Skipping loopback setup for $loop (already exists)"
+else
+    echo "Setting up loopback storage"
+    dd if=/dev/zero of=$loop bs=1024 count=0 seek=1000000
+    mkfs.xfs -i size=1024 $loop
+    cat >> /etc/fstab <<EOM
+$loop /mnt/sdb1 xfs loop,noatime,nodiratime,nobarrier,logbufs=8 0 0
+EOM
+
+    mkdir /mnt/sdb1
+    mount /mnt/sdb1
+    mkdir /mnt/sdb1/1 /mnt/sdb1/2 /mnt/sdb1/3 /mnt/sdb1/4
+    chown $user:$user /mnt/sdb1/*
+    for x in {1..4}; do ln -s /mnt/sdb1/$x $base/$x; done
+    mkdir -p /etc/swift/object-server /etc/swift/container-server /etc/swift/account-server $base/1/node/sdb1 $base/2/node/sdb2 $base/3/node/sdb3 $base/4/node/sdb4 /var/run/swift /var/cache/swift /var/cache/swift2 /var/cache/swift3 /var/cache/swift4
+    chown -R $user:$user /etc/swift $base/[1-4]/ /var/run/swift /var/cache/swift*
+
+    sed -i "s#exit 0#mkdir /var/run/swift /var/cache/swift /var/cache/swift2 /var/cache/swift3 /var/cache/swift4\nchown $user:$user /var/run/swift /var/cache/swift /var/cache/swift2 /var/cache/swift3 /var/cache/swift4\nexit 0#" /etc/rc.local
+    chmod 755 /etc/rc.local
+fi
+
+if [ -f /etc/rsyncd.conf ]; then
+    echo "Skipping setup for /etc/rsyncd.conf (already exists)"
+else
+    cat > /etc/rsyncd.conf <<EOM
+uid = $user
+gid = $user
+log file = /var/log/rsyncd.log
+pid file = /var/run/rsyncd.pid
+address = 127.0.0.1
+
+[account6012]
+max connections = 25
+path = $base/1/node/
+read only = false
+lock file = /var/lock/account6012.lock
+
+[account6022]
+max connections = 25
+path = $base/2/node/
+read only = false
+lock file = /var/lock/account6022.lock
+
+[account6032]
+max connections = 25
+path = $base/3/node/
+read only = false
+lock file = /var/lock/account6032.lock
+
+[account6042]
+max connections = 25
+path = $base/4/node/
+read only = false
+lock file = /var/lock/account6042.lock
+
+
+[container6011]
+max connections = 25
+path = $base/1/node/
+read only = false
+lock file = /var/lock/container6011.lock
+
+[container6021]
+max connections = 25
+path = $base/2/node/
+read only = false
+lock file = /var/lock/container6021.lock
+
+[container6031]
+max connections = 25
+path = $base/3/node/
+read only = false
+lock file = /var/lock/container6031.lock
+
+[container6041]
+max connections = 25
+path = $base/4/node/
+read only = false
+lock file = /var/lock/container6041.lock
+
+
+[object6010]
+max connections = 25
+path = $base/1/node/
+read only = false
+lock file = /var/lock/object6010.lock
+
+[object6020]
+max connections = 25
+path = $base/2/node/
+read only = false
+lock file = /var/lock/object6020.lock
+
+[object6030]
+max connections = 25
+path = $base/3/node/
+read only = false
+lock file = /var/lock/object6030.lock
+
+[object6040]
+max connections = 25
+path = $base/4/node/
+read only = false
+lock file = /var/lock/object6040.lock
+EOM
+
+    sed -i 's/^RSYNC_ENABLE=.*/RSYNC_ENABLE=true/' /etc/default/rsync
+    service rsync restart
+    rsync rsync://pub@localhost/
+fi
+
+if [ -f /etc/swift/proxy-server.conf ]; then
+    echo "Skipping setup for /etc/swift/proxy-server.conf (already exists)"
+else
+    cat > /etc/swift/proxy-server.conf <<EOM
+[DEFAULT]
+bind_port = 8080
+workers = 1
+user = swift
+log_facility = LOG_LOCAL1
+eventlet_debug = true
+
+[pipeline:main]
+# Yes, proxy-logging appears twice. This is so that
+# middleware-originated requests get logged too.
+pipeline = catch_errors gatekeeper healthcheck proxy-logging cache bulk tempurl slo dlo ratelimit crossdomain tempauth staticweb container-quotas account-quotas proxy-logging proxy-server
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+
+[filter:bulk]
+use = egg:swift#bulk
+
+[filter:ratelimit]
+use = egg:swift#ratelimit
+
+[filter:crossdomain]
+use = egg:swift#crossdomain
+
+[filter:dlo]
+use = egg:swift#dlo
+
+[filter:slo]
+use = egg:swift#slo
+
+[filter:tempurl]
+use = egg:swift#tempurl
+
+[filter:tempauth]
+use = egg:swift#tempauth
+user_admin_admin = admin .admin .reseller_admin
+user_test_tester = testing .admin
+user_test2_tester2 = testing2 .admin
+user_test_tester3 = testing3
+
+[filter:staticweb]
+use = egg:swift#staticweb
+
+[filter:account-quotas]
+use = egg:swift#account_quotas
+
+[filter:container-quotas]
+use = egg:swift#container_quotas
+
+[filter:cache]
+use = egg:swift#memcache
+
+[filter:gatekeeper]
+use = egg:swift#gatekeeper
+
+[app:proxy-server]
+use = egg:swift#proxy
+allow_account_management = true
+account_autocreate = true
+
+EOM
+fi
+
+if [ -f /etc/swift/swift.conf ]; then
+    echo "Skipping setup for /etc/swift/swift.conf (already exists)"
+else
+    cat > /etc/swift/swift.conf <<EOM
+[swift-hash]
+# random unique strings that can never change (DO NOT LOSE)
+swift_hash_path_prefix = changeme
+swift_hash_path_suffix = changeme
+EOM
+fi
+
+if [ -f /etc/swift/account-server/1.conf ]; then
+    echo "Skipping setup for /etc/swift/account-server/1.conf (already exists)"
+else
+    cat > /etc/swift/account-server/1.conf <<EOM
+[DEFAULT]
+devices = $base/1/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6012
+workers = 1
+user = swift
+log_facility = LOG_LOCAL2
+recon_cache_path = /var/cache/swift
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon account-server
+
+[app:account-server]
+use = egg:swift#account
+
+[filter:recon]
+use = egg:swift#recon
+
+[account-replicator]
+vm_test_mode = yes
+
+[account-auditor]
+
+[account-reaper]
+EOM
+fi
+
+if [ -f /etc/swift/account-server/2.conf ]; then
+    echo "Skipping setup for /etc/swift/account-server/2.conf (already exists)"
+else
+    cat > /etc/swift/account-server/2.conf <<EOM
+[DEFAULT]
+devices = $base/2/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6022
+workers = 1
+user = swift
+log_facility = LOG_LOCAL3
+recon_cache_path = /var/cache/swift2
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon account-server
+
+[app:account-server]
+use = egg:swift#account
+
+[filter:recon]
+use = egg:swift#recon
+
+[account-replicator]
+vm_test_mode = yes
+
+[account-auditor]
+
+[account-reaper]
+EOM
+fi
+
+if [ -f /etc/swift/account-server/3.conf  ]; then
+    echo "Skipping setup for /etc/swift/account-server/3.conf (already exists)"
+else
+    cat > /etc/swift/account-server/3.conf <<EOM
+[DEFAULT]
+devices = $base/3/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6032
+workers = 1
+user = swift
+log_facility = LOG_LOCAL4
+recon_cache_path = /var/cache/swift3
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon account-server
+
+[app:account-server]
+use = egg:swift#account
+
+[filter:recon]
+use = egg:swift#recon
+
+[account-replicator]
+vm_test_mode = yes
+
+[account-auditor]
+
+[account-reaper]
+EOM
+fi
+
+if [ -f /etc/swift/account-server/4.conf ]; then
+    echo "Skipping setup for /etc/swift/account-server/4.conf (already exists)"
+else
+    cat > /etc/swift/account-server/4.conf <<EOM
+[DEFAULT]
+devices = $base/4/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6042
+workers = 1
+user = swift
+log_facility = LOG_LOCAL5
+recon_cache_path = /var/cache/swift4
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon account-server
+
+[app:account-server]
+use = egg:swift#account
+
+[filter:recon]
+use = egg:swift#recon
+
+[account-replicator]
+vm_test_mode = yes
+
+[account-auditor]
+
+[account-reaper]
+EOM
+fi
+
+if [ -f /etc/swift/container-server/1.conf ]; then
+    echo "Skipping setup for /etc/swift/container-server/1.conf (already exists)"
+else
+    cat > /etc/swift/container-server/1.conf <<EOM
+[DEFAULT]
+devices = $base/1/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6011
+workers = 1
+user = swift
+log_facility = LOG_LOCAL2
+recon_cache_path = /var/cache/swift
+eventlet_debug = true
+allow_versions = true
+
+[pipeline:main]
+pipeline = recon container-server
+
+[app:container-server]
+use = egg:swift#container
+
+[filter:recon]
+use = egg:swift#recon
+
+[container-replicator]
+vm_test_mode = yes
+
+[container-updater]
+
+[container-auditor]
+
+[container-sync]
+EOM
+fi
+
+if [ -f /etc/swift/container-server/2.conf ]; then
+    echo "Skipping setup for /etc/swift/container-server/2.conf (already exists)"
+else
+    cat > /etc/swift/container-server/2.conf <<EOM
+[DEFAULT]
+devices = $base/2/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6021
+workers = 1
+user = swift
+log_facility = LOG_LOCAL3
+recon_cache_path = /var/cache/swift2
+eventlet_debug = true
+allow_versions = true
+
+[pipeline:main]
+pipeline = recon container-server
+
+[app:container-server]
+use = egg:swift#container
+
+[filter:recon]
+use = egg:swift#recon
+
+[container-replicator]
+vm_test_mode = yes
+
+[container-updater]
+
+[container-auditor]
+
+[container-sync]
+EOM
+fi
+
+if [ -f /etc/swift/container-server/3.conf ]; then
+    echo "Skipping setup for /etc/swift/container-server/3.conf (already exists)"
+else
+    cat > /etc/swift/container-server/3.conf <<EOM
+[DEFAULT]
+devices = $base/3/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6031
+workers = 1
+user = swift
+log_facility = LOG_LOCAL4
+recon_cache_path = /var/cache/swift3
+eventlet_debug = true
+allow_versions = true
+
+[pipeline:main]
+pipeline = recon container-server
+
+[app:container-server]
+use = egg:swift#container
+
+[filter:recon]
+use = egg:swift#recon
+
+[container-replicator]
+vm_test_mode = yes
+
+[container-updater]
+
+[container-auditor]
+
+[container-sync]
+EOM
+fi
+
+if [ -f /etc/swift/container-server/4.conf ]; then
+    echo "Skipping setup for /etc/swift/container-server/4.conf (already exists)"
+else
+    cat > /etc/swift/container-server/4.conf <<EOM
+[DEFAULT]
+devices = $base/4/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6041
+workers = 1
+user = swift
+log_facility = LOG_LOCAL5
+recon_cache_path = /var/cache/swift4
+eventlet_debug = true
+allow_versions = true
+
+[pipeline:main]
+pipeline = recon container-server
+
+[app:container-server]
+use = egg:swift#container
+
+[filter:recon]
+use = egg:swift#recon
+
+[container-replicator]
+vm_test_mode = yes
+
+[container-updater]
+
+[container-auditor]
+
+[container-sync]
+EOM
+fi
+
+if [ -f /etc/swift/object-server/1.conf ]; then
+    echo "Skipping setup for /etc/swift/object-server/1.conf (already exists)"
+else
+    cat > /etc/swift/object-server/1.conf <<EOM
+[DEFAULT]
+devices = $base/1/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6010
+workers = 1
+user = swift
+log_facility = LOG_LOCAL2
+recon_cache_path = /var/cache/swift
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon object-server
+
+[app:object-server]
+use = egg:swift#object
+
+[filter:recon]
+use = egg:swift#recon
+
+[object-replicator]
+vm_test_mode = yes
+
+[object-updater]
+
+[object-auditor]
+EOM
+fi
+
+if [ -f /etc/swift/object-server/2.conf ]; then
+    echo "Skipping setup for /etc/swift/object-server/2.conf (already exists)"
+else
+    cat > /etc/swift/object-server/2.conf <<EOM
+[DEFAULT]
+devices = $base/2/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6020
+workers = 1
+user = swift
+log_facility = LOG_LOCAL3
+recon_cache_path = /var/cache/swift2
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon object-server
+
+[app:object-server]
+use = egg:swift#object
+
+[filter:recon]
+use = egg:swift#recon
+
+[object-replicator]
+vm_test_mode = yes
+
+[object-updater]
+
+[object-auditor]
+EOM
+fi
+
+if [ -f /etc/swift/object-server/3.conf ]; then
+    echo "Skipping setup for /etc/swift/object-server/3.conf (already exists)"
+else
+    cat > /etc/swift/object-server/3.conf <<EOM
+[DEFAULT]
+devices = $base/3/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6030
+workers = 1
+user = swift
+log_facility = LOG_LOCAL4
+recon_cache_path = /var/cache/swift3
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon object-server
+
+[app:object-server]
+use = egg:swift#object
+
+[filter:recon]
+use = egg:swift#recon
+
+[object-replicator]
+vm_test_mode = yes
+
+[object-updater]
+
+[object-auditor]
+EOM
+fi
+
+if [ -f /etc/swift/object-server/4.conf ]; then
+    echo "Skipping setup for /etc/swift/object-server/4.conf (already exists)"
+else
+    cat > /etc/swift/object-server/4.conf <<EOM
+[DEFAULT]
+devices = $base/4/node
+mount_check = false
+disable_fallocate = true
+bind_port = 6040
+workers = 1
+user = swift
+log_facility = LOG_LOCAL5
+recon_cache_path = /var/cache/swift4
+eventlet_debug = true
+
+[pipeline:main]
+pipeline = recon object-server
+
+[app:object-server]
+use = egg:swift#object
+
+[filter:recon]
+use = egg:swift#recon
+
+[object-replicator]
+vm_test_mode = yes
+
+[object-updater]
+
+[object-auditor]
+EOM
+fi
+
+if [ -f /etc/swift/object-expirer.conf ]; then
+    echo "Skipping setup for /etc/swift/object-expirer.conf (already exists)"
+else
+    cat > /etc/swift/object-expirer.conf <<EOM
+[DEFAULT]
+# swift_dir = /etc/swift
+user = swift
+# You can specify default log routing here if you want:
+log_name = object-expirer
+log_facility = LOG_LOCAL6
+log_level = INFO
+#log_address = /dev/log
+#
+# comma separated list of functions to call to setup custom log handlers.
+# functions get passed: conf, name, log_to_console, log_route, fmt, logger,
+# adapted_logger
+# log_custom_handlers =
+#
+# If set, log_udp_host will override log_address
+# log_udp_host =
+# log_udp_port = 514
+#
+# You can enable StatsD logging here:
+# log_statsd_host = localhost
+# log_statsd_port = 8125
+# log_statsd_default_sample_rate = 1.0
+# log_statsd_sample_rate_factor = 1.0
+# log_statsd_metric_prefix =
+
+[object-expirer]
+interval = 300
+# auto_create_account_prefix = .
+# report_interval = 300
+# concurrency is the level of concurrency o use to do the work, this value
+# must be set to at least 1
+# concurrency = 1
+# processes is how many parts to divide the work into, one part per process
+#   that will be doing the work
+# processes set 0 means that a single process will be doing all the work
+# processes can also be specified on the command line and will override the
+#   config value
+# processes = 0
+# process is which of the parts a particular process will work on
+# process can also be specified on the command line and will overide the config
+#   value
+# process is "zero based", if you want to use 3 processes, you should run
+#  processes with process set to 0, 1, and 2
+# process = 0
+
+[pipeline:main]
+pipeline = catch_errors cache proxy-server
+
+[app:proxy-server]
+use = egg:swift#proxy
+# See proxy-server.conf-sample for options
+
+[filter:cache]
+use = egg:swift#memcache
+# See proxy-server.conf-sample for options
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+# See proxy-server.conf-sample for options
+EOM
+fi
+
+if [ -f /etc/swift/container-reconciler.conf ]; then
+    echo "Skipping setup for /etc/swift/container-reconciler.conf (already exists)"
+else
+    cat > /etc/swift/container-reconciler.conf <<EOM
+[DEFAULT]
+# swift_dir = /etc/swift
+user = <your-user-name>
+# You can specify default log routing here if you want:
+# log_name = swift
+# log_facility = LOG_LOCAL0
+# log_level = INFO
+# log_address = /dev/log
+#
+# comma separated list of functions to call to setup custom log handlers.
+# functions get passed: conf, name, log_to_console, log_route, fmt, logger,
+# adapted_logger
+# log_custom_handlers =
+#
+# If set, log_udp_host will override log_address
+# log_udp_host =
+# log_udp_port = 514
+#
+# You can enable StatsD logging here:
+# log_statsd_host = localhost
+# log_statsd_port = 8125
+# log_statsd_default_sample_rate = 1.0
+# log_statsd_sample_rate_factor = 1.0
+# log_statsd_metric_prefix =
+
+[container-reconciler]
+# reclaim_age = 604800
+# interval = 300
+# request_tries = 3
+
+[pipeline:main]
+pipeline = catch_errors proxy-logging cache proxy-server
+
+[app:proxy-server]
+use = egg:swift#proxy
+# See proxy-server.conf-sample for options
+
+[filter:cache]
+use = egg:swift#memcache
+# See proxy-server.conf-sample for options
+
+[filter:proxy-logging]
+use = egg:swift#proxy_logging
+
+[filter:catch_errors]
+use = egg:swift#catch_errors
+# See proxy-server.conf-sample for options
+EOM
+fi
+
+mkdir ~/bin || true
+if [ -f ~/bin/resetswift ]; then
+    echo "Skipping setup for ~/bin/* (resetswift already exists)"
+else
+    echo "Creating helpers in ~/bin"
+    cat > ~/bin/resetswift <<EOM
+#!/bin/bash
+
+swift-init all stop
+#find /var/log/swift -type f -exec rm -f {} \;
+sudo umount /mnt/sdb1
+#sudo rm -f $loop
+#sudo dd if=/dev/zero of=$loop bs=1024 count=0 seek=1000000
+sudo mkfs.xfs -f -i size=1024 $loop
+sudo mount /mnt/sdb1
+sudo mkdir /mnt/sdb1/1 /mnt/sdb1/2 /mnt/sdb1/3 /mnt/sdb1/4
+sudo chown $user:$user /mnt/sdb1/*
+sudo mkdir -p $base/1/node/sdb1 $base/2/node/sdb2 $base/3/node/sdb3 $base/4/node/sdb4
+sudo chown -R $user:$user $base/[1-4]/
+#sudo rm -f /var/log/debug /var/log/messages /var/log/rsyncd.log /var/log/syslog
+sudo find /var/cache/swift* -type f -name *.recon -exec rm -f {} \;
+#sudo service rsyslog restart
+sudo service memcached restart
+EOM
+
+    cat > ~/bin/remakerings <<EOM
+#!/bin/bash
+
+cd /etc/swift
+
+rm -f *.builder *.ring.gz backups/*.builder backups/*.ring.gz
+
+swift-ring-builder object.builder create 10 3 1
+swift-ring-builder object.builder add r1z1-127.0.0.1:6010/sdb1 1
+swift-ring-builder object.builder add r1z2-127.0.0.1:6020/sdb2 1
+swift-ring-builder object.builder add r1z3-127.0.0.1:6030/sdb3 1
+swift-ring-builder object.builder add r1z4-127.0.0.1:6040/sdb4 1
+swift-ring-builder object.builder rebalance
+swift-ring-builder object-1.builder create 10 2 1
+swift-ring-builder object-1.builder add r1z1-127.0.0.1:6010/sdb1 1
+swift-ring-builder object-1.builder add r1z2-127.0.0.1:6020/sdb2 1
+swift-ring-builder object-1.builder add r1z3-127.0.0.1:6030/sdb3 1
+swift-ring-builder object-1.builder add r1z4-127.0.0.1:6040/sdb4 1
+swift-ring-builder object-1.builder rebalance
+swift-ring-builder container.builder create 10 3 1
+swift-ring-builder container.builder add r1z1-127.0.0.1:6011/sdb1 1
+swift-ring-builder container.builder add r1z2-127.0.0.1:6021/sdb2 1
+swift-ring-builder container.builder add r1z3-127.0.0.1:6031/sdb3 1
+swift-ring-builder container.builder add r1z4-127.0.0.1:6041/sdb4 1
+swift-ring-builder container.builder rebalance
+swift-ring-builder account.builder create 10 3 1
+swift-ring-builder account.builder add r1z1-127.0.0.1:6012/sdb1 1
+swift-ring-builder account.builder add r1z2-127.0.0.1:6022/sdb2 1
+swift-ring-builder account.builder add r1z3-127.0.0.1:6032/sdb3 1
+swift-ring-builder account.builder add r1z4-127.0.0.1:6042/sdb4 1
+swift-ring-builder account.builder rebalance
+EOM
+
+    cat > ~/bin/startmain <<EOM
+#!/bin/bash
+swift-init main start
+EOM
+
+    cat > ~/bin/startrest <<EOM
+#!/bin/bash
+swift-init rest start
+EOM
+
+    chmod +x ~/bin/*
+fi
+
+cat <<EOM
+Done!
+
+Now perform:
+$ apt-get source swift
+...
+$ cd ./swift-*
+
+You can now install swift to /usr/local:
+$ sudo python ./setup.py develop
+
+Or if you prefer to run the tests manually against installed packages (eg, to
+test your build):
+$ sudo apt-get install swift swift-account swift-container swift-object swift-proxy swift-object-expirer
+
+Run unittests with (note, must be installed in /usr/local or /usr (see above)
+with this method. It is possible to run without that, see ./.unittests)):
+$ SWIFT_TEST_CONFIG_FILE=\`pwd\`/test/sample.conf ./.unittests -v
+
+Run functional tests with:
+$ sudo ~/bin/remakerings # 1st time, then only if needed
+$ sudo ~/bin/resetswift  # only if needed (not required first time, should be
+                         # run after remakerings)
+$ sudo ~/bin/startmain   # 1st time, then only if stopped (eg, after
+                         # resetswift)
+$ sudo ~/bin/startrest   # only if needed (not required first time)
+$ SWIFT_TEST_CONFIG_FILE=\`pwd\`/test/sample.conf ./.functests -v
+
+Run probe tests:
+$ sudo SWIFT_TEST_CONFIG_FILE=\`pwd\`/test/sample.conf ./.probetests
+
+If have problems, see ./doc/source/development_saio.rst
+EOM

@@ -1,0 +1,18 @@
+Source: qa-regression-testing
+Section: misc
+XS-Python-Version: >= 2.5
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Build-Depends: debhelper (>= 7.0.50~), devscripts
+Standards-Version: 3.9.1
+Homepage: https://launchpad.net/qa-regression-testing
+Vcs-Bzr: https://bazaar.launchpad.net/~ubuntu-bugcontrol/qa-regression-testing/master
+
+Package: qa-regression-testing
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python, python-unit, lsb-release, bzr
+XB-Python-Version: ${python:Versions}
+Description: QA Regression Testing (QRT) scripts and data
+ This binary contains a copy of the data/ and scripts/ directory of QRT. See
+ /usr/share/doc/qa-regression-testing/README for details on using this test
+ suite.

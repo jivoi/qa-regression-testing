@@ -1,0 +1,142 @@
+diff -Nru tomcat7-7.0.26/debian/README.source tomcat7-7.0.26/debian/README.source
+--- tomcat7-7.0.26/debian/README.source	1969-12-31 18:00:00.000000000 -0600
++++ tomcat7-7.0.26/debian/README.source	2013-02-15 14:53:51.000000000 -0600
+@@ -0,0 +1,41 @@
++Tomcat 7 Testsuite
++------------------
++
++7.0.26-1ubuntu1.2 added a testsuite target to debian/rules in a security
++update since the testsuite is not enabled during the until Ubuntu 12.10. This
++is not added as part of the build because of changes required to ANT_ARGS
++that might change the resulting package.
++
++To use:
++$ apt-get build-dep tomcat7
++$ debian/rules testsuite
++
++Test results are in output/build/logs/*. Failures can be see with:
++$ egrep '(Failures|Errors): [1-9]' output/build/logs/*
++
++There is a known failing test in 7.0.21-1:
++
++$ cat TEST-org.apache.catalina.connector.TestCoyoteAdapter.BIO.txt
++Testsuite: org.apache.catalina.connector.TestCoyoteAdapter
++Tests run: 12, Failures: 1, Errors: 0, Time elapsed: 14.892 sec
++...
++Testcase: testPathParamsRedirect took 0.009 sec
++	FAILED
++Unable to create foo directory in docBase
++junit.framework.AssertionFailedError: Unable to create foo directory in docBase
++	at org.apache.catalina.connector.TestCoyoteAdapter.testPathParamsRedirect(TestCoyoteAdapter.java:91)
++
++
++Some tests are also sensitive to load on the test machine. Eg:
++
++$ cat ./output/build/logs/TEST-org.apache.tomcat.util.http.mapper.TestMapper.BIO.txt
++Testsuite: org.apache.tomcat.util.http.mapper.TestMapper
++Tests run: 3, Failures: 1, Errors: 0, Time elapsed: 4.508 sec
++
++Testcase: testAddHost took 0.047 sec
++Testcase: testMap took 0.019 sec
++Testcase: testPerformance took 4.386 sec
++	FAILED
++4378
++junit.framework.AssertionFailedError: 4378
++	at org.apache.tomcat.util.http.mapper.TestMapper.testPerformance(TestMapper.java:157)
+diff -Nru tomcat7-7.0.26/debian/changelog tomcat7-7.0.26/debian/changelog
+--- tomcat7-7.0.26/debian/changelog	2012-07-12 15:54:37.000000000 -0500
++++ tomcat7-7.0.26/debian/changelog	2013-02-15 14:42:54.000000000 -0600
+@@ -1,3 +1,16 @@
++tomcat7 (7.0.26-1ubuntu1.2) precise-security; urgency=low
++
++  [ Jamie Strandboge ]
++  * allow for easily running the testsuite:
++    - debian/control: add testsuite build-depends
++    - debian/rules:
++      + add 'testsuite' target
++      + add ANT_TS_ARGS for use in the testsuite target
++      + cleanup the testsuite
++    - add debian/README.source for information on how to use the testsuite
++
++ -- Jamie Strandboge <jamie@ubuntu.com>  Fri, 15 Feb 2013 14:37:29 -0600
++
+ tomcat7 (7.0.26-1ubuntu1.1) precise-proposed; urgency=low
+ 
+   * Fix handling of JNDI lookups using javax.naming.Name (LP: #1012794):
+diff -Nru tomcat7-7.0.26/debian/control tomcat7-7.0.26/debian/control
+--- tomcat7-7.0.26/debian/control	2012-07-12 15:44:06.000000000 -0500
++++ tomcat7-7.0.26/debian/control	2013-02-15 14:38:44.000000000 -0600
+@@ -7,7 +7,8 @@
+  Miguel Landaeta <miguel@miguel.cc>, tony mancill <tmancill@debian.org>,
+  Jakub Adam <jakub.adam@ktknet.cz>
+ Build-Depends: default-jdk, ant-optional, debhelper (>= 7), po-debconf
+-Build-Depends-Indep: maven-repo-helper (>> 1.0.1), libecj-java
++Build-Depends-Indep: maven-repo-helper (>> 1.0.1), libecj-java, junit4,
++ libjstl1.1-java, libjakarta-taglibs-standard-java
+ Standards-Version: 3.9.3
+ Vcs-Git: git://git.debian.org/git/pkg-java/tomcat7.git
+ Vcs-Browser: http://git.debian.org/?p=pkg-java/tomcat7.git
+diff -Nru tomcat7-7.0.26/debian/rules tomcat7-7.0.26/debian/rules
+--- tomcat7-7.0.26/debian/rules	2012-07-12 15:44:06.000000000 -0500
++++ tomcat7-7.0.26/debian/rules	2013-02-15 14:40:09.000000000 -0600
+@@ -5,7 +5,7 @@
+ BLDLIB := output/build/lib
+ BLDBIN := output/build/bin
+ DEB_JARS_BASE := /usr/share/java
+-DEB_JARS := ant ant-launcher ant-trax ant-nodeps
++DEB_JARS := ant ant-launcher ant-trax ant-nodeps ant-junit4 ant-junit junit4
+ DEB_CLASSPATH = $(shell for jar in $(DEB_JARS); do \
+ 	if [ -f "$$jar" ]; then echo -n "$${jar}:"; fi; \
+ 	if [ -f "$$jar".jar ]; then echo -n "$${jar}.jar:"; fi; \
+@@ -29,6 +29,19 @@
+ 	-Dant.build.javac.source=1.5 \
+ 	-Dant.build.javac.target=1.5 \
+ 	-Djdt.jar=/usr/share/java/ecj.jar \
++	-Djunit.jar=/usr/share/java/junit4.jar \
++	-Dversion=$(T_VER) \
++    -Dversion.major="$(T_VER_MAJOR)" \
++    -Dversion.minor="$(T_VER_MINOR)" \
++    -Dversion.build="$(T_VER_BUILD)" \
++    -Dversion.patch="0" \
++    -Dversion.suffix="" 
++
++ANT_TS_ARGS := -Dcompile.debug=true \
++	-Dant.build.javac.source=1.6 \
++	-Dant.build.javac.target=1.6 \
++	-Djdt.jar=/usr/share/java/ecj.jar \
++	-Djunit.jar=/usr/share/java/junit4.jar \
+ 	-Dversion=$(T_VER) \
+     -Dversion.major="$(T_VER_MAJOR)" \
+     -Dversion.minor="$(T_VER_MINOR)" \
+@@ -38,8 +51,10 @@
+ 
+ ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ 	ANT_ARGS += -Dcompile.optimize=false
++	ANT_TS_ARGS += -Dcompile.optimize=false
+ else
+ 	ANT_ARGS += -Dcompile.optimize=true
++	ANT_TS_ARGS += -Dcompile.optimize=true
+ endif
+ 
+ ANT_INVOKE := $(JAVA_CMD) -classpath "$(DEB_CLASSPATH)" \
+@@ -57,12 +72,20 @@
+ 		-bottom "Copyright &#169; 2000-2011 Apache Software Foundation. All Rights Reserved."
+ 	touch build-stamp
+ 
++testsuite: build-stamp
++	dh_testdir
++	mkdir -p webapps/examples/WEB-INF/lib
++	cp /usr/share/java/jstl1.1.jar webapps/examples/WEB-INF/lib/jstl.jar
++	cp /usr/share/java/standard.jar webapps/examples/WEB-INF/lib/standard.jar
++	$(JAVA_CMD) -classpath "$(DEB_CLASSPATH)" org.apache.tools.ant.Main $(ANT_TS_ARGS) deploy test
++
+ clean:
+ 	dh_testdir
+ 	dh_testroot
+ 	-$(ANT_INVOKE) clean
+ 	rm -rf "output/"
+ 	rm -f build-stamp modules/jdbc-pool/output/resources/MANIFEST.MF
++	rm -rf webapps/examples/WEB-INF/lib/*.jar
+ 	dh_clean
+ 	mh_clean
+ 

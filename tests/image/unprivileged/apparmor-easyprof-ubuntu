@@ -1,0 +1,779 @@
+#!/bin/bash
+################################################################################
+# Copyright 2013-2015 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; version 2.1.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Author: Jamie Strandboge <jamie@canonical.com>
+################################################################################
+
+set -e
+
+# TODO:
+# - fat packages when available
+
+# Failure counter
+F_I=0
+
+# Success counter
+S_I=0
+
+# Skipped counter
+K_I=0
+
+# Total counter
+T_I=0
+
+tmpdir=`mktemp -d`
+trap "rm -rf $tmpdir" EXIT HUP INT QUIT TERM
+
+print_summary() {
+    echo
+    echo "apparmor-easyprof-ubuntu tests"
+    echo " Passed:  ${S_I}/${T_I}"
+    echo " Failed:  ${F_I}/${T_I}"
+    echo " Skipped: ${K_I}/${T_I}"
+    echo
+}
+
+_get_click_value() {
+    app_id="$1"
+    key="$2"
+    pname=`echo $app_id | cut -d '_' -f 1`
+    aname=`echo $app_id | cut -d '_' -f 2`
+    pvers=`echo $app_id | cut -d '_' -f 3`
+    case "$key" in
+        pkgname) echo "$pname";;
+        appname) echo "$aname";;
+        pkgvers) echo "$pvers";;
+    esac
+}
+
+_get_install_path() {
+    app_id="$1"
+    desktop="$HOME/.local/share/applications/${app_id}.desktop"
+    if [ ! -f "$desktop" ]; then
+        echo "!FAIL! (could not find $desktop)"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+        return
+    fi
+    ipath=`egrep '^Path=' "$desktop" | sed 's/^Path=//'`
+    echo "$ipath"
+}
+
+create_click() {
+    framework="$1"
+    policy_vendor="$2"
+    policy_version="$3"
+    template="$4"
+    shift 4
+
+    echo "Creating click package using $framework with $template ($policy_vendor/$policy_version) ... "
+
+    prep_dir="$tmpdir/$template"
+    mkdir "$prep_dir"
+    script_path="`readlink -f $0`"
+    assets_dir="`dirname $script_path`/../../assets/confined-basic"
+
+    arch=`dpkg --print-architecture`
+    cp "$assets_dir"/"$arch"/* "$prep_dir"
+    cp "$assets_dir/confined-basic.desktop" "$prep_dir"
+    sed -e "s/###ARCH###/$arch/g" -e "s/###FRAMEWORK###/$framework/g" \
+        "$assets_dir"/manifest.json.in > \
+        "$prep_dir"/manifest.json
+
+    # create the security manifest
+    echo "{" > "$prep_dir"/confined-basic.json
+    if [ "$template" != "default" ] && [ "$template" != "ubuntu-sdk" ]; then
+        echo "  \"template\": \"$template\"," >> "$prep_dir"/confined-basic.json
+    fi
+    if [ -z "$1" ]; then
+        echo "  \"policy_groups\": []," >> "$prep_dir"/confined-basic.json
+    else
+        echo "  \"policy_groups\": [" >> "$prep_dir"/confined-basic.json
+        for g in $* ; do
+            if [ "$g" = "$1" ]; then
+                echo -ne "    \"$g\"" >> "$prep_dir"/confined-basic.json
+            else
+                echo -ne ",\n    \"$g\"" >> "$prep_dir"/confined-basic.json
+            fi
+        done
+        echo >> "$prep_dir"/confined-basic.json
+        echo "  ]," >> "$prep_dir"/confined-basic.json
+    fi
+    echo "  \"policy_vendor\": \"$policy_vendor\"," >> "$prep_dir"/confined-basic.json
+    echo "  \"policy_version\": $policy_version" >> "$prep_dir"/confined-basic.json
+    echo "}" >> "$prep_dir"/confined-basic.json
+
+    cat "$prep_dir"/confined-basic.json
+
+    cd $tmpdir
+    click build "$prep_dir"
+    cd - >/dev/null
+    rm -rf "$prep_dir"
+
+    echo "[OK]"
+}
+
+click_install() {
+    app_id="$1"
+    pkgarch="$2"
+    if [ -z "$pkgarch" ]; then
+        pkgarch="all"
+    fi
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+
+    clickpkg="$tmpdir"/"$pkgname"_"$pkgvers"_$pkgarch.click
+    echo -n "Checking click package availability (`basename $clickpkg`) ... "
+    if [ ! -f "$clickpkg" ]; then
+        echo "!ERROR! Could not find '$clickpkg'"
+        print_summary
+        exit -1
+    fi
+    echo "[OK]"
+
+    # TODO: update when click packages can be installed by non-root on desktop
+    cmd="pkcon install-local --allow-untrusted"
+    echo "Installing click package ... "
+    if [ -f /tmp/.X0-lock ]; then
+        cmd="sudo click install --user=$USER --force-missing-framework --allow-unauthenticated"
+    fi
+
+    if $cmd "$clickpkg" ; then
+        echo "[OK]"
+    else
+        echo "!FAIL!"
+    fi
+    echo
+}
+
+click_remove() {
+    app_id="$1"
+    pkgarch="$2"
+    if [ -z "$pkgarch" ]; then
+        pkgarch="all"
+    fi
+
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+    # TODO: update when click packages can be installed by non-root on desktop
+    cmd="pkcon remove $pkgname;$pkgvers;$pkgarch;local:click"
+    echo "Uninstalling click package ... "
+    if [ -f /tmp/.X0-lock ]; then
+        cmd="sudo click unregister --user=$USER $pkgname $pkgvers"
+    fi
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+    if $cmd ; then
+        echo "[OK]"
+    else
+        echo "!FAIL!"
+    fi
+}
+
+aa_exec_click() {
+    app_id="$1"
+    shift
+    rc="$1"
+    shift
+    desktop="$HOME/.local/share/applications/${app_id}.desktop"
+    if [ ! -f "$desktop" ]; then
+        echo "!FAIL! (could not find $desktop)"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+        return
+    fi
+
+    cdir=`pwd`
+    ipath=`_get_install_path $app_id`
+    cd "$ipath"
+    cmd=`egrep '^Exec=' "$desktop" | sed -e 's/^Exec=//' -e 's/aa-exec-click/aa-exec-click -x/'`
+    echo -n "Checking '$*'... "
+    set +e
+
+    $cmd $* >/dev/null 2>&1
+    #echo "" ; $cmd $* # debugging
+    #./confined-basic $* >/dev/null 2>&1 # unconfined
+    res="$?"
+    set -e
+    if [ "$res" = "$rc" ]; then
+        echo "[OK] (rc=$res)"
+        S_I=$(($S_I +1))
+        T_I=$(($T_I +1))
+    else
+        echo "!FAIL! (unexpected rc=$res)"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+    fi
+    cd "$cdir"
+}
+
+check_file() {
+    app_id="$1"
+    expected="$2"
+    mode="$3"
+    f="$4"
+    existed="no"
+
+    if [ -e "$f" ]; then
+        existed="yes"
+    fi
+
+    aa_exec_click "$app_id" $expected $mode $f
+
+    if [ "$existed" = "no" ] && [ -e "$f" ]; then
+        if [ "$mode" = "-W" ] || [ "$mode" = "-w" ]; then
+            rm -f "$f"
+        fi
+    fi
+}
+
+basic_tests() {
+    app_id="$1"
+    policy_version="$2"
+    arch="$3"
+
+    pkgname=`_get_click_value "$app_id" pkgname`
+    appname=`_get_click_value "$app_id" appname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+
+    # environment
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+    aa_exec_click "$app_id" 0 -e XDG_CACHE_HOME="$HOME/.cache"
+    aa_exec_click "$app_id" 0 -e XDG_CONFIG_HOME="$HOME/.config"
+    aa_exec_click "$app_id" 0 -e XDG_DATA_HOME="$HOME/.local/share"
+    aa_exec_click "$app_id" 0 -e XDG_RUNTIME_DIR="/run/user/$(id -ru)"
+    aa_exec_click "$app_id" 0 -e UBUNTU_APPLICATION_ISOLATION=1
+    aa_exec_click "$app_id" 0 -e TMPDIR="/run/user/$(id -ru)/confined/$pkgname"
+
+    # test some arch specific values. dpkg-architecture isn't on the device, so
+    # just enumerate a few we know. TODO: make this more robust
+    if [ "$arch" = "amd64" ] || [ "$arch" = "i386" ] || [ "$arch" = "armhf" ]; then
+        pkgdir=`click pkgdir $pkgname`
+        gnutriplet=
+        case "$arch" in
+            amd64) gnutriplet="x86_64-linux-gnu";;
+            i386) gnutriplet="i386-linux-gnu";;
+            armhf) gnutriplet="arm-linux-gnueabihf";;
+        esac
+        libdir="$pkgdir/lib/$gnutriplet"
+        LD_LIBRARY_PATH=/foo aa_exec_click "$app_id" 0 -e LD_LIBRARY_PATH="$libdir:`dirname $libdir`:/foo"
+        QML2_IMPORT_PATH=/foo aa_exec_click "$app_id" 0 -e QML2_IMPORT_PATH="/foo:$libdir"
+        PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" aa_exec_click "$app_id" 0 -e PATH="$libdir/bin:$pkgdir:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    fi
+
+    # 'rw' system files
+    echo -e "\n==== read/write system files ===="
+    # TODO: add these when can open sockets
+    # /dev/socket/property_service \
+    for f in /dev/binder \
+             /sys/devices/virtual/timed_output/vibrator/enable \
+             /sys/class/timed_output/vibrator/enable
+    do
+        if [ ! -w "$f" ]; then
+            echo "Checking '-w $f': SKIP (does not exist or not writable)"
+        else
+            aa_exec_click "$app_id" 0 -W $f
+        fi
+    done
+
+    echo -e "\n==== read-only system files ===="
+    for f in /proc/self/cmdline \
+             /proc/self/status \
+             `_get_install_path $app_id`/${appname}.json \
+             /custom/xdg/data/themes/Ubuntu/Custom/parent_theme \
+             /etc/ssl/openssl.cnf
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            check_file "$app_id" 0 -r $f
+            check_file "$app_id" 1 -w $f # -r needs the file to exist, so don't
+                                         # need for extra cleanup
+        fi
+    done
+
+    echo -e "\n==== read/write user files ===="
+    # TODO: add these when can open sockets
+    #       /run/user/$(id -ru)/mir_socket \
+    #       /tmp/mir_socket # 1.0 only
+    for f in $HOME/.cache/$pkgname/test.rw \
+             $HOME/.config/$pkgname/test.rw \
+             $HOME/.local/share/$pkgname/test.rw \
+             /run/user/$(id -ru)/confined/$pkgname/test.rw \
+             $HOME/.cache/QML/Apps/${pkgname}_${appname}_${pkgvers}/test.rw
+    do
+        check_file "$app_id" 0 -W $f
+    done
+
+    echo -e "\n==== read/write user files for FIXME bugs ===="
+    for f in /run/shm/hybris_shm_data \
+             /run/shm/WK2SharedMemory.0test
+    do
+        check_file "$app_id" 0 -W $f
+    done
+
+    echo -e "\n==== deny read system files ===="
+    for f in /etc/issue \
+             /dev/input/event0 \
+             /dev/fb0
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            aa_exec_click "$app_id" 1 -r $f
+        fi
+    done
+
+    echo -e "\n==== deny write system files ===="
+    for f in /dev/log_main \
+             /dev/log_radio \
+             /dev/log_events \
+             /dev/log_system \
+             /dev/input/event0 \
+             /dev/fb0
+    do
+        if [ ! -w "$f" ]; then
+            echo "Checking '-w $f': SKIP (does not exist or not writable)"
+        else
+            aa_exec_click "$app_id" 1 -w $f
+        fi
+    done
+
+    echo -e "\n==== deny write user files ===="
+    for f in $HOME/.cache/tncache-write-text.null \
+             /tmp/orcexec.test \
+             $HOME/orcexec.test \
+             /run/user/$(id -ru)/orcexec.test \
+             /run/user/$(id -ru)/mir_socket_trusted \
+             /run/shm/lttng-ust-wait-5-nonexistent \
+             $HOME/.pki/nssdb/nonexistent
+    do
+        if [ "$f" = "$HOME/.pki/nssdb/nonexistent" ] && \
+           [ ! -e "$HOME/.pki/nssdb" ]; then
+            mkdir --mode=0700 -p "$HOME/.pki/nssdb" || true
+            chmod 700 "$HOME/.pki"
+        fi
+        check_file "$app_id" 1 -w $f
+    done
+    # 1.1 and later has fixes for workarounds in the 1.0 policy
+    if [ "$policy_version" != "1.0" ]; then
+        check_file "$app_id" 1 -W /tmp/mir_socket
+    fi
+
+    other_app_dir="$HOME/.local/share/nonexistent-app"
+    echo -e "\n==== deny access to other apps ===="
+    if [ -e "$other_app_dir" ]; then
+        echo "SKIP ('$other_app_dir' already exists)"
+    else
+        mkdir -p "$other_app_dir"
+        touch "$other_app_dir/read"
+        aa_exec_click "$app_id" 1 -r "$other_app_dir/read"
+        touch "$other_app_dir/write"
+        aa_exec_click "$app_id" 1 -w "$other_app_dir/write"
+        aa_exec_click "$app_id" 1 -W "$other_app_dir/readwrite"
+        rm -rf "$other_app_dir"
+    fi
+
+    oxide_sandbox=/usr/lib/*/oxide-qt/chrome-sandbox
+    if [ -e $oxide_sandbox ]; then
+        echo -e "\n==== oxide fallback ===="
+        if [ "$policy_version" = "1.0" ]; then
+            check_file "$app_id" 1 -r $oxide_sandbox
+        else
+            check_file "$app_id" 0 -r $oxide_sandbox
+        fi
+    fi
+
+    echo -e "\n==== deny write ubuntu-account-plugin dir ===="
+    dir="$HOME/.cache/online-accounts-ui/id-foo-${pkgname}_${appname}"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 1 -W "$dir/test.rw"
+}
+
+basic_scope_tests() {
+    app_id="$1"
+    policy_version="$2"
+    arch="$3"
+    template="$4"
+
+    pkgname=`_get_click_value "$app_id" pkgname`
+    appname=`_get_click_value "$app_id" appname`
+
+    # environment
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+    aa_exec_click "$app_id" 0 -e XDG_DATA_HOME="$HOME/.local/share"
+    aa_exec_click "$app_id" 0 -e XDG_RUNTIME_DIR="/run/user/$(id -ru)"
+    aa_exec_click "$app_id" 0 -e UBUNTU_APPLICATION_ISOLATION=1
+
+    # test some arch specific values. dpkg-architecture isn't on the device, so
+    # just enumerate a few we know. TODO: make this more robust
+    if [ "$arch" = "amd64" ] || [ "$arch" = "i386" ] || [ "$arch" = "armhf" ]; then
+        pkgdir=`click pkgdir $pkgname`
+        gnutriplet=
+        case "$arch" in
+            amd64) gnutriplet="x86_64-linux-gnu";;
+            i386) gnutriplet="i386-linux-gnu";;
+            armhf) gnutriplet="arm-linux-gnueabihf";;
+        esac
+        libdir="$pkgdir/lib/$gnutriplet"
+        LD_LIBRARY_PATH=/foo aa_exec_click "$app_id" 0 -e LD_LIBRARY_PATH="$libdir:`dirname $libdir`:/foo"
+        PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" aa_exec_click "$app_id" 0 -e PATH="$libdir/bin:$pkgdir:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    fi
+
+    echo -e "\n==== deny read system files ===="
+    for f in /etc/issue \
+             /dev/input/event0
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            aa_exec_click "$app_id" 1 -r $f
+        fi
+    done
+
+    echo -e "\n==== read-only system files ===="
+    for f in /proc/sys/net/core/somaxconn
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            check_file "$app_id" 0 -r $f
+            check_file "$app_id" 1 -w $f # -r needs the file to exist, so don't
+                                         # need for extra cleanup
+        fi
+    done
+
+    echo -e "\n==== deny write other scope endpoints ===="
+    for f in $XDG_RUNTIME_DIR/zmq/priv/nonexistent \
+             $XDG_RUNTIME_DIR/zmq/priv/nonexistent-c \
+             $XDG_RUNTIME_DIR/zmq/priv/nonexistent-q \
+             $XDG_RUNTIME_DIR/zmq/nonexistent
+    do
+        dir="$XDG_RUNTIME_DIR/zmq/priv"
+        if [ ! -d "$dir" ]; then
+            mkdir -p "$dir"
+        fi
+        check_file "$app_id" 1 -w $f
+    done
+
+    echo -e "\n==== write scope-specific dirs ===="
+    for d in "leaf-net" "leaf-fs" ; do
+        dir="$HOME/.local/share/unity-scopes/$d/$pkgname"
+        if [ ! -d "$dir" ]; then
+            mkdir -p "$dir"
+        fi
+        for f in "$dir/test.rw" ; do
+            rc=0
+            if [ "$d" = "leaf-net" ] && [ "$template" = "ubuntu-scope-local-content" ]; then
+                rc=1
+            elif [ "$d" = "leaf-fs" ] && [ "$template" = "ubuntu-scope-network" ]; then
+                rc=1
+            fi
+            check_file "$app_id" $rc -W $f
+        done
+    done
+
+    echo -e "\n==== read scope-specific settings ===="
+    dir="$HOME/.config/unity-scopes/${pkgname}_${appname}"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    for f in "$dir/settings.ini" ; do
+        if [ ! -f "$f" ]; then
+            touch "$f"
+        fi
+        rc=0
+        check_file "$app_id" 0 -r $f
+    done
+
+    echo -e "\n==== deny write scope-specific settings ===="
+    dir="$HOME/.config/unity-scopes/${pkgname}_${appname}"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    for f in "$dir/settings.ini" ; do
+        if [ ! -f "$f" ]; then
+            touch "$f"
+        fi
+        rc=0
+        check_file "$app_id" 1 -w $f
+    done
+}
+
+basic_account_plugin_tests() {
+    app_id="$1"
+    policy_version="$2"
+    arch="$3"
+    template="$4"
+
+    pkgname=`_get_click_value "$app_id" pkgname`
+    appname=`_get_click_value "$app_id" appname`
+
+    # environment
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+
+    # test some arch specific values. dpkg-architecture isn't on the device, so
+    # just enumerate a few we know. TODO: make this more robust
+    if [ "$arch" = "amd64" ] || [ "$arch" = "i386" ] || [ "$arch" = "armhf" ]; then
+        pkgdir=`click pkgdir $pkgname`
+        gnutriplet=
+        case "$arch" in
+            amd64) gnutriplet="x86_64-linux-gnu";;
+            i386) gnutriplet="i386-linux-gnu";;
+            armhf) gnutriplet="arm-linux-gnueabihf";;
+        esac
+        libdir="$pkgdir/lib/$gnutriplet"
+        LD_LIBRARY_PATH=/foo aa_exec_click "$app_id" 0 -e LD_LIBRARY_PATH="$libdir:`dirname $libdir`:/foo"
+        PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" aa_exec_click "$app_id" 0 -e PATH="$libdir/bin:$pkgdir:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    fi
+
+    echo -e "\n==== deny read system files ===="
+    for f in /etc/issue \
+             /dev/input/event0
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            aa_exec_click "$app_id" 1 -r $f
+        fi
+    done
+
+    echo -e "\n==== read-only system files ===="
+    for f in /etc/ssl/openssl.cnf
+    do
+        if [ ! -r "$f" ]; then
+            echo "Checking '-r $f': SKIP (does not exist or not readable)"
+        else
+            check_file "$app_id" 0 -r $f
+            check_file "$app_id" 1 -w $f # -r needs the file to exist, so don't
+                                         # need for extra cleanup
+        fi
+    done
+
+    echo -e "\n==== write account-plugin-specific dirs ===="
+    dir="$HOME/.cache/online-accounts-ui/id-foo-${pkgname}_${appname}"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 0 -W "$dir/test.rw"
+
+    echo -e "\n==== write account-plugin-specific files ===="
+    fn="/run/user/$(id -ru)/online-accounts-ui/ui-foo-${pkgname}_${appname}"
+    dir="$(dirname $dir)"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 0 -W $fn
+
+    echo -e "\n==== deny access to other account plugins ===="
+    other_account_dir="$HOME/.cache/online-accounts-ui/id-foo-nonexistent_account"
+    if [ ! -d "$other_account_dir" ]; then
+        echo "SKIP ('$other_account_dir' already exists)"
+    else
+        mkdir -p "$other_account_dir"
+        touch "$other_account_dir/read"
+        aa_exec_click "$app_id" 1 -r "$other_account_dir/read"
+        touch "$other_account_dir/write"
+        aa_exec_click "$app_id" 1 -w "$other_account_dir/write"
+        aa_exec_click "$app_id" 1 -W "$other_account_dir/readwrite"
+        rm -rf "$other_account_dir"
+    fi
+
+    echo -e "\n==== deny write to other template's files ===="
+    # ubuntu-sdk
+    dir="/run/user/$(id -ru)/confined/$pkgname"
+    if [ ! -e "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 1 -W "$dir/test.rw"
+
+    # ubuntu-scope-*
+    dir="/run/user/$(id -ru)/zmq"
+    if [ ! -e "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 1 -W "$dir/c-deadbeefdeadbeef-r"
+}
+
+unconfined_tests() {
+    app_id="$1"
+    echo -e "\n==== unconfined tests ===="
+    check_file "$app_id" 0 -r /etc/issue
+}
+
+reduced_tests() {
+    app_id="$1"
+
+    echo -e "\n==== reduced tests ===="
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+    aa_exec_click "$app_id" 0 -e TMPDIR="/run/user/$(id -ru)/confined/$pkgname"
+    check_file "$app_id" 1 -r /etc/issue
+    check_file "$app_id" 0 -r `_get_install_path $app_id`/${appname}.json
+    check_file "$app_id" 0 -W /run/user/$(id -ru)/confined/$pkgname/test.rw
+}
+
+reduced_scope_tests() {
+    app_id="$1"
+
+    echo -e "\n==== reduced scope tests ===="
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+    check_file "$app_id" 1 -r /etc/issue
+    dir="/run/user/$(id -ru)/zmq"
+    if [ ! -e "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 0 -W "$dir/aggregator-lp1347177-r"
+    check_file "$app_id" 0 -W "$dir/c-deadbeefdeadbeef-r"
+    check_file "$app_id" 1 -W "$dir/c-thisisnotallowed-r"
+}
+
+reduced_account_plugin_tests() {
+    app_id="$1"
+
+    echo -e "\n==== reduced account plugin tests ===="
+    aa_exec_click "$app_id" 0 -e APP_ID=$app_id
+    check_file "$app_id" 1 -r /etc/issue
+    fn="/run/user/$(id -ru)/online-accounts-ui/ui-foo-${pkgname}_${appname}"
+    dir="$(dirname $dir)"
+    if [ ! -d "$dir" ]; then
+        mkdir -p "$dir"
+    fi
+    check_file "$app_id" 0 -W $fn
+}
+
+check_template() {
+    framework="$1"
+    policy_vendor="$2"
+    policy_version="$3"
+    template="$4"
+    app_id="$5"
+
+    if [ "$template" = "ubuntu-sdk" ]; then
+        # if ubuntu-sdk, create a click with all of the policy groups (except
+        # debug)
+        echo "=== $template $policy_vendor/$policy_version - all (minus debug) ==="
+        create_click $framework $policy_vendor $policy_version $template `aa-easyprof --list-policy-groups --policy-vendor=$policy_vendor --policy-version=$policy_version | egrep -v '^debug$' | tr '\n' ' '`
+        click_install "$app_id" "$arch"
+        basic_tests "$app_id" "$policy_version"
+        click_remove "$app_id" "$arch"
+
+        # Now create a click with only debug
+        echo "=== $template $policy_vendor/$policy_version - debug ==="
+        create_click $framework $policy_vendor $policy_version $template debug
+        click_install "$app_id" "$arch"
+        reduced_tests $app_id
+        click_remove "$app_id" "$arch"
+    else
+        # Since all the policy groups were tested with ubuntu-sdk, we can test
+        # the other templates individually
+        echo "=== $template $policy_vendor/$policy_version ==="
+        create_click $framework $policy_vendor $policy_version $template
+        click_install "$app_id" "$arch"
+
+        case "$template" in
+            unconfined) unconfined_tests $app_id;;
+            ubuntu-scope-*) basic_scope_tests "$app_id" "$policy_version" "$arch" "$template";;
+            ubuntu-account-plugin) basic_account_plugin_tests "$app_id" "$policy_version" "$arch";;
+            ubuntu-push-helper) reduced_tests "$app_id";;
+            *) basic_tests "$app_id" "$policy_version" "$arch";;
+        esac
+
+        click_remove "$app_id" "$arch"
+    fi
+}
+
+#
+# Main
+#
+uid=`id -u`
+if [ "$uid" = "0" ]; then
+    echo "!ERROR! please run tests as non-root"
+    print_summary
+    exit -1
+fi
+
+echo -n "Checking click availability ... "
+if ! which click >/dev/null ; then
+    echo "!ERROR!"
+    print_summary
+    exit -1
+fi
+echo "[OK]"
+
+echo -n "Checking pkcon availability ... "
+if ! which pkcon >/dev/null ; then
+    echo "!ERROR!"
+    print_summary
+    exit -1
+fi
+echo "[OK]"
+
+# Perform tests based on installed frameworks
+arch=`dpkg --print-architecture`
+app_id="com.example.confined-basic_confined-basic_0.1"
+last_policy_version=
+for fr_full in /usr/share/click/frameworks/*framework ; do
+    framework=`basename --suffix=.framework "$fr_full"`
+
+    echo -n "Determining policy version for '$framework' ... "
+    T_I=$(($T_I +1))
+    policy_version=""
+    if [ -x "/usr/bin/aa-clickquery" ]; then
+        policy_version=`/usr/bin/aa-clickquery --click-framework=$framework -q policy_version`
+    elif [ "$framework" != "ubuntu-sdk-13.10" ]; then
+        echo "!SKIP! (no usable aa-clickquery with '$framework')"
+        K_I=$(($K_I +1))
+        continue
+    fi
+
+    if [ -z "$policy_version" ]; then
+        if [ "$framework" = "ubuntu-sdk-13.10" ]; then
+            policy_version="1.0"
+        else # aa-clickquery error
+            F_I=$(($F_I +1))
+            echo "!ERROR!"
+            print_summary
+            exit -1
+        fi
+    fi
+    echo "[OK]"
+    S_I=$(($S_I +1))
+
+    policy_vendor="ubuntu"
+    if [ "$policy_version" = "$last_policy_version" ]; then
+        # No need to check idential policy
+        continue
+    fi
+
+    for template in `aa-easyprof --list-templates --policy-vendor=$policy_vendor --policy-version=$policy_version` ; do
+        if [ "$template" = "default" ]; then
+            echo "Skipping default (symlink to ubuntu-sdk)"
+            continue
+        fi
+        check_template $framework $policy_vendor $policy_version $template $app_id
+    done
+    last_policy_version="$policy_version"
+done
+
+
+################################################################################
+# print summary
+echo
+print_summary
+
+exit ${F_I}

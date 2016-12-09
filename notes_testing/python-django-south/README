@@ -1,0 +1,5 @@
+https://bugs.launchpad.net/bugs/961434:
+
+"To run the South tests, find a Django app (or make a new blank one) and
+add South to INSTALLED_APPS, and set SKIP_SOUTH_TESTS to False in your
+settings. Then, run ./manage.py test south."

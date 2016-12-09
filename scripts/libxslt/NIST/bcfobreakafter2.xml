@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBreakAfter2" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <fo foName="block-container">
+      <foProperty name="break-after" value="even-page"/>
+      <fo foName="block">
+       <foText>This test generate two pages.  This text appear on the first page</foText>
+      </fo>
+    </fo>
+    <fo foName="block-container">
+      <fo foName="block">
+       <foText>This text appear on the second page.</foText>
+      </fo>
+    </fo>
+  </testcase>

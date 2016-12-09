@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have 36pt top padding.
+  Both the content background and the padding should be aqua (light blue).</PARAGRAPH>   
+</TEST>

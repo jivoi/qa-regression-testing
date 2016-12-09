@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block font-size="50px">
+        <fo:block font-variant="normal" font-weight="400" font-size="80%" line-height="2.5" font-family="sans-serif">This element should be in a sans-serif font, with a weight of 400.  Its font-size should be 80% of
+the parent's font-size (50px) ,or 40px, and its line-height should be 2.5 times that.  Extra text is included for
+the purpose of testing this more effectively.  Individual properties are tested here.</fo:block>
+      </fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a right padding of half an inch, which will require
+extra text in order to test.  Both the content background and the padding should be aqua
+(light blue).  The text has been right-aligned in order to make the right padding easier
+to see.</PARAGRAPH>
+</TEST>

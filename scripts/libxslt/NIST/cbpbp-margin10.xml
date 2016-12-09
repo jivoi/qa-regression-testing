@@ -1,0 +1,7 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element should have an overall margin of -10px, which should make it
+wider than usual as well as shift it upward and pull subsequent text up toward
+it, and a light blue background.  In all other respects, however, the element
+should be normal.  Individual properties are tested here.</PARAGRAPH>
+</TEST>

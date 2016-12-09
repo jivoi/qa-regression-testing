@@ -1,0 +1,7 @@
+GIT-CORE TESTING
+------------
+During build, git-core runs it's test suite. Unfortunately, it doesn't contain
+a summary. Comparing the build logs with the previous release should be
+sufficient to notice any regressions.
+
+Copyright (C) 2008 Canonical Ltd.

@@ -1,0 +1,19 @@
+for lp30526 - gnutls deprecation of rsa/md2 v1 certs, the certs in this
+directory were generated as follows:
+
+# if need be
+touch index.txt
+echo 01 > serial
+
+# generate the CA key
+openssl req -verbose -newkey rsa:1024 -md2 -config openssl.cnf -nodes -new -keyout cakey.pem -out careq.pem -days 36500
+
+# generate the CA cert
+openssl req -config openssl.cnf -new -x509 -batch -md2  -subj "/C=US/ST=Arizona/O=Testlib/CN=CA" -key cakey.pem -days 3600  -in careq.pem -out  cacert.pem
+
+# generate the server key
+openssl req -config openssl.cnf -nodes -new -newkey rsa:1024 -md2 -subj /C=US/ST=Arizona/O=Testlib/CN=server -keyout lp305264-key.pem -out lp305264-req.pem -days 3650
+
+# generate the server certificate
+openssl ca -config openssl.cnf -policy policy_anything -md md2 -subj /C=US/ST=Arizona/O=Testlib/CN=server -days 3650 -cert cacert.pem -out lp305264-cert.pem -infiles lp305264-req.pem
+

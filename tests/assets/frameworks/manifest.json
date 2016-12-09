@@ -1,0 +1,13 @@
+{
+    "description": "some description",
+    "framework": "###FRAMEWORK###",
+    "hooks": {
+        "app1": {
+            "apparmor": "apparmor.json"
+        }
+    },
+    "maintainer": "Foo Bar <baz@example.com>",
+    "name": "com.example.click-apparmor-test",
+    "title": "click-apparmor test click",
+    "version": "0.1"
+}

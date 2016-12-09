@@ -1,0 +1,23 @@
+SQLite has a test suite that isn't run at build time.
+
+To run manually:
+
+$ sudo apt-get build-dep sqlite3
+$ sudo apt-get install tcl-dev
+$ apt-get source sqlite3
+$ cd sqlite*
+
+$ mkdir build
+$ cd build
+$ ../configure
+$ make
+$ make test > /tmp/output.txt 2>&1
+
+May want to normalize test logs before comparing them:
+sed -e "s/^Time:.*$/Time:/" -e "s/^Memory used:.*$/Memory used:/" -e "s/^Page-cache overflow:.*$/Page-cache overflow:/" -e "s/^Scratch overflow:.*$/Scratch overflow:/" output.txt >output2.txt
+
+Precise: 4 expected failures: where7-3.1 where9-3.1 where9-3.2 where9-5.1
+Trusty: 1 expected failure: io-5.5
+Utopic: 2 expected failures: io-5.5 memsubsys1-3.1.4
+Vivid: 1 expected failure: io-5.5
+

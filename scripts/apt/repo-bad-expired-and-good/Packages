@@ -1,0 +1,30 @@
+Package: apt
+Priority: important
+Section: admin
+Installed-Size: 5276
+Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: APT Development Team <deity@lists.debian.org>
+Architecture: amd64
+Version: 0.7.20.2ubuntu5
+Replaces: libapt-pkg-dev (<< 0.3.7), libapt-pkg-doc (<< 0.3.7)
+Provides: libapt-pkg-libc6.9-6-4.7
+Depends: libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.2.1)
+Recommends: ubuntu-keyring
+Suggests: aptitude | synaptic | gnome-apt | wajig, dpkg-dev, apt-doc, bzip2, lzma, python-apt
+Filename: pool/main/a/apt/apt_0.7.20.2ubuntu5_amd64.deb
+Size: 1665396
+MD5sum: 8c052015d7388bbbc8eb5fe5415da6ce
+SHA1: a03b77775905d9348548e5bb5e27e5ec088cd70c
+SHA256: 20e4b2d4a3bdd9eb4553c7d80998312aba819e2c61327e46b6fbb82ee946b426
+Description: Advanced front-end for dpkg
+ This is Debian's next generation front-end for the dpkg package manager.
+ It provides the apt-get utility and APT dselect method that provides a
+ simpler, safer way to install and upgrade packages.
+ .
+ APT features complete installation ordering, multiple source capability
+ and several other unique features, see the Users Guide in apt-doc.
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Build-Essential: yes
+Origin: Ubuntu
+Task: minimal, mythbuntu-backend-master, mythbuntu-backend-slave, mythbuntu-desktop, mythbuntu-frontend
+

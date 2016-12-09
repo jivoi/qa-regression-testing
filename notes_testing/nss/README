@@ -1,0 +1,226 @@
+The major consumers of system NSS/NSPR are evolution and chromium-browser
+(which are Canonical supported). Earlier version of firefox and thunderbird
+also used system NSS. As such, testing these applications against new version
+of NSS/NSPR is critical.
+
+Things to check in a browser. Eg, for chromium:
+ * from QRT, use './test-browser.py -v -t ssl -e chromium-browser'
+ * valid https (green lock, eg https://www.google.com)
+ * valid https EV (green lock with name to right. eg https://www.paypal.com and
+   look for 'PayPal, Inc' next to the lock))
+ * check certificate information
+  * click the green lock, and look for 'Identity verified' at the top
+  * click the Connection tab and review the information
+  * click 'Certificate Information' from within the Connection tab
+ * mixed https and http (look with yellow triangle, https://ie.microsoft.com/testdrive/browser/mixedcontent/assets/woodgrove.htm)
+ * invalid certificate (lock with red 'X', test-browser.py will do this)
+
+For more information, click the lock, click the Connection tab, then click
+'What do these mean?'
+
+https://httpsnow.org/ keeps a list of various sites with different configurations.
+
+Things to check in a mail client:
+* pop (optional, not available in default dovecot configuration)
+* pop/tls
+* pop/ssl
+* imap (optional, not available in default dovecot configuration)
+* imap/tls
+* imap/ssl
+* smtp
+* smtp/tls
+* smtp/tls/smtp auth
+* installing certificate
+
+The above should be tested against untrusted as well as fully trusted
+certificates. One way to accomplish this is to use a local CA, and
+connect without and with importing the CA certificate. For setting up a
+snakeoil server, see README.multipurpose_vm. It should be good to also
+verify at least one of the above tests against a shipped CA.
+
+For best results, should setup Evolution *before* the upgrade to verify it is
+all working, then upgrade and try to send email.
+
+SSL/TLS can be verified using:
+$ sudo tcpdump -s 0 -n -X -i eth0 port 110 or port 995 or port 143 or port 993 or port 25 or port 465
+
+*** IMPORTANT ***
+The FQDN of the server must be resolvable, used in the clients and match the
+CN of the server.
+
+-----
+NOTES
+-----
+When testing pop, it is often a good idea to 'Leave messages on the server'
+in the client.
+
+Be sure to examine the certificate when prompted with an untrusted certificate,
+and exercise as much of the NSS dialogs as the application provides.
+Thunderbird exposes more functionality than Evolution here.
+
+Thunderbird
+-----------
+When setting up thunderbird (verified with 2.x), thunderbird does not give
+the option of setting up SSL/TLS in its wizard. So do not download messages
+immediately, but instead setup the account, then go to Edit/Account Settings.
+
+Don't check: 'Server uses secure authentication' for POP or IMAP, but do use
+TLS on port 110 and 143, and SSL for 995 and 993.
+
+Can manage certificates in Edit/Preferences/Advanced/Certificates. To add
+a CA certificate:
+1. go to Edit/Preferences/Certificates
+2. click View certificates
+3. click the Authorities tab
+4. import the CA crt or pem file (eg test-ca.pem (not the private key))*
+5. Trust the CA to identify web sites
+5. verify the new CA is in the list (eg, look for QRT if using test-ca from
+   QRT)
+
+After doing the above, Thunderbird will no longer prompt.
+
+Should try enabling FIPS in Edit/Preferences/Advanced/Certificates/Security
+Devices.
+
+* See SSL Certificates in README.multipurpose_vm for how to create a CA with
+  QRT.
+
+Evolution
+---------
+Can manage certificates in Edit/Preferences/Certificates. To add a CA
+certificate:
+1. go to Edit/Preferences/Certificates
+2. click the Authorities tab
+3. import the CA crt or pem file (eg test-ca.pem (not the private key))
+4. Trust the CA to identify web sites
+5. verify the new CA is in the list (eg, look for QRT if using test-ca from
+
+After doing the above, Evolution may prompt you stating that the Signature
+is GOOD. Feel free to click 'OK'.
+
+When changing from TLS to SSL or PLAIN for an existing account, may need to
+restart evolution (noticed with IMAP).
+
+If importing the snakeoil certificate, it shows up under 'OCOSA'.
+
+NSS testsuite
+-------------
+$ apt-get source nss
+$ cd nss-*/
+$ sudo apt-get build-dep nss
+$ fakeroot debian/rules build
+$ ln -s `pwd`/mozilla/dist `pwd`/mozilla/dist/`basename ./mozilla/security/coreconf/nsinstall/*OBJ/` # [1]
+$ cd mozilla/security/nss/tests
+
+[1] all.sh expects mozilla/dist/Linux3.5_x86_64_glibc_PTH_64_OPT.OBJ/bin.
+Note that on an amd64 raring build, this had to be named
+Linux3.8_x86_glibc_PTH_DBG.OBJ (ie, no '_64' and s/OPT/DBG/. Just watch all.sh
+output and if it fails, it will show you the search path it used.
+
+Need to set HOST and DOMSUF such that $HOST.$DOMSUF is pingable:
+$ ping -c 1 `hostname -s`.`hostname -d`
+PING sec-quantal-amd64.defaultdomain (127.0.1.1) 56(84) bytes of data.
+64 bytes from sec-quantal-amd64.defaultdomain (127.0.1.1): icmp_req=1 ttl=64 time=0.079 ms
+
+--- sec-quantal-amd64.defaultdomain ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.079/0.079/0.079/0.000 ms
+
+Now run the tests (they take a long time):
+$ HOST=`hostname -s` DOMSUF=`hostname -d` ./all.sh
+...
+SUMMARY:
+========
+NSS variables:
+--------------
+HOST=sec-quantal-amd64
+DOMSUF=defaultdomain
+BUILD_OPT=
+USE_64=
+NSS_CYCLES=""
+NSS_TESTS=""
+NSS_SSL_TESTS="crl bypass_normal normal_bypass fips_normal normal_fips iopr"
+NSS_SSL_RUN="cov auth stress"
+NSS_AIA_PATH=
+NSS_AIA_HTTP=
+NSS_AIA_OCSP=
+IOPR_HOSTADDR_LIST=
+PKITS_DATA=
+
+Tests summary:
+--------------
+Passed:             5780
+Failed:             28
+Failed with core:   0
+Unknown status:     0
+
+Results show up in:
+./mozilla/tests_results/security/`hostname`/ specifically, results.html
+
+See all.sh for different ways of using the testsuite.
+
+results.html can be compared with (files are from QRT/results/nss):
+$ diff -Naur 2:3.14.1.with.ckbi.1.93_results.html 2:3.14.3-0ubuntu1_results.html|grep Fail
+
+Updating ckbi
+-------------
+
+libnssckbi.so is an .so file that contains the root certicates and blacklisted
+certificates. We want to follow upstream Mozilla on root certificates, so it
+is useful to update just ckbi rather than all of nss (do be careful because
+sometimes a newer ckbi requires a new nss/nspr to work). Updating ckbi is not
+difficult (see mozilla/security/nss/lib/ckfw/builtins/README for details):
+
+ * security/nss/lib/ckfw/builtins/certdata.txt is appended to using the
+   addbuiltin tool. This tool take a DER encoded file and arguments for the
+   trust level and then outputs something that can be added to the end of
+   certdata.txt
+ * once certdata.txt is updated, you run 'make generate' which runs
+   certdata.perl on certdata.txt and regenerates certdata.c.
+ * update nssckbi.h to match upstream.
+ * Now recompile and the resulting libnssckbi.so has the updated certificates.
+
+It is customary to reference the new ckbi version in the version string of the
+Ubuntu/Debian package when doing this.
+
+If you want to verify upstream's work and have access to the certificates, you
+can use addbuiltin directly, and do something like (obviously you will have to
+adjust for the paths):
+$ sudo apt-get build-dep nss
+$ sudo apt-get install libnss3
+$ fakeroot debian/rules build
+$ cd mozilla/security/nss/lib/ckfw/builtins
+$ ../../../../../dist/bin/addbuiltin ...
+
+After modifying security/nss/lib/ckfw/builtins/certdata.* and recompiling, we
+will want to see if the updates worked. The certificate database is embedded in
+the builtins shared library, libnssckbi.so. As such, after install the new
+libnss3, do:
+
+$ mkdir /tmp/nss
+$ cd /tmp/nss
+$ certutil -N -d . # create new db
+$ modutil -list -dbdir . # should see "1. NSS Internal PKCS #11 Module"
+$ modutil -add roots -libfile /usr/lib/x86_64-linux-gnu/nss/libnssckbi.so -dbdir . # add the buildtins
+$ modutil -list -dbdir . # should see '2. roots'
+$ certutil -L -d . -h all # should see complete dump
+
+$ certutil -L -d . -h all | grep '<the new cert>'
+
+IMPORTANT: Mozilla has started blacklisting intermediate CAs in certdata.* and
+while this works fine, libnssckbi.so only ever shows you root CAs, not
+intermediates. As such, you can't use the above to verify the added
+intermediates are in libnssckbi.so. You can use 'strings' on libnssckbi.so to
+see and then use 'mozilla/dist/bin/vfychain' on the certificate
+(https://bugzilla.mozilla.org/show_bug.cgi?id=825022#c8 and
+https://bugzilla.mozilla.org/show_bug.cgi?id=724929#c69 have more information).
+
+Eg:
+$ sudo apt-get build-dep nss
+$ sudo apt-get install libnss3
+$ fakeroot debian/rules build
+$ mozilla/dist/bin/vfychain ...
+
+For more information, see:
+www.mozilla.org/projects/security/pki/nss/tools/certutil.html
+http://fedoraproject.org/wiki/NSS_Tools_:_certutil

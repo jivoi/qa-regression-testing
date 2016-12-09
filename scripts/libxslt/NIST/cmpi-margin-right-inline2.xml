@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element is unstyled save for a background color of gray.  However, it contains
+an <SPAN>inline element of margin-right -10px and background-color of red</SPAN>, which
+should result in -10-pixel right margin only in the last line in which the inline box
+appears.</PARAGRAPH>
+</TEST>

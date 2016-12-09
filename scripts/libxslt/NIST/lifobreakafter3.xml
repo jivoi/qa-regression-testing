@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBreakAfter3" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <parentProperty name="background-color" value="aqua"/>
+   <fo foName="list-item">
+    <foProperty name="break-after" value="even-page"/>
+    <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>This test generates two pages.  This is item 1 from of a list of two items</foText>
+     </fo>
+    </fo>
+   </fo>
+   <fo foName="list-item">
+    <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>2) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>This is item 2 from a list of two items (should be on second page)</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

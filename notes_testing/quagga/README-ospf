@@ -1,0 +1,83 @@
+To test ospf, you need to set up some virtual machines with isolated
+networks. In virt-manager/libvirt, set up two "isolated networks" in
+addition to the default "NAT" network that is already configured. We will
+be setting up the two virtual machines in the following fashion:
+
+
+                 -------------------------------------   192.168.122.0/24
+                     |                           |       (default NAT net)
+                     |                           |
+                   +---+                       +---+
+   10.1.0.0/24  .1 |   |.1    10.10.0.0/24   .2|   |.1    10.2.0.0/24
+   ----------------+   +-----------------------+   +-----------------
+   isonet1         |   |        isonet2        |   |          isonet1
+                   +---+                       +---+
+                    vm1                         vm2
+
+Add two addition network interfaces to each vm, one on each isolated
+network. Boot up the VMs, and add static networking configuration to their
+/etc/network/interfaces files:
+
+VM1:
+auto eth1
+iface eth1 inet static
+address 10.1.0.1
+netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+address 10.10.0.1
+netmask 255.255.255.0
+
+VM2:
+auto eth1
+iface eth1 inet static
+address 10.2.0.1
+netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+address 10.10.0.2
+netmask 255.255.255.0
+
+Reboot them, and make sure they can ping each other's 10.10.0.0/24 address.
+
+Modify /etc/quagga/daemons to enable zebra and ospfd.
+
+Create /etc/quagga/zebra.conf files:
+interface eth1
+ link-detect
+
+interface eth2
+ link-detect
+
+Create /etc/quagga/ospfd.conf files:
+
+VM1:
+router ospf
+  ospf router-id 1.1.1.1
+  redistribute kernel
+  redistribute connected
+  redistribute static
+  network 10.1.0.0/24 area 0
+  network 10.10.0.0/24 area 0
+
+VM2:
+router ospf
+  ospf router-id 2.2.2.2
+  redistribute kernel
+  redistribute connected
+  redistribute static 
+  network 10.2.0.0/24 area 0
+  network 10.10.0.0/24 area 0
+
+Start the daemon on both VMs. Make sure it can see the peer by doing:
+vtysh -c 'show ip ospf database'
+vtysh -c 'show ip ospf neighbor'
+
+Make sure it sees the other VMs route after a few minutes by doing:
+vtysh -c 'show ip ospf route'
+netstat -rn
+
+Can also check interface:
+vtysh -c 'show ip ospf interface'

@@ -1,0 +1,7 @@
+{
+    "template": "###TEMPLATE###",
+    "policy_groups": [
+        "networking"
+    ],
+    "policy_version": ###POLICYVERSION###
+}

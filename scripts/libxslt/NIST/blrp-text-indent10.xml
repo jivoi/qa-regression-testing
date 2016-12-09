@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>Only the first line of this sentence should be indented half an inch, no matter
+where the lines might start, and regardless of any other markup which may be present.
+Here is some extra text to make this point more clearly.</PARAGRAPH>
+</TEST>

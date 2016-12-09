@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lbfoMarginleft1" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="list-block">
+      <foProperty name="background-color" value="red"/>
+      <foProperty name="margin-left" value="0.5in"/>
+      <fo foName="list-item">
+       <fo foName="list-item-label">
+        <fo foName="block">
+         <foText>1)</foText>
+        </fo>
+       </fo>
+       <fo foName="list-item-body">
+        <fo foName="block">
+         <foText>The "margin-left" for this list-block was set to "0.5in".</foText>
+        </fo>
+       </fo>
+      </fo>
+     </fo>
+   </testcase>

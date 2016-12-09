@@ -1,0 +1,69 @@
+Running Tests
+-------------
+Install any package prerequisites:
+    $ sudo ./install-packages test-foo.py
+
+Then run the script as your self, or, if needed, with root privileges:
+    $ ./test-foo.py -v
+or:
+    $ sudo ./test-foo.py -v
+
+Please keep in mind that many of these scripts are destructive and should not
+be run a production system. Use a chroot or virtual machine instead. You have
+been warned.
+
+
+Recently 'make-test-tarball' has been introduced to create a tar file that
+has all the needed scripts, libraries and data files in it. So, you can do:
+
+$ make-test-tarball test-firefox.py
+
+and this will create '/tmp/qrt-test-firefox.tar.gz' which can be copied into
+a chroot or virtual machine. Assuming the script and paths within the script
+are setup right, then you can simply do:
+$ tar -zxvf ./qrt-test-*tar.gz
+$ cd ./qrt-test-*
+$ sudo ./install-packages test-*.py
+... run the test as usual ...
+
+
+
+Special Fields
+--------------
+
+QRT-Depends: a list of additional files and directories required to run the
+test. (make-test-tarball uses this field.)
+
+QRT-Packages: a list of Debian packages that are required to be installed
+before running the test. (Note that "python-unit" and "lsb-release" are
+required for all tests. install-packages uses this field.)
+
+QRT-Alternates: each one of these lines should be resolved separately. It
+consists of a list of packages that should be attempted to be installed,
+in order, stopping at the first successful installation. If there is just
+a single package list, it must be installed if it exists. If there are
+multiple packages listed, at least one must be installed. (install-packages
+uses this field.)
+
+
+
+New Scripts
+-----------
+To create new scripts, look at skeleton*.py in this directory.
+
+To support make-test-tarball, you need to do nothing if all you need is your
+script and testlib.py. If you need support script or data files, then add
+to your script something like:
+
+# QRT-Depends: testlib_data.py
+
+QRT-Depends is a space delimited list of files and directories relative to
+the test script and is used by make-test-tarball to determine what needs to
+be pulled in. Keep in mind that make-test-tarball recursively goes through
+the scripts in QRT-Depends, so you don't have to pull in dependencies of
+dependencies explicitly. Eg, testlib_data.py has in it:
+
+# QRT-Depends: data
+
+so you don't need to specify 'data' if you specify 'testlib_data.py'
+

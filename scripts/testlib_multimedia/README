@@ -1,0 +1,9 @@
+This is a stub directory where the media files downloaded by
+testlib_multimedia.py can be stored. Its presence is needed to ensure
+that make-test-tarball succeeds.
+
+You can prefetch the download of test media files by running:
+
+  ./testlib_multimedia.py download
+
+in the scripts/ directory.

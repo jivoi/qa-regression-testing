@@ -1,0 +1,134 @@
+= Environment for local builds =
+***IMPORTANT***
+You need *at least* a 2.5G chroot for build depends (assuming that your actual
+build is not within the chroot). If using sbuild, make sure your schroot is
+setup using at least:
+LV_SIZE=2.5G
+SNAPSHOT_SIZE=2100M
+
+and make sure that your /build is bind mounted somewhere with a lot of space
+(at least 10G).
+
+Also be sure that the virtual memory is set to 'unlimited' if using ulimit
+in your build environment (eg 'ulimit -v unlimited'). If using umt, set
+"pkgbuild_ulimit_v=unlimited" in ~/.ubuntu-security-tools.conf.
+
+= Finding patches =
+Some source branches can be found out:
+http://svn.services.openoffice.org/opengrok/
+
+libreoffice patches from Fedora can be found in:
+http://pkgs.fedoraproject.org/cgit/libreoffice.git (fedora 15 ~ natty,
+ fedora 16 ~ oneiric, fedora 17 ~ precise)
+
+
+= Patching =
+
+== libreoffice on 11.04 and 11.10 ==
+ * the sources are all in libreoffice-build/src in bz2 files
+ * patches are in libreoffice-build/patches
+ * add the patch to patches/dev300 or patches/hotfixes. It should end with
+   .diff, not .patch
+
+It is best to create the patches in a schroot. Eg:
+1. Prepare the schroot
+$ schroot -c natty-amd64 -u root
+(natty-amd64)# apt-get build-dep libreoffice
+(natty-amd64)# apt-get install quilt
+(natty-amd64)# apt-get install firefox-dev
+(natty-amd64)# su <you>
+(natty-amd64)$ apt-get source libreoffice
+(natty-amd64)$ cd ./libreoffice-*
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt push -a # ensure the patches are applied
+
+2. Develop a clean patch
+(natty-amd64)$ DEB_BUILD_OPTIONS="nogsi" fakeroot debian/rules build # Ctrl-c after configure is done*
+(natty-amd64)$ cp -aL ./build ./build.orig
+(natty-amd64)$ cd ./build
+(natty-amd64)$ <apply patch>
+(natty-amd64)$ cd ../build && diff -Naurp build.orig build > /tmp/foo.diff
+
+* Note that on 11.10 configure fails but after the patches are applied (ie,
+  should be able to move to the next step)
+
+3. Adust each patch to remove the build/ and build.orig/ bits from the patch
+   such that they will apply when in the build/ directory and using patch -p0.
+   Eg:
+$ sed -i -e 's#\-\-\- build.orig/#--- #' -e 's#\+\+\+ build/#+++ #' /tmp/foo.diff
+
+4. Add the clean patch to the build system
+(natty-amd64)$ rm -rf ./build ./build.orig
+(natty-amd64)$ cd <toplevel debian source package>
+(natty-amd64)$ fakeroot debian/rules clean
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt pop -a && quilt push -a
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt new bar.diff
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt add libreoffice-build/patches/dev300/foo.diff libreoffice-build/patches/dev300/apply
+(natty-amd64)$ cp /tmp/foo.diff libreoffice-build/patches/dev300
+(natty-amd64)$ <adjust libreoffice-build/patches/dev300/apply accordingly>*
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt refresh
+(natty-amd64)$ QUILT_PATCHES=debian/patches quilt pop -a && quilt push -a && quilt pop -a # make sure it applies cleanly
+
+* To adjust libreoffice-build/patches/dev300/apply, do something like:
+[ UbuntuOnly ]
+foo.diff, jdstrand
+
+11.04 and 11.10 can use 'UbuntuOnly'.
+
+What the above does is create the debian/patches/bar.diff file, which when
+applied adds the libreoffice-build/patches/dev300/foo.diff file and updates
+libreoffice-build/patches/dev300/apply to apply foo.diff.
+
+Note that the libreoffice package is split with two code copies:
+libreoffice
+libreoffice-l10n
+
+The are identical sources but ship different binaries (why?), so depending on
+the patch, you'll have to patch both.
+
+
+== libreoffice on 12.04 and later ==
+Standard Debian package (quilt)
+
+
+== openoffice.org on 10.04 ==
+
+Same as with libreoffice on 11.04 except:
+ * the sources are all in ooo-build/src in bz2 files
+ * patches are in ooo-build-3-2-0-10/patches
+ * add the patch to patches/dev300. It should end with .diff, not .patch
+ * add the patch name to patches/dev300/apply under the '[ Security ]' section
+   at the end
+
+If building in a schroot, may see:
+ERROR: ld.so: object 'libfakeroot-sysv.so' from LD_PRELOAD cannot be preloaded: ignored.
+
+These can be safely ignored.
+
+
+= Build =
+For parallel builds:
+DEB_BUILD_OPTIONS="num-cpus=3"
+
+Can also try to use ccache:
+DEB_BUILD_OPTIONS="num-cpus=3,ccache"
+
+libreoffice:
+If building in a schroot:
+$ schroot -c natty-amd64 -u root
+# apt-get build-dep libreoffice
+(natty-amd64)# su <you>
+(natty-amd64)$ quilt push -a
+(natty-amd64)$ DEB_BUILD_OPTIONS="num-cpus=3" fakeroot debian/rules build
+(natty-amd64)$ fakeroot debian/rules clean
+
+With sbuild:
+$ DEB_BUILD_OPTIONS="num-cpus=3,ccache" sbuild -A -d natty-amd64 -a libreoffice*.dsc
+$ DEB_BUILD_OPTIONS="num-cpus=3,ccache" sbuild -A -d natty-amd64 -a 'libreoffice: & ccache' libreoffice*.dsc
+
+With umt*:
+$ umt build # libreoffice
+$ umt build --dependency-resolution=manual # oo.o
+
+* Note that umt changes the sbuild dep resolver to use 'aptitude' on 11.04 and
+  11.10.
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lbfoBorderWidth3" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="background-color" value="red"/>
+     <parentProperty name="border-before-width" value="medium"/>
+     <parentProperty name="border-after-width" value="medium"/>
+     <parentProperty name="border-start-width" value="medium"/>
+     <parentProperty name="border-end-width" value="medium"/>
+     <parentProperty name="border-before-style" value="solid"/>
+     <parentProperty name="border-after-style" value="solid"/>
+     <parentProperty name="border-start-style" value="solid"/>
+     <parentProperty name="border-end-style" value="solid"/>
+    <fo foName="list-item">
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText> </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>The four width properties for this list block are set to "medium".</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

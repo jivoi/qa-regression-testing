@@ -1,0 +1,11 @@
+To build:
+
+$ sudo apt-get install build-essential click
+$ cd am-i-confined
+$ ../make-click
+or:
+$ ../make-click <framework>
+$ ../make-click ubuntu-sdk-13.10
+$ ../make-click ubuntu-sdk-14.04-qml
+
+This creates a click package in ../

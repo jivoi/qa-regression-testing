@@ -1,0 +1,140 @@
+Origin: http://bazaar.launchpad.net/~apparmor-dev/apparmor/master/revision/2070
+Subject: Fix apparmor coredump regression test
+From: John Johansen <john.johansen@canonical.com>
+
+The apparmor coredump regression test was broken.
+  - It failed to remove coredump files named "core"
+  - It failed to properly detect "core.<pid>" files
+  - And it would fail if the coredump_pattern had been modified to a
+    different location.
+
+This lead one of the tests to report it was passing when it wasn't
+because it was detecting the previous tests core file.
+  - Fix the test to set the coredump_pattern, to dump into the tmpdir
+    used for the test.
+  - Make it so it will only detect the core file for the pid of the
+    last test run.
+  - And extend the test to have a couple of extra test cases.
+
+---
+ tests/regression/apparmor/coredump.sh  |   50 +++++++++++++++++++++++++++------
+ tests/regression/apparmor/prologue.inc |    4 +-
+ 2 files changed, 44 insertions(+), 10 deletions(-)
+
+Index: b/tests/regression/apparmor/coredump.sh
+===================================================================
+--- a/tests/regression/apparmor/coredump.sh
++++ b/tests/regression/apparmor/coredump.sh
+@@ -12,7 +12,7 @@
+ 
+ cleancorefile()
+ {
+-	rm -f core core.*
++	rm -f "$tmpdir/core.$_pid"
+ }
+ 
+ checkcorefile()
+@@ -26,12 +26,12 @@ checkcorefile()
+ 		_known=""
+         fi
+ 
+-	_corefilelist=`echo core.*`
+-	if [ ! -f core ] && [ "$_corefilelist" = "core.*" ]
++	#check pid of last test run by the test suite
++	if [ -f "$tmpdir/core.$_pid" ]
+ 	then
+-		_corefile=no
+-	else
+ 		_corefile=yes
++	else
++		_corefile=no
+ 	fi
+ 
+ 	if [ "$requirement" = "yes" -a "$_corefile" = "no" ] ; then
+@@ -54,7 +54,7 @@ checkcorefile()
+ 		fi
+ 	fi
+ 
+-	unset _corefile _corefilelist
++	unset _corefile
+ 	cleancorefile
+ }
+ 
+@@ -70,6 +70,13 @@ nocoreperm=ix
+ 
+ # enable coredumps
+ ulimit -c 1000000
++
++# set the core_pattern so we can reliably check for the expected cores
++#echo -n "core dump pattern: " ; cat /proc/sys/kernel/core_pattern
++dumppattern=`cat /proc/sys/kernel/core_pattern`
++echo "$tmpdir/core.%p" > /proc/sys/kernel/core_pattern
++#echo -n "set core patter to: " ; cat /proc/sys/kernel/core_pattern
++
+ cleancorefile
+ checkcorefile no "COREDUMP (starting with clean slate)"
+ 
+@@ -79,20 +86,45 @@ echo "*** A 'Segmentation Fault' message
+ runchecktest "COREDUMP (no confinement)" signal11
+ checkcorefile yes "COREDUMP (no confinement)"
+ 
+-# PASS TEST, with r confinement
++# FAIL TEST, with r confinement, no permission to write core file
+ cleancorefile
+ genprofile -I $test:$coreperm
+ 
+ echo
+ echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
+ runchecktest "COREDUMP ($coreperm confinement)" signal11
++checkcorefile no "COREDUMP ($coreperm confinement)"
++
++# PASS TEST, with r confinement, permission to write core file
++cleancorefile
++genprofile -I $test:$coreperm $tmpdir/core.*:w
++
++echo
++echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
++runchecktest "COREDUMP ($coreperm confinement)" signal11
+ checkcorefile yes "COREDUMP ($coreperm confinement)"
+ 
+-# FAIL TEST, with x confinement
++# FAIL TEST, with x confinement, no permission to write core file
+ cleancorefile
+-genprofile -I $test:$nocoreperm
++genprofile -I $test:$nocoreperm 
++
++echo
++echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
++runchecktest "COREDUMP ($nocoreperm confinement)" signal11
++checkcorefile no "COREDUMP ($nocoreperm confinement)"
++
++# FAIL TEST, with x confinement, permission to write core file
++# should fail because of no read permission on executable (see man 5 core)
++cleancorefile
++genprofile -I $test:$nocoreperm $tmpdir/core.*:w
+ 
+ echo
+ echo "*** A 'Segmentation Fault' message from bash is expected for the following test"
+ runchecktest "COREDUMP ($nocoreperm confinement)" signal11
+ checkcorefile xno "COREDUMP ($nocoreperm confinement)"
++
++
++
++
++#restore core dump pattern
++echo "$dumppattern" > /proc/sys/kernel/core_pattern
+Index: b/tests/regression/apparmor/prologue.inc
+===================================================================
+--- a/tests/regression/apparmor/prologue.inc
++++ b/tests/regression/apparmor/prologue.inc
+@@ -147,7 +147,9 @@ runtestfg()
+ 	
+ 	genrunscript "$@"
+ 	
+-	$testexec "$@" > $outfile 2>&1
++	$testexec "$@" > $outfile 2>&1 &
++	_pid=$!
++	wait $_pid
+ 	test_rc=$?
+ 	if [ $test_rc -gt 128 ]
+ 	then

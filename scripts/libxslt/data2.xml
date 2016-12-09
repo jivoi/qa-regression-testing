@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<main>
+
+<article>
+  <title>The Pecan pie recipe</title>
+  <ingredients>Eggs, Sugar, Pecan nuts</ingredients>
+  <body>
+    Scramble the eggs, add the sugar and the pecan nuts.<br/>
+    Cook in the oven for 30 minutes.<br/>
+
+    (<a href="http://x.y.com/">click here</a>)
+  </body>
+</article>
+
+<article>
+  <title>The scramble eggs recipe</title>
+  <ingredients>Eggs</ingredients>
+  <body>
+    Scramble the eggs.<br/>
+    Cook in the pan for 4 minutes.<br/>
+  </body>
+</article>
+</main> 

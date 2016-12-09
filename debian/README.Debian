@@ -1,0 +1,22 @@
+qa-regression-testing for Ubuntu QA
+-----------------------------------
+
+This package should not be redistributed and is provided for convenience of the
+QA team. Please see README.source for how to build the package. After
+installing the package, files will be placed in:
+
+/opt/canonical.com/qa-regression-testing
+
+To use this package, do:
+$ cd /opt/canonical.com/qa-regression-testing/scripts
+$ ./make-test-tarball ./test-foo.py
+
+This will create the file /tmp/qrt-test-foo.tar.gz. To use it do:
+$ tar -zxvf ./qrt-test-foo.tar.gz
+$ cd qrt-test-foo
+$ grep 'QRT-Packages' ./test-foo.py
+$ sudo apt-get install -y --force-yes <QRT-Packages>
+$ ./test-foo.py -v      # as non-root
+$ sudo ./test-foo.py -v # as root
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Wed, 29 Jun 2011 14:59:32 +0100

@@ -1,0 +1,10 @@
+qa-regression-testing: duplicate-font-file
+qa-regression-testing: script-not-executable
+qa-regression-testing binary: arch-independent-package-contains-binary-or-object
+qa-regression-testing binary: binary-has-unneeded-section
+qa-regression-testing binary: dir-or-file-in-opt
+qa-regression-testing binary: duplicated-compressed-file
+qa-regression-testing binary: extra-license-file
+qa-regression-testing binary: missing-dependency-on-libc
+qa-regression-testing binary: package-contains-empty-directory
+qa-regression-testing binary: unstripped-binary-or-object

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoBorderWidth5" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <fo foName="list-item">
+     <foProperty name="background-color" value="red"/>
+     <foProperty name="border-before-width" value="thick"/>
+     <foProperty name="border-after-width" value="thick"/>
+     <foProperty name="border-start-width" value="thick"/>
+     <foProperty name="border-end-width" value="thick"/>
+     <foProperty name="border-before-style" value="none"/>
+     <foProperty name="border-after-style" value="none"/>
+     <foProperty name="border-start-style" value="solid"/>
+     <foProperty name="border-end-style" value="solid"/>
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>The border width for this list item is set to "thick", however the before and after border should not be drawn (no style specified).</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

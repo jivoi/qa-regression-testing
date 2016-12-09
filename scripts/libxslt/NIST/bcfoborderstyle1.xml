@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBorderStyle1" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="background-color" value="red"/>
+    <parentProperty name="height" value="2.0in"/>
+    <parentProperty name="width" value="2.0in"/>
+    <parentProperty name="border-before-style" value="dotted"/>
+    <parentProperty name="border-after-style" value="dotted"/>
+    <parentProperty name="border-start-style" value="dotted"/>
+    <parentProperty name="border-end-style" value="dotted"/>
+      <fo foName="block">
+       <foText>The border style properties of this block container were set to "dotted"</foText>
+      </fo>
+  </testcase>

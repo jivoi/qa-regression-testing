@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This paragraph should have the default background color, since the keyword
+here is bogus.</PARAGRAPH>
+</TEST>

@@ -1,0 +1,8 @@
+README
+******
+
+This archive contains a subset of the JPEG-2000 test images.
+All redistributions of these images must be accompanied by the
+credit information contained in the file named "CREDITS".
+All image data is stored in the PNM (i.e., PPM/PGM/PBM) format.
+

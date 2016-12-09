@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+case "$1" in
+    configure)
+        if [ ! -e /opt/canonical.com/qa-regression-testing/scripts/data ]; then
+            ln -s /opt/canonical.com/qa-regression-testing/data /opt/canonical.com/qa-regression-testing/scripts/data
+        fi
+        ;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+    *)
+        echo "postinst called with unknown argument '$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#

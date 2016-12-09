@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBorderStyle13" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="height" value="3.0in"/>
+    <parentProperty name="width" value="3.0in"/>
+    <parentProperty name="border-end-style" value="dotted"/>
+    <parentProperty name="background-color" value="yellow"/>
+    <fo foName="block-container">
+     <foProperty name="height" value="2.0in"/>
+     <foProperty name="width" value="2.0in"/>
+     <foProperty name="border-before-style" value="solid"/>
+     <foProperty name="border-after-style" value="solid"/>
+     <foProperty name="border-start-style" value="solid"/>
+     <foProperty name="border-end-style" value="inherit"/>
+      <fo foName="block">
+        <foText>The "border-end-style" property of this block container was set to "inherit" (set at parent to "dotted", all others are "solid").</foText>
+       </fo>
+    </fo>
+  </testcase>

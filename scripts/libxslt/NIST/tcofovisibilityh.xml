@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcofoVisibilityH" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="4.0in"/>
+       <foProperty name="background-color" value="aqua"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="4.0in"/>
+       <foProperty name="background-color" value="aqua"/>
+       <foProperty name="visibility" value="hidden"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This should the only text shown by this test.</foText>
+           </fo>
+          </fo>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This text should not be shown at all.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

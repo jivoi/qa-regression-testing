@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoEmpty1" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="background-color" value="red"/>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="1.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <fo foName="block">
+              <foText>The next cell is empty and should be shown with an aqua color.</foText>
+            </fo>
+          </fo>
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="aqua"/>
+            <foProperty name="empty-cells" value="show"/>
+            <fo foName="block">
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

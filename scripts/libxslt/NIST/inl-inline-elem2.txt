@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block font-size="10pt" line-height="12pt">This is a paragraph that has a <fo:inline border-left-width="12px" border-style="solid" padding-left="2pt">very long span in it, and the span
+has a 12px border separated from the span by 2pt of left padding (the difference between the
+line height and the font size), which should overlap with the lines of text above and
+below the span, since the padding and border should not affect the line height.  The span's
+border should have vertical lines only at the beginning and end of the whole span, not
+on each line.</fo:inline>  The line spacing in the whole paragraph should be 12pt, with font size 10pt.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

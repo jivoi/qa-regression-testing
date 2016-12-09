@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This paragraph should have a font size of 14px and a line height
+of 20px.  This means that the lines of text within it should be separated by
+six pixels.  Any images within the paragraph should increase the height of the
+ line-box so that they fit, including their left padding (5px), left border (10px) and left margins
+ (5px) within the line box, such as <IMG SRC="oransqr.jpg"/>.  This is
+additional text to make sure that there is enough room left below the image so that this
+line does not hit the image that is text-top aligned.  It is the outer edge of the
+margin that should be text-bottom and text-top aligned in this paragraph, so for the
+first image the bottom border of the image should begin 15px above the bottom of the
+text.(NOTE: vertical-align not used here, so may affect result)</PARAGRAPH>
+</TEST>

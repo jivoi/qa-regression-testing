@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoBorderStyle3" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+      <parentText>The border style properties for this image are set to "double".</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.jpg"/>
+       <foProperty name="border-before-style" value="double"/>
+       <foProperty name="border-after-style" value="double"/>
+       <foProperty name="border-start-style" value="double"/>
+       <foProperty name="border-end-style" value="double"/>
+      </fo>
+  </testcase>

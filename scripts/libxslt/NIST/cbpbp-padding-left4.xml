@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a left padding of 5 em, which will require extra
+text in order to test.  Both the content background and the padding should be aqua (light blue).</PARAGRAPH>
+</TEST>

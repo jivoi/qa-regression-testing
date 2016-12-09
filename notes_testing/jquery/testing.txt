@@ -1,0 +1,12 @@
+Depending on the release, the jquery package contains both the source code,
+and possibly a pre-built version of the resulting javascript file. Make
+sure that the fix actually makes it's way to the resulting binary package
+before uploading and testing.
+
+jquery on lucid contains a test suite. Once you've patched dist/jquery.js,
+go to the test/ directory and launch "firefox index.html". Later releases
+don't include a test suite.
+
+Testing jquery in an automated way is complex, as it is executed by the
+browser on the client side. The best way is to test it interactively.
+

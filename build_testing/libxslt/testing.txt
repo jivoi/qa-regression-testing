@@ -1,0 +1,15 @@
+libxslt has a test suite that is _not_ run at build time.
+
+In a VM, do the following:
+
+sudo apt-get build-dep libxslt
+
+Go into the source directory, and do:
+./configure --prefix=/usr
+make all
+
+Once finished building, run the tests:
+
+make tests >results.txt 2>&1
+
+Inspect the results.txt file for errors.

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xml" href="misc-linking1.xsl"?>
+<TEST>
+<PARAGRAPH>This sentence should be red.</PARAGRAPH>
+</TEST>

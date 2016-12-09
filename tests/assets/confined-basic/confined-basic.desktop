@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=confined-basic
+Comment=Test basic confinement
+Exec=./confined-basic
+Type=Application
+X-Ubuntu-Touch=true

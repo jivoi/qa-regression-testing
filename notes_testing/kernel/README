@@ -1,0 +1,15 @@
+See scripts/test-kernel* for the most up to date information.
+
+kernel-test-wrapper.sh tries to run scripts/test-kernel* in one run. Also see
+https://wiki.ubuntu.com/SecurityTeam/PublicationNotes for more information.
+
+To bundle up the qrt scripts into /tmp, use scripts/make-test-tarball on
+scripts/test-kernel*py except for test-kernel-hardening.py which is for
+features not yet present in the Ubuntu kernel. The resulting list is currently:
+
+    test-kernel-panic.py
+    test-kernel-root-ops.py
+    test-kernel.py
+    test-kernel-security.py
+    test-kernel-aslr-collisions.py
+

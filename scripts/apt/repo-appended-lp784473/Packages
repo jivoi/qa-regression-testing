@@ -1,0 +1,23 @@
+Package: hello
+Priority: optional
+Section: devel
+Installed-Size: 652
+Maintainer: Santiago Vila <sanvila@debian.org>
+Architecture: amd64
+Version: 2.6-1trojaned1
+Depends: libc6 (>= 2.4), dpkg (>= 1.15.4) | install-info
+Filename: natty/hello_2.6-1trojaned1_amd64.deb
+Size: 50446
+MD5sum: 6f6389923fb9e44a180ccf902613109a
+SHA1: a3358aa45fdf9d73602cb88483e25fb3395e4bcf
+SHA256: 33af21c0d1b7aa30c082d103c49a0e20fc8b73e8a6da299f1b9afa964316400c
+Description: The classic greeting, and a good example
+ The GNU hello program produces a familiar, friendly greeting.  It
+ allows non-programmers to use a classic computer science tool which
+ would otherwise be unavailable to them.
+ .
+ Seriously, though: this is an example of how to do a Debian package.
+ It is the Debian version of the GNU Project's `hello world' program
+ (which is itself an example for the GNU Project).
+Homepage: http://www.gnu.org/software/hello/
+

@@ -1,0 +1,38 @@
+------------------------------------------------------------
+revno: 2074
+committer: John Johansen <john.johansen@canonical.com>
+branch nick: apparmor
+timestamp: Sat 2012-10-20 01:22:29 -0700
+message:
+  apparmor: Fix clone test on quantal arm omap-4
+  
+  It turns out that PAGE_SIZE isn't defined on all architectures.
+  
+  This fixes a regression test failure happening on Ubuntu quantal
+  on the arm ti-omap4 architecture.
+  
+  Signed-off-by: John Johansen <john.johansen@canonical.com>
+  Acked-By: Steve Beattie <sbeattie@ubuntu.com>
+=== modified file 'tests/regression/apparmor/clone.c'
+
+--- a/tests/regression/apparmor/clone.c	2010-12-20 20:29:10 +0000
++++ b/tests/regression/apparmor/clone.c	2012-10-20 08:22:29 +0000
+@@ -23,6 +23,8 @@
+ #include <sched.h>
+ #include <linux/unistd.h>
+ 
++#define STACK_SIZE 0x8000
++
+ struct option long_options[] =
+ {
+ 	{"newns", 0, 0, 'n'},  /* create a new namespace */
+@@ -59,7 +61,7 @@
+ 	int waitstatus;
+ 	int c;
+ 	char buf[BUFSIZ];
+-	int stack_size = PAGE_SIZE << 4;
++	int stack_size = STACK_SIZE;
+ 	void *child_stack = malloc(stack_size);
+ 	int clone_flags = SIGCHLD;
+ 
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lbfoBreakBefore1" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <fo foName="list-block">
+      <foProperty name="background-color" value="red"/>
+      <fo foName="list-item">
+       <fo foName="list-item-label">
+        <fo foName="block">
+         <foText> </foText>
+        </fo>
+       </fo>
+       <fo foName="list-item-body">
+        <fo foName="block">
+         <foText>This page generate two pages.  This text should appear on page number one.</foText>
+        </fo>
+       </fo>
+      </fo>
+    </fo>
+    <fo foName="list-block">
+      <foProperty name="background-color" value="red"/>
+      <foProperty name="break-before" value="page"/>
+      <fo foName="list-item">
+       <fo foName="list-item-label">
+        <fo foName="block">
+         <foText> </foText>
+        </fo>
+       </fo>
+       <fo foName="list-item-body">
+        <fo foName="block">
+         <foText>This text should appear on page number two.</foText>
+        </fo>
+       </fo>
+      </fo>
+    </fo>
+  </testcase>

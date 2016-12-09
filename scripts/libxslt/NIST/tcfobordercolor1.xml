@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBorderColor1" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="2.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="border-before-color" value="blue"/>
+            <foProperty name="border-after-color" value="blue"/>
+            <foProperty name="border-start-color" value="blue"/>
+            <foProperty name="border-end-color" value="blue"/>
+            <foProperty name="border-before-style" value="solid"/>
+            <foProperty name="border-after-style" value="solid"/>
+            <foProperty name="border-start-style" value="solid"/>
+            <foProperty name="border-end-style" value="solid"/>
+            <fo foName="block">
+              <foText>All four border colors of this cell are set to "blue"</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

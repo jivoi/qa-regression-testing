@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have no border around it, as its declaration is invalid and should be ignored.
+Individual properties are tested here.</PARAGRAPH>
+</TEST>

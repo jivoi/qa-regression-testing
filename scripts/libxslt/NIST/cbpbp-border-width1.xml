@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a border width of zero inches.
+Individual properties are tested here.</PARAGRAPH>
+</TEST>

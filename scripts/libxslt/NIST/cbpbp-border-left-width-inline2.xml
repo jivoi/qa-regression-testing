@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a border left width of 25px and border-style of solid.
+  There is an <SPAN> red inline element of border-left-width 25px</SPAN>, which should
+have no left visible border because no border style was set.</PARAGRAPH>
+</TEST>

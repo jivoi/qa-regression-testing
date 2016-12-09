@@ -1,0 +1,162 @@
+# The goal here is to create an instance using canonistack
+## and run maas inside that instance.  Then, make use of kvm from
+## inside the instance (aided with nested-virtualization)
+## to start and stop nodes.
+##
+# launch instance of quantal image
+# then ssh in like
+#  ssh 10.55.60.113 -L 10080:localhost:80
+
+# add the daily ppa
+sudo apt-add-repository ppa:maas-maintainers/dailybuilds -y
+sudo apt-get update
+
+mkdir -p ~/bin
+
+BRIDGE="maasbr0"
+
+MAAS_GW="192.168.77.1"
+MAAS_NM="255.255.255.0"
+MAAS_BC="192.168.77.255"
+MAAS_RANGE="192.168.77.5,192.168.77.200"
+MAAS_DHCP_INT="$BRIDGE"
+MAAS_NEXT_SERVER="$MAAS_GW"
+
+sudo apt-get install libvirt-bin --assume-yes </dev/null
+sudo adduser $(id -u --name) libvirtd
+
+cat > libvirt-$BRIDGE.xml <<EOF
+<network>
+  <name>$BRIDGE</name>
+  <forward mode='nat'/>
+  <bridge name='$BRIDGE' stp='off' delay='0' />
+  <ip address='$MAAS_GW' netmask='$MAAS_NM'>
+  </ip>
+</network>
+EOF
+
+sg libvirtd -c "virsh -c qemu:///system net-define libvirt-$BRIDGE.xml"
+sg libvirtd -c "virsh -c qemu:///system net-autostart $BRIDGE"
+sg libvirtd -c "virsh -c qemu:///system net-start $BRIDGE"
+
+sudo tee /usr/local/bin/xmaas-get-user-creds <<"EOF"
+#!/usr/bin/python
+import sys, os
+sys.path.insert(0, "/usr/share/maas")
+os.environ['DJANGO_SETTINGS_MODULE'] = 'maas.settings'
+
+from maasserver.models.user import get_creds_tuple
+from django.contrib.auth.models import User
+from apiclient.creds import convert_tuple_to_string
+
+admin = User.objects.get(username=sys.argv[1])
+token = admin.tokens.all()[0]
+print convert_tuple_to_string(get_creds_tuple(token))
+EOF
+sudo chmod 755 /usr/local/bin/xmaas-get-user-creds
+
+sudo tee "/usr/local/bin/xmaas-addssh-key" <<"EOF"
+#!/usr/bin/python
+# this hackily adds an ssh key until LP: #1056860 is fixed
+import sys, os
+sys.path.insert(0, "/usr/share/maas")
+os.environ['DJANGO_SETTINGS_MODULE'] = 'maas.settings'
+from maasserver.models.sshkey import SSHKey
+from django.contrib.auth.models import User
+
+user = User.objects.get(username=sys.argv[1])
+kdata = open(sys.argv[2]).read()
+key = SSHKey(key=kdata, user=user)
+user.sshkey_set.add(key)
+user.save()
+EOF
+sudo chmod 755 /usr/local/bin/xmaas-addssh-key
+
+xkvm_url="http://smoser.brickies.net/git/?p=tildabin.git;a=blob_plain;f=xkvm;hb=HEAD"
+sudo wget "${xkvm_url}" -O /usr/local/bin/xkvm
+sudo chmod 755 /usr/local/bin/xkvm
+
+# use /mnt as a place for kvm images, it likely has space.
+sudo chown $(id -u):$(id -g) -R /mnt
+
+mcc="maas-cluster-controller"
+cat <<EOF | sed 's,[ ]*|[ ]*,\t,g' | sudo debconf-set-selections
+$mcc      |$mcc/maas-url                  |string |http://localhost/MAAS
+EOF
+
+pkgs="qemu-kvm linux-image-extra-virtual uml-utilities" # for kvm
+pkgs="$pkgs maas maas-dhcp maas-dns maas-cli"
+( sudo apt-get --assume-yes dist-upgrade &&
+  sudo DEBIAN_FRONTEND=noninteractive \
+     apt-get --quiet --assume-yes install $pkgs &&
+  sudo adduser $(id -u --name) kvm &&
+  { sudo modprobe kvm_intel ; sudo modprobe kvm_amd; :; }
+) </dev/null
+
+# attempting to test LP: #1034116
+echo "STREAM=daily" | sudo tee -a /etc/maas/import_ephemerals
+
+sudo maas createadmin --username=ubuntu --password=ubuntu \
+   --email=ubuntu@example.com
+
+CREDS=$(sudo xmaas-get-user-creds ubuntu)
+maas-cli login maaslocal http://localhost/MAAS/api/1.0 "$CREDS"
+
+maas-cli maaslocal node-groups list > out.tmp
+sed -n '/^\[$/,$p' out.tmp > out
+master_uuid=$(python -c 'import yaml; print yaml.load(open("out"))[0]["uuid"]')
+
+# list master node group interfaces
+maas-cli maaslocal node-group-interfaces list ${master_uuid}
+
+# set up our dhcp server
+maas-cli maaslocal node-group-interface update ${master_uuid} $BRIDGE \
+   ip=$MAAS_GW interface=$MAAS_DHCP_INT management=2 subnet_mask=$MAAS_NM \
+   broadcast_ip=$MAAS_BC router_ip=$MAAS_GW \
+   ip_range_low=${MAAS_RANGE%,*} ip_range_high=${MAAS_RANGE#*,}
+
+# add your ssh keys (LP: #1056860)
+[ -f ~/.ssh/id_rsa.pub ] || ssh-keygen -N '' -f ~/.ssh/id_rsa
+sudo xmaas-addssh-key ubuntu ~/.ssh/id_rsa.pub
+
+## LP: 1047061
+sudo sed -i.dist "s/next-server .*/next-server $MAAS_NEXT_SERVER;/" \
+   /etc/maas/dhcpd.conf
+sudo service maas-dhcp-server restart
+
+## maas-dhcp-server may run before libvirt-bin.
+## if it does, then it will fail because the 'maasbr0' interface
+## does not yet exist
+sudo tee -a /etc/init/libvirt-maas-dhcpd-restart.conf <<"EOF"
+description "restart dhcpd"
+start on started libvirt-bin
+task
+script
+sleep 5 # hack, let the interfaces comeup
+start maas-dhcp-server
+end script
+EOF
+
+# import tftp and ephemeral images
+sudo maas-import-pxe-files
+
+# reboot to 
+#  - get into new kernel (with new modules)
+#  - logout to make sure you're in kvm group
+#  - get your PATH to have ~/bin
+#  - get new dnsmasq settings (LP: #1043588)
+sudo reboot # reboot to get into new kernel if that brought one
+
+
+# xkvm now should function to easily put instances on the network where maas is
+# listening to dhcp and dns.
+# to boot a node with MAC 52:54:00:12:34:01 (change '01' to '02' to differ).
+# then run:
+qemu-img create -f qcow2 system-01.img 8G
+xkvm --netdev maasbr0,macaddr=:01 --  \
+  -drive file=system-01.img,if=virtio -curses
+
+# alternatively, with 2 NICS:
+# this tests the function of 'ip=::::<hostname>:BOOTIF' getting changed
+xkvm --netdev virbr0,macaddr=:06 --netdev maasbr0,macaddr=:05 -- \
+   -drive file=system-01.img,if=virtio -curses -serial file:my.serial

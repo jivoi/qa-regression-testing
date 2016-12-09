@@ -1,0 +1,77 @@
+maas can be tested on Canonistack in multiple-layer virtualization.
+However, actually using the virtualized virtual machines might be faster
+on an own-box with the ability to turn on nested KVM. (I have not tried.)
+Canonistack is nice because it is easy to provision several large
+instances and run multiple tests in parallel.
+
+Canonistack:
+https://wiki.canonical.com/InformationInfrastructure/IS/CanonicalOpenstack
+
+Once the credentials are populated and configured, euca-describe-images to
+discover the AMIs for the releases being tested.
+
+Replace the key name with your key name, and the ami-... with the desired AMI.
+
+euca-run-instances -k sarnold_lcy02 -t m1.large ami-000005d9
+
+Give it a few minutes to start.
+
+euca-describe-instances
+
+ssh ...
+
+When you're all done, destroy the instance. Find the name above, then:
+
+euca-terminate-instances i-00005980
+
+
+Method One:
+Scott Moser recommended using the following as testing guide:
+http://bazaar.launchpad.net/~virtual-maasers/charms/precise/virtual-maas/trunk/view/head:/README-nojuju.txt
+
+This relies heavily upon the vmaas juju charm and hooks.
+I did not have success with this, but it all looked plausible.
+
+
+Method Two:
+Scott Moser has older scripts for testing maas that gave me enough success
+to test some updates. I wouldn't call it a wonderful experience but it
+worked well enough to get the job done. A real MAAS test lab would be
+better. Anyway:
+
+http://bazaar.launchpad.net/~smoser/maas/maas-pkg-test/view/head:/maas-precise-1.2.txt
+http://bazaar.launchpad.net/~smoser/maas/maas-pkg-test/view/head:/maas-ephemeral-test-quantal.txt
+
+To avoid these being lost, I've included them in this directory. Skip the
+daily-ppa step, feel free to skip the reboot, and when you start images
+using the xkvm script (also included in the directory in case smoser's
+personal host changes..) know that you can get the KVM console with alt+2
+and from there "quit" works great. tmux or screen before starting xkvm
+helps greatly. It'll take a long time before you see login: prompts, five
+or ten minutes, but the things actually work. No password, use the
+in-instance ssh key.
+
+
+
+The maas-cli program is a simple interface in front of a web-accessible
+API. w3m very nearly works well enough to try it it, if you wish, but the
+command line tool can do anything the web interface can do. 
+
+
+Presumably in time "juju deploy vmaas" will "just work". Try it out before
+going down these manual routes.
+
+
+Sorry there's no QRT integration. Here's simple one-liners to check
+previous security fixes:
+
+http://localhost:10080/MAAS/api/1.0/nodes/?op=test<script>alert(document.domain)</script>balh
+GOOD: displays results as plain text
+BAD: javascript popup in browser
+
+ls -l /etc/maas/txlongpoll.yaml
+GOOD: root:maas 640
+BAD: root:root 664
+
+No one-liner for the integrity checking of downloaded images; ^S during
+the maas import images step, change the downloaded file, ^Q.

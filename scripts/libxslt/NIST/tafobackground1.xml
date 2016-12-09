@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tafoBackground1" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <fo foName="table">
+     <foProperty name="height" value="3.0in"/>
+     <foProperty name="width" value="3.0in"/>
+     <foProperty name="background-color" value="red"/>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with a red background and no borders.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+    </fo>
+    <fo foName="table">
+     <foProperty name="height" value="3.0in"/>
+     <foProperty name="width" value="3.0in"/>
+     <foProperty name="background-color" value="yellow"/>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with a yellow background and no borders.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+    </fo>
+  </testcase>

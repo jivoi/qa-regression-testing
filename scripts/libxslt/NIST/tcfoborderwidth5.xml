@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tcfoBorderWidth5" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-column"> 
+       <foProperty name="column-width" value="2.0in"/>
+     </fo>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+            <foProperty name="background-color" value="red"/>
+            <foProperty name="border-before-width" value="thick"/>
+            <foProperty name="border-after-width" value="thick"/>
+            <foProperty name="border-start-width" value="thick"/>
+            <foProperty name="border-end-width" value="thick"/>
+            <foProperty name="border-before-style" value="none"/>
+            <foProperty name="border-after-style" value="none"/>
+            <foProperty name="border-start-style" value="solid"/>
+            <foProperty name="border-end-style" value="solid"/>
+            <fo foName="block">
+              <foText>This cell should not have any top and bottom borders.</foText>
+            </fo>
+          </fo>
+        </fo>
+     </fo>
+   </testcase>

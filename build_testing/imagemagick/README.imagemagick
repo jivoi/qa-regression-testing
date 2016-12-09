@@ -1,0 +1,24 @@
+imagemagick testing
+-------------------
+
+imagemagick packages for Gutsy+ automatically do the build tests, but Dapper doesn't.
+The tests need to be run manually in a chroot.
+
+
+First build imagemagick with:
+$ sudo apt-get update ; apt-get source imagemagick ; sudo apt-get build-dep imagemagick
+$ sudo apt-get install gs (required for some of the tests)
+$ cd imagemagick-<version>
+$ debuild
+
+
+Then run the tests:
+$ CURDIR=`pwd`;LD_LIBRARY_PATH="$CURDIR/magick/.libs:$CURDIR/wand/.libs:$CURDIR/Magick++/lib/.libs::$LD_LIBRARY_PATH" make check
+
+
+Some tests are known to fail:
+Dapper:	11 of 701 tests failed as of 6:6.2.4.5-0.6ubuntu0.7
+
+
+
+Copyright (C) 2008 Canonical Ltd.

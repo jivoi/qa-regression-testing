@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray">
+This element is unstyled save for a background color of gray.  However, it contains
+an <fo:inline background-color="red" padding-left="25px" padding-bottom="25px" padding-right="25px" padding-top="25px">inline element of padding 25px and background-color of red, giving it a red
+background and a 25px padding</fo:inline>.  Padding on inline elements does not affect line-height
+calculations, so all lines in this element should have the same line-height.  There may be 
+implementation-specific limits on how much of the padding the user agent is able to display 
+above and below each line.  However, there should be at least 25px of padding to the left side
+of the inline box in the first line it appears, and 25px of padding to the right side of the
+inline element box in the last line where it appears.  Individual properties are being tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

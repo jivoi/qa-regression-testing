@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a background color of gray and margin-left of 20px.
+However, it contains an <SPAN> inline element of border-left-width thick and border-left-style
+solid</SPAN>, which should result in a thick solid border on the left side of the first
+box in the inline element (and the UA's default border on the other three
+sides).</PARAGRAPH>
+</TEST>

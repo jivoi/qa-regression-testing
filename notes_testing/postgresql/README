@@ -1,0 +1,51 @@
+The test-postgresql.py test script integrates the testsuite in postgres-common.
+
+Essentially (for 8.4, use the appropriate version you want to test):
+$ sudo apt-get -y install python-unit postgresql-8.4 postgresql-common libpq-dev libpqxx-dev procps hunspell-en-us language-pack-ru ssl-cert locales python-pygresql postgresql-plpython-8.4 postgresql-plperl-8.4 postgresql-pltcl-8.4 postgresql-server-dev-8.4
+
+$ sudo locale-gen en_US en_US.UTF-8 ru_RU ru_RU.UTF-8
+$ sudo locale-gen
+
+Note that 10.04 won't use Russian, so you'll need a different language pack
+and locale-gen command.
+
+# run the tests
+$ cd /usr/share/postgresql-common
+$ sudo -i
+# LANG=en_US.UTF-8 ./testsuite		# to quit after the first failure
+# LANG=en_US.UTF-8 sh +e ./testsuite
+
+# to disable tests:
+$ sudo mv ./t/<test>.t ./t/<test>.t.disabled
+
+
+Some tests are known to fail (see test-postgresql.py for most up-to-date
+information):
+
+6.06:
+not ok 2 - pg_wrapper selects highest available version number
+not ok 26 - psql -qc 'create group foo' template1
+not ok 27 - create group foo
+not ok 33 - pg_upgradecluster fails due to clashing user and group name
+not ok 36 - pg_upgradecluster succeeds
+not ok 37 - pg_upgradecluster reported cluster startup
+not ok 38 - pg_upgradecluster reported successful operation
+not ok 40 - pg_lsclusters output
+not ok 58 - Dropping upgraded cluster
+not ok 21 - Server error message has correct language and encoding
+not ok 67 - Server error message has correct language and encoding
+not ok 91 - Server error message has correct language and encoding
+not ok 137 - Server error message has correct language and encoding
+not ok 41 - pg_upgradecluster 8.1 main
+not ok 42 - correct output of pg_upgradecluster 8.1 main
+not ok 45 - dropping old cluster
+not ok 5 - clusters have the correct ports, skipping used 5433
+
+8.10:
+not ok 20 - pg_maintenance works as user postgres with appropriate directory permissions
+
+9.10:
+not ok 18 - Server error message has correct language and encoding
+not ok 39 - Server error message has correct language and encoding
+
+

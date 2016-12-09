@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element has a font-size of 40px and a border-left of 1in
+solid purple.  This should make the left border solid purple.  Here is
+some extra text to fill out the paragraph.</PARAGRAPH>
+</TEST>

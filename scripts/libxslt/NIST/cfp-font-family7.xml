@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>These sentences should be in a monospace font, not serif, if
+monospace (the first one in the list) is supported.  If monospace is not supported,
+then serif (the second one in the list) should be used if supported.</PARAGRAPH>
+</TEST>

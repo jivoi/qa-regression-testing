@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tafoBorderWidth5" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="background-color" value="red"/>
+     <parentProperty name="border-before-width" value="thick"/>
+     <parentProperty name="border-after-width" value="thick"/>
+     <parentProperty name="border-start-width" value="thick"/>
+     <parentProperty name="border-end-width" value="thick"/>
+     <parentProperty name="border-start-style" value="solid"/>
+     <parentProperty name="border-end-style" value="solid"/>
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with a the border width properties set to "thick" and no before and after border style set.</foText>          
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

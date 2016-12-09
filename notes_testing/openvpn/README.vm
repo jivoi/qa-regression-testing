@@ -1,0 +1,76 @@
+(This is mostly based on https://help.ubuntu.com/12.04/serverguide/openvpn.html)
+
+Boot two VMs, one client and one server.
+
+On the server:
+
+apt-get install openvpn
+mkdir /etc/openvpn/easy-rsa
+
+12.04:
+cp /usr/share/doc/openvpn/examples/easy-rsa/2.0/* /etc/openvpn/easy-rsa/
+
+14.04 and higher:
+apt-get install easy-rsa
+cp /usr/share/easy-rsa/* /etc/openvpn/easy-rsa/
+
+cd /etc/openvpn/easy-rsa/
+- Make changes to vars if required (not usually so)
+source vars
+./clean-all
+./build-ca
+./build-key-server server
+./build-dh
+cd keys/
+cp server.crt server.key ca.crt dh2048.pem /etc/openvpn (dh1024.pem in 12.04)
+
+Now generate the client certs:
+cd /etc/openvpn/easy-rsa/
+source vars
+./build-key client
+
+Copy the client certs over to the client VM:
+(make sure openvpn is installed on the client first)
+cd keys
+scp client* ca.crt root@sec-utopic-i386:/etc/openvpn
+
+
+Now use the sample server cert:
+cd /etc/openvpn
+cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn/
+gunzip server.conf.gz
+
+Edit server.conf to contain the cert names:
+ca ca.crt
+cert server.crt
+key server.key
+dh dh2048.pem (dh1024.pem on 12.04)
+
+Now start the server:
+/etc/init.d/openvpn start
+
+
+On the client:
+
+cd /etc/openvpn
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf /etc/openvpn/
+
+Edit client.conf to contain the server name and cert names:
+remote sec-utopic-amd64 1194
+ca ca.crt
+cert client.crt
+key client.key
+
+Now start the vpn:
+/etc/init.d/openvpn start
+
+See if the tun device was created:
+ifconfig tun0
+
+Try pinging the openvpn server:
+ping 10.8.0.1
+
+Check the routes:
+netstat -rn
+
+

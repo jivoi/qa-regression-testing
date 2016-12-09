@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block border-top-width="25px" border-style="solid">
+This element has a border top width of 25px and border-style of solid.
+  However, it contains an <fo:inline border-top-width="thin" border-style="solid">inline element of border-top-width
+thin and border-style solid</fo:inline>, which should result in a thin solid 
+border on the top side of each box in the inline element (and the UA's default
+border on the other three sides).</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

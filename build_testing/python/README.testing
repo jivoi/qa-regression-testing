@@ -1,0 +1,95 @@
+Python 3.1
+----------
+test results are shipped in the binaries of python3.1-dev. Eg:
+/usr/share/doc/python3.1/test_results.gz
+
+
+Python 3.2
+----------
+Largely the same as python3.1, but python3.2 on natty does not have the test
+suite enabled because several tests fail. It can be enabled with:
+
+$ sed -i 's/^WITHOUT_CHECK/# WITHOUT_CHECK/' ./debian/rules
+
+As such, get the benchmark test with:
+$ cd <parent dir of unpacked source>
+$ mkdir testsuite.last
+$ cd testsuite.last
+$ dpkg-source -x ../*dsc
+$ cd python3.2-*
+$ sed -i 's/^WITHOUT_CHECK/# WITHOUT_CHECK/' ./debian/rules
+$ schroot -c natty-i386 -u root
+(natty-i386)# apt-get update
+(natty-i386)# apt-get upgrade
+(natty-i386)# apt-get build-dep python3.2
+(natty-i386)# su <your username>
+(natty-i386)$ debuild 2>&1 | tee ../python3.2-<version>.test_results
+(natty-i386)$ exit
+$ sed -i 's/.*testsuite\.last/<PATH>/g' ../python3.2-<version>.test_results # strip out the path
+
+That takes a while to complete. When the unchanged test suite is done, then
+test your new version:
+$ cd <parent dir of unpacked source>
+$ mkdir testsuite.next
+$ cd testsuite.next
+$ dpkg-source -x ../source/*dsc # assumes updated .dsc is in source/
+$ cd python3.2-*
+$ sed -i 's/^WITHOUT_CHECK/# WITHOUT_CHECK/' ./debian/rules
+$ schroot -c natty-i386 -u root
+(natty-i386)# apt-get update
+(natty-i386)# apt-get upgrade
+(natty-i386)# apt-get build-dep python3.2
+(natty-i386)# su <your username>
+(natty-i386)$ debuild 2>&1 | tee ../python3.2-<version>.test_results
+(natty-i386)$ exit
+$ sed -i 's/.*testsuite\.next/<PATH>/g' ../python3.2-<version>.test_results # strip out the path
+
+
+Now compare with:
+$ cd <parent dir of unpacked source>
+$ diff -Naur ./testsuite.last/*test_results ./testsuite.next/*test_results
+$ diff -Naur ./testsuite.last/*test_results ./testsuite.next/*test_results | grep -i fail
+
+Natty 3.2 doesn't doesn't build the testsuite, and to debug tests, will need to
+compile python in a certain way:
+$ CC="gcc" ./configure --enable-shared --enable-ipv6 --enable-loadable-sqlite-extensions --with-dbmliborder=bdb --with-wide-unicode --with-computed-gotos --with-system-expat --with-system-ffi --with-fpectl && make
+NOTE: FIXME: this is the command line given in debian/rules, but it fails to
+build if done by hand with:
+  File "/home/jamie/ubuntu/sbuild/python/python3.2/natty/testsuite.next/python3.2-3.2/Lib/os.py", line 770, in popen
+    import subprocess, io
+  File "/home/jamie/ubuntu/sbuild/python/python3.2/natty/testsuite.next/python3.2-3.2/Lib/subprocess.py", line 377, in <module>
+    import select
+ImportError: No module named select
+make: *** [sharedmods] Error 1
+
+
+Oneiric python3.2 does enable the testsuite, but to debug tests, will need to
+compile python in a certain way to avoid core dumps. Ie:
+$ CC="gcc" ./configure --enable-ipv6 --enable-loadable-sqlite-extensions --with-dbmliborder=bdb --with-wide-unicode --with-computed-gotos --with-system-expat --with-system-ffi --with-fpectl && make
+$ ./python ./Lib/test/regrtest.py -uall,-gui
+
+
+Python 2.6
+----------
+The testsuite is disabled on 11.04. Use the same procedure as above.
+
+
+Python 2.4
+----------
+The testsuite is disabled on 8.04 because libdb4.6 makes the test_bsddb3.py
+test abort due to secmentation fault. We can either disable the test or use
+libdb4.2-dev. It seems that the tests compiles code on the fly, so using
+libdb4.2-dev should be a viable test. Use the same procedure as above except:
+ * skip the 'sed' line (it isn't needed)
+ * Add some packages for the testsuite:
+   (hardy-i386)# apt-get build-dep python2.4 && apt-get install libbluetooth-dev
+   (hardy-i386)# apt-get remove libdb4.6-dev && apt-get install libdb4.2-dev
+ * use this instead of debuild:
+   (hardy-i386)$ fakeroot debian/rules patch
+   (hardy-i386)$ CC="gcc" ./configure --prefix=/usr --enable-ipv6 --enable-unicode=ucs4 --without-cxx --with-fpectl
+   (hardy-i386)$ make && make testall 2>&1 | tee ../python2.4-<version>.test_results
+
+See notes_testing/python/README for expected failures, etc
+
+Note that 2.4.5-1ubuntu4.4 has a patch to the testsuiet for 'linux3', so its
+results will be a bit different from 2.4.5-1ubuntu4.3.

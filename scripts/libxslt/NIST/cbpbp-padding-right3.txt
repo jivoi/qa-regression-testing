@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block padding-right="25px" text-align="right" background-color="aqua">This element should have a right padding of 25 pixels, which will require extra 
+text in order to test.  Both the content background and the padding should be aqua (light blue).
+The text has been right-aligned in order to make the right padding easier to see.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

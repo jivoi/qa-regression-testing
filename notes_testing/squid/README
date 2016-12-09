@@ -1,0 +1,9 @@
+For squid-cgi testing, I found the following two commands useful:
+
+- w3m http://localhost/cgi-bin/cachemgr.cgi
+- curl -d server=localhost -d operation=... http://locahost/cgi-bin/cachemgr.cgi
+
+wget --post-data didn't work so well; curl -d worked well immediately.
+
+Passwords are only needed if the squid configuration has passwords for
+the various operations.

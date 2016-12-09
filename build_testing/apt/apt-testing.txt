@@ -1,0 +1,39 @@
+APT has some tests that are _not_ run at build time.
+
+In a VM, do the following:
+
+sudo apt-get build-dep apt
+sudo apt-get install devscripts fakeroot weborf stunnel4
+
+Go into the source directory, and build with "debuild".
+
+Once finished building, run the tests:
+--------------------------------------
+
+cd test/integration
+
+sudo ./run-tests
+
+Some tests may fail if the test scripts aren't 755.
+
+This test doesn't exist in Lucid.
+On Natty, 2 of the tests failed. Have not investigated.
+On Oneiric, 4 of the tests failed. Have not investigated.
+
+This test is deprecated (according to mvo):
+-------------------------------------------
+
+For this test, you need to import mvo's key:
+sudo apt-key adv --keyserver subkeys.pgp.net --recv-keys 962483E15662C734
+
+and then run the test:
+sudo ./pre-upload-check.py -v
+
+On Lucid, 1 of the tests failed. Have not investigated.
+
+The status of this test is unknown (according to mvo):
+------------------------------------------------------
+
+cd test
+sudo ./test-indexes.sh
+

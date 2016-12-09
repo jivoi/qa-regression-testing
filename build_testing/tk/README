@@ -1,0 +1,16 @@
+Tk contains automated build tests.
+
+It needs X, so it needs to be run in a VM.
+
+$ apt-get -y source tk8.3 (or 8.0, 8.4, etc.)
+$ sudo apt-get -y build-dep tk8.3 (or 8.0, 8.4, etc.)
+$ sudo apt-get -y install fakeroot
+$ cd (source directory)
+$ dpkg-buildpackage -rfakeroot
+$ cd unix
+$ make test > logfile.txt
+
+These tests seem to be unreliable. Every time they are run, they come up with different results.
+Maybe related to running the tests in a VM.
+
+Copyright (C) 2008 Canonical Ltd.

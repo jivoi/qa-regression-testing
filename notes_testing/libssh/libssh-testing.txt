@@ -1,0 +1,30 @@
+libssh is used by remmina. You can use remmina to establish an ssh
+connection to test it.
+
+You can also build the sample applications like so:
+
+install build dependencies:
+# apt-get build-dep libssh
+
+create a separate clean source tree:
+# cp -a quantal quantal.test
+# cd quantal.test
+# mkdir build
+# cd build
+# cmake ../../libssh-0.5.2
+# make
+
+samplessh: sample ssh client. Type "yes" to accept prompts.
+samplesftp: connects to an sftp server and creates a big /tmp/grosfichier file
+samplesshd: sample sshd server. Spawn with -p to specify port. Client
+ must use user 'aris' with password 'lala'. Use -T on client to disable
+ pseudo-tty. Stuff typed into client should print on server side. Must run
+ server as root to access host keys. On lucid, must use the libssh sample
+ client to test.
+libssh_scp: sample scp client
+exec: connects locally and does 'lsof'
+scp_download: connects locally, creates files in /tmp and fetches them
+senddata: connects locally and sends data to /dev/null
+
+
+

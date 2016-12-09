@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+<SPAN>"This span element"</SPAN> should be green (which overrides color of parent element, which is gray).</PARAGRAPH>
+</TEST> 

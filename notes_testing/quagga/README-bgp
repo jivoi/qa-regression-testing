@@ -1,0 +1,93 @@
+To test bgp, you need to set up some virtual machines with isolated
+networks. In virt-manager/libvirt, set up two "isolated networks" in
+addition to the default "NAT" network that is already configured. We will
+be setting up the two virtual machines in the following fashion:
+
+
+                 -------------------------------------   192.168.122.0/24
+                     |                           |       (default NAT net)
+                     |                           |
+                   +---+                       +---+
+   10.1.0.0/24  .1 |   |.1    10.10.0.0/24   .2|   |.1    10.2.0.0/24
+   ----------------+   +-----------------------+   +-----------------
+   isonet1         |   |        isonet2        |   |          isonet1
+                   +---+                       +---+
+                    vm1                         vm2
+
+Add two addition network interfaces to each vm, one on each isolated
+network. Boot up the VMs, and add static networking configuration to their
+/etc/network/interfaces files:
+
+VM1:
+auto eth1
+iface eth1 inet static
+address 10.1.0.1
+netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+address 10.10.0.1
+netmask 255.255.255.0
+
+VM2:
+auto eth1
+iface eth1 inet static
+address 10.2.0.1
+netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+address 10.10.0.2
+netmask 255.255.255.0
+
+Reboot them, and make sure they can ping each other's 10.10.0.0/24 address.
+
+Modify /etc/quagga/daemons to enable bgpd.
+
+Create /etc/quagga/zebra.conf files:
+interface eth1
+ link-detect
+
+interface eth2
+ link-detect
+
+Create /etc/quagga/bgpd.conf files:
+
+VM1:
+router bgp 2147483676
+ bgp router-id 1.1.1.1
+ network 10.1.0.0/24
+ neighbor upstream peer-group
+ neighbor upstream remote-as 123456789
+ neighbor upstream capability dynamic
+ neighbor upstream prefix-list pl-allowed-adv out
+ neighbor 10.10.0.2 peer-group upstream
+ neighbor 10.10.0.2 description ACME ISP
+
+VM2:
+router bgp 123456789
+ bgp router-id 2.2.2.2
+ network 10.2.0.0/24
+ neighbor upstream peer-group
+ neighbor upstream remote-as 2147483676
+ neighbor upstream capability dynamic
+ neighbor upstream prefix-list pl-allowed-adv out
+ neighbor 10.10.0.1 peer-group upstream
+ neighbor 10.10.0.1 description ACME ISP
+
+Start the daemon on both VMs.
+
+With bgpd running, both sides should see each other as "Established":
+
+# vtysh -c 'show ip bgp neighbor'
+BGP neighbor is 10.0.0.233, remote AS 123456789, local AS 2147483676, external link
+ Description: ACME ISP
+ Member of peer-group upstream for session parameters
+  BGP version 4, remote router ID 10.0.0.233
+  BGP state = Established, up for 00:00:15
+  Last read 00:00:15, hold time is 180, keepalive interval is 60 seconds
+....
+
+
+Older than jaunty bgpd will need AS numbers less than 4 bytes.  Try 12345 and 4836
+

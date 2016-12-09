@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<IMG SRC="oransqr.jpg"/>
+<PARAGRAPH>The above image should be a square resized so that its height is 50% of the
+top image.</PARAGRAPH>
+</TEST>

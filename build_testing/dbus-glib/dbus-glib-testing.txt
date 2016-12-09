@@ -1,0 +1,48 @@
+dbus-glib has a test suite that is _not_ run at build time.
+
+test-dbus.py does build dbus-glib with the test suite enabled, but for a
+more detailed comparison of build logs:
+
+In a VM, do the following:
+
+sudo apt-get build-dep dbus-glib
+sudo apt-get install devscripts
+
+
+We need to compare the test suite between the original package, and the
+new updated package:
+
+Go into the original package source directory, add the following lines
+to debian/rules:
+
+--enable-tests \
+--enable-checks \
+--enable-asserts \
+
+Build in the following way:
+
+debuild > /tmp/before.txt 2>&1
+
+
+Go into the updated package source directory, add the following lines
+to debian/rules:
+
+--enable-tests \
+--enable-checks \
+--enable-asserts \
+
+Build in the following way:
+
+debuild > /tmp/after.txt 2>&1
+
+
+You can now compare /tmp/before.txt and /tmp/after.txt to see if any
+additional tests have failed.
+
+Make sure the build logs have the following:
+
+        Building unit tests:      yes
+        Building assertions:      yes
+        Building checks:          yes
+
+

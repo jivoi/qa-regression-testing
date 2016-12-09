@@ -1,0 +1,5 @@
+There are three testing scripts to test poppler:
+
+- scripts/test-poppler.py: tests command-line tools in poppler-utils
+- scripts/test-evince.py: tests the Evince front-end
+- scripts/test-okular.py: tests the Okular and kpdf front-ends

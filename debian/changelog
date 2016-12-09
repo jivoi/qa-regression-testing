@@ -1,0 +1,6 @@
+qa-regression-testing (0.1335) UNRELEASED; urgency=low
+
+  * Packaging for QA team. See debian/README.source and debian/README.Debian
+    for usage.
+
+ -- Jamie Strandboge <jamie@ubuntu.com>  Fri, 01 Jul 2011 23:53:38 +0100

@@ -1,0 +1,16 @@
+How to run the maas test suite:
+
+Needs to be run by a regular user in a graphical environment as it uses
+firefox in a few tests.
+
+If run in a vm, must have 2Gb of ram.
+
+sudo apt-get build-dep maas
+apt-get source maas
+cd maas*
+make install-dependencies
+make test > /tmp/output.txt 2>&1
+
+More info here:
+https://maas.ubuntu.com/docs/hacking.html
+

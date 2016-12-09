@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This sentence should have a line-height of twenty millimeters, which should
+cause extra spacing between the lines.</PARAGRAPH>
+</TEST>

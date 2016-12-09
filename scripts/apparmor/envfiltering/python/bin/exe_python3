@@ -1,0 +1,6 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import Testlib.Stuff
+os.system(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "child3.py"))

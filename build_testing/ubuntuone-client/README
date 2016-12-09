@@ -1,0 +1,23 @@
+ubuntuone-client has an excellent test suite that needs to be run manually.
+
+In a VM (natty and +):
+- apt-get build-dep ubuntuone-client
+- apt-get install ubuntuone-dev-tools ubuntu-sso-client pyflakes
+- get the source:
+  - original: apt-get source ubuntuone-client
+  - patched: copy over source tree to VM
+- enter source tree
+- ./configure
+- make check > /tmp/results.txt 2>&1
+
+In a VM (lucid) (this currently doesn't work):
+- apt-get build-dep ubuntuone-client
+- apt-get install pyflakes
+- get the source:
+  - original: apt-get source ubuntuone-client
+  - patched: copy over source tree to VM
+- enter source tree
+- rm -rf .pc
+- ./configure --prefix=/usr
+- make check > /tmp/results.txt 2>&1
+

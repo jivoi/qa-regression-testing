@@ -1,0 +1,66 @@
+How to test nvidia:
+
+1- Install Ubuntu on nvidia hardware, dist-upgrade to latest updates
+2- Install one of the nvidia drivers:
+   - apt-get install nvidia-current
+   - apt-get install nvidia-current-updates (Oneiric+)
+   - apt-get install nvidia-173
+   - apt-get install nvidia-173-updates (Oneiric+)
+   - apt-get install nvidia-96
+   - apt-get install nvidia-96-updates (Oneiric+)
+3- Reboot
+4- Make sure the nvidia driver is running (grep NVIDIA /etc/Xorg.0.log)
+5- Test PoC if available (may render machine unstable, and require a reboot)
+6- Capture glxinfo data: (glxinfo > ~/pre-update.txt)
+7- Activate PPA, apt-get dist-upgrade, look for errors when dkms is rebuilt
+8- Reboot
+9- Make sure the nvidia driver is running (grep NVIDIA /etc/Xorg.0.log)
+10- Test PoC if available
+11- Capture glxinfo data: (glxinfo > ~/post-update.txt)
+12- Make sure glxinfo didn't change (diff -Naur pre-update.txt post-update.txt)
+13- Remove nvidia driver (dpkg -P nvidia-current nvidia-settings)
+14- Reboot, and test next driver. All drivers must be tested on all
+    releases, for both amd64 and i386.
+
+Notes:
+
+- For Lucid, you _must_ use jockey-gtk to install and uninstall nvidia drivers
+  as there are a bunch of alternatives that need to be switched. Natty and
+  later does the right thing automatically when installing the packages.
+- Natty released with an uninstallable nvidia-96 driver package. There is a
+  package in -proposed that is compatible with natty's X server. Security
+  update should be based on that package.
+- There is a source package called "nvidia-graphics-drivers-180" in Lucid
+  and Natty. The binary packages that contain the actual driver have been
+  superseded by nvidia-graphics-drivers. There still are some transitional
+  packages that are provided by the source. In other words,
+  nvidia-graphics-drivers-180 does not produce code that is installable in
+  the archive, so can be completely ignored for security updates.
+
+Debugging DKMS:
+
+- Source is installed in /usr/src/nvidia*
+- Patches are in /usr/src/nvidia*/patches
+- dkms.conf file is in /usr/src/nvidia*
+
+Check status:
+dkms status
+
+Rebuild dkms module (to see if patches are applied):
+dkms remove  -m nvidia-current -v 295.49 --all
+dkms add     -m nvidia-current -v 295.49
+dkms build   -m nvidia-current -v 295.49
+dkms install -m nvidia-current -v 295.49
+
+
+For jockey to detect newer nvidia versions, the repo containing the new
+packages must be signed, and the signing key must be added to the test
+system with apt-key.
+
+In Quantal, the required kernel source isn't installed by default, resulting
+in the nvidia DKMS module to fail to build. Before using the software-sources
+tool to install the nvidia drivers, ensure the source is installed with:
+sudo apt-get install linux-headers-generic
+
+
+

@@ -1,0 +1,212 @@
+No automated build tests.  There is a './test' directory, but it is not for
+build testing per its README.
+
+Thoughts
+--------
+* test apache2-mpm-worker, apache2-mpm-event, apache2-prefork, apache2-mpm-itk,
+  apache2-mpm-perchild
+* test the LAMP stack
+* use upstream's perl-framework in combination with python unit testing
+
+
+apache-mpm-itk
+--------------
+This is a universe package and has to be rebuilt everytime apache2 is update
+(feisty through jaunty, inclusive) as it depends on a specific version of
+apache2-common.
+
+After building, verify with:
+dpkg -I apache2-mpm-itk*deb
+
+
+Perl-Framework
+--------------
+Can see:
+http://httpd.apache.org/test/
+
+svn checkout http://svn.apache.org/repos/asf/httpd/test/trunk/ httpd-test
+
+Usage:
+apt-get install libcrypt-ssleay-perl libdevel-corestack-perl libdevel-symdump-perl perl-modules perl libhtml-tagset-perl libhtml-parser-perl libwww-perl libipc-run3-perl libhttp-dav-perl
+
+Depending on which server is being tested, need to do:
+apt-get install apache2-prefork-dev apache2-mpm-prefork libapache2-mod-php5
+apt-get install apache2-threaded-dev apache2-mpm-worker 
+apt-get install apache2-threaded-dev apache2-mpm-itk (feisty and later, but a
+	universe package and not from apache2 source)
+apt-get install apache2-threaded-dev apache2-mpm-event (feisty and later, but
+	broken on feisty and gutsy i386 (#187690))
+apt-get install apache2-threaded-dev apache2-mpm-perchild (edgy, dapper)
+
+
+** IMPORTANT **
+Debian has a configuration format that perl-framework does not understand.
+To get it to work need to:
+
+$ sudo mv /etc/apache2/httpd.conf /etc/apache2/httpd.conf.old
+$ sudo cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.old
+$ sudo ln -s /etc/apache2/apache2.conf /etc/apache2/httpd.conf
+$ sudo sed -i 's,^Include /etc/apache2/httpd.conf,,' /etc/apache2/httpd.conf
+
+Also, apxs2 on Debian doesn't support 'apxs2 -q PREFIX' properly, so need to
+just hard code it (found with "grep -r PREFIX ./* |grep apxs | grep '.pm:'"):
+$ cd httpd-test/perl-framework
+$ sed -i "s,\$self->apxs('PREFIX'),'/usr'," Apache-Test/lib/Apache/TestConfigParse.pm
+
+and if you ran 'make test' already, then need to do this:
+$ sed -i "s,\$self->apxs('PREFIX'),'/usr'," blib/lib/Apache/TestConfigParse.pm
+
+
+The nice thing with doing the above is that a2enmod will work as expected for
+the tests.
+
+perl ./Makefile.PL -apxs /usr/bin/apxs2
+make test
+
+Alternatively, can use:
+./t/TEST
+
+See perl-framework/README for more information.
+
+
+If get this error:
+[  error] configure() has failed:
+Can't figure out what Apache server generation we are running at
+/tmp/gutsy/httpd-test/perl-framework/Apache-Test/lib/Apache/TestServer.pm line
+93.
+
+Need to make sure you have apache2-threaded-dev or apache2-prefork-dev
+installed.
+
+Adding Modules
+--------------
+a2enmod include
+perl ./Makefile.PL -apxs /usr/bin/apxs2
+make test
+
+Testing just one module (note that 'make test' needs to have run it at least
+once):
+./t/TEST ./t/modules/include.t
+
+
+Enabling supported modules (on gutsy and feisty):
+#!/bin/sh
+
+for i in access alias asis auth_digest authn_anon autoindex cache cgi disk_cache dav dav_lock dav_fs deflate ext_filter filter auth_digest dir env expires headers imagemap include info negotiation proxy proxy_balancer proxy_connect proxy_ftp proxy_http rewrite setenvif ssl status vhost_alias
+do
+        a2enmod $i
+done
+/etc/init.d/apache2 force-reload
+
+
+Enabled supported modules (on edgy and dapper):
+#!/bin/sh
+
+for i in asis auth_digest auth_anon cache cgi disk_cache dav dav_fs deflate expires ext_filter file_cache headers imap include info proxy proxy_connect proxy_ftp proxy_http rewrite ssl vhost_alias
+do
+        a2enmod $i
+done
+/etc/init.d/apache2 force-reload
+
+----------------
+Release Specific
+----------------
+case_filter and case_filter_in are experimental and not compiled.
+bucketeer is not available
+
+-----
+Gutsy (after pending security update):
+-----
+prefork and php5:
+All tests successful, 18 tests and 18 subtests skipped.
+Files=138, Tests=2662, 132 wallclock secs (60.55 cusr +  6.34 csys = 66.89 CPU)
+[warning] server localhost:8529 shutdown
+
+mpm-worker:
+All tests successful, 11 tests and 21 subtests skipped.
+Files=80, Tests=2542, 114 wallclock secs (41.29 cusr +  4.12 csys = 45.41 CPU)
+
+mpm-event:
+broken:
+[Thu Jan 31 15:35:31 2008] [crit] (70023)This function has not been implemented on this platform: Couldn't create a Thread Safe Pollset. Is it supported on your platform?
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=462982
+https://bugs.launchpad.net/ubuntu/+source/apache2/+bug/187690
+
+mpm-itk:
+t/security/CVE-2007-5000.t                2    1  50.00%  2
+t/security/CVE-2007-6388.t                2    1  50.00%  2
+9 tests and 18 subtests skipped.
+Failed 2/80 test scripts, 97.50% okay. 2/2549 subtests failed, 99.92% okay.
+
+
+------
+Feisty (after pending security update):
+------
+prefork and php5:
+All tests successful, 18 tests and 18 subtests skipped.
+Files=138, Tests=2662, 133 wallclock secs (60.02 cusr +  5.94 csys = 65.96 CPU)
+
+mpm-worker:
+All tests successful, 11 tests and 21 subtests skipped.
+Files=80, Tests=2542, 111 wallclock secs (41.67 cusr +  4.00 csys = 45.67 CPU)
+[warning] server localhost:8529 shutdown
+
+mpm-event:
+broken:
+[Thu Jan 31 15:35:31 2008] [crit] (70023)This function has not been implemented on this platform: Couldn't create a Thread Safe Pollset. Is it supported on your platform?
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=462982
+https://bugs.launchpad.net/ubuntu/+source/apache2/+bug/187690
+
+mpm-itk:
+Not-installable:
+The following packages have unmet dependencies:
+  apache2-mpm-itk: Depends: apache2.2-common (= 2.2.3-3.2ubuntu0.1) but 2.2.3-3.2ubuntu2 is to be installed
+
+
+----
+Edgy (after pending security update):
+----
+prefork and php5:
+t/apache/pr37166.t                4    1  25.00%  4
+ (1 subtest UNEXPECTEDLY SUCCEEDED), 14 tests and 28 subtests skipped.
+Failed 1/80 test scripts, 98.75% okay. 1/2543 subtests failed, 99.96% okay.
+(this test fails prior to update too)
+
+mpm-worker:
+All tests successful (1 subtest UNEXPECTEDLY SUCCEEDED), 15 tests and 28 subtests skipped.
+Files=80, Tests=2539, 91 wallclock secs (40.29 cusr +  3.92 csys = 44.21 CPU)
+
+the pr37166 was skipped in mpm-worker, which is why no fail (couldn't find
+module 'cgi', though it was loaded...
+
+mpm-perchild:
+All tests successful (1 subtest UNEXPECTEDLY SUCCEEDED), 15 tests and 28 subtests skipped.
+Files=80, Tests=2539, 94 wallclock secs (40.22 cusr +  4.20 csys = 44.42 CPU)
+
+
+------
+Dapper (after pending security update):
+------
+prefork and php5:
+t/apache/pr37166.t                4    1  25.00%  4
+ (1 subtest UNEXPECTEDLY SUCCEEDED), 23 tests and 28 subtests skipped.
+Failed 1/138 test scripts, 99.28% okay. 1/2656 subtests failed, 99.96% okay.
+(this test fails prior to update too)
+
+mpm-worker:
+All tests successful (1 subtest UNEXPECTEDLY SUCCEEDED), 15 tests and 28 subtests skipped.
+Files=80, Tests=2539, 89 wallclock secs (36.69 cusr +  3.99 csys = 40.68 CPU)
+
+mpm-perchild:
+All tests successful (1 subtest UNEXPECTEDLY SUCCEEDED), 15 tests and 28 subtests skipped.
+Files=80, Tests=2539, 98 wallclock secs (36.54 cusr +  4.35 csys = 40.89 CPU)
+
+
+
+Currently Not Checked
+---------------------
+Not-exhaustive list by any means:
+proxy_ftp
+
+
+Copyright (C) 2008 Canonical Ltd.

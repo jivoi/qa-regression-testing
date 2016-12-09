@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+arch=`dpkg --print-architecture`
+mkdir "$arch" || true
+for i in *.c ; do
+    gcc "$i" -o $arch/`basename --suffix=.c $i`
+done

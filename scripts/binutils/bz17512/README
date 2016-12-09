@@ -1,0 +1,3 @@
+The test files in this directory are binutils crashers from
+https://sourceware.org/bugzilla/show_bug.cgi?id=17512 that did not get
+CVEs assigned for them.

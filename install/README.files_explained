@@ -1,0 +1,991 @@
+Files and their meaning. Also see https://wiki.ubuntu.com/Security/Investigation/Setuid
+
+-----
+Files
+-----
+
+Suid/sgid files:
+/bin/fusermount                                          -rwsr-xr-x root root
+ - required to mount filesystems as non-root (jdstrand)
+ - Reference: http://sourceforge.net/apps/mediawiki/fuse/index.php?title=FAQ#Installation_problems
+
+/bin/mount                                               -rwsr-xr-x root root
+/bin/umount                                              -rwsr-xr-x root root
+ - needed to add labels to mount point using -l as well as (u)mounting devices
+   when fstab entry contains 'user' (jdstrand)
+ - Reference: man 8 mount
+
+/sbin/mount.cifs                                         -rwsr-xr-x root root
+ - required to mount cifs filesystems as non-root (jdstrand)
+ - Reference: man 8 mount.cifs
+ - this should only be allowed when using cifs-utils 4.2 or later, which has
+   additional protections to guard against abuse (jdstrand)
+ - References:
+   http://git.samba.org/?p=cifs-utils.git;a=commit;h=810f7e4e0f2dbcbee0294d9b371071cb08268200
+   http://git.samba.org/?p=cifs-utils.git;a=commit;h=20a5ec8bd8ea3edb943adb517f378938e31f1c41
+ - As of February 9, 2010, cifs-utils is split out from Samba (jdstrand)
+ - References: http://linux-cifs.samba.org/cifs-utils/#news
+
+/sbin/mount.ecryptfs_private                             -rwsr-xr-x root root
+ - required to mount ecryptfs filesystems as non-root (jdstrand)
+ - Reference: man 8 mount.ecryptfs
+
+/bin/ping6                                               -rwsr-xr-x root root
+/bin/ping                                                -rwsr-xr-x root root
+ - required for CAP_NET_RAW (jdstrand)
+
+/bin/su                                                  -rwsr-xr-x root root
+/usr/bin/sudoedit                                        -rwsr-xr-x root root
+/usr/bin/sudo                                            -rwsr-xr-x root root
+/usr/bin/newgrp                                          -rwsr-xr-x root root
+/usr/bin/pkexec                                          -rwsr-xr-x root root
+ - required to gain/change privileges (jdstrand)
+ - in 13.04, sudoedit is a symlink to sudo (jdstrand)
+
+/lib/dbus-1.0/dbus-daemon-launch-helper                  -rwsr-xr-- root messagebus
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper              -rwsr-xr-- root messagebus
+ - required to launch system daemons with an alternate user (jdstrand)
+ - Reference: dbus-daemon man page
+
+/usr/bin/arping                                          -rwsr-xr-x root root
+/usr/bin/mtr                                             -rwsr-xr-x root root
+/usr/bin/traceroute6.iputils                             -rwsr-xr-x root root
+ - required for non-root access to CAP_NET_RAW (jdstrand)
+ - from traceroute6.c of source: This program must be run by root or be setuid.
+   (I suggest that you *don't* make it setuid -- casual use could result in a lot
+   of unnecessary traffic on our poor, congested nets.)
+ - Improvement: don't install setuid at all (see
+   https://bugzilla.redhat.com/show_bug.cgi?id=129386
+   https://bugzilla.redhat.com/show_bug.cgi?id=134540)
+
+/usr/bin/at                                              -rwsr-sr-x daemon daemon
+ - required to write to /var/spool/cron/atjobs|atspool (jdstrand)
+ - Improvement: change to own owner/group rather than daemon/daemon
+
+/usr/bin/bsd-write                                       -rwxr-sr-x root tty
+/usr/bin/wall                                            -rwxr-sr-x root tty
+ - required to write to another user's console (jdstrand)
+
+/usr/bin/chage                                           -rwxr-sr-x root shadow
+/usr/bin/chfn                                            -rwsr-xr-x root root
+/usr/bin/chsh                                            -rwsr-xr-x root root
+/usr/bin/expiry                                          -rwxr-sr-x root shadow
+/usr/bin/gpasswd                                         -rwsr-xr-x root root
+/usr/bin/passwd                                          -rwsr-xr-x root root
+/sbin/unix_chkpwd                                        -rwxr-sr-x root shadow
+ - required to manipulate password and group files (jdstrand)
+
+/usr/bin/crontab                                         -rwxr-sr-x root crontab
+ - required to write to /var/spool/cron/crontabs (jdstrand)
+
+/usr/bin/dotlockfile                                     -rwxr-sr-x root mail
+/usr/bin/lockfile                                        -rwxr-sr-x root mail
+/usr/bin/mail-lock                                       -rwxr-sr-x root mail
+/usr/bin/mail-touchlock                                  -rwxr-sr-x root mail
+/usr/bin/mail-unlock                                     -rwxr-sr-x root mail
+/usr/bin/mutt_dotlock                                    -rwxr-sr-x root mail
+ - for managing files via locking in the mail spool (jdstrand)
+
+/usr/bin/lppasswd                                        -rwsr-xr-x root lpadmin
+ - needed for regular users to be able to change their passwords (jdstrand)
+ - Reference: lpasswd man page
+
+/usr/bin/mlocate                                         -rwxr-sr-x root mlocate
+ - required to write to /var/lib/mlocate/mlocate.db (jdstrand)
+
+/usr/bin/procmail                                        -rwsr-sr-x root mail
+ - sgid for delivering files to the mail spool, suid to deliver to $HOME
+   (jdstrand)
+
+/usr/bin/screen                                          -rwxr-sr-x root utmp
+ - required to update utmp (jdstrand)
+
+/usr/bin/ssh-agent                                       -rwxr-sr-x root ssh
+ - setgid to prevent ptrace attacks (jdstrand)
+ - Reference: https://bugs.launchpad.net/debian/+source/openssh/+bug/47958/comments/7
+
+/usr/bin/X                                               -rwsr-sr-x root root
+ - small setuid wrapper so all of X doesn't have to run as root (jdstrand)
+ - Reference: Xwrapper.config man page
+
+/usr/bin/xterm                                           -rwxr-sr-x root utmp
+/usr/lib/libvte9/gnome-pty-helper                        -rwxr-sr-x root utmp
+/usr/lib/libvte2-90/gnome-pty-helper                     -rwxr-sr-x root utmp
+/usr/lib/libvte-2.90-9/gnome-pty-helper                  -rwxr-sr-x root utmp
+/usr/lib/utempter/utempter                               -rwxr-sr-x root utmp
+ - required to update utmp (jdstrand)
+ - as of Ubuntu 10.10, xterm migrated to libutempter0, so in this release and
+   later, /usr/bin/xterm is no longer sgid, but /usr/lib/utempter/utempter is
+   (jdstrand)
+ - Reference: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=537867
+ - 13.10 server introduced a dependency on libvte9 which brings in
+   /usr/lib/libvte9/gnome-pty-helper via qemu-system-x86
+
+/usr/games/gnome-mahjongg                                -rwxr-sr-x root games
+/usr/games/gnomine                                       -r-xr-sr-x root games
+/usr/games/mahjongg                                      -r-xr-sr-x root games
+/usr/games/quadrapassel                                  -r-xr-sr-x root games
+ - required to write to /var/games (jdstrand)
+
+/usr/lib/authbind/helper                                 -rwsr-xr-x root root
+ - Allows non-root programs to bind() to low ports (jdstrand)
+
+/usr/lib/eject/dmcrypt-get-device                        -rwsr-xr-x root root
+ - required for access to /dev/mapper/control. Privileges dropped early (jdstrand)
+ - Reference: dmcrypt-get-device.c from 'eject' sources
+
+/usr/lib/evolution/camel-lock-helper-1.2                 -rwxr-sr-x root mail
+ - for managing files via locking in the mail spool (jdstrand)
+ - Reference: http://www.go-evolution.org/Camel.Misc#Locking_spools
+
+/usr/lib/policykit-1/polkit-agent-helper-1               -rwsr-xr-x root root
+ - "When authenticating, polkitd-1 passes a cookie to the authentication agent.
+   Then if the user enters the right password, the authentication agent calls
+   AuthenticationAgentResponse() on the Authority with the cookie for the
+   authentication request. If the caller of AuthenticationAgentResponse() is not
+   uid 0, then it is ignored.  The way this works, is that the authentication
+   setuid root helper, /usr/libexec/polkit-agent-helper-1, does the call. This
+   program needs to be uid 0 for authentication _anyway_. And it _only_ decides to
+   invoke this method if you actually successfully authenticated.  This of course
+   relies on /usr/libexec/polkit-agent-helper-1 being a secure program [1]. But
+   that's fairly easy to verify since this is 326 lines of code and only depends
+   on PAM (which is supposed to be secure as well) up until we have decided that
+   the user successfully authenticated." (jdstrand)
+ - Reference: http://lists.freedesktop.org/archives/polkit-devel/2009-July/000153.html
+
+/usr/lib/pt_chown                                        -rwsr-xr-x root root
+ - setuid helper to allow programs like xterm to change mode and owner of slave
+   pseudo-terminal devices (pty) (jdstrand)
+ - Reference: grantpt man page
+
+/usr/lib/openssh/ssh-keysign                             -rwsr-xr-x root root
+ - ssh-keysign is used by ssh(1) to access the local host keys (ie
+   /etc/ssh/ssh_host_*_key) and generate the digital signature required during
+   host-based authentication with SSH protocol version 2. (jdstrand)
+ - Possible improvement: change group ownership of /etc/ssh/ssh_host_*_key to
+   a dedicated group, then setguid ssh-keysign to that group instead of setuid
+ - Reference: ssh-keysign man page
+
+/usr/sbin/postdrop                                       -r-xr-sr-x root postdrop
+/usr/sbin/postqueue                                      -r-xr-sr-x root postdrop
+ - to write to /var/spool/postfix/maildrop and access files in
+   /var/spool/postfix/public (jdstrand)
+
+/usr/sbin/pppd                                           -rwsr-xr-- root dip
+ - required for reading files in /etc/ppp and /etc/chatscripts (jdstrand)
+
+/usr/sbin/uuidd                                          -rwsr-sr-x libuuid libuuid
+ - for access to /var/lib/libuuid/ directory (jdstrand)
+
+/var/lib/lxc/android/rootfs/system/bin/netcfg            -rwxr-s--- root android_net
+ - phablet user is in android_net and is therefore able to modify modify
+   network interfaces. Per cyphermox, access is not required for bluetooth or
+   network-manager. Filed LP: #1240214 (jdstrand)
+ - Reference: android-0.20130723/system/core/netcfg/netcfg.c
+
+/var/lib/lxc/android/rootfs/system/bin/run-as            -rwsr-s--- root 2000
+ - From run-as.c: "This program should only run for the 'root' or 'shell'
+   users. The 'run-as' binary is setuid, but will check the following: that it
+   is invoked from the 'shell' or 'root' user (abort otherwise)." lxc-start
+   starts /init (/var/lib/lxc/android/rootfs/init) via the upstart job:
+   /etc/init/lxc-android-config.conf. init starts a shell with group 2000 but
+   otherwise only root can use this. (jdstrand)
+ - Reference: android-0.20130723/bionic/libc/docs/OVERVIEW.TXT: see
+   "Android-specific user/group management" - various users and groups are
+   hardcoded. The list is in:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+ - Reference: android-0.20130723/system/core/run-as/run-as.c
+
+/var/lib/lxc/android/rootfs/system/xbin/su               -rwsr-sr-x root root
+ - statically linked. phablet user gets permission denied when trying to use
+   it (jdstrand)
+
+/usr/lib/arm-linux-gnueabihf/lxc/lxc-user-nic            -rwsr-xr-x root root
+ - Part of LXC. setuid-root program with which unprivileged users may create
+   network interfaces for use by a lxc container. Relies on
+   /etc/lxc/lxc-usernet which is not present (though the error will be
+   "Quota reached" reached, but exits with error). Does not drop privileges,
+   but does verify correctly that if /proc/%d/ns/net is readable by the real
+   UID, it is allowed to proceed. If not, then fails with error. (jdstrand)
+ - sarnold reviewed this code and gave feedback that was integrated into lxc
+   1.0 as included on the image. I inquired about why it was 4755 instead of
+   4750-- stgraber said that with /etc/lxc/lxc-usernet in place, the extra
+   security of limiting by group would be confusing. sarnold stated that he is
+   comfortable with 4755
+ - Reference: man 1 lxc-user-nic
+ - Reference: src/lxc/lxc_user_nic.c
+
+/usr/lib/x86_64-linux-gnu/oxide-qt/chrome-sandbox        -rwsr-xr-x root root
+ - setuid to setup various security features. Quickly and correctly drops
+   privileges (jdstrand)
+
+/var/lib/system-image                                    drwxrws--- root root
+/var/lib/system-image/keyrings                           drwx--S--- root root
+/var/log/system-image                                    drwxrws--- root root
+ - setgid for unknown reason. Safe, but odd.
+ - Reference: LP: #1306271 (jdstrand)
+
+
+-----------
+Directories
+-----------
+/etc/bind                                                drwxr-sr-x root bind
+ - allow bind9 to read anything in its configuration directory (jdstrand)
+
+/etc/chatscripts                                         drwxr-s--- root dip
+/etc/ppp/peers                                           drwxr-s--- root dip
+ - protect sensitive files and allow pppd access (jdstrand)
+
+/run/motd                                                -rw-rw-r-- root root
+ - LP: #871943. umask is inherited by pam_motd on ssh logins because pam_motd
+   is after common-session and pam_motd does not explicitly set its own umask.
+   Not a security problem, but an odd side-effect introduced in 11.10 by the
+   setting of 'USERGROUPS_ENAB yes' in /etc/login.defs. (jdstrand)
+
+/run/named                                               drwxrwxr-x root bind
+ - allow named to write its pid and session.key (jdstrand)
+
+/run/screen                                              drwxrwxr-x root utmp
+ - allow screen to write out its pipe files as the user invoking screen (pipes
+   in a subdirectory of this directory). (jdstrand)
+
+/run/postgresql                                          drwxrwsr-x postgres postgres
+ - allows postgresql to write its pid file (jdstrand)
+
+/usr/local/lib/python2.6/dist-packages                   drwxrwsr-x root staff
+/usr/local/lib/python2.6                                 drwxrwsr-x root staff
+/usr/local/lib/python2.6/site-packages                   drwxrwsr-x root staff
+/usr/local/lib/python2.7/dist-packages                   drwxrwsr-x root staff
+/usr/local/lib/python2.7                                 drwxrwsr-x root staff
+/usr/local/lib/python2.7/site-packages                   drwxrwsr-x root staff
+/usr/local/lib/python3.2/dist-packages                   drwxrwsr-x root staff
+/usr/local/lib/python3.2                                 drwxrwsr-x root staff
+/usr/local/lib/python3.3/dist-packages                   drwxrwsr-x root staff
+/usr/local/lib/python3.3                                 drwxrwsr-x root staff
+/usr/local/lib/python3.4/dist-packages                   drwxrwsr-x root staff
+/usr/local/lib/python3.4                                 drwxrwsr-x root staff
+/usr/local/share/ca-certificates                         drwxrwsr-x root staff
+/usr/local/share/fonts                                   drwxrwsr-x root staff
+/usr/local/share/ppd                                     drwxrwsr-x root staff
+/usr/local/share/sgml/declaration                        drwxrwsr-x root staff
+/usr/local/share/sgml                                    drwxrwsr-x root staff
+/usr/local/share/sgml/dtd                                drwxrwsr-x root staff
+/usr/local/share/sgml/entities                           drwxrwsr-x root staff
+/usr/local/share/sgml/misc                               drwxrwsr-x root staff
+/usr/local/share/sgml/stylesheet                         drwxrwsr-x root staff
+/usr/local/share/xml/declaration                         drwxrwsr-x root staff
+/usr/local/share/xml                                     drwxrwsr-x root staff
+/usr/local/share/xml/entities                            drwxrwsr-x root staff
+/usr/local/share/xml/misc                                drwxrwsr-x root staff
+/usr/local/share/xml/schema                              drwxrwsr-x root staff
+/var/local                                               drwxrwsr-x root staff
+ - allow members of 'staff' to access /usr/local, and inherit the group id
+   (jdstrand)
+
+/usr/share/ppd/custom                                    drwxrwsr-t root lpadmin
+ - a place where lpadmins can store additional PPDs (jdstrand)
+ - Reference: changelog for cupsys 1.2.11-1
+
+/usr/src                                                 drwxrwsr-x root src
+ - allow members of 'src' to access /usr/src, and inherit the group id
+   (jdstrand)
+
+/var/cache/jockey                                        drwxrwsr-t root admin
+/var/cache/jockey                                        drwxrwsr-t root sudo
+ - allow members of the admin (or sudo group in new 12.04 and newer installs)
+   group (ie, authorized via PolicyKit) to write cache files (jdstrand)
+ - Reference: jockey/backend.py from jockey source
+
+/var/cache/man                                           drwxr-sr-x man root
+ - for caching of man pages (jdstrand)
+ - Reference: http://www.pathname.com/fhs/2.2/fhs-5.5.html (5.5.4)
+
+/var/lib/lxc/android/rootfs/data/misc/adb                drwxr-s--- system 2000
+ - adb directory for use by the adb user/group. For more information on this
+   user, see /var/lib/lxc/android/rootfs/system/bin/run-as, above. (jdstrand)
+
+/var/log                                                 drwxrwxr-x root syslog
+ - new in 14.04 and adjusted as a result of LP: #484336 and LP: #1256695. The
+   'syslog' user is now in the 'adm' and the /var/log directory is now
+   writable by the 'syslog' user so rsyslog can read/write files (ie, dynamic
+   files) in /var/log. rsyslogd drops privileges to the 'syslog' user
+   (jdstrand)
+
+/var/log/mysql                                           drwxr-s--- mysql adm
+ - allow users in 'adm' group to read mysql logs (jdstrand)
+
+/var/mail                                                drwxrwsr-x root mail
+ - allow MDAs to write to the spool directories, with locking programs able to
+   operate on them (jdstrand)
+
+/var/lib/libuuid                                         drwxrwsr-x libuuid libuuid
+ - for access to the /var/lib/libuuid/ work directory (jdstrand)
+ - Reference: http://e2fsprogs.sourceforge.net/e2fsprogs-release.html (1.41.8)
+
+/var/spool/postfix/public                                drwx--s--- postfix postdrop
+ - make sure files in this directory inherit postdrop permissions, needed by
+   postqueue and postdrop (jdstrand)
+
+
+-----------------
+Group/other write
+-----------------
+Many files are group read and/or write so that programs can read/write files as
+non-root. This section does not list group writable files that have root:root
+ownership and are not writable by 'other'.
+
+/dev/ashmem                                              crw-rw-rw- system system
+ - android shared memory, used by libhybris (jdstrand)
+
+/dev/cpuctl/android/cgroup.event_control                 --w--w--w- root root
+/dev/cpuctl/apps/bg_non_interactive/cgroup.event_control --w--w--w- root root
+/dev/cpuctl/apps/bg_non_interactive/tasks                -rw-rw-rw- system system
+/dev/cpuctl/apps/cgroup.event_control                    --w--w--w- root root
+/dev/cpuctl/apps/tasks                                   -rw-rw-rw- system system
+/dev/cpuctl/cgroup.event_control                         --w--w--w- root root
+/dev/cpuctl/lxc/android/cgroup.event_control             --w--w--w- root root
+/dev/cpuctl/lxc/cgroup.event_control                     --w--w--w- root root
+/dev/cpuctl/user/0.user/c1.session/cgroup.event_control  --w--w--w- root root
+/dev/cpuctl/user/0.user/cgroup.event_control             --w--w--w- root root
+/dev/cpuctl/user/32011.user/c2.session/cgroup.event_control --w--w--w- root root
+/dev/cpuctl/user/32011.user/cgroup.event_control         --w--w--w- root root
+/dev/cpuctl/user/cgroup.event_control                    --w--w--w- root root
+ - TODO
+
+/dev/ion                                                 crw-rw-rw- system system
+/dev/kgsl-3d0                                            crw-rw-rw- system system
+/dev/msm_rotator                                         crw-rw-rw- system system
+/dev/qseecom                                             crw-rw-rw- system video
+/var/lib/lxc/android/rootfs/dev/ashmem                   crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/binder                   crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/full                     crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/kgsl-3d0                 crw-rw-rw- system system
+/var/lib/lxc/android/rootfs/dev/null                     crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/random                   crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/tty                      crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/urandom                  crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/dev/zero                     crw-rw-rw- root root
+/var/lib/lxc/android/rootfs/persist/camera_calibration/awb.txt -rw-rw-rw- root root
+/var/lib/lxc/android/rootfs/persist/camera_calibration/LSC_A.txt -rw-rw-rw- root root
+/var/lib/lxc/android/rootfs/persist/camera_calibration/LSC_CW.txt -rw-rw-rw- root root
+/var/lib/lxc/android/rootfs/persist/camera_calibration/LSC_D50.txt -rw-rw-rw- root root
+/var/lib/lxc/android/rootfs/socket/pb                    srw-rw-rw- root system
+/var/lib/lxc/android/rootfs/socket/property_service      srw-rw-rw- root root
+ - TODO
+
+/dev/socket/pb                                           srw-rw-rw- root system
+ - TODO
+
+/dev/dri/card0                                           crw-rw---- root video
+/dev/dri/controlD64                                      crw-rw---- root video
+ - Direct Rendering Infrastructure (DRI), card0 is first graphics card,
+   controlD64 is a control node for libdrm
+ - Reference: Documentation/devices.txt (kernel source, /dev/dri/card*)
+ - Reference: xf86drm.h (libdrm)
+
+/dev/fb*                                                 crw-rw---- root video
+ - Universal frame buffer (jdstrand)
+ - Reference: Documentation/devices.txt (kernel source)
+
+/var/lib/lxc/android/rootfs/dev/graphics/fb0             crw-rw---- root android_graphics
+/var/lib/lxc/android/rootfs/dev/graphics/fb1             crw-rw---- root android_graphics
+ - phablet user is in android_graphics group
+
+/dev/knvmap                                              crw-rw---- system video
+/dev/mi1040                                              crw-rw---- root video
+/dev/nvhost-isp                                          crw-rw---- root video
+/dev/nvhost-mpe                                          crw-rw---- root video
+/dev/nvhost-vi                                           crw-rw---- root video
+/dev/qseecom                                             crw-rw---- root video
+/dev/tegra_avpchannel                                    crw-rw---- root video
+/dev/tegra_camera                                        crw-rw---- root video
+/dev/tegra_dc_0                                          crw-rw---- system video
+/dev/tegra_dc_1                                          crw-rw---- system video
+/dev/tegra_dc_ctrl                                       crw-rw---- system video
+/dev/tegra_rpc                                           crw-rw---- root video
+/dev/tegra_sema                                          crw-rw---- root video
+/dev/tf_driver                                           crw-rw---- root video
+/dev/media0                                              crw-rw---- system video
+/dev/media1                                              crw-rw---- system video
+/dev/media2                                              crw-rw---- system video
+/dev/video0                                              crw-rw---- system video
+/dev/video1                                              crw-rw---- system video
+/dev/video2                                              crw-rw---- system video
+... more depending on the device ...
+ - Graphics card devices on Ubuntu Touch (jdstrand)
+ - Reference: /lib/udev/rules.d/70-android.rules
+
+/dev/nvhost-ctrl                                         crw-rw-rw- root root
+/dev/nvhost-gr2d                                         crw-rw-rw- root root
+/dev/nvhost-gr3d                                         crw-rw-rw- root root
+/dev/nvmap                                               crw-rw-rw- system video
+ - TODO: this looks wrong
+
+/dev/radio0                                              crw-rw---- root video
+ - Looks wrong, LP: #1306273
+
+/dev/log                                                 srw-rw-rw- root root
+/var/spool/postfix/dev/log                               srw-rw-rw- root root
+ - used by syslogd/rsyslogd so any process can log via syslog (jdstrand)
+
+/dev/full                                                crw-rw-rw- root root
+ - special file that always returns ENOSPC (jdstrand)
+ - Reference: man 4 full
+
+/dev/null                                                crw-rw-rw- root root
+/dev/zero                                                crw-rw-rw- root root
+ - special files that discard data written to them. On read, null returns EOF
+   and zero returns '\0' (jdstrand)
+ - Reference: man 4 null, man 4 zero
+
+/dev/fuse                                                crw-rw-rw- root fuse
+/dev/fuse                                                crw-rw-rwT root root
+/dev/fuse                                                crw-rw-rw- root root
+ - required to allow non-root users to mount their own user space filesystems
+   (jdstrand)
+ - Reference: http://sourceforge.net/apps/mediawiki/fuse/index.php?title=FAQ#What_do_I_do_if_you_don.27t_have_access_to_.2Fdev.2Ffuse.3F
+ - fuse 2.9.0-1ubuntu1 (Ubuntu 12.10) no longer ships the udev rule to change
+   the group (/lib/udev/rules.d/40-fuse.rules)
+ - in 13.10, /lib/udev/rules.d/50-udev-default.rules ships it 0666
+
+/dev/input/event*                                        crw-rw---- root android_input
+ - normally on the desktop these files are owned by root:root, 0640, but on
+   Ubuntu Touch they have group write as android_input. This gives the phablet
+   user more privileges than a normal desktop and any phablet process the
+   ability to sniff input events (LP: #1240234)
+ - Documentation/input/input.txt
+
+/dev/kvm                                                 crw-rw---- root kvm
+ - Kernel-based virtual machine. Group access for access to hyperviser
+   (jdstrand)
+ - Reference:  Documentation/devices.txt (kernel source)
+
+/dev/log_events                                          crw-rw-rw- root root
+/dev/log_main                                            crw-rw-rw- root root
+/dev/log_radio                                           crw-rw-rw- root root
+/dev/log_system                                          crw-rw-rw- root root
+ - TODO: android logging
+
+/dev/net/tun                                             crw-rw-rw- root root
+ - convenient to have 666 for packaging. CAP_NET_ADMIN is required for creating
+   network devices or for connecting to network devices which aren't owned by
+   the user in question. (jdstrand)
+ - Reference: Documentation/networking/tuntap.txt (kernel source)
+
+/dev/pktcdvd/control                                     crw-rw---- root cdrom
+ - device used by udftools. Members of this group are allowed to associate
+   packet devices with CD or DVD block devices, as used in conjunction with
+   the UDF filesystem.
+ - References:
+   - man 8 pktsetup
+   - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=414801
+   - Documentation/packet-writing.txt
+
+/dev/ptmx                                                crw-rw-rw- root tty
+/dev/pts/0                                               crw--w---- <user> tty
+ - Unix98 master multiplex used to create a pseudo-terminal master (PTM) and
+   slave pair (PTS). Processes open /dev/ptmx and get own independent PTM/PTS
+   pair, with the slave device being created in /dev/pts. (jdstrand)
+ - References:
+   - man 4 pts
+   - Documentation/devices.txt (kernel source)
+   - Documentation/filesystems/devpts.txt (kernel source)
+
+/dev/pts/10                                              crw--w---- lightdm tty
+/dev/pts/11                                              crw--w---- lightdm tty
+/dev/pts/12                                              crw--w---- lightdm tty
+/dev/pts/4                                               crw--w---- lightdm tty
+/dev/pts/6                                               crw--w---- lightdm tty
+ - LP: #1304640
+
+/dev/rfkill                                              crw-rw---- root android_input
+ - "The rfkill subsystem provides a generic interface to disabling any radio
+   transmitter in the system. When a transmitter is blocked, it shall not
+   radiate any power." phablet user is in the android_input group, but the
+   phablet user should just user network-manager or another system service to
+   access this device (LP: #1240234)
+ - References: Documentation/rfkill.txt
+
+/dev/random                                              crw-rw-rw- root root
+/dev/urandom                                             crw-rw-rw- root root
+/var/spool/postfix/dev/random                            crw-rw-rw- root root
+/var/spool/postfix/dev/urandom                           crw-rw-rw- root root
+ - special files to interface the kernel's random number generator. Reads get
+   random data and writes mixes data to the pool of random data without
+   increasing the entropy estimate. Ie, no harm can be done be writing
+   crafted data to /dev/*random. (jdstrand)
+ - References:
+   - man 4 random (gives 644 permissions)
+   - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=81748 (MAKEDEV)
+   - http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=332970 (udev)
+   - http://lkml.indiana.edu/hypermail/linux/kernel/0012.2/0502.html
+
+/dev/snd/seq                                             crw-rw---- root audio
+/dev/snd/timer                                           crw-rw---- root audio
+ - /lib/udev/50-udev-default.rules: these two files are in the 'audio' group.
+   Per udev/udev-event.c:udev_event_execute_rules(): "default 0660 if a group
+   is assigned" (jdstrand)
+
+/dev/snd/controlC0                                       crw-rw---T root audio
+
+/dev/snd/hwC0D0                                          crw-rw---T root audio
+/dev/snd/pcmC0D0c                                        crw-rw---T root audio
+/dev/snd/pcmC0D0p                                        crw-rw---T root audio
+ - setup by pulseaudio, but otherwsie as per the other snd entries (see above,
+   jdstrand)
+
+/dev/tty                                                 crw-rw-rw- root tty
+ - Current TTY device that is a synonym for the controlling terminal of a
+   process, if any. (jdstrand)
+ - References:
+   - man 4 tty
+   - Documentation/devices.txt (kernel source)
+
+/dev/tty[1-6]                                            crw------- root root
+/dev/tty[1-6]                                            crw-rw---- root tty
+/dev/tty[0-9]* (not tty1-6)                              crw--w---- root tty
+ - udev has a default rule of 0620 for /dev/tty[0-9]* devices. agetty (from
+   util-linux) through Ubuntu 11.10 would chown/chmod this to be 'root:root
+   0600'. In 12.04, agetty does a chown/chmod of 'root:tty 0660' instead. It
+   is not clear why this was done and upstream didn't justify the group read
+   permission. LP: #980835 was filed to track this issue.
+ - References:
+   - http://www.mail-archive.com/lfs-book@linuxfromscratch.org/msg09416.html
+   - http://git.kernel.org/?p=utils/util-linux/util-linux.git;a=commit;h=3aa6b68f7e19fa3e1c2bba75bee921a98b7b46af
+   - https://bugs.launchpad.net/ubuntu/+source/util-linux/+bug/980835
+
+/dev/uhid                                                crw-rw---- system system
+ - User-space I/O driver support for HID subsystem (jdstrand)
+ - Reference: Documentation/hid/uhid.txt
+
+/dev/uinput                                              crw-rw---- root autopilot
+ - User level driver support for input. Needed for autopilot to drive
+   applications
+ - Reference: https://launchpad.net/bugs/1143038
+
+/etc/apache2/mods-available/suexec.load                  -rw-rw-r-- root root
+ - LP: #872000. Packaging uses 'dh_fixperms -Xsuexec' which causes this file
+   to be group read due to 0002 umask. Not security relevant, introduced in
+   Ubuntu 11.10 and should be fixed. (jdstrand)
+
+/etc/dpkg/origins/debian                                 -rw-rw-r-- root root
+/etc/dpkg/origins/ubuntu                                 -rw-rw-r-- root root
+ - LP: #871977. This was introduced in 11.10. base-files does not use
+   dh_fixperms so when the buildd extracted the source, the files got the
+   default umask of 0002 (changed from 0022 in 11.04 and earlier). Then
+   debian/rules installed them without changing the permissions. This is not
+   a security vulnerability, but should be fixed. (jdstrand)
+
+/etc/couchdb/default.ini                                 -rw-rw-r-- couchdb couchdb
+/etc/couchdb                                             drwxrwxr-x couchdb couchdb
+/etc/couchdb/local.ini                                   -rw-rw-r-- couchdb couchdb
+ - allow couchdb user to update configuration. Required (jdstrand)
+ - NOTE: Ubuntu 9.10 had improper owner/group 'x' for .ini files
+ - TODO: followup with ubuntuone guys on why this is needed
+
+/etc/tomcat6/Catalina                                    drwxrwxr-x root tomcat6
+/etc/tomcat6/Catalina/localhost                          drwxrwxr-x root tomcat6
+/etc/tomcat7/Catalina                                    drwxrwxr-x root tomcat7
+/etc/tomcat7/Catalina/localhost                          drwxrwxr-x root tomcat7
+ - allow tomcat[67] to update its configuration (jdstrand)
+
+/proc/1/attr/current                                     -rw-rw-rw- root root
+/proc/1/attr/exec                                        -rw-rw-rw- root root
+/proc/1/attr/fscreate                                    -rw-rw-rw- root root
+/proc/1/attr/keycreate                                   -rw-rw-rw- root root
+/proc/1/attr/sockcreate                                  -rw-rw-rw- root root
+/proc/1/task/1/attr/current                              -rw-rw-rw- root root
+/proc/1/task/1/attr/exec                                 -rw-rw-rw- root root
+/proc/1/task/1/attr/fscreate                             -rw-rw-rw- root root
+/proc/1/task/1/attr/keycreate                            -rw-rw-rw- root root
+/proc/1/task/1/attr/sockcreate                           -rw-rw-rw- root root
+ - exported as rw, but security module handles authorization (jdstrand)
+ - Reference: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/341580/comments/2
+
+/var/lib/lxc/android/rootfs/dev/smd2                     crw-rw---- 1002 3008
+/var/lib/lxc/android/rootfs/dev/smd3                     crw-rw---- 1002 3008
+/dev/socket/qmux_bluetooth                               drwxrws--- 1002 3008
+/proc/bluetooth/sleep/btwrite                            --w--w---- 1002 3008
+/proc/bluetooth/sleep/lpm                                --w--w---- 1002 3008
+ - android bluetooth subsystem (AID_BLUETOOTH, AID_NET_BT_STACK)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/run/acpid.socket                                        srw-rw-rw- root root
+/var/run/acpid.socket                                    srw-rw-rw- root root
+ - Any client is allowed to connect to this socket to receive text of all ACPI
+   events from acpid (jdstrand)
+ - Reference: man 8 acpid
+
+/run/sdp                                                 srw-rw-rw- root root
+/var/run/sdp                                             srw-rw-rw- root root
+ - /usr/sbin/bluetoothd creates this for applications to advertise a bluetooth
+   service via bluetoothd (jdstrand)
+ - Reference: http://people.csail.mit.edu/albert/bluez-intro/x604.html#bzi-sdpd
+
+/userdata                                                drwxrwx--x system system
+ - LP: #1240223. This directory seems to be part of android, but the phablet
+   user's home directory is under here, and many services run as this user.
+   Permissions seem too wide for this user.
+
+/usr/lib/firefox-7.0.1/libfreebl3.chk                    -rw-rw-r-- root root
+/usr/lib/firefox-7.0.1/libnssdbm3.chk                    -rw-rw-r-- root root
+/usr/lib/firefox-7.0.1/libsoftokn3.chk                   -rw-rw-r-- root root
+/usr/lib/thunderbird-7.0.1/libfreebl3.chk                -rw-rw-r-- root root
+/usr/lib/thunderbird-7.0.1/libnssdbm3.chk                -rw-rw-r-- root root
+/usr/lib/thunderbird-7.0.1/libsoftokn3.chk               -rw-rw-r-- root root
+/usr/share/**                                            -rw-rw-r-- root root
+ - Soemthing changed in the build which produces files that are root:root owned
+   and group writable. Not security relevant. (jdstrand)
+ - TODO: May be result of cdbs not calling dh_fixperms?
+
+/var/cache/bind                                          drwxrwxr-x root bind
+ - transient files for bind9 (jdstrand)
+ - Reference: /usr/share/doc/bind9/README.Debian.gz
+
+/var/cache/cups                                          drwxrwxr-x root lp
+/var/cache/cups/rss                                      drwxrwxr-x root lp
+ - allow non-privileged cups user to write cache files (jdstrand)
+
+/var/games/*                                             -rw-rw-r-- root games
+ - group 'games' writables so games sgid 'games' can write their score files
+   (jdstrand)
+
+/var/lib/apt/lists/Ubuntu%2014.04%20LTS%20%5fTrusty%20Tahr%5f%20-%20Daily%20amd64%20(20140407)_dists_trusty_main_binary-amd64_Packages -rw-rw-rw- root root
+/var/lib/apt/lists/Ubuntu%2014.04%20LTS%20%5fTrusty%20Tahr%5f%20-%20Daily%20amd64%20(20140407)_dists_trusty_main_binary-i386_Packages -rw-rw-rw- root root
+/var/lib/apt/lists/Ubuntu%2014.04%20LTS%20%5fTrusty%20Tahr%5f%20-%20Daily%20amd64%20(20140407)_dists_trusty_restricted_binary-amd64_Packages -rw-rw-rw- root root
+/var/lib/apt/lists/Ubuntu%2014.04%20LTS%20%5fTrusty%20Tahr%5f%20-%20Daily%20amd64%20(20140407)_dists_trusty_restricted_binary-i386_Packages -rw-rw-rw- root root
+ - LP: #1304657 (jdstrand)
+
+/var/lib/bind                                            drwxrwxr-x root bind
+ - allow bind9 to read/write dynamic-dhcp updates or other zone updates (eg
+   slave) (jdstrand)
+ - Reference: /usr/share/doc/bind9/README.Debian.gz
+
+/var/lib/lightdm/.cache/notify-osd.log                   -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.cache/unity-greeter                    drwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.cache/unity-greeter/state              -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.config/dconf                           -rwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.config/dconf/user                      -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.dbus/session-bus/...                   -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.evolution/.../                         -rwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.fontconfig/...                         -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.local                                  drwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.local/share                            drwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.local/share/icc                        drwxrwxr-x lightdm lightdm
+/var/lib/lightdm/.Xauthority                             -rw-rw-r-- lightdm lightdm
+/var/lib/lightdm/.Xauthority.XXXXXX                      -rw-rw-r-- lightdm lightdm
+/var/cache/lightdm/dmrc/ubuntu.dmrc                      -rw-rw-r-- root root
+ - result of default umask changing from 0022 to 0002 (jdstrand)
+ - References: https://blueprints.launchpad.net/ubuntu/+spec/umask-to-0002
+
+/var/lib/lightdm-data/lightdm                            drwxrwx--- lightdm lightdm
+ - support for lightdm shared user dirs (ie, shared user data directories
+   between the greeter and user sessions)
+ - Reference: https://code.launchpad.net/~mterry/lightdm/shared-data-manager/+merge/207058
+
+/var/lib/lxc/android/rootfs/cache                        drwxrwx--x system 2001
+/var/lib/lxc/android/rootfs/cache/recovery               drwxrwx--- system 2001
+ - part of android and owned by 'system' (probably should not be, LP: #1240223)
+   and rw by AID_CACHE
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/cache/dalvik-cache           drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data                         drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/app                     drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/app-lib                 drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/app-private             drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/dalvik-cache            drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/data                    drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/misc/keychain           drwxrwx--x system system
+/var/lib/lxc/android/rootfs/data/resource-cache          drwxrwx--x system system
+/var/lib/lxc/android/rootfs/mnt                          drwxrwxr-x root system
+ - part of android and owned by system (probably should not be, LP: #1240223)
+
+/var/lib/lxc/android/rootfs/cache/recovery/log           -rw-rw-rw- root root
+ - TODO
+
+/var/lib/lxc/android/rootfs/data/drm                     drwxrwx--- 1019 1019
+ - part of android, AID_DRM (DRM server)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/dev/gss                                                 crw-rw---- system gps
+/dev/socket/qmux_gps                                     drwxrws--- 1021 gps
+/var/lib/lxc/android/rootfs/dev/gss                      crw-rw---- system gps
+/var/lib/lxc/android/rootfs/socket/qmux_gps              drwxrws--- 1021 gps
+/var/lib/lxc/android/rootfs/data/gps                     drwxrwx--- 1021 system
+/var/lib/lxc/android/rootfs/data/gps/.gps.interface.pipe.to_gpsd prw-rw---- 1021 system
+ - gps group is GID 1021, part of android, AID_GPS (GPS daemon)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/data/local/tmp               drwxrwx--x 2000 2000
+ - adb directory for use by the adb user/group. For more information on this
+   user, see /var/lib/lxc/android/rootfs/system/bin/run-as, above. (jdstrand)
+
+
+/var/lib/lxc/android/rootfs/data/media                   drwxrwx--- 1023 1023
+/var/lib/lxc/android/rootfs/data/media/0                 drwxrwx--- 1023 1023
+/var/lib/lxc/android/rootfs/data/media/obb               drwxrwx--- 1023 1023
+/var/lib/lxc/android/rootfs/mnt/media_rw                 drwx------ 1023 1023
+ - part of android, AID_MEDIA_RW (internal media storage write access)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/data/mediadrm                drwxrwx--- 1031 1031
+ - part of android, AID_MEDIA_DRM (MediaDrm plugins)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/data/misc/bluedroid          drwxrwx--- 1002 3008
+/var/lib/lxc/android/rootfs/data/misc/bluetooth          drwxrwx--- 1002 3008
+ - part of android, AID_BLUETOOTH, AID_NET_BT_STACK (bluetooth)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/data/misc/dhcp               drwxrwx--- 1014 1014
+ - part of android, AID_DHCP (dhcp client)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/dev/diag                                                crw-rw---- radio radio
+/dev/rmnet_mux_ctrl                                      crw-r----- radio radio
+/dev/smdcntl0                                            crw-r----- radio radio
+/dev/smdcntl1                                            crw-r----- radio radio
+/dev/smdcntl2                                            crw-r----- radio radio
+/dev/smdcntl3                                            crw-r----- radio radio
+/dev/smdcntl4                                            crw-r----- radio radio
+/dev/smdcntl5                                            crw-r----- radio radio
+/dev/smdcntl6                                            crw-r----- radio radio
+/dev/smdcntl7                                            crw-r----- radio radio
+/dev/socket/qmux_radio                                   drwxrws--- radio radio
+/dev/socket/qmux_radio/qmux_client_socket\               srw-rw---- radio radio
+/proc/cmdline                                            -r--r----- root radio
+/var/lib/lxc/android/rootfs/data/misc/radio              drwxrwx--- system radio
+/var/lib/lxc/android/rootfs/data/misc/sms                drwxrwx--- system radio
+/var/lib/lxc/android/rootfs/dev/alarm                    crw-rw-r-- system radio
+/var/lib/lxc/android/rootfs/dev/diag                     crw-rw---- radio radio
+/var/lib/lxc/android/rootfs/dev/qmi0                     crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/qmi1                     crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/qmi2                     crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/rmnet_mux_ctrl           crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smd7                     crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl0                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl1                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl2                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl3                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl4                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl5                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl6                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/dev/smdcntl7                 crw-r----- radio radio
+/var/lib/lxc/android/rootfs/socket/qmux_radio            drwxrws--- radio radio
+/var/lib/lxc/android/rootfs/socket/qmux_radio/qmux_client_socket\ srw-rw---- radio radio
+/dev/socket/qmux_radio/qmux_client_socket\               srw-rw---- radio radio
+/var/lib/lxc/android/rootfs/data/misc/sms                drwxrwx--- system radio
+/var/lib/lxc/android/rootfs/data/radio                   drwxrwx--- radio radio
+ - part of android, AID_RADIO (telephony subsystem, RIL). This only gives
+   directory access, so possibly not a privilege problem. LP: #1240250 asks
+   for more information
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/ppp                      crw-rw---- radio 1016
+/var/lib/lxc/android/rootfs/data/misc/vpn                drwxrwx--- system 1016
+ - part of android, AID_VPN (vpn system)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/data/misc/wifi               drwxrwx--- 1010 1010
+/var/lib/lxc/android/rootfs/data/misc/wifi/sockets       drwxrwx--- 1010 1010
+ - part of android, AID_WIFI (wifi subsystem)
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/alog/events              crw-rw-rw- root 1007
+/var/lib/lxc/android/rootfs/dev/alog/main                crw-rw-rw- root 1007
+/var/lib/lxc/android/rootfs/dev/alog/radio               crw-rw-rw- root 1007
+/var/lib/lxc/android/rootfs/dev/alog/system              crw-rw-rw- root 1007
+ - part of android, AID_LOG (log devices)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/android_adb              crw-rw---- 1011 1011
+ - part of android, AID_ADB (android debug bridge (adbd))
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/bcm2079x-i2c             crw-rw---- 1027 1027
+ - part of android, AID_NFC (nfc subsystem)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/gemini0                  crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/media0                   crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/media1                   crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/media2                   crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev0              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev1              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev2              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev3              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev4              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev5              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev6              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev7              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev8              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/v4l-subdev9              crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/video0                   crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/video1                   crw-rw---- system 1006
+/var/lib/lxc/android/rootfs/dev/video2                   crw-rw---- system 1006
+ - part of android, AID_CAMERA (camera devices)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/mtp_usb                  crw-rw---- root 1024
+ - part of android, AID_MTP (MTP USB driver access)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/qseecom                  crw-rw---- system 1026
+ - part of android, AID_DRMRPC (group for drm rpc)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/dev/usb_accessory            crw-rw---- root 1018
+ - part of android, AID_USB (USB devices)
+ - Reference:
+   android-20140328-2310/system/core/include/private/android_filesystem_config.h
+
+/var/lib/lxc/android/rootfs/socket/property_service      srw-rw-rw- root root
+ - TODO
+
+/var/lib/mysql/*                                         -rw-rw---- mysql mysql
+ - allow mysql user to write database files (jdstrand)
+
+/var/lib/update-notifier/dpkg-run-stamp                  -rw-rw-r-- root root
+ - Result of umask change from 0022 to 0002. This only has these permissions
+   after install, and is later corrected (jdstrand)
+ - References: References: https://blueprints.launchpad.net/ubuntu/+spec/umask-to-0002
+
+/var/lib/samba/winbindd_privileged/pipe                  srwxrwxrwx root root
+ - File is 0666 but directory is 0750 so not an issue. 'man 8 winbindd' states
+   that access to $LOCKDIR/winbindd_privileged/pipe should be controlled via
+   group permissions (jdstrand)
+
+/var/log/system-image                                    drwxrwxrwx root root
+/var/log/system-image/client.log                         -rw-rw-rw- root root
+ - LP: #1235975
+
+/run/utmp                                                -rw-rw-r-- root utmp
+/var/log/btmp                                            -rw-rw-r-- root utmp
+/var/log/lastlog                                         -rw-rw-r-- root utmp
+/var/run/utmp                                            -rw-rw-r-- root utmp
+/var/log/wtmp                                            -rw-rw-r-- root utmp
+ - allow members of 'utmp' group to update login records (jdstrand)
+
+/var/log/mysql/error.log                                 -rw-rw---- mysql adm
+ - LP: #569085
+
+/var/lib/tomcat6/webapps                                 drwxrwxr-x tomcat6 adm
+ - LP: #569118 (fixed in 10.10 (uses tomcat6:tomcat6)) (jdstrand)
+
+/var/lib/php5                                            drwx-wx-wt root root
+ - default session.save_path (mdeslaur)
+
+/var/spool/postfix/private/*
+ - UNIX sockets used for IPC for postfix (jdstrand)
+   /var/spool/postfix/private/ should be restricted to:
+   /var/spool/postfix/private                               drwx------ postfix root
+/var/spool/postfix/public/{cleanup,flush,showq}
+/var/spool/postfix/public/{pickup,qmgr}
+ - UNIX sockets and pipes used for IPC for postfix (jdstrand)
+   /var/spool/postfix/public/ should be restricted to:
+   /var/spool/postfix/public/flush                          srw-rw-rw- postfix postdrop
+ - In 13.04, /var/spool/postfix/public/pickup and
+   /var/spool/postfix/public/qmgr are sockets, not pipes
+
+/var/spool/rsyslog                                       drwxr-xr-x syslog adm
+ - $WorkDirectory for rsyslog to put its spool and state files. rsyslog runs as
+   the non-root 'syslog' user (jdstrand)
+ - Reference: /etc/rsyslog.conf
+
+------------------
+Sticky directories
+------------------
+/tmp                                                     drwxrwxrwt root root
+/var/tmp                                                 drwxrwxrwt root root
+ - standard UNIX permissions
+
+/var/crash                                               drwxrwxrwt root root
+/var/crash                                               drwxrwsrwt root whoopsie
+ - so anyone to use apport (jdstrand)
+ - for whoopsie, makes sure the files are group readable by whoopsie, the new
+   crash reporter (jdstrand)
+
+/var/metrics                                             drwxrwsrwt root whoopsie
+- for whoopsie, makes sure the files are group readable by whoopsie, our crash
+  reporter (jdstrand)
+
+/run/lock                                                drwxrwxrwt root root
+/var/lock                                                drwxrwxrwt root root
+ - so anyone can write a lock file (jdstrand)
+ - References: http://www.pathname.com/fhs/2.2/fhs-5.9.html
+
+/dev/shm                                                 drwxrwxrwt root root
+/run/shm                                                 drwxrwxrwt root root
+ - shared memory alternative to /tmp. Limited to 50% of total RAM (jdstrand)
+
+/var/lib/samba/usershares                                drwxrwx--T root sambashare
+ - allow members of the 'sambashare' group to export user-defined shares via
+   'net usershare' (jdstrand)
+ - Reference: net man page
+
+/var/log/postgresql                                      drwxrwxr-t root postgres
+ - allow postgres user to to read/write logs, but not other-user owned files
+   (jdstrand)
+
+/var/log/gdm                                             drwxrwx--T root gdm
+ - gdm logs. Sticky so gdm can't remove root-owned files (jdstrand)
+
+/var/spool/cron/atjobs                                   drwxrwx--T daemon daemon
+/var/spool/cron/atspool                                  drwxrwx--T daemon daemon
+/var/spool/cron/crontabs                                 drwx-wx--T root crontab
+ - spool directories for daemon access to scheduled jobs (jdstrand)
+
+/var/spool/cups/tmp                                      drwxrwx--T root lp
+ - temporary directory for CUPS user
+ - Reference: man cupsd.conf
+
+/var/spool/samba                                         drwxrwxrwt root root
+ - temporary directory for samba printing, to avoid root filesystem full and
+   tmp reapers (jdstrand)
+ - References: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=275241
+
+/var/lib/lxc/android/rootfs                              drwxrwxrwt root root
+/android                                                 drwxrwxrwt root root
+ - TODO: file bug
+
+/var/lib/lxc/android/rootfs/data/misc                    drwxrwx--t system 9998
+ - part of android, AID_MISC (access to misc storage). Why does system need
+   this?
+ - Reference:
+   android-0.20130723/system/core/include/private/android_filesystem_config.h
+
+------------
+Sticky files
+------------
+/dev/autofs                                              crw------T root root
+/dev/btrfs-control                                       crw------T root root
+/dev/cpu/microcode                                       crw------T root root
+/dev/fuse                                                crw-rw-rwT root fuse
+/dev/net/tun                                             crw-rw-rwT root root
+/dev/snd/seq                                             crw-rw---T root audio
+/dev/snd/timer                                           crw-rw---T root audio
+ - as of udev 174, the sticky bit is used on files to indicate that the kernel
+   module for the corresponding device file should not be unloaded (jdstrand)
+ - References:
+   - https://bugzilla.redhat.com/show_bug.cgi?id=724920#c9
+   - udev/udev-node.c (grep for sticky)
+   - https://bugs.launchpad.net/ubuntu/precise/+source/busybox/+bug/980772
+

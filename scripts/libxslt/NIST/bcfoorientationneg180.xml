@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoOrientationneg180" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="reference-orientation" value="-180"/>
+      <fo foName="block">
+       <foText>This text should be rotated -180 degrees</foText>
+      </fo>
+  </testcase>

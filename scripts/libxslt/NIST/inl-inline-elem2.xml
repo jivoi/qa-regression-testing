@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This is a paragraph that has a <SPAN>very long span in it, and the span
+has a 12px border separated from the span by 2pt of left padding (the difference between the
+line height and the font size), which should overlap with the lines of text above and
+below the span, since the padding and border should not affect the line height.  The span's
+border should have vertical lines only at the beginning and end of the whole span, not
+on each line.</SPAN>  The line spacing in the whole paragraph should be 12pt, with font size 10pt.</PARAGRAPH>
+</TEST>     
+

@@ -1,0 +1,20 @@
+remote-login-service has a test suite that runs during build, but it has
+some dbus failures when run on a buildd. To manually run the test suite:
+
+In a VM, do the following:
+
+sudo apt-get build-dep remote-login-service
+sudo apt-get install devscripts
+
+Go into the source directory, and build with "debuild".
+
+Once finished building, run the tests:
+
+make check
+
+
+Some info from ted:
+
+gdbus call --session --dest com.canonical.RemoteLogin --object-path /com/canonical/RemoteLogin --method com.canonical.RemoteLogin.GetServersForLogin https://uccs.landscape.canonical.com/ username password true
+
+Then you can use up arrow to try different combinations ;-)

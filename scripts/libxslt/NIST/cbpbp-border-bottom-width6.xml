@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have no border and no "extra padding" on its
+bottom side, because no border-style was set.</PARAGRAPH>
+</TEST>

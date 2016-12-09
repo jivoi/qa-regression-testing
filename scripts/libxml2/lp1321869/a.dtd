@@ -1,0 +1,3 @@
+<!ELEMENT a (b|c)>
+<!ENTITY % base.dtd SYSTEM "b.dtd">
+%base.dtd;

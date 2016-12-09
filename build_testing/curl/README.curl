@@ -1,0 +1,49 @@
+CURL TESTING
+------------
+During build, curl runs its test suite. Comparing the build logs with the
+previous release should be sufficient to notice any regressions.
+
+The test suite in the build logs must be checked thoroughly, as a recent security
+update introduced a regression.
+
+New security patches should not be added at the end of the patches/series file
+or they won't get applied, as debian/rules applies patches based on name. See
+debian/rules file for more information and make sure patches get applied in the
+build logs.
+
+On gutsy, test 500 fails during the gnutls build. It appears to be timing
+dependant, as building it manually in a schroot or building it without clearing
+out the env variables makes it test successfully. Building on the build servers
+doesn't show this issue.
+
+Do not run multiple curl builds in parallel; the test infrastructure from one
+run will interfere with the tests in another build, causing needless log
+differences.
+
+Tests known to be troublesome:
+
+Raring 518 537
+Quantal 518 537
+Precise -none-
+Oneiric -none-
+Lucid -skips tests-
+Hardy -no fails, but skips some tests-
+
+-------------------------------
+To manually run the test suite:
+-------------------------------
+
+sudo apt-get build-dep curl
+sudo apt-get install devscript
+apt-get source curl
+cd curl*
+./configure
+make
+make test
+
+Can run individual tests by doing:
+cd tests
+./runtests.pl 31 (to run 31 for example)
+
+
+Copyright (C) 2008,2013 Canonical Ltd.

@@ -1,0 +1,4 @@
+TestPerl/* must not be the same owner as the user running exe_perl
+
+To run:
+PYTHONPATH=./evil:./:$PYTHONPATH ./bin/exe_python

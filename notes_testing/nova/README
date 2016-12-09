@@ -1,0 +1,24 @@
+Nova includes a test suite in the build. Here is how to use it on its own:
+
+$ dpkg-source -x *dsc
+$ cd ./nova-*
+$ schroot -c <chroot> -u root
+(chroot)# apt-get install quilt
+(chroot)# apt-get build-dep nova
+(chroot)# su <user>
+(chroot)$ export QUILT_PATCHES=debian/patches
+(chroot)$ quilt push -a
+(chroot)$ ./run_tests.sh -N
+
+Or this to stop on failures:
+(chroot)$ ./run_tests.sh -N --stop
+
+To run an individual test:
+(chroot)$ ./run_tests.sh -N api.openstack.test_servers
+
+where 'api.openstack.test_servers' is relative to 'nova/tests'. Eg, if I want
+to run nova/tests/api/openstack/contrib/test_quotas.py then I would do:
+(chroot)$ ./run_tests.sh -N --stop api.openstack.contrib.test_quotas
+
+To run just one test:
+(chroot)$ ./run_tests.sh -N api.openstack.test_servers:ServersTest.test_get_server_by_id_v1_1_xml

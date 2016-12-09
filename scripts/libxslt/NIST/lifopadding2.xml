@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lifoPadding2" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <fo foName="list-item">
+     <foProperty name="background-color" value="red"/>
+     <foProperty name="padding-before" value="0.1in"/>
+     <foProperty name="padding-after" value="0.15in"/>
+     <foProperty name="padding-start" value="0.2in"/>
+     <foProperty name="padding-end" value="0.25in"/>
+     <foProperty name="border-before-style" value="none"/>
+     <foProperty name="border-after-style" value="none"/>
+     <foProperty name="border-before-style" value="solid"/>
+     <foProperty name="border-after-style" value="solid"/>
+     <foProperty name="border-start-style" value="solid"/>
+     <foProperty name="border-end-style" value="solid"/>
+     <fo foName="list-item-label">
+      <fo foName="block">
+        <foText>1) </foText>
+      </fo>
+    </fo>
+    <fo foName="list-item-body">
+     <fo foName="block">
+       <foText>The four padding properties for this list item are set to different values (0.1in, 0.15in, 0.2in and 0.25in).</foText>
+     </fo>
+    </fo>
+   </fo>
+  </testcase>

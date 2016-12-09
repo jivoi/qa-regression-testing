@@ -1,0 +1,12 @@
+diff -Naur httpd-framework.ori/Apache-Test/lib/Apache/TestConfigParse.pm httpd-framework/Apache-Test/lib/Apache/TestConfigParse.pm
+--- httpd-framework.ori/Apache-Test/lib/Apache/TestConfigParse.pm	2009-03-05 08:54:41.000000000 -0500
++++ httpd-framework/Apache-Test/lib/Apache/TestConfigParse.pm	2009-03-05 09:47:09.000000000 -0500
+@@ -87,7 +87,7 @@
+                        'user-supplied $base' ],
+                  [ $self->{inherit_config}->{ServerRoot},
+                        'httpd.conf inherited ServerRoot' ],
+-                 [ $self->apxs('PREFIX'),
++                 [ '/usr',
+                        'apxs-derived ServerRoot' ]);
+ 
+     # remove surrounding quotes if any

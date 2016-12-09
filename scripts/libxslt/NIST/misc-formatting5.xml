@@ -1,0 +1,7 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This is a paragraph which should I make very long so you can
+easily see how much space there is between it and the one below it.</PARAGRAPH>
+<PARAGRAPH>There should be two centimeters between this paragraph and the
+one above it, since margins do not collapse on floating elements.</PARAGRAPH>
+</TEST>

@@ -1,0 +1,3197 @@
+<?xml version="1.0"?>
+<testsuite profile="NIST Test Suite">
+  <testcases profile="NIST Test Cases">
+    <test
+        id="renderingmodel1" results="renderingmodel1.pdf" interaction = "none" 
+        fo = "block" xml="renderingmodel1.xml"
+        xsl="renderingmodel1.xsl">
+     test of an area that generates a background type of mark.
+    </test>
+    <test 
+       id="renderingmodel2" results="renderingmodel2.pdf" interaction = "none" 
+       fo = "external-graphic" xml = "stdxmlfile.xml"
+       xsl = "renderingmodel2.xsl">
+     test of an area that generates an image (gif) type of mark.
+    </test>
+    <test 
+       id="renderingmodel3" results="renderingmodel3.pdf" interaction = "none" 
+       fo = "character" xml = "stdxmlfile.xml"
+       xsl = "renderingmodel3.xsl">
+     test of an area that generates a glyph (letter "G") type of mark.
+    </test>
+    <test
+      id="renderingmodel4" results="renderingmodel4.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "renderingmodel4.xsl">
+     test of an area that generates a border (solid) type of mark.
+    </test>
+    <test
+      id="renderingmodel5" results="renderingmodel5.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "renderingmodel5.xsl">
+     test of an area with a visibility trait="hidden" (should not be visible).
+    </test>
+    <test
+      id="renderingmodel6" results="renderingmodel6.pdf" interaction = "none" 
+      fo = "block-container" xml = "stdxmlfile.xml"
+      xsl = "renderingmodel6.xsl">
+     test of an area that overflows its parent area for which the "overflow" trait is not set to "scroll".
+    </test>
+    <test
+      id="renderingmodel7" results="renderingmodel7.pdf" interaction = "none" 
+      fo = "block-container" xml = "stdxmlfile.xml"
+      xsl = "renderingmodel7.xsl">
+     test of an area that overflows its parent area for which the "overflow" trait is set to "scroll".  When the target 
+     medium is "print" or "projection" the overflowing content must be printed.  When the target is a
+     computer screen, the scrolling mechanism should also be displayed.
+    </test>
+    <test
+      id="renderingmodel8" results="renderingmodel8.pdf" interaction = "none" 
+      fo = "block-container" xml = "stdxmlfile.xml"
+      xsl = "renderingmodel8.xsl">
+     test of an area that overflows its parent area for which the "overflow" trait is set to "scroll" and the "clip" is set to "rect(some values)".
+    </test>
+    <test
+      id="renderingmodel9" results="renderingmodel9.pdf" interaction = "none" 
+      fo = "block-container" xml = "renderingmodel9.xml"
+      xsl = "renderingmodel9.xsl">
+     test the rendering of the border-rectangle. use of nested block areas.
+    </test>
+    <test
+      id="basic1" results="basic1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "basic1.xsl">
+     the child areas of an area are assigned to the content-rectangle.
+    </test>
+    <test
+      id="basic2" results="basic2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "basic2.xsl">
+     the border and padding properties of an area are optional. 
+    </test>
+    <test
+      id="recarea1" results="recarea1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "recarea1.xsl">
+     the content-rectangle of an area is bound by the size of the padding rectangle.. 
+    </test>
+    <test
+      id="recarea2" results="recarea2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "recarea2.xsl">
+     test the "block-progression-direction" by changing the "writing-mode" to "tb-rl" on the region-body.
+    </test>
+    <test
+      id="recarea3" results="recarea3.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "recarea3.xsl">
+     test the "inline-progression-direction" by changing the "writing-mode" to "rl-tb" on the region-body.
+    </test>
+    <test
+      id="recarea4" results="recarea4.pdf" interaction = "none" 
+      fo = "block-container" xml = "stdxmlfile.xml"
+      xsl = "recarea4.xsl">
+     test the "inline-progression-direction" by changing the "writing-mode" on the generating formatting object (block-container).
+    </test>
+    <test
+      id="recarea5" results="recarea5.pdf" interaction = "none" 
+      fo = "block-container" xml = "stdxmlfile.xml"
+      xsl = "recarea5.xsl">
+     test the "block-progression-direction" by changing the "writing-mode" on the generating formatting object (block-container).
+    </test>
+    <test
+      id="recarea6" results="recarea6.pdf" interaction = "none" 
+      fo = "inline" xml = "stdxmlfile.xml"
+      xsl = "recarea6.xsl">
+     test the "alignment-baseline" trait of an inline-area (text) that is aligned with the "before-edge" of its parent.
+    </test>
+    <test
+      id="recarea7" results="recarea7.pdf" interaction = "none" 
+      fo = "inline" xml = "stdxmlfile.xml"
+      xsl = "recarea7.xsl">
+     test the "alignment-baseline" trait of an inline-area (text) that is aligned with the "after-edge" of its parent.
+    </test>
+    <test
+      id="recarea8" results="recarea8.pdf" interaction = "none" 
+      fo = "block-container" xml = "recarea8.xml"
+      xsl = "recarea8.xsl">
+     test the "inline-progression" trait of an "block-container", the block-progression-dimension is set to "auto".
+    </test>
+    <test
+      id="recarea9" results="recarea9.pdf" interaction = "none" 
+      fo = "block-container" xml = "recarea9.xml"
+      xsl = "recarea9.xsl">
+     test the "block-progression-dimension" trait of an "block-container", the inline-progression-dimension is set to "auto".
+    </test>
+    <test
+      id="refres1" results="refres1.pdf" interaction = "none"
+      xsl = "refres1.xsl"
+      fo = "block" xml = "stdxmlfile.xml">
+     the floor(numeric) function used to compute all four border widths of an area created by a block fo.
+    </test>
+    <test
+      id="blockarea1" results="blockarea1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea1.xsl">
+     test of the "space-after" trait using different values.  a value of 'force' is used for precedence.
+    </test>
+    <test
+      id="blockarea2" results="blockarea2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea2.xsl">
+     test of the "space-before" trait using different values.  a value of 'force' is used for precedence.
+    </test>
+    <test
+      id="blockarea3" results="blockarea3.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea3.xsl">
+     test the size a block area (not a line-area type) increasing in the line progression direction by decreasing the "start-indent" and "after-indent".
+    </test>
+    <test
+      id="blockarea4" results="blockarea4.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea4.xsl">
+     test the size a block area (not a line-area type) decreasing in the line progression direction by increasing the "start-indent" and "after-indent".
+    </test>
+    <test
+      id="blockarea5" results="blockarea5.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea5.xsl">
+      test for properly stacked areas.
+    </test>
+    <test
+      id="blockarea6" results="blockarea6.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "blockarea6.xsl">
+      test for block areas varying its block-progression dimension to accomodate its descendants.
+    </test>
+    <test
+      id="inline1" results="inline1.pdf" interaction = "none" 
+      fo = "inline" xml = "stdxmlfile.xml"
+      xsl = "inline1.xsl">
+      test of an inline area (within a block area) with no descendants.
+    </test>
+    <test
+      id="inline2" results="inline2.pdf" interaction = "none" 
+      fo = "inline" xml = "stdxmlfile.xml"
+      xsl = "inline2.xsl">
+      test of an inline area (within a block area) with another inline area as its descendant.
+    </test>
+    <test
+      id="line1" results="line1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "line1.xsl">
+      test that line areas do no have padding and border.
+    </test>
+    <test
+      id="line2" results="line2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "line2.xsl">
+      the allocation-rectangle of line areas is determined by the "line-stacking-strategy" trait (test for line-height).
+    </test>
+    <test
+      id="keepandbreak1" results="keepandbreak1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak1.xsl">
+     test of a break before condition with "break-before" set "page" (page context).
+    </test>
+    <test
+      id="keepandbreak2" results="keepandbreak2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak2.xsl">
+     test of a break before condition with explicit value set to "auto" (page context).
+    </test>
+    <test
+      id="keepandbreak3" results="keepandbreak3.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak3.xsl">
+     test of a break after condition with "break-after" set to "page" (page context) and two formatting objects.
+    </test>
+    <test
+      id="keepandbreak4" results="keepandbreak4.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak4.xsl">
+     test of a break after condition with explicit value set to "auto" (page context).
+    </test>
+    <test
+      id="keepandbreak5" results="keepandbreak5.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak5.xsl">
+     test of a break after condition with "break-after" set to "page" (page context) and one formatting object.
+    </test>
+    <test
+      id="keepandbreak6" results="keepandbreak6.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak6.xsl">
+     test of a break before condition with "break-before" set to "even-page" and no blank page generated (even-numbered page-reference-area context).
+    </test>
+    <test
+      id="keepandbreak7" results="keepandbreak7.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak7.xsl">
+     test of a break before condition with "break-before" set to "even-page" (even-numbered page-reference-area context) and a blank page generated.
+    </test>
+    <test
+      id="keepandbreak8" results="keepandbreak8.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak8.xsl">
+     test of a break after condition with "break-after" set to "even-page" (even-numbered page-reference-area context) and a no blank page generated.
+    </test>
+    <test
+      id="keepandbreak9" results="keepandbreak9.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak9.xsl">
+     test of a break after condition with "break-after" set to "even-page" (even-numbered page-reference-area context) and one blank page generated.
+    </test>
+    <test
+      id="keepandbreak10" results="keepandbreak10.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak10.xsl">
+     test of a break before condition with "break-before" set to "even-page" (even-numbered page-reference-area context) and one blank page generated.
+    </test>
+    <test
+      id="keepandbreak11" results="keepandbreak11.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak11.xsl">
+     test of a break after condition with "break-after" set to "odd-page" (odd-numbered page-reference-area context) and one blank page generated.
+    </test>
+    <test
+      id="keepandbreak12" results="keepandbreak12.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak12.xsl">
+     test of a break before condition interacting with each other and one blank page generated.
+    </test>
+    <test
+      id="keepandbreak13" results="keepandbreak13.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak13.xsl">
+     test of a leading area b in an area p.
+    </test>
+    <test
+      id="keepandbreak14" results="keepandbreak14.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak14.xsl">
+     test of a trailing area b in an area p.
+    </test>
+    <test
+      id="keepandbreak15" results="keepandbreak15.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak15.xsl"> 
+    test a sequence of page-reference-areas generated by "page-sequence" formatting objects.
+    </test>
+    <test
+      id="keepandbreak16" results="keepandbreak16.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak16.xsl"> 
+    test of "keep-with-previous" condition within a page and an "always" level of strength.
+   </test>
+    <test
+      id="keepandbreak17" results="keepandbreak17.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "keepandbreak17.xsl"> 
+    test of "keep-with-next" condition within a page and an "always" level of strength.
+   </test>
+    <test
+      id="space1" results="space1.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "space1.xsl"> 
+    test the overlapaing of areas by setting the "space-before.optimum" to a negative number with "force" precedence.
+   </test>
+    <test
+      id="space2" results="space2.pdf" interaction = "none" 
+      fo = "block" xml = "stdxmlfile.xml"
+      xsl = "space2.xsl"> 
+    test the overlapaing of areas by setting the "space-before.minimum" to a negative number with "force" precedence.
+   </test>
+   <test
+      id="bcfobreakafter1" results="bcfobreakafter1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakafter1.xml"
+      xsl = "bcfobreakafter1.xsl"> 
+    test the "block-container" fo with the "break-after" property set to "page".
+   </test>
+   <test
+      id="bcfobreakafter2" results="bcfobreakafter2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakafter2.xml"
+      xsl = "bcfobreakafter2.xsl"> 
+    test the "block-container" fo with the "break-after" property set to "even-page" and no blank page generated.
+   </test>
+   <test
+      id="bcfobreakafter3" results="bcfobreakafter3.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakafter3.xml"
+      xsl = "bcfobreakafter3.xsl"> 
+    test the "block-container" fo with the "break-after" property set to "even-page" and a blank page is generated.
+   </test>
+   <test
+      id="bcfobreakafter4" results="bcfobreakafter4.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakafter4.xml"
+      xsl = "bcfobreakafter4.xsl"> 
+    test the "block-container" fo with the "break-after" property set to "odd-page" and a blank page is generated.
+   </test>
+   <test
+      id="bcfobreakafter5" results="bcfobreakafter5.pdf" interaction = "??" 
+      fo = "block-container" xml = "bcfobreakafter5.xml"
+      xsl = "bcfobreakafter5.xsl"> 
+    test the "block-container" fo with the "break-after" property set to "odd-page" and no blank page is generated.
+   </test>
+   <test
+      id="bcfobreakbefore1" results="bcfobreakbefore1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakbefore1.xml"
+      xsl = "bcfobreakbefore1.xsl"> 
+    test the "block-container" fo with the "break-before" property set to "page" and no blank page is generated.
+   </test>
+   <test
+      id="bcfobreakbefore2" results="bcfobreakbefore2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakbefore2.xml"
+      xsl = "bcfobreakbefore2.xsl"> 
+    test the "block-container" fo with the "break-before" property set to "even-page" and no blank page is generated.
+   </test>
+   <test
+      id="bcfobreakbefore3" results="bcfobreakbefore3.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakbefore3.xml"
+      xsl = "bcfobreakbefore3.xsl"> 
+    test the "block-container" fo with the "break-before" property set to "even-page" and one blank page is generated.
+   </test>
+   <test
+      id="bcfobreakbefore4" results="bcfobreakbefore4.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobreakbefore4.xml"
+      xsl = "bcfobreakbefore4.xsl"> 
+    test the "block-container" fo with the "break-before" property set to "odd-page" and one blank page is generated.
+   </test>
+   <test
+      id="bcfoorientation90" results="bcfoorientation90.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientation90.xml"
+      xsl = "bcfoorientation90.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to 90 degrees.
+   </test>
+   <test
+      id="bcfoorientation180" results="bcfoorientation180.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientation180.xml"
+      xsl = "bcfoorientation180.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to 180 degrees.
+   </test>
+   <test
+      id="bcfoorientation270" results="bcfoorientation270.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientation270.xml"
+      xsl = "bcfoorientation270.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to 270 degrees.
+   </test>
+   <test
+      id="bcfoorientationneg90" results="bcfoorientationneg90.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientationneg90.xml"
+      xsl = "bcfoorientationneg90.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to -90 degrees.
+   </test>
+   <test
+      id="bcfoorientationneg180" results="bcfoorientationneg180.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientationneg180.xml"
+      xsl = "bcfoorientationneg180.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to -180 degrees.
+   </test>
+   <test
+      id="bcfoorientationneg270" results="bcfoorientationneg270.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoorientationneg270.xml"
+      xsl = "bcfoorientationneg270.xsl"> 
+    test the "block-container" fo with the "reference-orientation" property set to -270 degrees.
+   </test>
+   <test
+      id="bcfoborderstyle1" results="bcfoborderstyle1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle1.xml"
+      xsl = "bcfoborderstyle1.xsl"> 
+    test the "block-container" fo with the border style properties set to "dotted".
+   </test>
+   <test
+      id="bcfoborderstyle2" results="bcfoborderstyle2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle2.xml"
+      xsl = "bcfoborderstyle2.xsl"> 
+    test the "block-container" fo with the border style properties set to "dashed".
+   </test>
+   <test
+      id="bcfoborderstyle3" results="bcfoborderstyle3.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle3.xml"
+      xsl = "bcfoborderstyle3.xsl"> 
+    test the "block-container" fo with the border style properties set to "double".
+   </test>
+   <test
+      id="bcfoborderstyle4" results="bcfoborderstyle4.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle4.xml"
+      xsl = "bcfoborderstyle4.xsl"> 
+    test the "block-container" fo with the border style properties set to "groove".
+   </test>
+   <test
+      id="bcfoborderstyle5" results="bcfoborderstyle5.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle5.xml"
+      xsl = "bcfoborderstyle5.xsl"> 
+    test the "block-container" fo with the border style properties set to "ridge".
+   </test>
+   <test
+      id="bcfoborderstyle6" results="bcfoborderstyle6.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle6.xml"
+      xsl = "bcfoborderstyle6.xsl"> 
+    test the "block-container" fo with the border style properties set to "inset".
+   </test>
+   <test
+      id="bcfoborderstyle7" results="bcfoborderstyle7.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle7.xml"
+      xsl = "bcfoborderstyle7.xsl"> 
+    test the "block-container" fo with the border style properties set to "outset".
+   </test>
+   <test
+      id="bcfoborderstyle8" results="bcfoborderstyle8.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle8.xml"
+      xsl = "bcfoborderstyle8.xsl"> 
+    test the "block-container" fo with the border style properties set to "solid".
+   </test>
+   <test
+      id="bcfoborderstyle9" results="bcfoborderstyle9.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle9.xml"
+      xsl = "bcfoborderstyle9.xsl"> 
+    test the "block-container" fo with the border style properties set to "inherit".
+   </test>
+   <test
+      id="bcfoborderstyle10" results="bcfoborderstyle10.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle10.xml"
+      xsl = "bcfoborderstyle10.xsl"> 
+    test the "block-container" fo with the only "border-before-style" properties set to "inherit".
+   </test>
+   <test
+      id="bcfoborderstyle11" results="bcfoborderstyle11.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle11.xml"
+      xsl = "bcfoborderstyle11.xsl"> 
+    test the "block-container" fo with the only "border-after-style" properties set to "inherit".
+   </test>
+   <test
+      id="bcfoborderstyle12" results="bcfoborderstyle12.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle12.xml"
+      xsl = "bcfoborderstyle12.xsl"> 
+    test the "block-container" fo with the only "border-start-style" properties set to "inherit".
+   </test>
+   <test
+      id="bcfoborderstyle13" results="bcfoborderstyle13.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderstyle13.xml"
+      xsl = "bcfoborderstyle13.xsl"> 
+    test the "block-container" fo with the only "border-end-style" properties set to "inherit".
+   </test>
+   <test
+      id="bcfoborderwidth1" results="bcfoborderwidth1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderwidth1.xml"
+      xsl = "bcfoborderwidth1.xsl"> 
+    test the "block-container" fo with the border width properties set to a fixed length ("0.3in").
+   </test>
+   <test
+      id="bcfoborderwidth2" results="bcfoborderwidth2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderwidth2.xml"
+      xsl = "bcfoborderwidth2.xsl"> 
+    test the "block-container" fo with the border width properties set to "thin".
+   </test>
+   <test
+      id="bcfoborderwidth3" results="bcfoborderwidth3.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderwidth3.xml"
+      xsl = "bcfoborderwidth3.xsl"> 
+    test the "block-container" fo with the border width properties set to "medium".
+   </test>
+   <test
+      id="bcfoborderwidth4" results="bcfoborderwidth4.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderwidth4.xml"
+      xsl = "bcfoborderwidth4.xsl"> 
+    test the "block-container" fo with the border width properties set to "thick".
+   </test>
+   <test
+      id="bcfoborderwidth5" results="bcfoborderwidth5.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfoborderwidth5.xml"
+      xsl = "bcfoborderwidth5.xsl"> 
+    test the "block-container" fo with the border width properties set to "thick" and no before and after border style.
+   </test>
+   <test
+      id="bcfobackground1" results="bcfobackground1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobackground1.xml"
+      xsl = "bcfobackground1.xsl"> 
+    test the "block-container" fo with the "background-color" property set to "yellow".
+   </test>
+   <test
+      id="bcfobackground2" results="bcfobackground2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobackground2.xml"
+      xsl = "bcfobackground2.xsl"> 
+    test the "block-container" fo with the "background-color" property set to "inherit".
+   </test>
+   <test
+      id="bcfobordercolor1" results="bcfobordercolor1.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor1.xml"
+      xsl = "bcfobordercolor1.xsl"> 
+    test the "block-container" fo with the border color properties set to the same color ("red").
+   </test>
+   <test
+      id="bcfobordercolor2" results="bcfobordercolor2.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor2.xml"
+      xsl = "bcfobordercolor2.xsl"> 
+    test the "block-container" fo with the border color properties set to different colors.
+   </test>
+   <test
+      id="bcfobordercolor3" results="bcfobordercolor3.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor3.xml"
+      xsl = "bcfobordercolor3.xsl"> 
+    test the "block-container" fo with all border color properties set to "inherit".
+   </test>
+   <test
+      id="bcfobordercolor4" results="bcfobordercolor4.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor4.xml"
+      xsl = "bcfobordercolor4.xsl"> 
+    test the "block-container" fo with the only the "border-before-color" property set to "inherit".
+   </test>
+   <test
+      id="bcfobordercolor5" results="bcfobordercolor5.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor5.xml"
+      xsl = "bcfobordercolor5.xsl"> 
+    test the "block-container" fo with the only the "border-after-color" property set to "inherit".
+   </test>
+   <test
+      id="bcfobordercolor6" results="bcfobordercolor6.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor6.xml"
+      xsl = "bcfobordercolor6.xsl"> 
+    test the "block-container" fo with the only the "border-start-color" property set to "inherit".
+   </test>
+   <test
+      id="bcfobordercolor7" results="bcfobordercolor7.pdf" interaction = "none" 
+      fo = "block-container" xml = "bcfobordercolor7.xml"
+      xsl = "bcfobordercolor7.xsl"> 
+    test the "block-container" fo with the only the "border-end-color" property set to "inherit".
+   </test>
+   <test
+      id="egfocontentheight" results="egfocontentheight.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentheight.xml"
+      xsl = "egfocontentheight.xsl"> 
+    test the "external-graphic" fo with the "content-height" property set to a fixed length ("0.5in") and use of a gif image.
+   </test>
+   <test
+      id="egfocontentheightstf" results="egfocontentheightstf.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentheightstf.xml"
+      xsl = "egfocontentheightstf.xsl"> 
+    test the "external-graphic" fo with the "content-height" property set to "scale-to-fit" and use of a gif image.
+   </test>
+   <test
+      id="egfocontentheightp" results="egfocontentheightp.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentheightp.xml"
+      xsl = "egfocontentheightp.xsl"> 
+    test the "external-graphic" fo with the "content-height" property set to a percentage value ("50%") and use of a gif image.
+   </test>
+   <test
+      id="egfocontentwidth" results="egfocontentwidth.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentwidth.xml"
+      xsl = "egfocontentwidth.xsl"> 
+    test the "external-graphic" fo with the "content-width" property set to a fixed value ("0.5in") and use of a gif image.
+   </test>
+   <test
+      id="egfocontentwidthstf" results="egfocontentwidthstf.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentwidthstf.xml"
+      xsl = "egfocontentwidthstf.xsl"> 
+    test the "external-graphic" fo with the "content-width" property set to "scale-to-fit" and use of a gif image.
+   </test>
+   <test
+      id="egfocontentwidthp" results="egfocontentwidthp.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfocontentwidthp.xml"
+      xsl = "egfocontentwidthp.xsl"> 
+    test the "external-graphic" fo with the "content-width" property set to a percentage value "50%" and use of a gif image.
+   </test>
+   <test
+      id="egfoborderstyle1" results="egfoborderstyle1.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle1.xml"
+      xsl = "egfoborderstyle1.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "dotted" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle2" results="egfoborderstyle2.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle2.xml"
+      xsl = "egfoborderstyle2.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "dashed" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle3" results="egfoborderstyle3.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle3.xml"
+      xsl = "egfoborderstyle3.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "double" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle4" results="egfoborderstyle4.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle4.xml"
+      xsl = "egfoborderstyle4.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "groove" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle5" results="egfoborderstyle5.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle5.xml"
+      xsl = "egfoborderstyle5.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "ridge" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle6" results="egfoborderstyle6.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle6.xml"
+      xsl = "egfoborderstyle6.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "inset" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle7" results="egfoborderstyle7.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle7.xml"
+      xsl = "egfoborderstyle7.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "outset" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderstyle8" results="egfoborderstyle8.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderstyle8.xml"
+      xsl = "egfoborderstyle8.xsl"> 
+    test the "external-graphic" fo with the border style properties set to "solid" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderwidth1" results="egfoborderwidth1.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderwidth1.xml"
+      xsl = "egfoborderwidth1.xsl"> 
+    test the "external-graphic" fo with the border width properties set to "0.3in" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderwidth2" results="egfoborderwidth2.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderwidth2.xml"
+      xsl = "egfoborderwidth2.xsl"> 
+    test the "external-graphic" fo with the border width properties set to "thin" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderwidth3" results="egfoborderwidth3.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderwidth3.xml"
+      xsl = "egfoborderwidth3.xsl"> 
+    test the "external-graphic" fo with the border width properties set to "medium" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderwidth4" results="egfoborderwidth4.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderwidth4.xml"
+      xsl = "egfoborderwidth4.xsl"> 
+    test the "external-graphic" fo with the border width properties set to "thick" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfoborderwidth5" results="egfoborderwidth5.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfoborderwidth5.xml"
+      xsl = "egfoborderwidth5.xsl"> 
+    test the "external-graphic" fo with the border width properties set to "thick" and no style properties set for the before and after border and use of a "jpg" image.
+   </test>
+   <test
+      id="egfopadding1" results="egfopadding1.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfopadding1.xml"
+      xsl = "egfopadding1.xsl"> 
+    test the "external-graphic" fo with the padding properties set to a fixed length "0.2in" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfopadding2" results="egfopadding2.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfopadding2.xml"
+      xsl = "egfopadding2.xsl"> 
+    test the "external-graphic" fo with the padding properties set to different lengths ("0.1in", "0.15in", "0.2in" and "0.25in") and use of a "jpg" image.
+   </test>
+   <test
+      id="egfobackground1" results="egfobackground1.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfobackground1.xml"
+      xsl = "egfobackground1.xsl"> 
+    test the "external-graphic" fo with the "background-color" property set to "red" and use of a "jpg" image.
+   </test>
+   <test
+      id="egfobordercolor1" results="egfobordercolor1.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfobordercolor1.xml"
+      xsl = "egfobordercolor1.xsl"> 
+    test the "external-graphic" fo with the border color properties set to same color (yellow) and use of a "jpg" image.
+   </test>
+   <test
+      id="egfobordercolor2" results="egfobordercolor2.pdf" interaction = "none" 
+      fo = "external-graphic" xml = "egfobordercolor2.xml"
+      xsl = "egfobordercolor2.xsl"> 
+    test the "external-graphic" fo with the border color properties set to different colors and use of a "jpg" image.
+   </test>
+   <test
+      id="lbfobreakafter1" results="lbfobreakafter1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakafter1.xml"
+      xsl = "lbfobreakafter1.xsl"> 
+    test the "list-block" fo with the "break-after" property set to "page".
+   </test>
+   <test
+      id="lbfobreakafter2" results="lbfobreakafter2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakafter2.xml"
+      xsl = "lbfobreakafter2.xsl"> 
+    test the "list-block" fo with the "break-after" property set to "even-page" and no blank page generated.
+   </test>
+   <test
+      id="lbfobreakafter3" results="lbfobreakafter3.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakafter3.xml"
+      xsl = "lbfobreakafter3.xsl"> 
+    test the "list-block" fo with the "break-after" property set to "even-page" and one blank page generated.
+   </test>
+   <test
+      id="lbfobreakafter4" results="lbfobreakafter4.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakafter4.xml"
+      xsl = "lbfobreakafter4.xsl"> 
+    test the "list-block" fo with the "break-after" property set to "odd-page" and one blank page generated.
+   </test>
+   <test
+      id="lbfobreakafter5" results="lbfobreakafter5.pdf" interaction = "??" 
+      fo = "list-block" xml = "lbfobreakafter5.xml"
+      xsl = "lbfobreakafter5.xsl"> 
+    test the "list-block" fo with the "break-after" property set to "odd-page" and no blank page generated.
+   </test>
+   <test
+      id="lbfobreakbefore1" results="lbfobreakbefore1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakbefore1.xml"
+      xsl = "lbfobreakbefore1.xsl"> 
+    test the "list-block" fo with the "break-before" property set to "page".
+   </test>
+   <test
+      id="lbfobreakbefore2" results="lbfobreakbefore2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakbefore2.xml"
+      xsl = "lbfobreakbefore2.xsl"> 
+    test the "list-block" fo with the "break-before" property set to "even-page" and no blank page generated.
+   </test>
+   <test
+      id="lbfobreakbefore3" results="lbfobreakbefore3.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakbefore3.xml"
+      xsl = "lbfobreakbefore3.xsl"> 
+    test the "list-block" fo with the "break-before" property set to "even-page" and one blank page generated.
+   </test>
+   <test
+      id="lbfobreakbefore4" results="lbfobreakbefore4.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobreakbefore4.xml"
+      xsl = "lbfobreakbefore4.xsl"> 
+    test the "list-block" fo with the "break-before" property set to "odd-page" and one blank page generated.
+   </test>
+   <test
+      id="lbfoborderwidth1" results="lbfoborderwidth1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderwidth1.xml"
+      xsl = "lbfoborderwidth1.xsl"> 
+    test the "list-block" fo with all the border width properties set to a fixed value ("0.2in").
+   </test>
+   <test
+      id="lbfoborderwidth2" results="lbfoborderwidth2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderwidth2.xml"
+      xsl = "lbfoborderwidth2.xsl"> 
+    test the "list-block" fo with all the border width properties set "thin".
+   </test>
+   <test
+      id="lbfoborderwidth3" results="lbfoborderwidth3.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderwidth3.xml"
+      xsl = "lbfoborderwidth3.xsl"> 
+    test the "list-block" fo with all the border width properties set "medium".
+   </test>
+   <test
+      id="lbfoborderwidth4" results="lbfoborderwidth4.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderwidth4.xml"
+      xsl = "lbfoborderwidth4.xsl"> 
+    test the "list-block" fo with all the border width properties set "thick".
+   </test>
+   <test
+      id="lbfoborderwidth5" results="lbfoborderwidth5.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderwidth5.xml"
+      xsl = "lbfoborderwidth5.xsl"> 
+    test the "list-block" fo with all the border width properties set "thick", however no "before" and "after" style is defined.
+   </test>
+   <test
+      id="lbfoborderstyle1" results="lbfoborderstyle1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle1.xml"
+      xsl = "lbfoborderstyle1.xsl"> 
+    test the "list-block" fo with all the border style properties set "dotted".
+   </test>
+   <test
+      id="lbfoborderstyle2" results="lbfoborderstyle2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle2.xml"
+      xsl = "lbfoborderstyle2.xsl"> 
+    test the "list-block" fo with all the border style properties set "dashed".
+   </test>
+   <test
+      id="lbfoborderstyle3" results="lbfoborderstyle3.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle3.xml"
+      xsl = "lbfoborderstyle3.xsl"> 
+    test the "list-block" fo with all the border style properties set "double".
+   </test>
+   <test
+      id="lbfoborderstyle4" results="lbfoborderstyle4.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle4.xml"
+      xsl = "lbfoborderstyle4.xsl"> 
+    test the "list-block" fo with all the border style properties set "groove".
+   </test>
+   <test
+      id="lbfoborderstyle5" results="lbfoborderstyle5.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle5.xml"
+      xsl = "lbfoborderstyle5.xsl"> 
+    test the "list-block" fo with all the border style properties set "ridge".
+   </test>
+   <test
+      id="lbfoborderstyle6" results="lbfoborderstyle6.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle6.xml"
+      xsl = "lbfoborderstyle6.xsl"> 
+    test the "list-block" fo with all the border style properties set "inset".
+   </test>
+   <test
+      id="lbfoborderstyle7" results="lbfoborderstyle7.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle7.xml"
+      xsl = "lbfoborderstyle7.xsl"> 
+    test the "list-block" fo with all the border style properties set "outset".
+   </test>
+   <test
+      id="lbfoborderstyle8" results="lbfoborderstyle8.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoborderstyle8.xml"
+      xsl = "lbfoborderstyle8.xsl"> 
+    test the "list-block" fo with all the border style properties set "solid".
+   </test>
+   <test
+      id="lbfobackground1" results="lbfobackground1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobackground1.xml"
+      xsl = "lbfobackground1.xsl"> 
+    test the "list-block" fo with all the border color properties set to "red".
+   </test>
+   <test
+      id="lbfobackground2" results="lbfobackground2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfobackground2.xml"
+      xsl = "lbfobackground2.xsl"> 
+    test the "list-block" fo with all the border color properties set to different colors ("red", "aqua", "blue" and "green").
+   </test>
+   <test
+      id="lbfoprovisionaldbs1" results="lbfoprovisionaldbs1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoprovisionaldbs1.xml"
+      xsl = "lbfoprovisionaldbs1.xsl"> 
+    test the "list-block" fo with the "provisional-distance-between-starts" property equal to "40pt".
+   </test>
+   <test
+      id="lbfoprovisionaldbs2" results="lbfoprovisionaldbs2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoprovisionaldbs2.xml"
+      xsl = "lbfoprovisionaldbs2.xsl"> 
+    test two "list-block" fo's with their "provisional-distance-between-starts" property equal to "30pt" and "40pt" respectively.
+   </test>
+   <test
+      id="lbfoprovisionalls1" results="lbfoprovisionalls1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoprovisionalls1.xml"
+      xsl = "lbfoprovisionalls1.xsl"> 
+    test the "list-block" fo with the "provisional-label-separation" property equal to "40pt".
+   </test>
+   <test
+      id="lbfomargintop1" results="lbfomargintop1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomargintop1.xml"
+      xsl = "lbfomargintop1.xsl"> 
+    test the "list-block" fo with the "margin-top" property equal to "0.5in".
+   </test>
+   <test
+      id="lbfomargintop2" results="lbfomargintop2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomargintop2.xml"
+      xsl = "lbfomargintop2.xsl"> 
+    test the "list-block" fo with the "margin-top" property equal to "inherit".
+   </test>
+   <test
+      id="lbfomarginbottom1" results="lbfomarginbottom1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginbottom1.xml"
+      xsl = "lbfomarginbottom1.xsl"> 
+    test the "list-block" fo with the "margin-bottom" property equal to "0.5in".
+   </test>
+   <test
+      id="lbfomarginbottom2" results="lbfomarginbottom2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginbottom2.xml"
+      xsl = "lbfomarginbottom2.xsl"> 
+    test the "list-block" fo with the "margin-bottom" property equal to "inherit".
+   </test>
+   <test
+      id="lbfomarginleft1" results="lbfomarginleft1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginleft1.xml"
+      xsl = "lbfomarginleft1.xsl"> 
+    test the "list-block" fo with the "margin-left" property equal to "0.5in"
+   </test>
+   <test
+      id="lbfomarginleft2" results="lbfomarginleft2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginleft2.xml"
+      xsl = "lbfomarginleft2.xsl"> 
+    test the "list-block" fo with the "margin-left" property equal to "inherit".
+   </test>
+   <test
+      id="lbfomarginright1" results="lbfomarginright1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginright1.xml"
+      xsl = "lbfomarginright1.xsl"> 
+    test the "list-block" fo with the "margin-right" property equal to "2.0in".
+   </test>
+   <test
+      id="lbfomarginright2" results="lbfomarginright2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfomarginright2.xml"
+      xsl = "lbfomarginright2.xsl"> 
+    test the "list-block" fo with the "margin-right" property equal to "inherit".
+   </test>
+   <test
+      id="lbfospacebefore1" results="lbfospacebefore1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfospacebefore1.xml"
+      xsl = "lbfospacebefore1.xsl"> 
+    test the "list-block" fo with the "space-before" property equal to "1.0in".
+   </test>
+   <test
+      id="lbfospacebefore2" results="lbfospacebefore2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfospacebefore2.xml"
+      xsl = "lbfospacebefore2.xsl"> 
+    test the "list-block" fo with the "space-before" property equal to "inherit".
+   </test>
+   <test
+      id="lbfospaceafter1" results="lbfospaceafter1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfospaceafter1.xml"
+      xsl = "lbfospaceafter1.xsl"> 
+    test the "list-block" fo with the "space-after" property equal to "1.0in".
+   </test>
+   <test
+      id="lbfospaceafter2" results="lbfospaceafter2.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfospaceafter2.xml"
+      xsl = "lbfospaceafter2.xsl"> 
+    test the "list-block" fo with the "space-after" property equal to "inherit".
+   </test>
+   <test
+      id="lbfostartindent1" results="lbfostartindent1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfostartindent1.xml"
+      xsl = "lbfostartindent1.xsl"> 
+    test the "list-block" fo with the "start-indent" property set to "0.5in".
+   </test>
+   <test
+      id="lbfoendindent1" results="lbfoendindent1.pdf" interaction = "none" 
+      fo = "list-block" xml = "lbfoendindent1.xml"
+      xsl = "lbfoendindent1.xsl"> 
+    test the "list-block" fo with the "end-indent" property set to "0.5in".
+   </test>
+   <test
+      id="lifobreakafter1" results="lifobreakafter1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakafter1.xml"
+      xsl = "lifobreakafter1.xsl"> 
+    test the "list-item" fo with the "break-after" property set to "page".
+   </test>
+   <test
+      id="lifobreakafter2" results="lifobreakafter2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakafter2.xml"
+      xsl = "lifobreakafter2.xsl"> 
+    test "list-item" fo with the "break-after" property set to "odd-page" (blank page generated).
+   </test>
+   <test
+      id="lifobreakafter3" results="lifobreakafter3.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakafter3.xml"
+      xsl = "lifobreakafter3.xsl"> 
+    test the "list-item" fo with the "break-after" property set to "even-page" (no blank page generated).
+   </test>
+   <test
+      id="lifobreakafter4" results="lifobreakafter4.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakafter4.xml"
+      xsl = "lifobreakafter4.xsl"> 
+    test the "list-item" fo with the "break-after" property set to "even-page" (force empty page).
+   </test>
+   <test
+      id="lifobreakbefore1" results="lifobreakbefore1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakbefore1.xml"
+      xsl = "lifobreakbefore1.xsl"> 
+    test the "list-item" fo with the "break-before" property set to "page" (no blank pages generated).
+   </test>
+   <test
+      id="lifobreakbefore2" results="lifobreakbefore2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakbefore2.xml"
+      xsl = "lifobreakbefore2.xsl"> 
+    test the "list-item" fo with the "break-before" property set to "even-page" (no blank pages generated).
+   </test>
+   <test
+      id="lifobreakbefore3" results="lifobreakbefore3.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobreakbefore3.xml"
+      xsl = "lifobreakbefore3.xsl"> 
+    test the "list-item" fo with the "break-before" property set to "even-page" (one blank page generated).
+   </test>
+   <test
+      id="lifobackground" results="lifobackground.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobackground.xml"
+      xsl = "lifobackground.xsl"> 
+    test two "list-item" fo's with their "background-color" properties set to "aqua" and "red" respectivley.
+   </test>
+   <test
+      id="lifoborderstyle1" results="lifoborderstyle1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle1.xml"
+      xsl = "lifoborderstyle1.xsl"> 
+    test a "list-item" fo with all four border style properties set to "dotted".
+   </test>
+   <test
+      id="lifoborderstyle2" results="lifoborderstyle2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle2.xml"
+      xsl = "lifoborderstyle2.xsl"> 
+    test a "list-item" fo with all four border style properties set to "dashed".
+   </test>
+   <test
+      id="lifoborderstyle3" results="lifoborderstyle3.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle3.xml"
+      xsl = "lifoborderstyle3.xsl"> 
+    test a "list-item" fo with all four border style properties set to "double".
+   </test>
+   <test
+      id="lifoborderstyle4" results="lifoborderstyle4.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle4.xml"
+      xsl = "lifoborderstyle4.xsl"> 
+    test a "list-item" fo with all four border style properties set to "groove".
+   </test>
+   <test
+      id="lifoborderstyle5" results="lifoborderstyle5.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle5.xml"
+      xsl = "lifoborderstyle5.xsl"> 
+    test a "list-item" fo with all four border style properties set to "ridge".
+   </test>
+   <test
+      id="lifoborderstyle6" results="lifoborderstyle6.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle6.xml"
+      xsl = "lifoborderstyle6.xsl"> 
+    test a "list-item" fo with all four border style properties set to "inset".
+   </test>
+   <test
+      id="lifoborderstyle7" results="lifoborderstyle7.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle7.xml"
+      xsl = "lifoborderstyle7.xsl"> 
+    test a "list-item" fo with all four border style properties set to "outset".
+   </test>
+   <test
+      id="lifoborderstyle8" results="lifoborderstyle8.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle8.xml"
+      xsl = "lifoborderstyle8.xsl"> 
+    test a "list-item" fo with all four border style properties set to "solid".
+   </test>
+   <test
+      id="lifoborderstyle9" results="lifoborderstyle9.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle9.xml"
+      xsl = "lifoborderstyle9.xsl"> 
+    test a "list-item" fo with all four border style properties set to "inherit" ("solid" value). should also show table start border style
+   </test>
+   <test
+      id="lifoborderstyle10" results="lifoborderstyle10.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle10.xml"
+      xsl = "lifoborderstyle10.xsl"> 
+    test a "list-item" fo with with only the "border-before-style" property set to "inherit" ("dotted" value).
+   </test>
+   <test
+      id="lifoborderstyle11" results="lifoborderstyle11.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle11.xml"
+      xsl = "lifoborderstyle11.xsl"> 
+    test a "list-item" fo with with only the "border-after-style" property set to "inherit" ("dotted" value).
+   </test>
+   <test
+      id="lifoborderstyle12" results="lifoborderstyle12.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle12.xml"
+      xsl = "lifoborderstyle12.xsl"> 
+    test a "list-item" fo with with only the "border-start-style" property set to "inherit" ("dotted" value).
+   </test>
+   <test
+      id="lifoborderstyle13" results="lifoborderstyle13.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderstyle13.xml"
+      xsl = "lifoborderstyle13.xsl"> 
+    test a "list-item" fo with with only the "border-end-style" property set to "inherit" ("dotted" value).
+   </test>
+   <test
+      id="lifoborderwidth1" results="lifoborderwidth1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth1.xml"
+      xsl = "lifoborderwidth1.xsl"> 
+    test a "list-item" fo with all four border width properties set to a fixed length ("0.3in").
+   </test>
+   <test
+      id="lifoborderwidth2" results="lifoborderwidth2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth2.xml"
+      xsl = "lifoborderwidth2.xsl"> 
+    test a "list-item" fo with all four border width properties set to "thin".
+   </test>
+   <test
+      id="lifoborderwidth3" results="lifoborderwidth3.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth3.xml"
+      xsl = "lifoborderwidth3.xsl"> 
+    test a "list-item" fo with all four border width properties set to "medium".
+   </test>
+   <test
+      id="lifoborderwidth4" results="lifoborderwidth4.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth4.xml"
+      xsl = "lifoborderwidth4.xsl"> 
+    test a "list-item" fo with all four border width properties set to "thick".
+   </test>
+   <test
+      id="lifoborderwidth5" results="lifoborderwidth5.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth5.xml"
+      xsl = "lifoborderwidth5.xsl"> 
+    test a "list-item" fo with all four border width properties set to "thick", with the before and after style specified as "none".
+   </test>
+   <test
+      id="lifoborderwidth6" results="lifoborderwidth6.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth6.xml"
+      xsl = "lifoborderwidth6.xsl"> 
+    test a "list-item" fo with all four border width properties set to "inherit".
+   </test>
+   <test
+      id="lifoborderwidth7" results="lifoborderwidth7.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth7.xml"
+      xsl = "lifoborderwidth7.xsl"> 
+    test a "list-item" fo with only the "border-before-width" property set to "inherit".
+   </test>
+   <test
+      id="lifoborderwidth8" results="lifoborderwidth8.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth8.xml"
+      xsl = "lifoborderwidth8.xsl"> 
+    test a "list-item" fo with only the "border-after-width" property set to "inherit".
+   </test>
+   <test
+      id="lifoborderwidth9" results="lifoborderwidth9.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth9.xml"
+      xsl = "lifoborderwidth9.xsl"> 
+    test a "list-item" fo with only the "border-start-width" property set to "inherit".
+   </test>
+   <test
+      id="lifoborderwidth10" results="lifoborderwidth10.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifoborderwidth10.xml"
+      xsl = "lifoborderwidth10.xsl"> 
+    test a "list-item" fo with only the "border-end-width" property set to "inherit".
+   </test>
+   <test
+      id="lifobordercolor1" results="lifobordercolor1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor1.xml"
+      xsl = "lifobordercolor1.xsl"> 
+    test a "list-item" fo with all four border color properties set to "red".
+   </test>
+   <test
+      id="lifobordercolor2" results="lifobordercolor2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor2.xml"
+      xsl = "lifobordercolor2.xsl"> 
+    test a "list-item" fo with all four border color properties set to different colors ("red", "aqua", "blue" and "green").
+   </test>
+   <test
+      id="lifobordercolor3" results="lifobordercolor3.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor3.xml"
+      xsl = "lifobordercolor3.xsl"> 
+    test a "list-item" fo with all four border color properties set to "inherit".
+   </test>
+   <test
+      id="lifobordercolor4" results="lifobordercolor4.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor4.xml"
+      xsl = "lifobordercolor4.xsl"> 
+    test a "list-item" fo with only the "border-before-color" property set to "inherit".
+   </test>
+   <test
+      id="lifobordercolor5" results="lifobordercolor5.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor5.xml"
+      xsl = "lifobordercolor5.xsl"> 
+    test a "list-item" fo with only the "border-after-color" property set to "inherit".
+   </test>
+   <test
+      id="lifobordercolor6" results="lifobordercolor6.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor6.xml"
+      xsl = "lifobordercolor6.xsl"> 
+    test a "list-item" fo with only the "border-start-color" property set to "inherit".
+   </test>
+   <test
+      id="lifobordercolor7" results="lifobordercolor7.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifobordercolor7.xml"
+      xsl = "lifobordercolor7.xsl"> 
+    test a "list-item" fo with only the "border-end-color" property set to "inherit".
+   </test>
+   <test
+      id="lifopadding1" results="lifopadding1.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifopadding1.xml"
+      xsl = "lifopadding1.xsl"> 
+    test a "list-item" fo with all four border padding properties set to a fixed length ("0.2in")
+   </test>
+   <test
+      id="lifopadding2" results="lifopadding2.pdf" interaction = "none" 
+      fo = "list-item" xml = "lifopadding2.xml"
+      xsl = "lifopadding2.xsl"> 
+    test a "list-item" fo with the four padding properties set to different lengths ("0.1in", 0.15in", "0.2in" and "0.25in")
+   </test>
+   <test
+      id="lilfostartindent1" results="lilfostartindent1.pdf" interaction = "none" 
+      fo = "list-item-label" xml = "lilfostartindent1.xml"
+      xsl = "lilfostartindent1.xsl"> 
+    test a "list-item-label" fo with the "start-indent" property set to "5pt".
+   </test>
+   <test
+      id="lilfostartindent2" results="lilfostartindent2.pdf" interaction = "none" 
+      fo = "list-item-label" xml = "lilfostartindent2.xml"
+      xsl = "lilfostartindent2.xsl"> 
+    test of two "list-item-label" fo's with their "start-indent" properties set to "5pt" and "10pt" respectively.
+   </test>
+   <test
+      id="libfostartindent1" results="libfostartindent1.pdf" interaction = "none" 
+      fo = "list-item-body" xml = "libfostartindent1.xml"
+      xsl = "libfostartindent1.xsl"> 
+    test a "list-item-body" fo with the "start-indent" property set to "40pt".
+   </test>
+   <test
+      id="libfostartindent2" results="libfostartindent2.pdf" interaction = "none" 
+      fo = "list-item-label" xml = "libfostartindent2.xml"
+      xsl = "libfostartindent2.xsl"> 
+    test of two "list-item-body" fo's with their "start-indent" properties set to "30pt" and "40pt" respectively.
+   </test>
+   <test
+      id="tafoheightwidth" results="tafoheightwidth.pdf" interaction = "none" 
+      fo = "table" xml = "tafoheightwidth.xml"
+      xsl = "tafoheightwidth.xsl"> 
+    test a single "table" fo with the "height" and "width" properties set to a fixed values (3.0in).
+   </test>
+   <test
+      id="tafowritingm1" results="tafowritingm1.pdf" interaction = "none" 
+      fo = "table" xml = "tafowritingm1.xml"
+      xsl = "tafowritingm1.xsl"> 
+    test a single "table" fo with the "writing-mode" set to "tb-lr".
+   </test>
+   <test
+      id="tafoborderstyle1" results="tafoborderstyle1.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle1.xml"
+      xsl = "tafoborderstyle1.xsl"> 
+    test the "table" fo with the border style properties set to "dotted".
+   </test>
+   <test
+      id="tafoborderstyle2" results="tafoborderstyle2.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle2.xml"
+      xsl = "tafoborderstyle2.xsl"> 
+    test the "table" fo with the border style properties set to "dashed".
+   </test>
+   <test
+      id="tafoborderstyle3" results="tafoborderstyle3.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle3.xml"
+      xsl = "tafoborderstyle3.xsl"> 
+    test the "table" fo with the border style properties set to "double".
+   </test>
+   <test
+      id="tafoborderstyle4" results="tafoborderstyle4.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle4.xml"
+      xsl = "tafoborderstyle4.xsl"> 
+    test the "table" fo with the border style properties set to "groove".
+   </test>
+   <test
+      id="tafoborderstyle5" results="tafoborderstyle5.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle5.xml"
+      xsl = "tafoborderstyle5.xsl"> 
+    test the "table" fo with the border style properties set to "ridge".
+   </test>
+   <test
+      id="tafoborderstyle6" results="tafoborderstyle6.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle6.xml"
+      xsl = "tafoborderstyle6.xsl"> 
+    test the "table" fo with the border style properties set to "inset".
+   </test>
+   <test
+      id="tafoborderstyle7" results="tafoborderstyle7.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle7.xml"
+      xsl = "tafoborderstyle7.xsl"> 
+    test the "table" fo with the border style properties set to "outset".
+   </test>
+   <test
+      id="tafoborderstyle8" results="tafoborderstyle8.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderstyle8.xml"
+      xsl = "tafoborderstyle8.xsl"> 
+    test the "table" fo with the border style properties set to "solid".
+   </test>
+   <test
+      id="tafoborderwidth1" results="tafoborderwidth1.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderwidth1.xml"
+      xsl = "tafoborderwidth1.xsl"> 
+    test the "table" fo with the border width properties set to a fixed length ("0.3in").
+   </test>
+   <test
+      id="tafoborderwidth2" results="tafoborderwidth2.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderwidth2.xml"
+      xsl = "tafoborderwidth2.xsl"> 
+    test the "table" fo with the border width properties set to "thin".
+   </test>
+   <test
+      id="tafoborderwidth3" results="tafoborderwidth3.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderwidth3.xml"
+      xsl = "tafoborderwidth3.xsl"> 
+    test the "table" fo with the border width properties set to "medium".
+   </test>
+   <test
+      id="tafoborderwidth4" results="tafoborderwidth4.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderwidth4.xml"
+      xsl = "tafoborderwidth4.xsl"> 
+    test the "table" fo with the border width properties set to "thick".
+   </test>
+   <test
+      id="tafoborderwidth5" results="tafoborderwidth5.pdf" interaction = "none" 
+      fo = "table" xml = "tafoborderwidth5.xml"
+      xsl = "tafoborderwidth5.xsl"> 
+    test the "table" fo with the border width properties set to "thick" and no style set for the before and after borders.
+   </test>
+   <test
+      id="tafocolor1" results="tafocolor1.pdf" interaction = "none" 
+      fo = "table" xml = "tafocolor1.xml"
+      xsl = "tafocolor1.xsl"> 
+    test the "table" fo with the border color properties set to "red".
+   </test>
+   <test
+      id="tafocolor2" results="tafocolor2.pdf" interaction = "none" 
+      fo = "table" xml = "tafocolor2.xml"
+      xsl = "tafocolor2.xsl"> 
+    test the "table" fo with the border color properties set to different colors ("red", "blue", "green" and ""yellow").
+   </test>
+   <test
+      id="tcofowidth" results="tcofowidth.pdf" interaction = "none" 
+      fo = "table-column" xml = "tcofowidth.xml"
+      xsl = "tcofowidth.xsl"> 
+    test a "table-column" fo with the "column-width" property set to a fixed value (4.0in).
+   </test>
+   <test
+      id="tcofovisibilityh" results="tcofovisibilityh.pdf" interaction = "none" 
+      fo = "table-column" xml = "tcofovisibilityh.xml"
+      xsl = "tcofovisibilityh.xsl"> 
+    test a "table-column" fo with the "visibility" property set to "hide" (force no showing of column).
+   </test>
+   <test
+      id="tcofobackground" results="tcofobackground.pdf" interaction = "none" 
+      fo = "table-column" xml = "tcofobackground.xml"
+      xsl = "tcofobackground.xsl"> 
+    test three "table-columns" fo's with the "background-color" property set different colors.
+   </test>
+   <test
+      id="trfoheight" results="trfoheight.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfoheight.xml"
+      xsl = "trfoheight.xsl"> 
+    test three "table-row" fo's with their "height" properties set to a fixed length ("0.5in",0.75in and "1.0in" respectively).
+   </test>
+   <test
+      id="trfobackground" results="trfobackground.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobackground.xml"
+      xsl = "trfobackground.xsl"> 
+    test three "table-row" fo's with their "background-color" properties set to "red", "blue" and "yellow" respectively.
+   </test>
+   <test
+      id="trfobreakafter1" results="trfobreakafter1.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakafter1.xml"
+      xsl = "trfobreakafter1.xsl"> 
+    test of a "table-row" fo's with the "break-after" property set to "page".
+   </test>
+   <test
+      id="trfobreakafter2" results="trfobreakafter2.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakafter2.xml"
+      xsl = "trfobreakafter2.xsl"> 
+    test of a "table-row" fo's with the "break-after" property set to "even-page" and forcing generation of a blank page.
+   </test>
+   <test
+      id="trfobreakafter3" results="trfobreakafter3.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakafter3.xml"
+      xsl = "trfobreakafter3.xsl"> 
+    test of a "table-row" fo's with the "break-after" property set to "odd-page" and forcing generation of a blank page.
+   </test>
+   <test
+      id="trfobreakafter4" results="trfobreakafter4.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakafter4.xml"
+      xsl = "trfobreakafter4.xsl"> 
+    test of a "table-row" fo's with the "break-after" property set to "even-page" and no blank pages generated.
+   </test>
+   <test
+      id="trfobreakafter5" results="trfobreakafter5.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakafter5.xml"
+      xsl = "trfobreakafter5.xsl"> 
+    test of a "table-row" fo's with the "break-after" property set to "odd-page" and no blank pages generated.
+   </test>
+   <test
+      id="trfobreakbefore1" results="trfobreakbefore1.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakbefore1.xml"
+      xsl = "trfobreakbefore1.xsl"> 
+    test of a "table-row" fo's with the "break-before" property set to "page".
+   </test>
+   <test
+      id="trfobreakbefore2" results="trfobreakbefore2.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakbefore2.xml"
+      xsl = "trfobreakbefore2.xsl"> 
+    test of a "table-row" fo's with the "break-before" property set to "even-page" and no blank pages generated.
+   </test>
+   <test
+      id="trfobreakbefore3" results="trfobreakbefore3.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakbefore3.xml"
+      xsl = "trfobreakbefore3.xsl"> 
+    test of a "table-row" fo's with the "break-before" property set to "even-page" and one blank page generated.
+   </test>
+   <test
+      id="trfobreakbefore4" results="trfobreakbefore4.pdf" interaction = "none" 
+      fo = "table:row" xml = "trfobreakbefore4.xml"
+      xsl = "trfobreakbefore4.xsl"> 
+    test of a "table-row" fo's with the "break-before" property set to "odd-page" and one blank page generated.
+   </test>
+   <test
+      id="tcfobackground1" results="tcfobackground1.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfobackground1.xml"
+      xsl = "tcfobackground1.xsl"> 
+    test a "table-cell" fo with the "background-color" property set to "red".
+   </test>
+   <test
+      id="tcfobackground2" results="tcfobackground2.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfobackground2.xml"
+      xsl = "tcfobackground2.xsl"> 
+    test two "table-cell" fo's with their "background-color" properties set to "red" and respectively.
+   </test>
+   <test
+      id="tcfobackground3" results="tcfobackground3.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfobackground3.xml"
+      xsl = "tcfobackground3.xsl"> 
+    test a "table-cell" fo with the "background-color" property set to "inherit".
+   </test>
+   <test
+      id="tcfocolumnsspanned" results="tcfocolumnsspanned.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfocolumnsspanned.xml"
+      xsl = "tcfocolumnsspanned.xsl"> 
+    test two "table-cell" fo's with the "number-columns-spanned" property set to "1" and "2" respectively.
+   </test>
+   <test
+      id="tcforowsspanned" results="tcforowsspanned.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcforowsspanned.xml"
+      xsl = "tcforowsspanned.xsl"> 
+    test two "table-cell" fo's with the "number-rows-spanned" property set to "1" and "2" respectively.
+   </test>
+   <test
+      id="tcfoheight" results="tcfoheight.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoheight.xml"
+      xsl = "tcfoheight.xsl"> 
+    test two "table-cell" fo's with the "height" property set to "1.in" and "2.0in" respectively.
+   </test>
+   <test
+      id="tcfowidth" results="tcfowidth.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfowidth.xml"
+      xsl = "tcfowidth.xsl"> 
+    test two "table-cell" fo's with the "width" property set to "1.in" and "2.0in" respectively.
+   </test>
+   <test
+      id="tcfoempty1" results="tcfoempty1.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoempty1.xml"
+      xsl = "tcfoempty1.xsl"> 
+    test the "table-cell" fo with the "empty-cells" property set to "show" (force showing of empty cells).
+   </test>
+   <test
+      id="tcfoempty2" results="tcfoempty2.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoempty2.xml"
+      xsl = "tcfoempty2.xsl"> 
+    test the "table-cell" fo with the "empty-cells" property set to "hide" (hide empty cells).
+   </test>
+   <test
+      id="tcfocolumnnumber" results="tcfocolumnnumber.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfocolumnnumber.xml"
+      xsl = "tcfocolumnnumber.xsl"> 
+    test three "table-cell" fo's with the "column-number" property set to values other than its normal order.
+   </test>
+   <test
+      id="tcfoborderstyle1" results="tcfoborderstyle1.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle1.xml"
+      xsl = "tcfoborderstyle1.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "dotted".
+   </test>
+   <test
+      id="tcfoborderstyle2" results="tcfoborderstyle2.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle2.xml"
+      xsl = "tcfoborderstyle2.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "dashed".
+   </test>
+   <test
+      id="tcfoborderstyle3" results="tcfoborderstyle3.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle3.xml"
+      xsl = "tcfoborderstyle3.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "double".
+   </test>
+   <test
+      id="tcfoborderstyle4" results="tcfoborderstyle4.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle4.xml"
+      xsl = "tcfoborderstyle4.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "groove".
+   </test>
+   <test
+      id="tcfoborderstyle5" results="tcfoborderstyle5.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle5.xml"
+      xsl = "tcfoborderstyle5.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "ridge".
+   </test>
+   <test
+      id="tcfoborderstyle6" results="tcfoborderstyle6.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle6.xml"
+      xsl = "tcfoborderstyle6.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "inset".
+   </test>
+   <test
+      id="tcfoborderstyle7" results="tcfoborderstyle7.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle7.xml"
+      xsl = "tcfoborderstyle7.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "outset".
+   </test>
+   <test
+      id="tcfoborderstyle8" results="tcfoborderstyle8.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle8.xml"
+      xsl = "tcfoborderstyle8.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "solid".
+   </test>
+   <test
+      id="tcfoborderstyle9" results="tcfoborderstyle9.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle9.xml"
+      xsl = "tcfoborderstyle9.xsl"> 
+    test a "table-cell" fo with the "border-style" properties set to "inherit".
+   </test>
+   <test
+      id="tcfoborderstyle10" results="tcfoborderstyle10.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle10.xml"
+      xsl = "tcfoborderstyle10.xsl"> 
+    test a "table-cell" fo with the only the "border-before-style" properties set to "inherit".
+   </test>
+   <test
+      id="tcfoborderstyle11" results="tcfoborderstyle11.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle11.xml"
+      xsl = "tcfoborderstyle11.xsl"> 
+    test a "table-cell" fo with the only the "border-after-style" properties set to "inherit".
+   </test>
+   <test
+      id="tcfoborderstyle12" results="tcfoborderstyle12.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle12.xml"
+      xsl = "tcfoborderstyle12.xsl"> 
+    test a "table-cell" fo with the only the "border-start-style" properties set to "inherit".
+   </test>
+   <test
+      id="tcfoborderstyle13" results="tcfoborderstyle13.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderstyle13.xml"
+      xsl = "tcfoborderstyle13.xsl"> 
+    test a "table-cell" fo with the only the "border-end-style" properties set to "inherit".
+   </test>
+   <test
+      id="tcfoborderwidth1" results="tcfoborderwidth1.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderwidth1.xml"
+      xsl = "tcfoborderwidth1.xsl"> 
+    test a "table-cell" fo with the border width properties set to a fixed length (0.3in).
+   </test>
+   <test
+      id="tcfoborderwidth2" results="tcfoborderwidth2.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderwidth2.xml"
+      xsl = "tcfoborderwidth2.xsl"> 
+    test a "table-cell" fo with the border width properties set to "thin".
+   </test>
+   <test
+      id="tcfoborderwidth3" results="tcfoborderwidth3.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderwidth3.xml"
+      xsl = "tcfoborderwidth3.xsl"> 
+    test a "table-cell" fo with the border width properties set to "medium".
+   </test>
+   <test
+      id="tcfoborderwidth4" results="tcfoborderwidth4.pdf" interaction = "none" 
+      fo = "table-cell" xml = "tcfoborderwidth4.xml"
+      xsl = "tcfoborderwidth4.xsl"> 
+    test a "table-cell" fo with the border width properties set to "thick".
+   </test>
+   <test
+      id="tcfoborderwidth5" results="tcfoborderwidth5.pdf" interaction = "??" 
+      fo = "table-cell" xml = "tcfoborderwidth5.xml"
+      xsl = "tcfoborderwidth5.xsl"> 
+    test a "table-cell" fo with the border width properties set to "thick" and no border style set for before and after borders.
+   </test>
+   <test
+      id="tcfobordercolor1" results="tcfobordercolor1.pdf" interaction = "??" 
+      fo = "table-cell" xml = "tcfobordercolor1.xml"
+      xsl = "tcfobordercolor1.xsl"> 
+    test a "table-cell" fo with the "border-color" properties set to "blue".
+   </test>
+   <test
+      id="tcfopadding1" results="tcfopadding1.pdf" interaction = "??" 
+      fo = "table-cell" xml = "tcfopadding1.xml"
+      xsl = "tcfopadding1.xsl"> 
+    test a "table-cell" fo with the four "padding" properties set to a fixed value (0.1in).
+   </test>
+   <!--font-family-->
+
+   <test id="cfp-font-family1" results="cfp-font-family1.pdf" interaction="none" fo="block" xml="cfp-font-family1.xml" xsl="cfp-font-family1.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of serif.
+   </test>
+   <test id="cfp-font-family2" results="cfp-font-family2.pdf" interaction="none" fo="block" xml="cfp-font-family2.xml" xsl="cfp-font-family2.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of sans-serif.
+   </test>
+   <test id="cfp-font-family3" results="cfp-font-family3.pdf" interaction="none" fo="block" xml="cfp-font-family3.xml" xsl="cfp-font-family3.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of cursive.
+   </test>
+   <test id="cfp-font-family4" results="cfp-font-family4.pdf" interaction="none" fo="block" xml="cfp-font-family4.xml" xsl="cfp-font-family4.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of fantasy.
+   </test>   
+   <test id="cfp-font-family5" results="cfp-font-family5.pdf" interaction="none" fo="block" xml="cfp-font-family5.xml" xsl="cfp-font-family5.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of monospace.
+   </test>
+   <test id="cfp-font-family6" results="cfp-font-family6.pdf" interaction="none" fo="block" xml="cfp-font-family6.xml" xsl="cfp-font-family6.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of (fantasy,sans-serif).
+   </test>
+   <test id="cfp-font-family7" results="cfp-font-family7.pdf" interaction="none" fo="block" xml="cfp-font-family7.xml" xsl="cfp-font-family7.xsl"
+         level="basic" property="font-family">
+   this test tests the font-family property value of (monospace,serif).
+   </test>
+
+   <!-- font-combination -->
+
+   <test id="cfp-font1" results="cfp-font1.pdf" interaction="none" fo="block" xml="cfp-font1.xml" xsl="cfp-font1.xsl"
+         level="basic" property="font(combo)">
+   this test tests  font property value of unstyled.
+   </test>
+   <test id="cfp-font2" results="cfp-font2.pdf" interaction="none" fo="block" xml="cfp-font2.xml" xsl="cfp-font2.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of 13pt helvetica small-caps italic.
+   </test>
+   <test id="cfp-font3" results="cfp-font3.pdf" interaction="none" fo="block" xml="cfp-font3.xml" xsl="cfp-font3.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of 150%/150% serif.
+   </test>
+   <test id="cfp-font4" results="cfp-font4.pdf" interaction="none" fo="block" xml="cfp-font4.xml" xsl="cfp-font4.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of 150%/150% sans-serif.
+   </test>
+   <test id="cfp-font5" results="cfp-font5.pdf" interaction="none" fo="block" xml="cfp-font5.xml" xsl="cfp-font5.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of small 20px cursive.
+   </test>
+   <test id="cfp-font6" results="cfp-font6.pdf" interaction="none" fo="block" xml="cfp-font6.xml" xsl="cfp-font6.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of italic small-caps 900 150%/150% sans-serif.
+   </test>
+   <test id="cfp-font7" results="cfp-font7.pdf" interaction="none" fo="block" xml="cfp-font7.xml" xsl="cfp-font7.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of italic small-caps 100 150%/300% sans-serif.
+   </test>
+   <test id="cfp-font8" results="cfp-font8.pdf" interaction="none" fo="block" xml="cfp-font8.xml" xsl="cfp-font8.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of italic small-caps 900 150%/2em monospace.
+   </test>
+   <test id="cfp-font9" results="cfp-font9.pdf" interaction="none" fo="block" xml="cfp-font9.xml" xsl="cfp-font9.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of italic small-caps 500 150%/1in sans-serif.
+   </test>
+   <test id="cfp-font10" results="cfp-font10.pdf" interaction="none" fo="block" xml="cfp-font10.xml" xsl="cfp-font10.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of oblique normal 700 18px/200% sans-serif.
+   </test>
+   <test id="cfp-font11" results="cfp-font11.pdf" interaction="none" fo="block" xml="cfp-font11.xml" xsl="cfp-font11.xsl"
+         level="basic" property="font(combo)">
+   this test tests a "font" of normal 400 80%/2.5 sans-serif.
+   </test>
+
+   <!-- font-size -->
+
+   <test id="cfp-font-size1" results="cfp-font-size1.pdf" interaction="none" fo="block" xml="cfp-font-size1.xml" xsl="cfp-font-size1.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of medium.
+   </test>
+   <test id="cfp-font-size2" results="cfp-font-size2.pdf" interaction="none" fo="block" xml="cfp-font-size2.xml" xsl="cfp-font-size2.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of larger.
+   </test>
+   <test id="cfp-font-size3" results="cfp-font-size3.pdf" interaction="none" fo="block" xml="cfp-font-size3.xml" xsl="cfp-font-size3.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of smaller.
+   </test>
+   <test id="cfp-font-size4" results="cfp-font-size4.pdf" interaction="none" fo="block" xml="cfp-font-size4.xml" xsl="cfp-font-size4.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of very small.
+   </test>
+   <test id="cfp-font-size5" results="cfp-font-size5.pdf" interaction="none" fo="block" xml="cfp-font-size5.xml" xsl="cfp-font-size5.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of rather small.
+   </test>
+   <test id="cfp-font-size6" results="cfp-font-size6.pdf" interaction="none" fo="block" xml="cfp-font-size6.xml" xsl="cfp-font-size6.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of small.
+   </test>
+   <test id="cfp-font-size7" results="cfp-font-size7.pdf" interaction="none" fo="block" xml="cfp-font-size7.xml" xsl="cfp-font-size7.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of large.
+   </test>
+   <test id="cfp-font-size8" results="cfp-font-size8.pdf" interaction="none" fo="block" xml="cfp-font-size8.xml" xsl="cfp-font-size8.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of rather large.
+   </test>
+   <test id="cfp-font-size9" results="cfp-font-size9.pdf" interaction="none" fo="block" xml="cfp-font-size9.xml" xsl="cfp-font-size9.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of very large.
+   </test>
+   <test id="cfp-font-size10" results="cfp-font-size10.pdf" interaction="none" fo="block" xml="cfp-font-size10.xml" xsl="cfp-font-size10.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 0.5in.
+   </test>
+   <test id="cfp-font-size11" results="cfp-font-size11.pdf" interaction="none" fo="block" xml="cfp-font-size11.xml" xsl="cfp-font-size11.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 1cm.
+   </test>
+   <test id="cfp-font-size12" results="cfp-font-size12.pdf" interaction="none" fo="block" xml="cfp-font-size12.xml" xsl="cfp-font-size12.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 10mm.
+   </test>
+   <test id="cfp-font-size13" results="cfp-font-size13.pdf" interaction="none" fo="block" xml="cfp-font-size13.xml" xsl="cfp-font-size13.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 18pt.
+   </test>
+   <test id="cfp-font-size14" results="cfp-font-size14.pdf" interaction="none" fo="block" xml="cfp-font-size14.xml" xsl="cfp-font-size14.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 1.5pc.
+   </test>
+   <test id="cfp-font-size15" results="cfp-font-size15.pdf" interaction="none" fo="block" xml="cfp-font-size15.xml" xsl="cfp-font-size15.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 2em.
+   </test>
+   <test id="cfp-font-size16" results="cfp-font-size16.pdf" interaction="none" fo="block" xml="cfp-font-size16.xml" xsl="cfp-font-size16.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 10pt.
+   </test>
+   <test id="cfp-font-size17" results="cfp-font-size17.pdf" interaction="none" fo="block" xml="cfp-font-size17.xml" xsl="cfp-font-size17.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 25px.
+   </test>
+   <test id="cfp-font-size18" results="cfp-font-size18.pdf" interaction="none" fo="block" xml="cfp-font-size18.xml" xsl="cfp-font-size18.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of 2x.
+   </test>
+   <test id="cfp-font-size19" results="cfp-font-size19.pdf" interaction="none" fo="block" xml="cfp-font-size19.xml" xsl="cfp-font-size19.xsl"
+         level="basic" property="font-size">
+   this test tests the font-size property value of -0.5.
+   </test>
+
+   <!-- font-style -->
+
+   <test id="cfp-font-style1" results="cfp-font-style1.pdf" interaction="none" fo="block" xml="cfp-font-style1.xml" xsl="cfp-font-style1.xsl"
+         level="basic" property="font-style">
+   this test tests the font-style property value of italic.
+   </test>
+   <test id="cfp-font-style2" results="cfp-font-style2.pdf" interaction="none" fo="block" xml="cfp-font-style2.xml" xsl="cfp-font-style2.xsl"
+         level="basic" property="font-style">
+   this test tests the font-style property value of oblique.
+   </test>
+   <test id="cfp-font-style3" results="cfp-font-style3.pdf" interaction="none" fo="block" xml="cfp-font-style3.xml" xsl="cfp-font-style3.xsl"
+         level="basic" property="font-style">
+   this test tests the font-style property value of normal.
+   </test>
+
+   <!-- font-variant -->
+
+   <test id="cfp-font-variant1" results="cfp-font-variant1.pdf" interaction="none" fo="block" xml="cfp-font-variant1.xml" xsl="cfp-font-variant1.xsl"
+         level="basic" property="font-variant">
+   this test tests the font-variant property value of small-caps.
+   </test>
+   <test id="cfp-font-variant2" results="cfp-font-variant2.pdf" interaction="none" fo="block" xml="cfp-font-variant2.xml" xsl="cfp-font-variant2.xsl"
+         level="basic" property="font-variant">
+   this test tests the font-variant property value of normal.
+   </test>
+
+   <!-- font-weight -->
+
+   <test id="cfp-font-weight1" results="cfp-font-weight1.pdf" interaction="none" fo="block" xml="cfp-font-weight1.xml" xsl="cfp-font-weight1.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of bold.
+   </test>
+   <test id="cfp-font-weight2" results="cfp-font-weight2.pdf" interaction="none" fo="block" xml="cfp-font-weight2.xml" xsl="cfp-font-weight2.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of bolder.
+   </test>
+   <test id="cfp-font-weight3" results="cfp-font-weight3.pdf" interaction="none" fo="block" xml="cfp-font-weight3.xml" xsl="cfp-font-weight3.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of lighter. 
+   </test>
+   <test id="cfp-font-weight4" results="cfp-font-weight4.pdf" interaction="none" fo="block" xml="cfp-font-weight4.xml" xsl="cfp-font-weight4.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of 100.  
+   </test>
+   <test id="cfp-font-weight5" results="cfp-font-weight5.pdf" interaction="none" fo="block" xml="cfp-font-weight5.xml" xsl="cfp-font-weight5.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of 300. 
+   </test>
+   <test id="cfp-font-weight6" results="cfp-font-weight6.pdf" interaction="none" fo="block" xml="cfp-font-weight6.xml" xsl="cfp-font-weight6.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of 500. 
+   </test>
+   <test id="cfp-font-weight7" results="cfp-font-weight7.pdf" interaction="none" fo="block" xml="cfp-font-weight7.xml" xsl="cfp-font-weight7.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of 700.
+   </test>
+   <test id="cfp-font-weight8" results="cfp-font-weight8.pdf" interaction="none" fo="block" xml="cfp-font-weight8.xml" xsl="cfp-font-weight8.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of 900.
+   </test>
+   <test id="cfp-font-weight9" results="cfp-font-weight9.pdf" interaction="none" fo="block" xml="cfp-font-weight9.xml" xsl="cfp-font-weight9.xsl"
+         level="basic" property="font-weight">
+   this test tests the font-weight property value of normal.
+   </test>
+
+   <!-- color -->
+
+   <test id="crp-color1" results="crp-color1.pdf" interaction="none" fo="block" xml="crp-color1.xml" xsl="crp-color1.xsl"
+         level="basic" property="color">
+   this test tests the color property value of red.
+   </test>
+   <test id="crp-color2" results="crp-color2.pdf" interaction="none" fo="block" xml="crp-color2.xml" xsl="crp-color2.xsl"
+         level="basic" property="color">
+   this test tests the color property value of green.
+   </test>
+   <test id="crp-color3" results="crp-color3.pdf" interaction="none" fo="block" xml="crp-color3.xml" xsl="crp-color3.xsl"
+         level="basic" property="color">
+   this test tests the color property value of aqua.
+   </test>
+   <test id="crp-color4" results="crp-color4.pdf" interaction="none" fo="block" xml="crp-color4.xml" xsl="crp-color4.xsl"
+         level="basic" property="color">
+   this test tests the color property value of black.
+   </test>
+    <test id="crp-color5" results="crp-color5.pdf" interaction="none" fo="block" xml="crp-color5.xml" xsl="crp-color5.xsl"
+         level="basic" property="color">
+   this test tests the color property value of blue.
+   </test>
+   <test id="crp-color6" results="crp-color6.pdf" interaction="none" fo="block" xml="crp-color6.xml" xsl="crp-color6.xsl"
+         level="basic" property="color">
+   this test tests the color property value of fuschia.
+   </test>
+    <test id="crp-color7" results="crp-color7.pdf" interaction="none" fo="block" xml="crp-color7.xml" xsl="crp-color7.xsl"
+         level="basic" property="color">
+   this test tests the color property value of gray.
+   </test>
+   <test id="crp-color8" results="crp-color8.pdf" interaction="none" fo="block" xml="crp-color8.xml" xsl="crp-color8.xsl"
+         level="basic" property="color">
+   this test tests the color property value of lime.
+   </test>
+    <test id="crp-color9" results="crp-color9.pdf" interaction="none" fo="block" xml="crp-color9.xml" xsl="crp-color9.xsl"
+         level="basic" property="color">
+   this test tests the color property value of maroon.
+   </test>
+   <test id="crp-color10" results="crp-color10.pdf" interaction="none" fo="block" xml="crp-color10.xml" xsl="crp-color10.xsl"
+         level="basic" property="color">
+   this test tests the color property value of navy. 
+   </test>
+    <test id="crp-color11" results="crp-color11.pdf" interaction="none" fo="block" xml="crp-color11.xml" xsl="crp-color11.xsl"
+         level="basic" property="color">
+   this test tests the color property value of olive.
+   </test>
+   <test id="crp-color12" results="crp-color12.pdf" interaction="none" fo="block" xml="crp-color12.xml" xsl="crp-color12.xsl"
+         level="basic" property="color">
+   this test tests the color property value of purple.
+   </test>
+    <test id="crp-color13" results="crp-color13.pdf" interaction="none" fo="block" xml="crp-color13.xml" xsl="crp-color13.xsl"
+         level="basic" property="color">
+   this test tests the color property value of silver.
+   </test>
+   <test id="crp-color14" results="crp-color14.pdf" interaction="none" fo="block" xml="crp-color14.xml" xsl="crp-color14.xsl"
+         level="basic" property="color">
+   this test tests the color property value of teal.
+   </test>
+    <test id="crp-color15" results="crp-color15.pdf" interaction="none" fo="block" xml="crp-color15.xml" xsl="crp-color15.xsl"
+         level="basic" property="color">
+   this test tests the color property value of white. 
+   </test>
+   <test id="crp-color16" results="crp-color16.pdf" interaction="none" fo="block" xml="crp-color16.xml" xsl="crp-color16.xsl"
+         level="basic" property="color">
+   this test tests the color property value of yellow.
+   </test>
+
+   <!-- background-color -->
+
+   <test id="cbpbp-background-color1" results="cbpbp-background-color1.pdf" interaction="none" fo="block" xml="cbpbp-background-color1.xml" xsl="cbpbp-background-color1.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of green. 
+   </test>
+   <test id="cbpbp-background-color2" results="cbpbp-background-color2.pdf" interaction="none" fo="block" xml="cbpbp-background-color2.xml" xsl="cbpbp-background-color2.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of red.
+   </test>
+   <test id="cbpbp-background-color3" results="cbpbp-background-color3.pdf" interaction="none" fo="block" xml="cbpbp-background-color3.xml" xsl="cbpbp-background-color3.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of transparent.
+   </test>
+   <test id="cbpbp-background-color4" results="cbpbp-background-color4.pdf" interaction="none" fo="block" xml="cbpbp-background-color4.xml" xsl="cbpbp-background-color4.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of aqua.
+   </test>
+   <test id="cbpbp-background-color5" results="cbpbp-background-color5.pdf" interaction="none" fo="block" xml="cbpbp-background-color5.xml" xsl="cbpbp-background-color5.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of black.
+   </test>
+   <test id="cbpbp-background-color6" results="cbpbp-background-color6.pdf" interaction="none" fo="block" xml="cbpbp-background-color6.xml" xsl="cbpbp-background-color6.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of blue.
+   </test>
+   <test id="cbpbp-background-color7" results="cbpbp-background-color7.pdf" interaction="none" fo="block" xml="cbpbp-background-color7.xml" xsl="cbpbp-background-color7.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of fuschia.
+   </test>
+   <test id="cbpbp-background-color8" results="cbpbp-background-color8.pdf" interaction="none" fo="block" xml="cbpbp-background-color8.xml" xsl="cbpbp-background-color8.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of gray.
+   </test>
+   <test id="cbpbp-background-color9" results="cbpbp-background-color9.pdf" interaction="none" fo="block" xml="cbpbp-background-color9.xml" xsl="cbpbp-background-color9.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of lime.
+   </test>
+   <test id="cbpbp-background-color10" results="cbpbp-background-color10.pdf" interaction="none" fo="block" xml="cbpbp-background-color10.xml" xsl="cbpbp-background-color10.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of maroon.
+   </test>
+   <test id="cbpbp-background-color11" results="cbpbp-background-color11.pdf" interaction="none" fo="block" xml="cbpbp-background-color11.xml" xsl="cbpbp-background-color11.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of navy.
+   </test>
+   <test id="cbpbp-background-color12" results="cbpbp-background-color12.pdf" interaction="none" fo="block" xml="cbpbp-background-color12.xml" xsl="cbpbp-background-color12.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of olive.
+   </test>
+   <test id="cbpbp-background-color13" results="cbpbp-background-color13.pdf" interaction="none" fo="block" xml="cbpbp-background-color13.xml" xsl="cbpbp-background-color13.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of purple.
+   </test>
+   <test id="cbpbp-background-color14" results="cbpbp-background-color14.pdf" interaction="none" fo="block" xml="cbpbp-background-color14.xml" xsl="cbpbp-background-color14.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of silver. 
+   </test>
+   <test id="cbpbp-background-color15" results="cbpbp-background-color15.pdf" interaction="none" fo="block" xml="cbpbp-background-color15.xml" xsl="cbpbp-background-color15.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of teal.
+   </test>
+   <test id="cbpbp-background-color16" results="cbpbp-background-color16.pdf" interaction="none" fo="block" xml="cbpbp-background-color16.xml" xsl="cbpbp-background-color16.xsl"
+         level="basic" property="background-color">
+   this test tests the background color property value of yellow.
+   </test>
+
+   <!-- text-align -->
+
+   <test id="blrp-text-align1" results="blrp-text-align1.pdf" interaction="none" fo="block" xml="blrp-text-align1.xml" xsl="blrp-text-align1.xsl"
+         level="basic" property="text-align">
+   this test tests the text-align property value of left.
+   </test>
+   <test id="blrp-text-align2" results="blrp-text-align2.pdf" interaction="none" fo="block" xml="blrp-text-align2.xml" xsl="blrp-text-align2.xsl"
+         level="basic" property="text-align">
+   this test tests the text-align property value of right.
+   </test>
+   <test id="blrp-text-align3" results="blrp-text-align3.pdf" interaction="none" fo="block" xml="blrp-text-align3.xml" xsl="blrp-text-align3.xsl"
+         level="basic" property="text-align">
+   this test tests the text-align property value of center.
+   </test>
+   <test id="blrp-text-align4" results="blrp-text-align4.pdf" interaction="none" fo="block" xml="blrp-text-align4.xml" xsl="blrp-text-align4.xsl"
+         level="basic" property="text-align">
+   this test tests the text-align property value of justify.
+   </test>
+
+   <!-- text-indent -->
+
+   <test id="blrp-text-indent1" results="blrp-text-indent1.pdf" interaction="none" fo="block" xml="blrp-text-indent1.xml" xsl="blrp-text-indent1.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 0.5in.
+   </test>
+   <test id="blrp-text-indent2" results="blrp-text-indent2.pdf" interaction="none" fo="block" xml="blrp-text-indent2.xml" xsl="blrp-text-indent2.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 2cm.
+   </test>
+   <test id="blrp-text-indent3" results="blrp-text-indent3.pdf" interaction="none" fo="block" xml="blrp-text-indent3.xml" xsl="blrp-text-indent3.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 20mm.
+   </test>
+   <test id="blrp-text-indent4" results="blrp-text-indent4.pdf" interaction="none" fo="block" xml="blrp-text-indent4.xml" xsl="blrp-text-indent4.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 24pt.
+   </test>
+   <test id="blrp-text-indent5" results="blrp-text-indent5.pdf" interaction="none" fo="block" xml="blrp-text-indent5.xml" xsl="blrp-text-indent5.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 2pc.
+   </test>
+   <test id="blrp-text-indent6" results="blrp-text-indent6.pdf" interaction="none" fo="block" xml="blrp-text-indent6.xml" xsl="blrp-text-indent6.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 2em.
+   </test>
+   <test id="blrp-text-indent7" results="blrp-text-indent7.pdf" interaction="none" fo="block" xml="blrp-text-indent7.xml" xsl="blrp-text-indent7.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 2in.
+   </test>
+   <test id="blrp-text-indent8" results="blrp-text-indent8.pdf" interaction="none" fo="block" xml="blrp-text-indent8.xml" xsl="blrp-text-indent8.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 50%.
+   </test>
+   <test id="blrp-text-indent9" results="blrp-text-indent9.pdf" interaction="none" fo="block" xml="blrp-text-indent9.xml" xsl="blrp-text-indent9.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 25px.
+   </test>
+   <test id="blrp-text-indent10" results="blrp-text-indent10.pdf" interaction="none" fo="block" xml="blrp-text-indent10.xml" xsl="blrp-text-indent10.xsl"
+         level="basic" property="text-indent">
+   this test tests the text-indent property value of 0.5in.
+   </test>
+
+   <!-- line-height -->
+
+   <test id="blrp-line-height1" results="blrp-line-height1.pdf" interaction="none" fo="block" xml="blrp-line-height1.xml" xsl="blrp-line-height1.xsl"
+         level="basic" property="line-height">
+   this test tests the line-height property value of 0.5in.
+   </test>
+   <test id="blrp-line-height2" results="blrp-line-height2.pdf" interaction="none" fo="block" xml="blrp-line-height2.xml" xsl="blrp-line-height2.xsl"
+         level="basic" property="line-height">
+   this test tests the line-height property value of 2cm. 
+   </test>
+   <test id="blrp-line-height3" results="blrp-line-height3.pdf" interaction="none" fo="block" xml="blrp-line-height3.xml" xsl="blrp-line-height3.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 20mm.
+   </test>
+   <test id="blrp-line-height4" results="blrp-line-height4.pdf" interaction="none" fo="block" xml="blrp-line-height4.xml" xsl="blrp-line-height4.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 24pt.
+   </test>
+   <test id="blrp-line-height5" results="blrp-line-height5.pdf" interaction="none" fo="block" xml="blrp-line-height5.xml" xsl="blrp-line-height5.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 2pc.
+   </test>
+   <test id="blrp-line-height6" results="blrp-line-height6.pdf" interaction="none" fo="block" xml="blrp-line-height6.xml" xsl="blrp-line-height6.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 2em.
+   </test>
+   <test id="blrp-line-height7" results="blrp-line-height7.pdf" interaction="none" fo="block" xml="blrp-line-height7.xml" xsl="blrp-line-height7.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 3in.
+   </test>
+   <test id="blrp-line-height8" results="blrp-line-height8.pdf" interaction="none" fo="block" xml="blrp-line-height8.xml" xsl="blrp-line-height8.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 0.5in.
+   </test>
+   <test id="blrp-line-height9" results="blrp-line-height9.pdf" interaction="none" fo="block" xml="blrp-line-height9.xml" xsl="blrp-line-height9.xsl" 
+         level="basic" property="line-height">
+   this test tests the line-height property value of 2.
+   </test>
+   <test id="blrp-line-height10" results="blrp-line-height10.pdf" interaction="none" fo="block" xml="blrp-line-height10.xml" xsl="blrp-line-height10.xsl"  
+         level="basic" property="line-height">
+   this test tests the line-height property value of 50px. 
+   </test>
+   <!-- margin-top -->
+
+   <test id="cmpb-margin-top1" results="cmpb-margin-top1.pdf" interaction="none" fo="block" xml="cmpb-margin-top1.xml" xsl="cmpb-margin-top1.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 0in.
+   </test>
+   <test id="cmpb-margin-top2" results="cmpb-margin-top2.pdf" interaction="none" fo="block" xml="cmpb-margin-top2.xml" xsl="cmpb-margin-top2.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 0.5in. 
+   </test>
+   <test id="cmpb-margin-top3" results="cmpb-margin-top3.pdf" interaction="none" fo="block" xml="cmpb-margin-top3.xml" xsl="cmpb-margin-top3.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 25px.
+   </test>
+   <test id="cmpb-margin-top4" results="cmpb-margin-top4.pdf" interaction="none" fo="block" xml="cmpb-margin-top4.xml" xsl="cmpb-margin-top4.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 5em.
+   </test>
+   <test id="cmpb-margin-top5" results="cmpb-margin-top5.pdf" interaction="none" fo="block" xml="cmpb-margin-top5.xml" xsl="cmpb-margin-top5.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 50mm.
+   </test>
+   <test id="cmpb-margin-top6" results="cmpb-margin-top6.pdf" interaction="none" fo="block" xml="cmpb-margin-top6.xml" xsl="cmpb-margin-top6.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of 25px.
+   </test>
+   <test id="cmpb-margin-top7" results="cmpb-margin-top7.pdf" interaction="none" fo="block" xml="cmpb-margin-top7.xml" xsl="cmpb-margin-top7.xsl"
+         level="basic" property="space-before">
+   This test tests the space-before property value of -10px. 
+   </test>
+
+   <!-- margin-bottom -->
+
+   <test id="cmpb-margin-bottom1" results="cmpb-margin-bottom1.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom1.xml" xsl="cmpb-margin-bottom1.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 0in.
+   </test>
+   <test id="cmpb-margin-bottom2" results="cmpb-margin-bottom2.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom2.xml" xsl="cmpb-margin-bottom2.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 0.5in.
+   </test>
+   <test id="cmpb-margin-bottom3" results="cmpb-margin-bottom3.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom3.xml" xsl="cmpb-margin-bottom3.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 25px. 
+   </test>
+   <test id="cmpb-margin-bottom4" results="cmpb-margin-bottom4.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom4.xml" xsl="cmpb-margin-bottom4.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 5em. 
+   </test>
+   <test id="cmpb-margin-bottom5" results="cmpb-margin-bottom5.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom5.xml" xsl="cmpb-margin-bottom5.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of50mm. 
+   </test>
+   <test id="cmpb-margin-bottom6" results="cmpb-margin-bottom6.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom6.xml" xsl="cmpb-margin-bottom6.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 25px.
+   </test>
+   <test id="cmpb-margin-bottom7" results="cmpb-margin-bottom7.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom7.xml" xsl="cmpb-margin-bottom7.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of -10px.
+   </test>
+   <test id="cmpb-margin-bottom8" results="cmpb-margin-bottom8.pdf" interaction="none" fo="block" xml="cmpb-margin-bottom8.xml" xsl="cmpb-margin-bottom8.xsl"
+         level="basic" property="space-after">
+   This test tests the space-after property value of 0px. 
+   </test>
+
+   <!-- margin-left -->
+
+   <test id="cmpb-margin-left1" results="cmpb-margin-left1.pdf" interaction="none" fo="block" xml="cmpb-margin-left1.xml" xsl="cmpb-margin-left1.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 0in.
+   </test>
+   <test id="cmpb-margin-left2" results="cmpb-margin-left2.pdf" interaction="none" fo="block" xml="cmpb-margin-left2.xml" xsl="cmpb-margin-left2.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 0.5in.
+   </test>
+   <test id="cmpb-margin-left3" results="cmpb-margin-left3.pdf" interaction="none" fo="block" xml="cmpb-margin-left3.xml" xsl="cmpb-margin-left3.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 25px.
+   </test>
+   <test id="cmpb-margin-left4" results="cmpb-margin-left4.pdf" interaction="none" fo="block" xml="cmpb-margin-left4.xml" xsl="cmpb-margin-left4.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 5em.
+   </test>
+   <test id="cmpb-margin-left5" results="cmpb-margin-left5.pdf" interaction="none" fo="block" xml="cmpb-margin-left5.xml" xsl="cmpb-margin-left5.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 50mm.
+   </test>
+   <test id="cmpb-margin-left6" results="cmtpb-margin-left6.pdf" interaction="none" fo="block" xml="cmpb-margin-left6.xml" xsl="cmpb-margin-left6.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of 0px.
+   </test>
+   <test id="cmpb-margin-left7" results="cmpb-margin-left7.pdf" interaction="none" fo="block" xml="cmpb-margin-left7.xml" xsl="cmpb-margin-left7.xsl"
+         level="basic" property="margin-left">
+   This test tests the margin-left property value of -10px.
+   </test>
+
+   <!-- margin-right -->
+
+   <test id="cmpb-margin-right1" results="cmpb-margin-right1.pdf" interaction="none" fo="block" xml="cmpb-margin-right1.xml" xsl="cmpb-margin-right1.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of 0in.
+   </test>
+   <test id="cmpb-margin-right2" results="cmpb-margin-right2.pdf" interaction="none" fo="block" xml="cmpb-margin-right2.xml" xsl="cmpb-margin-right2.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of 0.5in.
+   </test>
+   <test id="cmpb-margin-right3" results="cmpb-margin-right3.pdf" interaction="none" fo="block" xml="cmpb-margin-right3.xml" xsl="cmpb-margin-right3.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of 25px.
+   </test>
+   <test id="cmpb-margin-right4" results="cmpb-margin-right4.pdf" interaction="none" fo="block" xml="cmpb-margin-right4.xml" xsl="cmpb-margin-right4.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of 5em.
+   </test>
+   <test id="cmpb-margin-right5" results="cmpb-margin-right5.pdf" interaction="none" fo="block" xml="cmpb-margin-right5.xml" xsl="cmpb-margin-right5.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of 50mm.
+   </test>
+   <test id="cmpb-margin-right6" results="cmpb-margin-right6.pdf" interaction="none" fo="block" xml="cmpb-margin-right6.xml" xsl="cmpb-margin-right6.xsl"
+         level="basic" property="margin-right">
+   This test tests the margin-right property value of -10px.
+   </test>
+
+   <!-- padding-bottom -->
+
+   <test id="cbpbp-padding-bottom1" results="cbpbp-padding-bottom1.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom1.xml" xsl="cbpbp-padding-bottom1.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 0in.
+   </test>
+   <test id="cbpbp-padding-bottom2" results="cbpbp-padding-bottom2.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom2.xml" xsl="cbpbp-padding-bottom2.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 0.5in. 
+   </test>
+   <test id="cbpbp-padding-bottom3" results="cbpbp-padding-bottom3.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom3.xml" xsl="cbpbp-padding-bottom3.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 25px. 
+   </test>
+   <test id="cbpbp-padding-bottom4" results="cbpbp-padding-bottom4.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom4.xml" xsl="cbpbp-padding-bottom4.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 5em.
+   </test>
+   <test id="cbpbp-padding-bottom5" results="cbpbp-padding-bottom5.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom5.xml" xsl="cbpbp-padding-bottom5.xsl"        level="basic" >
+   this test tests the padding-bottom property value of 25%.
+   </test>
+   <test id="cbpbp-padding-bottom6" results="cbpbp-padding-bottom6.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom6.xml" xsl="cbpbp-padding-bottom6.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 0in.
+   </test>
+   <test id="cbpbp-padding-bottom7" results="cbpbp-padding-bottom7.pdf" interaction="none" fo="block" xml="cbpbp-padding-bottom7.xml" xsl="cbpbp-padding-bottom7.xsl"
+         level="basic" property="padding-bottom">
+   this test tests the padding-bottom property value of 50pt.  
+   </test>
+
+   <!-- padding-left -->
+
+   <test id="cbpbp-padding-left1" results="cbpbp-padding-left1.pdf" interaction="none" fo="block" xml="cbpbp-padding-left1.xml" xsl="cbpbp-padding-left1.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 0in. 
+   </test>
+   <test id="cbpbp-padding-left2" results="cbpbp-padding-left2.pdf" interaction="none" fo="block" xml="cbpbp-padding-left2.xml" xsl="cbpbp-padding-left2.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 05in. 
+   </test>
+   <test id="cbpbp-padding-left3" results="cbpbp-padding-left3.pdf" interaction="none" fo="block" xml="cbpbp-padding-left3.xml" xsl="cbpbp-padding-left3.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 25px. 
+   </test>
+   <test id="cbpbp-padding-left4" results="cbpbp-padding-left4.pdf" interaction="none" fo="block" xml="cbpbp-padding-left4.xml" xsl="cbpbp-padding-left4.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 5em. 
+   </test>
+   <test id="cbpbp-padding-left5" results="cbpbp-padding-left5.pdf" interaction="none" fo="block" xml="cbpbp-padding-left5.xml" xsl="cbpbp-padding-left5.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 25%. 
+   </test>
+   <test id="cbpbp-padding-left6" results="cbpbp-padding-left6.pdf" interaction="none" fo="block" xml="cbpbp-padding-left6.xml" xsl="cbpbp-padding-left6.xsl"
+         level="basic" property="padding-left">
+   this test tests the padding-left property value of 80mm.  
+   </test>
+
+   <!-- padding-right -->
+
+   <test id="cbpbp-padding-right1" results="cbpbp-padding-right1.pdf" interaction="none" fo="block" xml="cbpbp-padding-right1.xml" xsl="cbpbp-padding-right1.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 0in.  
+   </test>
+   <test id="cbpbp-padding-right2" results="cbpbp-padding-right2.pdf" interaction="none" fo="block" xml="cbpbp-padding-right2.xml" xsl="cbpbp-padding-right2.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 0.5in.
+   </test>
+   <test id="cbpbp-padding-right3" results="cbpbp-padding-right3.pdf" interaction="none" fo="block" xml="cbpbp-padding-right3.xml" xsl="cbpbp-padding-right3.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 25px.
+   </test>
+   <test id="cbpbp-padding-right4" results="cbpbp-padding-right4.pdf" interaction="none" fo="block" xml="cbpbp-padding-right4.xml" xsl="cbpbp-padding-right4.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 5em. 
+   </test>
+   <test id="cbpbp-padding-right5" results="cbpbp-padding-right5.pdf" interaction="none" fo="block" xml="cbpbp-padding-right5.xml" xsl="cbpbp-padding-right5.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 25%. 
+   </test>
+   <test id="cbpbp-padding-right6" results="cbpbp-padding-right6.pdf" interaction="none" fo="block" xml="cbpbp-padding-right6.xml" xsl="cbpbp-padding-right6.xsl"
+         level="basic" property="padding-right">
+   this test tests the padding-right property value of 3pc. 
+   </test>
+
+   <!-- padding-top -->
+
+   <test id="cbpbp-padding-top1" results="cbpbp-padding-top1.pdf" interaction="none" fo="block" xml="cbpbp-padding-top1.xml" xsl="cbpbp-padding-top1.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 0in.  
+   </test>
+   <test id="cbpbp-padding-top2" results="cbpbp-padding-top2.pdf" interaction="none" fo="block" xml="cbpbp-padding-top2.xml" xsl="cbpbp-padding-top2.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 0.5in.
+   </test>
+   <test id="cbpbp-padding-top3" results="cbpbp-padding-top3.pdf" interaction="none" fo="block" xml="cbpbp-padding-top3.xml" xsl="cbpbp-padding-top3.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 25px. 
+   </test>
+   <test id="cbpbp-padding-top4" results="cbpbp-padding-top4.pdf" interaction="none" fo="block" xml="cbpbp-padding-top4.xml" xsl="cbpbp-padding-top4.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 5em. 
+   </test>   
+   <test id="cbpbp-padding-top5" results="cbpbp-padding-top5.pdf" interaction="none" fo="block" xml="cbpbp-padding-top5.xml" xsl="cbpbp-padding-top5.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 25%.
+   </test>
+   <test id="cbpbp-padding-top6" results="cbpbp-padding-top6.pdf" interaction="none" fo="block" xml="cbpbp-padding-top6.xml" xsl="cbpbp-padding-top6.xsl"
+         level="basic" property="padding-top">
+   this test tests the padding-top property value of 36pc. 
+   </test>
+
+   <!-- border-bottom-width -->
+
+   <test id="cbpbp-border-bottom-width1" results="cbpbp-border-bottom-width1.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width1.xml" xsl="cbpbp-border-bottom-width1.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of 0in. 
+   </test> 
+   <test id="cbpbp-border-bottom-width2" results="cbpbp-border-bottom-width2.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width2.xml" xsl="cbpbp-border-bottom-width2.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of 50px. 
+   </test> 
+   <test id="cbpbp-border-bottom-width3" results="cbpbp-border-bottom-width3.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width3.xml" xsl="cbpbp-border-bottom-width3.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of thick. 
+   </test> 
+   <test id="cbpbp-border-bottom-width4" results="cbpbp-border-bottom-width4.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width4.xml" xsl="cbpbp-border-bottom-width4.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of medium.  
+   </test> 
+   <test id="cbpbp-border-bottom-width5" results="cbpbp-border-bottom-width5.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width5.xml" xsl="cbpbp-border-bottom-width5.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of thin.  
+   </test> 
+   <test id="cbpbp-border-bottom-width6" results="cbpbp-border-bottom-width6.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width6.xml" xsl="cbpbp-border-bottom-width6.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of 25px. 
+   </test> 
+   <test id="cbpbp-border-bottom-width7" results="cbpbp-border-bottom-width7.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom-width7.xml" xsl="cbpbp-border-bottom-width7.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests the border-bottom-width property value of 0in. 
+   </test> 
+
+
+   <!-- border-left-width -->
+
+   <test id="cbpbp-border-left-width1" results="cbpbp-border-left-width1.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width1.xml" xsl="cbpbp-border-left-width1.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of 0in.  
+   </test> 
+   <test id="cbpbp-border-left-width2" results="cbpbp-border-left-width2.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width2.xml" xsl="cbpbp-border-left-width2.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of 50px.  
+   </test> 
+   <test id="cbpbp-border-left-width3" results="cbpbp-border-left-width3.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width3.xml" xsl="cbpbp-border-left-width3.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of thick. 
+   </test> 
+   <test id="cbpbp-border-left-width4" results="cbpbp-border-left-width4.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width4.xml" xsl="cbpbp-border-left-width4.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of medium. 
+   </test> 
+   <test id="cbpbp-border-left-width5" results="cbpbp-border-left-width5.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width5.xml" xsl="cbpbp-border-left-width5.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of thin. 
+   </test> 
+   <test id="cbpbp-border-left-width6" results="cbpbp-border-left-width6.pdf" interaction="none" fo="block" xml="cbpbp-border-left-width6.xml" xsl="cbpbp-border-left-width6.xsl"
+         level="basic" property="border-left-width">
+   this test tests the border-left-width property value of 25px.  
+   </test> 
+
+   <!-- border-right-width -->
+
+   <test id="cbpbp-border-right-width1" results="cbpbp-border-right-width1.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width1.xml" xsl="cbpbp-border-right-width1.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of 0in.  
+   </test> 
+   <test id="cbpbp-border-right-width2" results="cbpbp-border-right-width2.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width2.xml" xsl="cbpbp-border-right-width2.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of 25px. 
+   </test> 
+   <test id="cbpbp-border-right-width3" results="cbpbp-border-right-width3.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width3.xml" xsl="cbpbp-border-right-width3.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of thick. 
+   </test> 
+   <test id="cbpbp-border-right-width4" results="cbpbp-border-right-width4.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width4.xml" xsl="cbpbp-border-right-width4.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of medium. 
+   </test> 
+   <test id="cbpbp-border-right-width5" results="cbpbp-border-right-width5.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width5.xml" xsl="cbpbp-border-right-width5.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of thin. 
+   </test> 
+   <test id="cbpbp-border-right-width6" results="cbpbp-border-right-width6.pdf" interaction="none" fo="block" xml="cbpbp-border-right-width6.xml" xsl="cbpbp-border-right-width6.xsl"
+         level="basic" property="border-right-width">
+   this test tests the border-right-width property value of 100px.  
+   </test> 
+
+   <!-- border-top-width -->
+
+   <test id="cbpbp-border-top-width1" results="cbpbp-border-top-width1.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width1.xml" xsl="cbpbp-border-top-width1.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of 0in. 
+   </test> 
+   <test id="cbpbp-border-top-width2" results="cbpbp-border-top-width2.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width2.xml" xsl="cbpbp-border-top-width2.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of 25px. 
+   </test> 
+   <test id="cbpbp-border-top-width3" results="cbpbp-border-top-width3.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width3.xml" xsl="cbpbp-border-top-width3.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of thick.  
+   </test> 
+   <test id="cbpbp-border-top-width4" results="cbpbp-border-top-width4.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width4.xml" xsl="cbpbp-border-top-width4.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of medium.  
+   </test> 
+   <test id="cbpbp-border-top-width5" results="cbpbp-border-top-width5.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width5.xml" xsl="cbpbp-border-top-width5.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of thin.  
+   </test> 
+   <test id="cbpbp-border-top-width6" results="cbpbp-border-top-width6.pdf" interaction="none" fo="block" xml="cbpbp-border-top-width6.xml" xsl="cbpbp-border-top-width6.xsl"
+         level="basic" property="border-top-width">
+   this test tests the border-top-width property value of 25px.  
+   </test>
+
+   <!-- width -->
+
+   <test id="adp-width1" results="adp-width1.pdf" interaction="none" fo="block-container" xml="adp-width1.xml" xsl="adp-width1.xsl" 
+         level="basic" property="width">
+   this test tests the width property value of 50px.
+   </test> 
+   <test id="adp-width2" results="adp-width2.pdf" interaction="none" fo="block-container" xml="adp-width2.xml" xsl="adp-width2.xsl" 
+         level="basic" property="width">
+   this test tests the width property value of 200px.
+   </test>
+   <test id="adp-width3" results="adp-width3.pdf" interaction="none" fo="block-container" xml="adp-width3.xml" xsl="adp-width3.xsl" 
+         level="basic" property="width">
+   this test tests the width property value of 400px.  
+   </test> 
+   <test id="adp-width4" results="adp-width4.pdf" interaction="none" fo="block-container" xml="adp-width4.xml" xsl="adp-width4.xsl" 
+         level="basic" property="width">
+   this test tests the width property value of 0.5in.  
+   </test>
+
+   <!-- comments -->
+
+   <test id="misc-comments1" results="misc-comments1.pdf" interaction="none" fo="block" xml="misc-comments1.xml" xsl="misc-comments1.xsl"
+         level="basic" property="background-color">
+   this test tests the commenting of stylesheet.   
+   </test>
+   <test id="misc-comments2" results="misc-comments2.pdf" interaction="none" fo="block" xml="misc-comments2.xml" xsl="misc-comments2.xsl"
+         level="basic" property="color,font-size">
+   this test tests more commenting issues of stylesheet.   
+   </test>
+
+   <!-- color-units -->
+
+   <test id="crp-color-units1" results="crp-color-units1.pdf" interaction="none" fo="block" xml="crp-color-units1.xml" xsl="crp-color-units1.xsl"
+         level="basic" property="color">
+   this test tests the color property value of maroon.
+   </test> 
+   <test id="crp-color-units2" results="crp-color-units2.pdf" interaction="none" fo="block" xml="crp-color-units2.xml" xsl="crp-color-units2.xsl"
+         level="basic" property="color">
+   this test tests the color property value of #800.
+   </test> 
+   <test id="crp-color-units3" results="crp-color-units3.pdf" interaction="none" fo="block" xml="crp-color-units3.xml" xsl="crp-color-units3.xsl"
+         level="basic" property="color">
+   this test tests the color property value of #008000.
+   </test> 
+   <test id="crp-color-units4" results="crp-color-units4.pdf" interaction="none" fo="block" xml="crp-color-units4.xml" xsl="crp-color-units4.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(0,128,0).
+   </test> 
+   <test id="crp-color-units5" results="crp-color-units5.pdf" interaction="none" fo="block" xml="crp-color-units5.xml" xsl="crp-color-units5.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(0%,50%,0%).
+  </test> 
+   <test id="crp-color-units6" results="crp-color-units6.pdf" interaction="none" fo="block" xml="crp-color-units6.xml" xsl="crp-color-units6.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(0.0%,50.0%,0.0%). 
+   </test>   
+   <test id="crp-color-units7" results="crp-color-units7.pdf" interaction="none" fo="block" xml="crp-color-units7.xml" xsl="crp-color-units7.xsl"
+         level="basic" property="color">
+   this test tests the color property value of green.  
+   </test> 
+   <test id="crp-color-units8" results="crp-color-units8.pdf" interaction="none" fo="block" xml="crp-color-units8.xml" xsl="crp-color-units8.xsl"
+         level="basic" property="color">
+   this test tests the color property value of invalidvalue. 
+   </test> 
+   <test id="crp-color-units9" results="crp-color-units9.pdf" interaction="none" fo="block" xml="crp-color-units9.xml" xsl="crp-color-units9.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(255,-10,0).
+   </test> 
+   <test id="crp-color-units10" results="crp-color-units10.pdf" interaction="none" fo="block" xml="crp-color-units10.xml" xsl="crp-color-units10.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(0,128,255). 
+   </test> 
+   <test id="crp-color-units11" results="crp-color-units11.pdf" interaction="none" fo="block" xml="crp-color-units11.xml" xsl="crp-color-units11.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(100%,%0,0%) as per the CSS2 Specs.
+   </test> 
+   <test id="crp-color-units12" results="crp-color-units12.pdf" interaction="none" fo="block" xml="crp-color-units12.xml" xsl="crp-color-units12.xsl"
+         level="basic" property="color">
+   this test tests the color property value of rgb(50%,0%,60%).
+   </test> 
+   <test id="crp-color-units13" results="crp-color-units13.pdf" interaction="none" fo="block" xml="crp-color-units13.xml" xsl="crp-color-units13.xsl"
+         level="basic" property="color">
+   this test tests the color property value of blue. 
+   </test> 
+
+   <!-- percentage-units -->
+
+   <test id="misc-perc-units1" results="misc-perc-units1.pdf" interaction="none" fo="block" xml="misc-perc-units1.xml" xsl="misc-perc-units1.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests the percentage property values of margin-left(25%),margin-right(25%).
+   </test> 
+   <test id="misc-perc-units2" results="misc-perc-units2.pdf" interaction="none" fo="block" xml="misc-perc-units2.xml" xsl="misc-perc-units2.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests the percentage property values of margin-left(50%),margin-right(0).
+   </test>  
+    <test id="misc-perc-units3" results="misc-perc-units3.pdf" interaction="none" fo="block" xml="misc-perc-units3.xml" xsl="misc-perc-units3.xsl"
+         level="basic" property="margin-left">
+   this test tests the percentage property values of margin-left(25%).
+   </test> 
+
+   <!-- length-units -->
+
+   <test id="misc-len-units1" results="misc-len-units1.pdf" interaction="none" fo="block" xml="misc-len-units1.xml" xsl="misc-len-units1.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(0).
+   </test> 
+   <test id="misc-len-units2" results="misc-len-units2.pdf" interaction="none" fo="block" xml="misc-len-units2.xml" xsl="misc-len-units2.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(3em).
+   </test>  
+   <test id="misc-len-units3" results="misc-len-units3.pdf" interaction="none" fo="block" xml="misc-len-units3.xml" xsl="misc-len-units3.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(2.5in).
+   </test> 
+   <test id="misc-len-units4" results="misc-len-units4.pdf" interaction="none" fo="block" xml="misc-len-units4.xml" xsl="misc-len-units4.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(36px).
+   </test> 
+   <test id="misc-len-units5" results="misc-len-units5.pdf" interaction="none" fo="block" xml="misc-len-units5.xml" xsl="misc-len-units5.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(0.5in). 
+   </test>  
+   <test id="misc-len-units6" results="misc-len-units6.pdf" interaction="none" fo="block" xml="misc-len-units6.xml" xsl="misc-len-units6.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(1.27cm). 
+   </test> 
+   <test id="misc-len-units7" results="misc-len-units7.pdf" interaction="none" fo="block" xml="misc-len-units7.xml" xsl="misc-len-units7.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(12.7mm). 
+   </test> 
+   <test id="misc-len-units8" results="misc-len-units8.pdf" interaction="none" fo="block" xml="misc-len-units8.xml" xsl="misc-len-units8.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(36pt).
+   </test>  
+   <test id="misc-len-units9" results="misc-len-units9.pdf" interaction="none" fo="block" xml="misc-len-units9.xml" xsl="misc-len-units9.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(3pc). 
+   </test> 
+   <test id="misc-len-units10" results="misc-len-units10.pdf" interaction="none" fo="block" xml="misc-len-units10.xml" xsl="misc-len-units10.xsl"
+         level="basic" property="margin-left">
+   this test tests the length property value of margin-left(+3pc).
+   </test>  
+   <test id="misc-len-units11" results="misc-len-units11.pdf" interaction="none" fo="block" xml="misc-len-units11.xml" xsl="misc-len-units11.xsl"
+         level="basic" property="border-left">
+   this test tests the length property value of border-left(1in solid purple). 
+   </test>
+
+   <!-- parsing -->
+
+   <test id="misc-parsing1" results="misc-parsing1.pdf" interaction="none" fo="block" xml="misc-parsing1.xml" xsl="misc-parsing1.xsl"
+         level="basic" property="color">
+   this test tests the parsing property of rotation.   
+   </test> 
+   <test id="misc-parsing2" results="misc-parsing2.pdf" interaction="none" fo="block" xml="misc-parsing2.xml" xsl="misc-parsing2.xsl"
+         level="basic" property="color">
+   this test tests the color property value of "maroon".
+   </test> 
+   <test id="misc-parsing3" results="misc-parsing3.pdf" interaction="none" fo="block" xml="misc-parsing3.xml" xsl="misc-parsing3.xsl"
+         level="basic" property="background-color">
+   this test tests the parsing property of quoted values.   
+   </test> 
+   <test id="misc-parsing4" results="misc-parsing4.pdf" interaction="none" fo="block" xml="misc-parsing4.xml" xsl="misc-parsing4.xsl"
+         level="basic" property="color">
+   this test tests the color property value using the keyword "red". 
+   </test>
+   <test id="misc-parsing5" results="misc-parsing5.pdf" interaction="none" fo="block" xml="misc-parsing5.xml" xsl="misc-parsing5.xsl"
+         level="basic" property="background-color">
+   this test tests the color property using the keyword "black".
+   </test> 
+   <test id="misc-parsing6" results="misc-parsing6.pdf" interaction="none" fo="block" xml="misc-parsing6.xml" xsl="misc-parsing6.xsl"
+         level="basic" property="color">
+   this test tests duplicate rule characteristics.  
+   </test> 
+   <test id="misc-parsing7" results="misc-parsing7.pdf" interaction="none" fo="block" xml="misc-parsing7.xml" xsl="misc-parsing7.xsl"
+         level="basic" property="color">
+   this test tests "garbage" rule characteristics.  
+   </test> 
+
+
+   <!-- horizontal-formatting -->
+
+   <test id="misc-hformatting1" results="misc-hformatting1.pdf" interaction="none" fo="block" xml="misc-hformatting1.xml" xsl="misc-hformatting1.xsl"
+         level="basic" property="margin-left,margin-right,padding-left,padding-right">
+   this test tests some horizontal formatting property values.  
+   </test>
+   <test id="misc-hformatting2" results="misc-hformatting2.pdf" interaction="none" fo="block" xml="misc-hformatting2.xml" xsl="misc-hformatting2.xsl"
+         level="basic" property="margin-left">
+   this test tests more horizontal formatting property values.
+   </test>
+   <test id="misc-hformatting3" results="misc-hformatting3.pdf" interaction="none" fo="block" xml="misc-hformatting3.xml" xsl="misc-hformatting3.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests still more horizontal formatting property values.
+   </test>
+   <test id="misc-hformatting4" results="misc-hformatting4.pdf" interaction="none" fo="block" xml="misc-hformatting4.xml" xsl="misc-hformatting4.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests additional horizontal formatting property values. 
+   </test>
+   <test id="misc-hformatting5" results="misc-hformatting5.pdf" interaction="none" fo="block" xml="misc-hformatting5.xml" xsl="misc-hformatting5.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests more additional horizontal formatting property values.
+   </test>
+   <test id="misc-hformatting6" results="misc-hformatting6.pdf" interaction="none" fo="block" xml="misc-hformatting6.xml" xsl="misc-hformatting6.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests still more additional horizontal formatting property values.
+   </test>
+   <test id="misc-hformatting7" results="misc-hformatting7.pdf" interaction="none" fo="block" xml="misc-hformatting7.xml" xsl="misc-hformatting7.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests special horizontal formatting property values.
+   </test>
+   <test id="misc-hformatting8" results="misc-hformatting8.pdf" interaction="none" fo="block" xml="misc-hformatting8.xml" xsl="misc-hformatting8.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests more special horizontal formatting property values. 
+   </test>
+   <test id="misc-hformatting9" results="misc-hformatting9.pdf" interaction="none" fo="block" xml="misc-hformatting9.xml" xsl="misc-hformatting9.xsl"
+         level="basic" property="margin-left,margin-right,padding-left,padding-right">
+   this test tests still more special horizontal formatting property values. 
+   </test>
+   <test id="misc-hformatting10" results="misc-hformatting10.pdf" interaction="none" fo="block" xml="misc-hformatting10.xml" xsl="misc-hformatting10.xsl"
+         level="basic" property="margin-left,margin-right">
+   this test tests the last of the horizontal formatting property values.
+   </test>
+
+   <!-- height -->
+
+   <test id="adp-height1" results="adp-height1.pdf" interaction="none" fo="external-graphic" xml="adp-height1.xml" xsl="adp-height1.xsl"
+         level="basic" property="height">
+   this test tests an image height of 50px.  
+   </test>
+   <test id="adp-height2" results="adp-height2.pdf" interaction="none" fo="external-graphic" xml="adp-height2.xml" xsl="adp-height2.xsl"
+         level="basic" property="content-height">
+   this test tests an image height of 100px.  
+   </test>
+   <test id="adp-height3" results="adp-height3.pdf" interaction="none" fo="external-graphic" xml="adp-height3.xml" xsl="adp-height3.xsl"
+         level="basic" property="content-height">
+   this test tests an image height of 200px.  
+   </test>
+
+   <!-- height of lines-->
+
+   <test id="blrp-heightoflines1" results="blrp-heightoflines1.pdf" interaction="none" fo="external-graphic" xml="blrp-heightoflines1.xml" xsl="blrp-heightoflines1.xsl"
+         level="basic" property="font-size,line-height">
+   this test tests placement of an image relative to line height.
+   </test>
+   <test id="blrp-heightoflines2" results="blrp-heightoflines2.pdf" interaction="none" fo="external-graphic" xml="blrp-heightoflines2.xml" xsl="blrp-heightoflines2.xsl"
+         level="basic" property="font-size,line-height">
+   this test tests another placement of an image relative to line height.
+   </test>
+
+   <!-- replaced elements -->   
+
+   <test id="misc-replelem1" results="misc-replelem1.pdf" interaction="none" fo="external-graphic" xml="misc-replelem1.xml" xsl="misc-replelem1.xsl"
+         level="basic" property="content-width">
+   This test set the value of the content-width to "50px".
+   </test>
+   <test id="misc-replelem2" results="misc-replelem2.pdf" interaction="none" fo="external-graphic" xml="misc-replelem2.xml" xsl="misc-replelem2.xsl"
+         level="basic" property="content-height">
+   This test tests placement of a 50px(height) image.
+   </test>
+   <test id="misc-replelem3" results="misc-replelem3.pdf" interaction="none" fo="external-graphic" xml="misc-replelem3.xml" xsl="misc-replelem3.xsl"
+         level="basic" property="content-width">
+   This test tests placement of an image resized to 50% of the width.
+   </test>
+   <test id="misc-replelem4" results="misc-replelem4.pdf" interaction="none" fo="external-graphic" xml="misc-replelem4.xml" xsl="misc-replelem4.xsl"
+         level="basic" property="content-height">
+   This test tests placement of an image resized to 50% of the height.
+   </test>
+   <test id="misc-replelem5" results="misc-replelem5.pdf" interaction="none" fo="external-graphic" xml="misc-replelem5.xml" xsl="misc-replelem5.xsl"
+         level="basic" property="content-height">
+   This test sets the height value of an image to "50px".
+   </test>
+
+   <!-- margin-top(inline) -->
+
+   <test id="cmpi-margin-top-inline1" results="cmpi-margin-top-inline1.pdf" interaction="none" fo="inline" xml="cmpi-margin-top-inline1.xml" xsl="cmpi-margin-top-inline1.xsl"
+         level="basic" property="margin-top">
+   this test tests margin top inline value of 25px. 
+   </test>
+   <test id="cmpi-margin-top-inline2" results="cmpi-margin-top-inline2.pdf" interaction="none" fo="inline" xml="cmpi-margin-top-inline2.xml" xsl="cmpi-margin-top-inline2.xsl"
+         level="basic" property="margin-top">
+   this test tests margin top inline value of -10px.  
+   </test>
+
+   <!-- margin-bottom(inline) -->
+
+   <test id="cmpi-margin-bottom-inline1" results="cmpi-margin-bottom-inline1.pdf" interaction="none" fo="inline" xml="cmpi-margin-bottom-inline1.xml" xsl="cmpi-margin-bottom-inline1.xsl"
+         level="basic" property="margin-bottom">
+   this test tests margin bottom inline value of 25px.  
+   </test>
+   <test id="cmpi-margin-bottom-inline2" results="cmpi-margin-bottom-inline2.pdf" interaction="none" fo="inline" xml="cmpi-margin-bottom-inline2.xml" xsl="cmpi-margin-bottom-inline2.xsl"
+         level="basic" property="margin-bottom">
+   this test tests margin bottom inline value of -10px. 
+   </test>
+
+   <!-- margin-left(inline) -->
+
+   <test id="cmpi-margin-left-inline1" results="cmpi-margin-left-inline1.pdf" interaction="none" fo="inline" xml="cmpi-margin-left-inline1.xml" xsl="cmpi-margin-left-inline1.xsl"
+         level="basic" property="margin-left">
+   this test tests margin left inline value of 25px. 
+   </test>
+   <test id="cmpi-margin-left-inline2" results="cmpi-margin-left-inline2.pdf" interaction="none" fo="inline" xml="cmpi-margin-left-inline2.xml" xsl="cmpi-margin-left-inline2.xsl"
+         level="basic" property="margin-left">
+   this test tests margin left inline value of -10px.
+   </test>
+
+   <!-- margin-right(inline) -->
+
+   <test id="cmpi-margin-right-inline1" results="cmpi-margin-right-inline1.pdf" interaction="none" fo="inline" xml="cmpi-margin-right-inline1.xml" xsl="cmpi-margin-right-inline1.xsl"
+         level="basic" property="margin-right">
+   this test tests margin right inline value of 25px.
+   </test>
+   <test id="cmpi-margin-right-inline2" results="cmpi-margin-right-inline2.pdf" interaction="none" fo="inline" xml="cmpi-margin-right-inline2.xml" xsl="cmpi-margin-right-inline2.xsl"
+         level="basic" property="margin-right">
+   this test tests margin right inline value of -10px. 
+   </test> 
+
+   <!-- padding-top(inline) -->
+
+   <test id="cbpbp-padding-top-inline1" results="cbpbp-padding-top-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-padding-top-inline1.xml" xsl="cbpbp-padding-top-inline1.xsl"
+         level="basic" property="padding-top">
+   this test tests padding top inline value of 25px.
+   </test> 
+   <test id="cbpbp-padding-top-inline2" results="cbpbp-padding-top-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-padding-top-inline2.xml" xsl="cbpbp-padding-top-inline2.xsl"
+         level="basic" property="padding-top">
+   this test tests padding top inline value of 1mm.  
+   </test> 
+
+   <!-- padding-bottom(inline) -->
+
+   <test id="cbpbp-padding-bottom-inline1" results="cbpbp-padding-bottom-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-padding-bottom-inline1.xml" xsl="cbpbp-padding-bottom-inline1.xsl"
+         level="basic" property="padding-bottom">
+   this test tests padding bottom inline value of 25px.
+   </test> 
+   <test id="cbpbp-padding-bottom-inline2" results="cbpbp-padding-bottom-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-padding-bottom-inline2.xml" xsl="cbpbp-padding-bottom-inline2.xsl"
+         level="basic" property="padding-bottom">
+   this test tests padding bottom inline value of 1mm.
+   </test>
+
+   <!-- padding-left(inline) -->
+
+   <test id="cbpbp-padding-left-inline1" results="cbpbp-padding-left-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-padding-left-inline1.xml" xsl="cbpbp-padding-left-inline1.xsl"
+         level="basic" property="padding-left">
+   this test tests padding left inline value of 25px.
+   </test> 
+   <test id="cbpbp-padding-left-inline2" results="cbpbp-padding-left-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-padding-left-inline2.xml" xsl="cbpbp-padding-left-inline2.xsl"
+         level="basic" property="padding-left">
+   this test tests padding left inline value of 40mm.
+   </test> 
+ 
+   <!-- padding-right(inline) -->
+
+   <test id="cbpbp-padding-right-inline1" results="cbpbp-padding-right-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-padding-right-inline1.xml" xsl="cbpbp-padding-right-inline1.xsl"
+         level="basic" property="padding-right">
+   this test tests padding right inline value of 25px. 
+   </test> 
+   <test id="cbpbp-padding-right-inline2" results="cbpbp-padding-right-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-padding-right-inline2.xml" xsl="cbpbp-padding-right-inline2.xsl"
+         level="basic" property="padding-right">
+   this test tests padding right inline value of 80pt.  
+   </test> 
+
+   <!-- border-top-width(inline) -->
+
+   <test id="cbpbp-border-top-width-inline1" results="cbpbp-border-top-width-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-top-width-inline1.xml" xsl="cbpbp-border-top-width-inline1.xsl"
+         level="basic" property="border-top-width">
+   this test tests border top width inline value of thin.  
+   </test> 
+   <test id="cbpbp-border-top-width-inline2" results="cbpbp-border-top-width-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-top-width-inline2.xml" xsl="cbpbp-border-top-width-inline2.xsl"
+         level="basic" property="border-top-width">
+   this test tests border top width inline value of 25px.  
+   </test> 
+
+   <!-- border-bottom-width(inline) -->
+
+   <test id="cbpbp-border-bottom-width-inline1" results="cbpbp-border-bottom-width-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-bottom-width-inline1.xml" xsl="cbpbp-border-bottom-width-inline1.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests border bottom width inline value of thin. 
+   </test> 
+   <test id="cbpbp-border-bottom-width-inline2" results="cbpbp-border-bottom-width-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-bottom-width-inline2.xml" xsl="cbpbp-border-bottom-width-inline2.xsl"
+         level="basic" property="border-bottom-width">
+   this test tests border bottom width inline value of 25px and no style set.  
+   </test>
+
+   <!-- border-left-width(inline) -->
+
+   <test id="cbpbp-border-left-width-inline1" results="cbpbp-border-left-width-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-left-width-inline1.xml" xsl="cbpbp-border-left-width-inline1.xsl"
+         level="basic" property="border-left-width">
+   this test tests border left width inline value of thin.
+   </test> 
+   <test id="cbpbp-border-left-width-inline2" results="cbpbp-border-left-width-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-left-width-inline2.xml" xsl="cbpbp-border-left-width-inline2.xsl"
+         level="basic" property="border-left-width">
+   this test tests border left width inline value of 25px.
+   </test>
+
+   <!-- border-right-width(inline) -->
+
+   <test id="cbpbp-border-right-width-inline1" results="cbpbp-border-right-width-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-right-width-inline1.xml" xsl="cbpbp-border-right-width-inline1.xsl"
+         level="basic" property="border-right-width">
+   this test tests border right width inline value of thin.
+   </test> 
+   <test id="cbpbp-border-right-width-inline2" results="cbpbp-border-right-width-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-right-width-inline2.xml" xsl="cbpbp-border-right-width-inline2.xsl"
+         level="basic" property="border-right-width">
+   this test tests border right width inline value of 25px.
+   </test>  
+
+   <!-- inline elements -->
+
+   <test id="inl-inline-elem1" results="inl-inline-elem1.pdf" interaction="none" fo="inline" xml="inl-inline-elem1.xml" xsl="inl-inline-elem1.xsl"
+         level="basic" property="border-left-width">
+   this test tests one combination of inline elements.
+   </test> 
+   <test id="inl-inline-elem2" results="inl-inline-elem2.pdf" interaction="none" fo="inline" xml="inl-inline-elem2.xml" xsl="inl-inline-elem2.xsl"
+         level="basic" property="border-left-width">
+   this test tests another combination of inline elements.
+   </test>  
+
+   <!-- cascading (inheritance) -->
+
+   <test id="cas-cascading1" results="cas-cascading1.pdf" interaction="none" fo="inline" xml="cas-cascading1.xml" xsl="cas-cascading1.xsl"
+         level="basic" property="color">
+   this test tests one cascading combination of elements.
+   </test> 
+   <test id="cas-cascading2" results="cas-cascading2.pdf" interaction="none" fo="inline" xml="cas-cascading2.xml" xsl="cas-cascading2.xsl"
+         level="basic" property="color">
+   this test tests another cascading combination of elements.
+   </test> 
+   <test id="cas-cascading3" results="cas-cascading3.pdf" interaction="none" fo="inline" xml="cas-cascading3.xml" xsl="cas-cascading3.xsl"
+         level="basic" property="color">
+   This test tests one cascading feature of elements.
+   </test> 
+   <test id="cas-cascading4" results="cas-cascading4.pdf" interaction="none" fo="inline" xml="cas-cascading4.xml" xsl="cas-cascading4.xsl"
+         level="basic" property="color">
+   This test tests another cascading feature of elements. 
+   </test>
+
+   <!-- stylesheet linking -->
+
+   <test id="misc-linking1" results="misc-linking1.pdf" interaction="none" fo="block" xml="misc-linking1.xml" xsl="misc-linking1.xsl"
+         level="basic" property="color">
+   this test tests the linking of an xsl stylesheet.
+   </test>
+
+   <!-- list style image  -->
+
+   <test id="misc-list" results="misc-list.pdf" interaction="none" fo="list" xml="misc-list.xml" xsl="misc-list.xsl"
+         level="basic" property="n/a">
+   this test tests the list style image functionality.
+   </test>
+   <test id="misc-list1" results="misc-list1.pdf" interaction="none" fo="list" xml="misc-list1.xml" xsl="misc-list1.xsl"
+         level="basic" property="n/a">
+   this test tests more list style image functionality.
+   </test>
+   <test id="misc-list2" results="misc-list2.pdf" interaction="none" fo="list" xml="misc-list2.xml" xsl="misc-list2.xsl"
+         level="basic" property="n/a">
+   this test tests more text in each list item.
+   </test>
+ 
+   <!-- border -->
+
+   <test id="cbpbp-border1" results="cbpbp-border1.pdf" interaction="none" fo="block" xml="cbpbp-border1.xml" xsl="cbpbp-border1.xsl"
+         level="basic" property="border(indiv)">
+   this test tests invidual border values.
+   </test> 
+   <test id="cbpbp-border2" results="cbpbp-border2.pdf" interaction="none" fo="block" xml="cbpbp-border2.xml" xsl="cbpbp-border2.xsl"
+         level="basic" property="border(indiv)">
+   this test tests more individual border values. 
+   </test>
+   <test id="cbpbp-border3" results="cbpbp-border3.pdf" interaction="none" fo="block" xml="cbpbp-border3.xml" xsl="cbpbp-border3.xsl"
+         level="basic" property="border(indiv)">
+   this test tests still more individual border values. 
+   </test> 
+   <test id="cbpbp-border4" results="cbpbp-border4.pdf" interaction="none" fo="block" xml="cbpbp-border4.xml" xsl="cbpbp-border4.xsl"
+         level="basic" property="border(indiv)">
+   this test tests another combination of individual border values.
+   </test>
+   <test id="cbpbp-border5" results="cbpbp-border5.pdf" interaction="none" fo="block" xml="cbpbp-border5.xml" xsl="cbpbp-border5.xsl"
+         level="basic" property="border(indiv)">
+   this test tests more individual border values. 
+   </test>
+   <test id="cbpbp-border6" results="cbpbp-border6.pdf" interaction="none" fo="block" xml="cbpbp-border6.xml" xsl="cbpbp-border6.xsl"
+         level="basic" property="border(indiv)">
+   this test tests still more individual border values.  
+   </test> 
+   <test id="cbpbp-border7" results="cbpbp-border7.pdf" interaction="none" fo="block" xml="cbpbp-border7.xml" xsl="cbpbp-border7.xsl"
+         level="basic" property="border(indiv)">
+   this test tests another combination of individual border values.
+   </test>
+
+   <!-- border-color -->
+
+   <test id="cbpbp-border-color1" results="cbpbp-border-color1.pdf" interaction="none" fo="block" xml="cbpbp-border-color1.xml" xsl="cbpbp-border-color1.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests invidual border color values.  
+   </test> 
+   <test id="cbpbp-border-color2" results="cbpbp-border-color2.pdf" interaction="none" fo="block" xml="cbpbp-border-color2.xml" xsl="cbpbp-border-color2.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests more individual border color values. 
+   </test>
+   <test id="cbpbp-border-color3" results="cbpbp-border-color3.pdf" interaction="none" fo="block" xml="cbpbp-border-color3.xml" xsl="cbpbp-border-color3.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests more individual border color values. 
+   </test>
+
+   <!-- border-width -->
+
+   <test id="cbpbp-border-width1" results="cbpbp-border-width1.pdf" interaction="none" fo="block" xml="cbpbp-border-width1.xml" xsl="cbpbp-border-width1.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests invidual border width values. 
+   </test> 
+   <test id="cbpbp-border-width2" results="cbpbp-border-width2.pdf" interaction="none" fo="block" xml="cbpbp-border-width2.xml" xsl="cbpbp-border-width2.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests more individual border width values.
+   </test>
+   <test id="cbpbp-border-width3" results="cbpbp-border-width3.pdf" interaction="none" fo="block" xml="cbpbp-border-width3.xml" xsl="cbpbp-border-width3.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests invidual border width values.
+   </test> 
+   <test id="cbpbp-border-width4" results="cbpbp-border-width4.pdf" interaction="none" fo="block" xml="cbpbp-border-width4.xml" xsl="cbpbp-border-width4.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests more individual border width values.
+   </test>
+   <test id="cbpbp-border-width5" results="cbpbp-border-width5.pdf" interaction="none" fo="block" xml="cbpbp-border-width5.xml" xsl="cbpbp-border-width5.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests invidual border width values. 
+   </test> 
+   <test id="cbpbp-border-width6" results="cbpbp-border-width6.pdf" interaction="none" fo="block" xml="cbpbp-border-width6.xml" xsl="cbpbp-border-width6.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests more individual border width values.
+   </test>
+
+   <!-- border-style -->
+
+   <test id="cbpbp-border-style1" results="cbpbp-border-style1.pdf" interaction="none" fo="block" xml="cbpbp-border-style1.xml" xsl="cbpbp-border-style1.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style values. 
+   </test> 
+   <test id="cbpbp-border-style2" results="cbpbp-border-style2.pdf" interaction="none" fo="block" xml="cbpbp-border-style2.xml" xsl="cbpbp-border-style2.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values.
+   </test>
+   <test id="cbpbp-border-style3" results="cbpbp-border-style3.pdf" interaction="none" fo="block" xml="cbpbp-border-style3.xml" xsl="cbpbp-border-style3.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style values.
+   </test> 
+   <test id="cbpbp-border-style4" results="cbpbp-border-style4.pdf" interaction="none" fo="block" xml="cbpbp-border-style4.xml" xsl="cbpbp-border-style4.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values.
+   </test>
+   <test id="cbpbp-border-style5" results="cbpbp-border-style5.pdf" interaction="none" fo="block" xml="cbpbp-border-style5.xml" xsl="cbpbp-border-style5.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style values.
+   </test> 
+   <test id="cbpbp-border-style6" results="cbpbp-border-style6.pdf" interaction="none" fo="block" xml="cbpbp-border-style6.xml" xsl="cbpbp-border-style6.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values.
+   </test> 
+   <test id="cbpbp-border-style7" results="cbpbp-border-style7.pdf" interaction="none" fo="block" xml="cbpbp-border-style7.xml" xsl="cbpbp-border-style7.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style values. 
+   </test> 
+   <test id="cbpbp-border-style8" results="cbpbp-border-style8.pdf" interaction="none" fo="block" xml="cbpbp-border-style8.xml" xsl="cbpbp-border-style8.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values. 
+   </test>
+   <test id="cbpbp-border-style9" results="cbpbp-border-style9.pdf" interaction="none" fo="block" xml="cbpbp-border-style9.xml" xsl="cbpbp-border-style9.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style values. 
+   </test> 
+   <test id="cbpbp-border-style10" results="cbpbp-border-style10.pdf" interaction="none" fo="block" xml="cbpbp-border-style10.xml" xsl="cbpbp-border-style10.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values.
+   </test>
+   <test id="cbpbp-border-style11" results="cbpbp-border-style11.pdf" interaction="none" fo="block" xml="cbpbp-border-style11.xml" xsl="cbpbp-border-style11.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style values.
+   </test>
+
+   <!-- margin -->
+
+   <test id="cbpbp-margin1" results="cbpbp-margin1.pdf" interaction="none" fo="block" xml="cbpbp-margin1.xml" xsl="cbpbp-margin1.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin values.
+   </test> 
+   <test id="cbpbp-margin2" results="cbpbp-margin2.pdf" interaction="none" fo="block" xml="cbpbp-margin2.xml" xsl="cbpbp-margin2.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values.
+   </test>
+   <test id="cbpbp-margin3" results="cbpbp-margin3.pdf" interaction="none" fo="block" xml="cbpbp-margin3.xml" xsl="cbpbp-margin3.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin values. 
+   </test> 
+   <test id="cbpbp-margin4" results="cbpbp-margin4.pdf" interaction="none" fo="block" xml="cbpbp-margin4.xml" xsl="cbpbp-margin4.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values. 
+   </test>
+   <test id="cbpbp-margin5" results="cbpbp-margin5.pdf" interaction="none" fo="block" xml="cbpbp-margin5.xml" xsl="cbpbp-margin5.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin values. 
+   </test> 
+   <test id="cbpbp-margin6" results="cbpbp-margin6.pdf" interaction="none" fo="block" xml="cbpbp-margin6.xml" xsl="cbpbp-margin6.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values.
+   </test>
+   <test id="cbpbp-margin7" results="cbpbp-margin7.pdf" interaction="none" fo="block" xml="cbpbp-margin7.xml" xsl="cbpbp-margin7.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin values.
+   </test> 
+   <test id="cbpbp-margin8" results="cbpbp-margin8.pdf" interaction="none" fo="block" xml="cbpbp-margin8.xml" xsl="cbpbp-margin8.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values.  
+   </test>
+   <test id="cbpbp-margin9" results="cbpbp-margin9.pdf" interaction="none" fo="block" xml="cbpbp-margin9.xml" xsl="cbpbp-margin9.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin values.
+   </test> 
+   <test id="cbpbp-margin10" results="cbpbp-margin10.pdf" interaction="none" fo="block" xml="cbpbp-margin10.xml" xsl="cbpbp-margin10.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values.
+   </test> 
+   <test id="cbpbp-margin11" results="cbpbp-margin11.pdf" interaction="none" fo="block" xml="cbpbp-margin11.xml" xsl="cbpbp-margin11.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin values.
+   </test> 
+
+   <!-- padding -->
+
+   <test id="cbpbp-padding1" results="cbpbp-padding1.pdf" interaction="none" fo="block" xml="cbpbp-padding1.xml" xsl="cbpbp-padding1.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.
+   </test> 
+   <test id="cbpbp-padding2" results="cbpbp-padding2.pdf" interaction="none" fo="block" xml="cbpbp-padding2.xml" xsl="cbpbp-padding2.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.
+   </test>
+   <test id="cbpbp-padding3" results="cbpbp-padding3.pdf" interaction="none" fo="block" xml="cbpbp-padding3.xml" xsl="cbpbp-padding3.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.
+   </test> 
+   <test id="cbpbp-padding4" results="cbpbp-padding4.pdf" interaction="none" fo="block" xml="cbpbp-padding4.xml" xsl="cbpbp-padding4.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.
+   </test>
+   <test id="cbpbp-padding5" results="cbpbp-padding5.pdf" interaction="none" fo="block" xml="cbpbp-padding5.xml" xsl="cbpbp-padding5.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.
+   </test> 
+   <test id="cbpbp-padding6" results="cbpbp-padding6.pdf" interaction="none" fo="block" xml="cbpbp-padding6.xml" xsl="cbpbp-padding6.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding values.  
+   </test>
+
+   <!-- border-top -->
+
+   <test id="cbpbp-border-top1" results="cbpbp-border-top1.pdf" interaction="none" fo="block" xml="cbpbp-border-top1.xml" xsl="cbpbp-border-top1.xsl"
+         level="basic" property="border-top(indiv)">
+   this test tests invidual border top values.
+   </test> 
+   <test id="cbpbp-border-top2" results="cbpbp-border-top2.pdf" interaction="none" fo="block" xml="cbpbp-border-top2.xml" xsl="cbpbp-border-top2.xsl"
+         level="basic" property="border-top(indiv)">
+   this test tests more individual border top values.
+   </test>
+
+   <!-- border-left -->
+
+   <test id="cbpbp-border-left1" results="cbpbp-border-left1.pdf" interaction="none" fo="block" xml="cbpbp-border-left1.xml" xsl="cbpbp-border-left1.xsl"
+         level="basic" property="border-left(indiv)">
+   this test tests invidual border left values.
+   </test> 
+   <test id="cbpbp-border-left2" results="cbpbp-border-left2.pdf" interaction="none" fo="block" xml="cbpbp-border-left2.xml" xsl="cbpbp-border-left2.xsl"
+         level="basic" property="border-left(indiv)">
+   this test tests more individual border left values.
+   </test>
+         
+   <!-- border-bottom -->
+
+   <test id="cbpbp-border-bottom1" results="cbpbp-border-bottom1.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom1.xml" xsl="cbpbp-border-bottom1.xsl"
+         level="basic" property="border-bottom(indiv)">
+   this test tests invidual border bottom values.
+   </test> 
+   <test id="cbpbp-border-bottom2" results="cbpbp-border-bottom2.pdf" interaction="none" fo="block" xml="cbpbp-border-bottom2.xml" xsl="cbpbp-border-bottom2.xsl"
+         level="basic" property="border-bottom(indiv)">
+   this test tests more individual border bottom values.
+   </test>
+
+   <!-- border-right -->
+
+   <test id="cbpbp-border-right1" results="cbpbp-border-right1.pdf" interaction="none" fo="block" xml="cbpbp-border-right1.xml" xsl="cbpbp-border-right1.xsl"
+         level="basic" property="border-right(indiv)">
+   this test tests invidual border right values.
+   </test> 
+   <test id="cbpbp-border-right2" results="cbpbp-border-right2.pdf" interaction="none" fo="block" xml="cbpbp-border-right2.xml" xsl="cbpbp-border-right2.xsl"
+         level="basic" property="border-right(indiv)">
+   this test tests more individual border right values.
+   </test>
+
+   <!-- padding-inline -->
+
+   <test id="cbpbp-padding-inline1" results="cbpbp-padding-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-padding-inline1.xml" xsl="cbpbp-padding-inline1.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests invidual padding inline values.
+   </test> 
+   <test id="cbpbp-padding-inline2" results="cbpbp-padding-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-padding-inline2.xml" xsl="cbpbp-padding-inline2.xsl"
+         level="basic" property="padding(indiv)">
+   this test tests more individual padding inline values.  
+   </test>
+
+   <!-- margin-inline -->
+
+   <test id="cmpi-margin-inline1" results="cmpi-margin-inline1.pdf" interaction="none" fo="inline" xml="cmpi-margin-inline1.xml" xsl="cmpi-margin-inline1.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests invidual margin inline values.
+   </test> 
+   <test id="cmpi-margin-inline2" results="cmpi-margin-inline2.pdf" interaction="none" fo="inline" xml="cmpi-margin-inline2.xml" xsl="cmpi-margin-inline2.xsl"
+         level="basic" property="margin(indiv)">
+   this test tests more individual margin inline values.
+   </test>
+
+   <!-- border-inline -->
+
+   <test id="cbpbp-border-inline1" results="cbpbp-border-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-inline1.xml" xsl="cbpbp-border-inline1.xsl"
+         level="basic" property="border(indiv)">
+   this test tests invidual border inline values.
+   </test> 
+   <test id="cbpbp-border-inline2" results="cbpbp-border-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-inline2.xml" xsl="cbpbp-border-inline2.xsl"
+         level="basic" property="border(indiv)">
+   this test tests more individual border inline values.
+  </test>
+
+   <!-- border-right-inline -->
+
+   <test id="cbpbp-border-right-inline1" results="cbpbp-border-right-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-right-inline1.xml" xsl="cbpbp-border-right-inline1.xsl"
+         level="basic" property="border-right(indiv)">
+   this test tests invidual border right inline values. 
+   </test> 
+   <test id="cbpbp-border-right-inline2" results="cbpbp-border-right-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-right-inline2.xml" xsl="cbpbp-border-right-inline2.xsl"
+         level="basic" property="border-right(indiv)">
+   this test tests more individual border right inline values.
+   </test>
+
+    <!-- border-left-inline -->
+
+   <test id="cbpbp-border-left-inline1" results="cbpbp-border-left-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-left-inline1.xml" xsl="cbpbp-border-left-inline1.xsl"
+         level="basic" property="border-left(indiv)">
+   this test tests invidual border left inline values. 
+   </test> 
+   <test id="cbpbp-border-left-inline2" results="cbpbp-border-left-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-left-inline2.xml" xsl="cbpbp-border-left-inline2.xsl"
+         level="basic" property="border-left(indiv)">
+   this test tests more individual border left inline values.
+   </test>
+
+    <!-- border-top-inline -->
+
+   <test id="cbpbp-border-top-inline1" results="cbpbp-border-top-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-top-inline1.xml" xsl="cbpbp-border-top-inline1.xsl"
+         level="basic" property="border-top(indiv)">
+   this test tests invidual border top inline values.
+   </test> 
+   <test id="cbpbp-border-top-inline2" results="cbpbp-border-top-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-top-inline2.xml" xsl="cbpbp-border-top-inline2.xsl"
+         level="basic" property="border-top(indiv)">
+   this test tests more individual border top inline values.
+   </test>
+
+    <!-- border-bottom-inline -->
+
+   <test id="cbpbp-border-bottom-inline1" results="cbpbp-border-bottom-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-bottom-inline1.xml" xsl="cbpbp-border-bottom-inline1.xsl"
+         level="basic" property="border-bottom(indiv)">
+   this test tests invidual border bottom inline values.
+   </test> 
+   <test id="cbpbp-border-bottom-inline2" results="cbpbp-border-bottom-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-bottom-inline2.xml" xsl="cbpbp-border-bottom-inline2.xsl"
+         level="basic" property="border-bottom(indiv)">
+   this test tests more individual border bottom inline values.
+   </test>
+
+   <!-- border-style-inline -->
+
+   <test id="cbpbp-border-style-inline1" results="cbpbp-border-style-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-style-inline1.xml" xsl="cbpbp-border-style-inline1.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests invidual border style inline values.
+   </test> 
+   <test id="cbpbp-border-style-inline2" results="cbpbp-border-style-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-style-inline2.xml" xsl="cbpbp-border-style-inline2.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style inline values.
+   </test>
+    <test id="cbpbp-border-style-inline3" results="cbpbp-border-style-inline3.pdf" interaction="none" fo="inline" xml="cbpbp-border-style-inline3.xml" xsl="cbpbp-border-style-inline3.xsl"
+         level="basic" property="border-style(indiv)">
+   this test tests more individual border style inline values.
+   </test>
+
+   <!-- border-color-inline -->
+
+   <test id="cbpbp-border-color-inline1" results="cbpbp-border-color-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-color-inline1.xml" xsl="cbpbp-border-color-inline1.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests invidual border color inline values.
+   </test> 
+   <test id="cbpbp-border-color-inline2" results="cbpbp-border-color-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-color-inline2.xml" xsl="cbpbp-border-color-inline2.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests more individual border color inline values.
+   </test>
+   <test id="cbpbp-border-color-inline3" results="cbpbp-border-color-inline3.pdf" interaction="none" fo="inline" xml="cbpbp-border-color-inline3.xml" xsl="cbpbp-border-color-inline3.xsl"
+         level="basic" property="border-color(indiv)">
+   this test tests more individual border color inline values.
+   </test>
+
+   <!-- border-width-inline -->
+
+   <test id="cbpbp-border-width-inline1" results="cbpbp-border-width-inline1.pdf" interaction="none" fo="inline" xml="cbpbp-border-width-inline1.xml" xsl="cbpbp-border-width-inline1.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests invidual border width inline values.
+   </test> 
+   <test id="cbpbp-border-width-inline2" results="cbpbp-border-width-inline2.pdf" interaction="none" fo="inline" xml="cbpbp-border-width-inline2.xml" xsl="cbpbp-border-width-inline2.xsl"
+         level="basic" property="border-width(indiv)">
+   this test tests more individual border width inline values.
+   </test>
+ </testcases>   
+</testsuite>

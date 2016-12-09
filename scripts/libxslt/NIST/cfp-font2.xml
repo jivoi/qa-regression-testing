@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be 13pt. Helvetica which is in small-cap italics.
+Individual properties may be used.</PARAGRAPH>
+</TEST>

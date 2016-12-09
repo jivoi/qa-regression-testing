@@ -1,0 +1,113 @@
+For testing thunderbird, can use the tarball in the directory for migrating
+and testing various accounts. It was created using 2.0.0.12 on 8.04.
+
+The following is pre-setup for connecting to the hardy-multi.example.com VM:
+pop3 (ubuntu-pop3, password is 'pop3')
+pop3s (ubuntu-pop3s, password is 'pop3s')
+pop3 TLS (ubuntu-pop3tls, password is 'pop3tls')
+imap (ubuntu-imap, password is 'imap')
+imaps (ubuntu-imaps, password is 'imaps')
+imap TLS (ubuntu-imaptls, password is 'imaptls')
+smtp
+smtp/auth (ubuntu-smtpauth, password is 'smtpauth')
+smtp/auth TLS (ubuntu-smtpauth-tls, password is 'smtpauth-tls')
+
+The addressbook has entries for the above email addresses as well as the
+'ubuntu-pop@example.com', 'ubuntu-imap@example.com' and 'ubuntu@example.com'
+email aleases. The News and Blogs is setup for USNs.
+
+See README.multipurpose_vm for details on setting up hardy-multi.example.com
+and notes_testing/nss/README for more information on email.
+
+Testing in a VM
+---------------
+$ cd $HOME
+$ rm -rf ./.mozilla-thunderbird ./.thunderbird # WARNING: this deletes config
+$ tar -zcvf /tmp/mozilla-thunderbird-2.0.0.12_setup.tar.gz
+Or:
+$ tar -zcvf /tmp/thunderbird-3.0.4_setup.tar.gz
+
+Start thunderbird (does import)
+Stop thunderbird
+Start thunderbird (start testing)
+
+The whole 'start, stop, start' routine is to make sure the migration went ok.
+This probably isn't needed for thunderbird 2.0, but is needed for 2.0 -> 3.0
+upgrades (which are known to have problems). 2.0 -> <=3.1.5 (at least) will
+lose all the imap accounts. Use thunderbird-3.0.4_setup.tar.gz instead.
+
+Further testing:
+* Importing CA pem file (see nss/README)
+ * adding (use this site to identify websites is checked)
+ * viewing
+ * no prompts when connecting to server
+ * after the above, go back into the cert manager and uncheck (use this site to
+   identify websites is checked). SSL/TLS connections should now prompt.
+* adding of a new email account
+* Email functions (in addition to all the protocols, above)
+ * reply
+ * reply-all
+ * forward
+ * delete
+ * junk
+ * archive
+ * send plain text
+ * send html (note enigmail defaults (see below))
+ * Sent folder works
+ * Trash works
+ * preview works
+ * next, previous, pageup, pagedown
+Folder views (as of 3.1.x):
+ * All folders
+ * Unread folders
+ * Favorite folders
+ * Recent folders
+ * Unified folders
+* Addressbook:
+ * drag and drop for Collected to Personal
+ * adding a new entry
+ * editing an existing entry
+ * autocomplete in the To: field
+ * prefers HTML is honored (note enigmail defaults (see below))
+* News and Blogs:
+ * retrieves feeds
+ * can view as RSS summary
+ * can view as HTML
+* Search by address
+* Enigmail:
+ * Go through the setup wizard (accepting the defaults is fine-- note that by
+   default enigmail disables HTML mail)
+ * Generate a new key (you may want to do other testing to offset the lack of
+ * entropy. You may also do in a terminal 'find /usr -type f -exec cat {} \;'
+   to help speed things along)
+ * Send a GPG-signed email and confirm that the receiving account correctly
+   verifies the signature
+* Lightning:
+ * Create an event with another account added to the attendance list and an
+   upcoming alert
+ * Verify the invitation in the receiving account
+ * Verify the alert occurs
+
+
+Multiple VM Setup
+-----------------
+If using snapshotted VMs with lp:ubuntu-qa-tools/vm-tools as described in
+https://wiki.ubuntu.com/SecurityTeam/TestingEnvironment, for the tested
+systems:
+
+$ copy_sppa_to_repos --ppa=ubuntu-mozilla-security thunderbird
+$ uvt start sec-lucid-amd64 sec-lucid-i386 sec-maverick-amd64 sec-maverick-i386 sec-natty-amd64 sec-natty-i386
+$ vm-scp -p sec ./thunderbird-3.0.4_setup.tar.gz $HOME/
+$ uvt cmd -p sec "cd $HOME ; tar -zxvf ./thunderbird-3.0.4_setup.tar.gz"
+$ uvt cmd -p sec -r "apt-get install -y --force-yes thunderbird thunderbird-gnome-support enigmail xul-ext-lightning" # note lucid does not have xul-ext-lightning
+
+Then login to each VM and start and stop thunderbird (to migrate the settings
+to the released version of thunderbird in the archive).
+
+Then upgrade thunderbird with:
+$ uvt repo -e -p sec
+$ uvt cmd -p sec -r "apt-get upgrade  # be careful to watch the output here"
+
+Then in each VM start thunderbird and start testing (see 'Testing in a VM',
+above).
+

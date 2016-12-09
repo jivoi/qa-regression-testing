@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="tafoWritingM1" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <parentProperty name="writing-mode" value="tb-rl"/>
+     <fo foName="table-body">
+        <foProperty name="background-color" value="red"/>
+        <fo foName="table-row">
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>This is a table with a "writing-mode" set to "tb-rl".</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

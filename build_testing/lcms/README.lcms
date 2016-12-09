@@ -1,0 +1,18 @@
+lcms testing
+------------
+
+The tests need to be run manually in a chroot.
+
+First build lcms with:
+$ sudo apt-get update ; apt-get source lcms ; sudo apt-get build-dep lcms
+$ cd lcms-<version>
+$ dpkg-buildpackage -rfakeroot
+$ cd testbed
+$ make testcms
+$ ./testcms > test.log
+
+If you are running on jaunty+, the .icm profile files have been removed from
+the dfsg packages, so you must copy them from a previous release, like
+Intrepid into the current directory before running the test.
+
+Copyright (C) 2009 Canonical Ltd.

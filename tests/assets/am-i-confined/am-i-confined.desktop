@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=am-i-confined
+Comment=Am I confined?
+Exec=./am-i-confined
+Type=Application
+X-Ubuntu-Touch=true

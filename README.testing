@@ -1,0 +1,276 @@
+-----------------------
+SECURITY UPDATE TESTING
+-----------------------
+This deals with verifying the code works.  Packaging should use
+SecurityUpdateProcedures.
+
+
+Check Build
+-----------
+Look for new compiler warnings during the build.  One method might be to:
+1. use sbuild on an unupgraded release and compile the unpatched code
+2. use sbuild on an upgraded release and compile the patched code
+3. check the differences between the two builds
+
+Might be able to get the old build logs from soyuz (step 1)
+
+
+Exercise Patched Code
+---------------------
+Make sure that the patched code is exercised during testing.  This might
+mean non-default configurations or usage. Also may mean using a debugger
+to alter the state of the running code.
+
+When using a debugger, will have to have debugging symbols, so can use:
+export DEB_BUILD_OPTIONS="noopt nostrip"
+
+This will usually work, but sometimes need to make sure it is compiling
+with '-O0 -g'
+
+Also see:
+https://wiki.ubuntu.com/DebuggingProgramCrash
+
+
+Proof of Concept
+----------------
+Run any PoC code against the unpatched and patched versions.
+
+
+Test Daemons
+------------
+If testing a binary package that has daemons running, make sure they all get
+started on startup.  Eg, the samba package starts smbd and nmbd, but its init
+script doesn't report if they fail to start.
+
+** IMPORTANT **
+First use the initscripts (or whatever) to start the daemons in the unpatched
+packages.  Note what is running, then install the patched packages and note any
+differences.  Check the logs for debugging information as well.
+
+
+Make Test
+---------
+After doing a binary build (eg debuild or dpkg-buildpackage -rfakeroot), run:
+$ make test
+
+or:
+make check
+
+Not all packages have this, but the ones that do, should definitely use.
+
+** IMPORTANT **
+Run 'make test' on the unpatched package as well as the patched package, so you
+know what to expect, and can see what actually changed.
+
+
+Test Package Upgrades
+---------------------
+Make sure packages upgrade smoothely via apt and update-manager
+
+
+Unit Testing
+------------
+Run the unpatched and patched code against appropriate tests in package-tests.
+If a script does not exist in package-tests, one should be created if
+feasible.  Some things to test:
+
+1. init script
+2. daemons starting
+3. default configuration
+4. common configurations
+5. standard functionality (eg name lookups in bind9)
+6. PoC code (ie test if future packages are still patched)
+
+** IMPORTANT **
+Run this against unpatched and patched versions.
+
+
+ABI Changes in Shared Libraries
+-------------------------------
+Verify that the ABI did not change by comparing the output of 'nm' against
+unpatched and patched versions of the .a files.
+
+Can also use 'check-symbols' from ubuntu-dev-tools.  Eg:
+$ check-symbols poppler ./
+
+The './' just means look for debs in the current directory, it defaults to
+/var/cache/pbuilder/result.  This will run 'nm' on the .a files in the
+installed versions of the debs and on the .a files in the debs themselves and
+compare the results.
+
+If there is an ABI change but it is an added symbol, that is generally ok
+(packages linked against the library don't use it anyway). Otherwise, will have
+to:
+
+1. program around it (eg a function adds a parameter, so create a new function
+   with the added one and leave the old one)
+2. verify all packages linked against the changed library don't use the symbol
+   or if do, handle accordingly
+
+Signs of binary incompatibility include: function declaration change, change of
+"struct" contents, and changing semantics of functions (hard to detect).[1]
+
+More information on ABI can be seen in the Debian Policy:
+http://www.debian.org/doc/debian-policy/ch-sharedlibs.html
+
+[1]http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html
+
+Integration Testing
+-------------------
+Try to used the patched packages in known working configurations.  This may
+mean uploading to -proposed or running through QA testing procedures.
+
+
+Peer Review
+-----------
+Get as many people as possible to look at your changes and test the packages.
+
+
+Auditing
+--------
+http://www.debian.org/security/audit/
+
+
+Package Comparison
+------------------
+It is often useful to compare a new deb with the a previous version of the deb.
+This should be done on all the debs created by a package build.
+
+See debcompare from the security tools PPA:
+https://launchpad.net/ubuntu-security-tools
+
+debcompare will compare two deb (or udeb) files and report on:
+ * the debdiff, which reports on (among other things):
+  * files in one deb but not the other
+  * all control files (excepting md5sums)
+  * Shlibs files
+ * differences in file owners/permissions/contents (as seen by 'dpkg-deb -c')
+ * differences in file types (as reported by 'file')
+ * differences in library dependencies (as reported by 'ldd' for all ELF files)
+ * differences in library symbols (as reported by 'nm' for all shared objects)
+ * differences in md5sums of files (for all files from 'dpkg-deb -c')
+ * differences in lintian reports
+
+Usage:
+$ debcompare <old deb> <new deb>
+
+
+Applications to Aid in Testing
+------------------------------
+These pages have examples and explanations of various tools:
+http://oss-security.openwall.org/wiki/tools
+http://www.debian.org/security/audit/tools
+
+Debugging:
+gdb
+ddd
+insight
+which-pkg-broke		from debian-goodies (helps determine what package may
+                        have caused a regression)
+
+Source code navigation:
+cscope
+kscope
+sourcenav		source code analysis
+global
+cflow
+ctags
+exuberant-ctags
+vimdiff
+id-utils
+
+Auditing:
+spikeproxy		http/https proxy for web-app auditing
+spike			fuzzing
+fuzz
+zzuf
+pscan			format string vulnerabilities
+flawfinder
+rats
+sqlmap			sql injection tool
+
+Networking:
+wireshark
+tcpdump
+
+Tracing:
+ltrace
+strace
+lsof
+ubuntu-dev-tools	has check-symbols
+nm 			from binutils
+exec-notify
+
+Package QA:
+piuparts
+lintian
+autopkgtest
+
+GUI testing (not currently used):
+dogtail		http://www.redhat.com/magazine/020jun06/features/dogtail/
+https://wiki.ubuntu.com/Testing/Automation
+
+
+Checklists
+----------
+
+Build compare   bin      log
+-----------------------------
+Precise          -        -
+Trusty           -        -
+Xenial           -        -
+Yakkety          -        -
+
+
+ABI (libs only) i386    amd64
+-----------------------------
+Precise          -        -
+Trusty           -        -
+Xenial           -        -
+Yakkety          -        -
+
+
+Build           i386    amd64    armhf
+--------------------------------------
+Precise          -        -        -
+Trusty           -        -        -
+Vivid/Overlay    -        -        -
+Xenial           -        -        -
+Yakkety          -        -        -
+
+
+Test Suite      i386    amd64    armhf
+--------------------------------------
+Precise          -        -        -
+Trusty           -        -        -
+Vivid/Overlay    -        -        -
+Xenial           -        -        -
+Yakkety          -        -        -
+
+
+QA Regression   i386    amd64    armhf
+--------------------------------------
+Precise          -        -        -
+Trusty           -        -        -
+Vivid/Overlay    -        -        -
+Xenial           -        -        -
+Yakkety          -        -        -
+
+
+Overall*               Precise  Trusty  Vivid/O  Xenial  Yakkety
+-----------------------------------------------------------------------
+Release                   -       -        -     -       -
+Version                   -       -        -     -       -
+Changelog Text            -       -        -     -       -
+Patched during build      -       -        -     -       -
+Build log compare         -       -        -     -       -
+Build                     -       -        -     -       -
+Upgrade                   -       -        -     -       -
+Test Suite                -       -        -     -       -
+QA                        -       -        -     -       -
+
+* this is really a high-level combination of SecurityTeam/UpdateProcedures and
+  the other checklists
+
+
+Copyright (C) 2008-2016 Canonical Ltd.

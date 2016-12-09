@@ -1,0 +1,22 @@
+NSS has a test suite that is _not_ run at build time.
+
+In a VM, do the following:
+
+sudo apt-get build-dep nss
+sudo apt-get install devscripts fakeroot
+
+Make sure /etc/hosts has the following:
+127.0.0.1       localhost localhost.localdomain
+
+Go into the source directory, and build with "debuild".
+
+Once finished building, go into the test directory, and perform a fix to
+get the proper paths:
+
+cd mozilla/security/nss/tests/
+sed -i s/OBJDIR=.*$/OBJDIR=\"\"/ common/init.sh
+
+Now, run the tests:
+
+HOST=localhost DOMSUF=localdomain ./all.sh
+

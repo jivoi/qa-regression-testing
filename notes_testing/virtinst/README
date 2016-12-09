@@ -1,0 +1,18 @@
+Virtinst has a testsuite, but it is not enabled in the build:
+
+In a schroot:
+$ apt-get source virtinst
+$ cd virtinst-*
+# apt-get build-dep virtinst
+# apt-get install pylint
+# locale-gen en_US.utf8
+$ fakeroot ./debian/rules build
+$ python setup.py test
+$ python setup.py test_cli
+
+scripts/test-libvirt.py has several virtinst tests. You are highly encouraged
+to run them.
+
+There is also:
+$ python setup.py test_urls	# this is tested in test-libvirt.py
+$ python setup.py check		# doesn't work with Ubuntu's pylint

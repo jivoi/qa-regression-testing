@@ -1,0 +1,4 @@
+TestPerl/Stuff.pm must not be the same owner as the user running exe_perl
+
+To test:
+PERL5LIB=./evil:$PERL5LIB ./exe_perl

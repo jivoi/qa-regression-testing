@@ -1,0 +1,43 @@
+To perform upgrade testing, you can install wordpress and make sure it
+works before and after the upgrade.
+
+precise:
+apt-get install mysql-server
+apt-get install wordpress php5-gd libapache2-mod-php5
+ln -s /usr/share/wordpress /var/www/wordpress
+bash /usr/share/doc/wordpress/examples/setup-mysql -n wordpress localhost
+/etc/init.d/apache2 restart
+
+
+trusty and wily:
+apt-get install mysql-server
+apt-get install wordpress php5-gd libapache2-mod-php5
+ln -s /usr/share/wordpress /var/www/html/wordpress
+gunzip -c /usr/share/doc/wordpress/examples/setup-mysql.gz > /usr/share/doc/wordpress/examples/setup-mysql
+bash /usr/share/doc/wordpress/examples/setup-mysql -n wordpress localhost
+/etc/init.d/apache2 restart
+
+
+xenial and later:
+apt-get install mysql-server
+apt-get install wordpress php-gd libapache2-mod-php
+ln -s /usr/share/wordpress /var/www/html/wordpress
+gunzip -c /usr/share/doc/wordpress/examples/setup-mysql.gz > /usr/share/doc/wordpress/examples/setup-mysql
+bash /usr/share/doc/wordpress/examples/setup-mysql -n wordpress localhost
+/etc/init.d/apache2 restart
+
+
+Go to http://localhost/wordpress, fill in fields to do initial setup
+
+Once done, click button to go to "http://localhost/wordpress/wp-login.php"
+- Log in
+- Click "posts" on left menu
+- Click "Add New" to create a new post
+- Click publish on the right to get it published
+
+Go to main site, make sure post is published.
+
+You can now update mysql, restart the VM, and see if the post is still
+published. You can also publish a second post to make sure modifying the
+database also works.
+

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This paragraph has a background color of gray and a 20-pixel left margin, and it contains 
+an <SPAN> inline element of border-left purple double 10px</SPAN>, which should have a 10-pixel
+purple double left border.  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.</PARAGRAPH>
+</TEST>

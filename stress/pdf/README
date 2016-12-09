@@ -1,0 +1,5 @@
+The following stress test was used to measure performance differences
+in evince due to PIE.  It was not measurable; timings are recorded in
+evince-performance.gnumeric.
+
+for i in $(seq 10); do time evince-thumbnailer -s 10000 TTCRideGuide.pdf /dev/null; done

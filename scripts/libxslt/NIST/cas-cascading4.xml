@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This gray paragraph contains a span element.
+<SPAN>This span element should be green.</SPAN>
+Here is some more text of the paragraph.
+</PARAGRAPH>
+</TEST> 

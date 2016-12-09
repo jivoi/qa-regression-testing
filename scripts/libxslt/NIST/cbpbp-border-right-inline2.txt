@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray" margin-right="20px">
+This paragraph has a background color of gray and a 20-pixel right margin, and it contains 
+an <fo:inline border-right-width="thin" border-right-color="purple" border-right-style="solid"> inline element of border-right purple solid thin</fo:inline>, which should have a thin
+purple solid right border.  The line-height of the parent element should not change on any line.
+Individual properties are being tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

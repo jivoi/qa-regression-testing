@@ -1,0 +1,415 @@
+#!/bin/bash
+################################################################################
+# Copyright 2013-2014 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; version 2.1.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Author: Jamie Strandboge <jamie@canonical.com>
+################################################################################
+
+set -e
+
+# TODO:
+# - fat packages
+
+# Failure counter
+F_I=0
+
+# Success counter
+S_I=0
+
+# Skipped counter
+K_I=0
+
+# Total counter
+T_I=0
+
+do_debug=""
+
+debug() {
+    if [ "$do_debug" = "y" ]; then
+        echo "[DEBUG] $*" >&2
+    fi
+}
+
+print_summary() {
+    echo
+    echo "Click apparmor tests"
+    echo " Passed:  ${S_I}/${T_I}"
+    echo " Failed:  ${F_I}/${T_I}"
+    echo " Skipped: ${K_I}/${T_I}"
+    echo
+}
+
+_get_click_value() {
+    app_id="$1"
+    key="$2"
+    pname=`echo $app_id | cut -d '_' -f 1`
+    pvers=`echo $app_id | cut -d '_' -f 3`
+    tpath="$HOME/.local/share/$pkgname/pass"
+    case "$key" in
+        pkgname) echo "$pname";;
+        pkgvers) echo "$pvers";;
+        test_path) echo "$tpath";;
+    esac
+}
+
+# reset everything and make sure any previous jobs are stopped
+reset_test() {
+    app_id="$1"
+    test_path=`_get_click_value "$app_id" test_path`
+    d="`dirname $test_path`"
+    if [ -e "$test_path" ]; then
+        rm -f "$test_path"
+    fi
+    if [ -d "$d" ]; then
+        rmdir "$d"
+    fi
+    stop application APP_ID="$app_id" >/dev/null 2>&1 || true
+}
+
+click_install_pkg() {
+    clickpkg="$1"
+
+    # TODO: update when click packages can be installed by non-root on desktop
+    cmd="pkcon install-local --allow-untrusted"
+    if [ -f /tmp/.X0-lock ]; then
+        echo "Check sudo click install ... "
+        cmd="sudo click install --user=$USER --force-missing-framework --allow-unauthenticated"
+    else
+        echo "Check pkcon install-local ... "
+    fi
+
+    if $cmd "$clickpkg" ; then
+        echo "[OK]"
+        S_I=$(($S_I +1))
+    else
+        echo "!FAIL!"
+        F_I=$(($F_I +1))
+    fi
+    T_I=$(($T_I +1))
+    echo
+
+    if [ "$do_debug" = "y" ]; then
+        pkgdir=`click pkgdir $pkgname`
+        debug "click pkgdir: $pkgdir"
+
+        debug "ls -l '$pkgdir'"
+        ls -l "$pkgdir" >&2
+
+        tmp=`ls -l "$pkgdir" | sed 's/.* //g'`
+        debug "ls -ld '$tmp'"
+        ls -ld "$tmp" >&2
+        debug "ls -lR '$tmp'"
+        ls -lR "$tmp" >&2
+    fi
+}
+
+click_install() {
+    app_id="$1"
+    pkgarch="$2"
+    if [ -z "$pkgarch" ]; then
+        pkgarch="all"
+    fi
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+
+    script_path="`readlink -f $0`"
+    assets_dir="`dirname $script_path`/../../assets"
+    clickpkg="$assets_dir"/"$pkgname"_"$pkgvers"_$pkgarch.click
+    echo -n "Checking click package availability (`basename $clickpkg`) ... "
+    if [ ! -f "$clickpkg" ]; then
+        echo "!ERROR! Could not find '$clickpkg'"
+        print_summary
+        exit -1
+    fi
+    echo "[OK]"
+
+    click_install_pkg "$clickpkg"
+}
+
+click_remove() {
+    app_id="$1"
+    pkgarch="$2"
+    if [ -z "$pkgarch" ]; then
+        pkgarch="all"
+    fi
+
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+    # TODO: update when click packages can be installed by non-root on desktop
+    cmd="pkcon remove $pkgname;$pkgvers;$pkgarch;local:click"
+    if [ -f /tmp/.X0-lock ]; then
+        echo "Check sudo click unregister ... "
+        cmd="sudo click unregister --user=$USER $pkgname $pkgvers"
+    else
+        echo "Check pkcon remove ... "
+    fi
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+    if $cmd ; then
+        echo "[OK]"
+        S_I=$(($S_I +1))
+    else
+        echo "!FAIL!"
+        F_I=$(($F_I +1))
+    fi
+    T_I=$(($T_I +1))
+}
+
+aa_exec_click() {
+    app_id="$1"
+    test_path=`_get_click_value "$app_id" test_path`
+    desktop="$HOME/.local/share/applications/${app_id}.desktop"
+    echo -n "Checking '`basename $desktop` availability ... "
+    if [ ! -f "$desktop" ]; then
+        echo "!FAIL!"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+    else
+        echo "[OK]"
+        S_I=$(($S_I +1))
+        T_I=$(($T_I +1))
+
+        reset_test "$app_id"
+        echo -n "Checking aa-exec-click ... "
+        cdir=`pwd`
+        ipath=`egrep '^Path=' "$desktop" | sed 's/^Path=//'`
+        cd "$ipath"
+
+        cmd=`egrep '^Exec=' "$desktop" | sed -e 's/^Exec=//' -e 's/aa-exec-click/aa-exec-click -x/'`
+
+        if $cmd >/dev/null 2>&1 && [ -f "$test_path" ]; then
+            echo "[OK]"
+            S_I=$(($S_I +1))
+            T_I=$(($T_I +1))
+        else
+            echo "!FAIL!"
+            F_I=$(($F_I +1))
+            T_I=$(($T_I +1))
+        fi
+        cd "$cdir"
+    fi
+
+    reset_test "$app_id"
+}
+
+start_application() {
+    app_id="$1"
+    test_path=`_get_click_value "$app_id" test_path`
+    echo -n "Checking application upstart job ... "
+    # TODO: get rid of this sleep (currently it is needed because upstart may
+    # not have launched the app yet)
+    if start application APP_ID="$app_id" >/dev/null && sleep 15 && [ -f "$test_path" ]; then
+        echo "[OK]"
+        S_I=$(($S_I +1))
+        T_I=$(($T_I +1))
+    else
+        echo "!FAIL!"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+    fi
+    reset_test "$app_id"
+}
+
+#
+# Main
+#
+uid=`id -u`
+if [ "$uid" = "0" ]; then
+    echo "!ERROR! please run tests as non-root"
+    print_summary
+    exit -1
+fi
+
+if [ "$1" = "-d" ]; then
+    do_debug="y"
+    shift
+fi
+
+echo -n "Checking click availability ... "
+if ! which click >/dev/null ; then
+    echo "!ERROR!"
+    print_summary
+    exit -1
+fi
+echo "[OK]"
+
+echo -n "Checking pkcon availability ... "
+if ! which pkcon >/dev/null ; then
+    echo "!ERROR!"
+    print_summary
+    exit -1
+fi
+echo "[OK]"
+
+arch=`dpkg --print-architecture`
+
+for app_id in com.example.am-i-confined_am-i-confined_0.1 \
+              com.example.lp1245677_lp1245677_0.1
+do
+    echo "=== $app_id ==="
+    click_install "$app_id" "$arch"
+    aa_exec_click "$app_id"
+    start_application "$app_id"
+    click_remove "$app_id" "$arch"
+done
+
+tmpdir=`mktemp -d`
+for fr_full in /usr/share/click/frameworks/*framework ; do
+    fr=`basename --suffix=.framework "$fr_full"`
+
+    echo -n "Determining policy version for '$fr' ... "
+    T_I=$(($T_I +1))
+    pv=""
+    if [ -x "/usr/bin/aa-clickquery" ]; then
+        pv=`/usr/bin/aa-clickquery --click-framework=$fr -q policy_version`
+    elif [ "$fr" != "ubuntu-sdk-13.10" ]; then
+        echo "!SKIP! (no usable aa-clickquery with '$fr')"
+        K_I=$(($K_I +1))
+        continue
+    fi
+
+    if [ -z "$pv" ]; then
+        if [ "$fr" = "ubuntu-sdk-13.10" ]; then
+            pv="1.0"
+        else # aa-clickquery error
+            F_I=$(($F_I +1))
+            echo "!ERROR!"
+            print_summary
+            exit -1
+        fi
+    fi
+    echo "[OK]"
+    S_I=$(($S_I +1))
+
+    app_id="com.example.click-apparmor-test_app1_0.1"
+    arch="all"
+    pkgname=`_get_click_value "$app_id" pkgname`
+    pkgvers=`_get_click_value "$app_id" pkgvers`
+
+    pkg="$tmpdir/${pkgname}_${pkgvers}_$arch.click"
+    if [ -e "$pkg" ]; then
+        rm -f "$pkg"
+    fi
+    script_path="`readlink -f $0`"
+    sed "s/###FRAMEWORK###/$fr/" \
+        "`dirname $script_path`/../../assets/frameworks/manifest.json" \
+        > "$tmpdir/manifest.json"
+    sed -e "s/###POLICYVERSION###/$pv/" -e "s/###TEMPLATE###/ubuntu-sdk/" \
+        "`dirname $script_path`/../../assets/frameworks/apparmor.json" \
+        > "$tmpdir/apparmor.json"
+
+    cdir=`pwd`
+    cd "$tmpdir"
+    click build .
+    if [ ! -e "$pkg" ]; then
+        echo "!ERROR! (could not build click package)"
+        print_summary
+        exit -1
+    fi
+    cd "$cdir"
+
+    click_install_pkg "$pkg"
+
+    for f in "/var/lib/apparmor/clicks/${app_id}.json" \
+             "/var/lib/apparmor/profiles/click_${app_id}" ; do
+
+        echo -n "Checking '$f' availability ... "
+        if [ ! -f "$f" ]; then
+            echo "!FAIL!"
+            F_I=$(($F_I +1))
+            T_I=$(($T_I +1))
+        else
+            echo "[OK]"
+            S_I=$(($S_I +1))
+            T_I=$(($T_I +1))
+        fi
+    done
+
+    click_remove "$app_id" "$arch"
+done
+rm -rf "$tmpdir"
+
+# If /tmp/.X11-unix already exists but is empty, skip the test, otherwise
+# run it
+arch=`dpkg --print-architecture`
+echo "=== aa-exec-click without '-x' ==="
+do_secure_test="y"
+x11dir="/tmp/.X11-unix"
+if [ -d "$x11dir" ]; then
+    num_sockets=`ls -1 $x11dir | wc -l`
+    if [ "$num_sockets" = "0" ]; then
+        do_secure_test="n"
+    fi
+else
+    mkdir "$x11dir"
+    touch "$x11dir/click-apparmor.test"
+fi
+
+if [ "$do_secure_test" = "y" ]; then
+    app_id="com.example.am-i-confined_am-i-confined_0.1"
+    click_install "$app_id" "$arch"
+
+    test_path=`_get_click_value "$app_id" test_path`
+    desktop="$HOME/.local/share/applications/${app_id}.desktop"
+    echo -n "Checking '`basename $desktop` availability ... "
+    if [ ! -f "$desktop" ]; then
+        echo "!FAIL!"
+        F_I=$(($F_I +1))
+        T_I=$(($T_I +1))
+    else
+        echo "[OK]"
+        S_I=$(($S_I +1))
+        T_I=$(($T_I +1))
+
+        reset_test "$app_id"
+        echo -n "Checking aa-exec-click ... "
+        cdir=`pwd`
+        ipath=`egrep '^Path=' "$desktop" | sed 's/^Path=//'`
+        cd "$ipath"
+
+        cmd=`egrep '^Exec=' "$desktop" | sed 's/^Exec=//'`
+
+        if $cmd >/dev/null 2>&1 && [ -f "$test_path" ]; then
+            echo "!FAIL!"
+            F_I=$(($F_I +1))
+        else
+            echo "[OK]"
+            S_I=$(($S_I +1))
+            T_I=$(($T_I +1))
+        fi
+        cd "$cdir"
+    fi
+
+    reset_test "$app_id"
+
+    click_remove "$app_id" "$arch"
+
+    if [ -e "$x11dir/click-apparmor.test" ]; then
+        rm -f "$x11dir/click-apparmor.test"
+        rmdir "$x11dir"
+    fi
+else
+    echo "!SKIP! (empty '$x11dir' already exists!)"
+    K_I=$(($K_I +1))
+    T_I=$(($T_I +1))
+fi
+
+
+################################################################################
+# print summary
+echo
+print_summary
+
+exit ${F_I}

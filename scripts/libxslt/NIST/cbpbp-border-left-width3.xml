@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have a left border width of thick, which will
+become more obvious if the element is more than one line long.</PARAGRAPH>
+</TEST>

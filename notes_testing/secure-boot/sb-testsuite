@@ -1,0 +1,151 @@
+#!/bin/sh
+
+set -e
+
+ts_ca=secureboot-db-testsuite
+kek_der=
+kek_pem=
+kek_rsa=
+keystore=
+
+create_update() {
+    db="$1"
+    echo "Creating new certificate for $db:"
+
+    signing_pem="$keystore/$db-$ts_ca.pem"
+    if [ -n "$kek_pem" ]; then
+        signing_pem="$kek_pem"
+    fi
+    signing_der="$keystore/$db-$ts_ca.der"
+    if [ -n "$kek_der" ]; then
+        signing_der="$kek_der"
+    fi
+    signing_rsa="$keystore/$db-$ts_ca.rsa"
+    if [ -n "$kek_rsa" ]; then
+        signing_rsa="$kek_rsa"
+    fi
+    
+    # Create a new certificate for adding into the $db
+    openssl genrsa -out "$keystore/$db-$ts_ca.rsa" 2048 2>/dev/null
+    openssl req -new -x509 -sha256 -subj "/CN=$db-$ts_ca" -key "$keystore/$db-$ts_ca.rsa" -out "$keystore/$db-$ts_ca.pem"
+    openssl x509 -in "$keystore/$db-$ts_ca.pem" -inform PEM -out "$keystore/$db-$ts_ca.der" -outform DER
+
+    guid=$(uuidgen)
+    sbsiglist --owner $guid --type x509 --output "$keystore/$db-$ts_ca.der.siglist" "$keystore/$db-$ts_ca.der"
+
+    mkdir "$keystore/$db"
+    sbvarsign --key "$signing_rsa" --cert "$signing_pem" --output "$keystore/$db/$db-$ts_ca.der.siglist.signed" "$db" "$keystore/$db-$ts_ca.der.siglist"
+
+    echo "  Certificate: $keystore/$db-$ts_ca.der"
+    echo "  GUID: $guid"
+    echo "  Signature list: $keystore/$db-$ts_ca.der.siglist"
+    echo "  Signed variable: $keystore/$db/$db-$ts_ca.der.siglist.signed"
+}
+
+show_sbkeysync_cmds() {
+    echo "Now run:"
+    echo "$ sudo sbkeysync --no-default-keystores --keystore '$keystore' --verbose"
+}
+
+help() {
+    cat <<EOM
+Usage: sb-testsuite [-p <KEK PEM> -d <KEK DER> -r <KEK RSA> ] -k <KEYSTORE DIRECTORY>
+
+ -k DIR		location of keystore. If specify '-p' and '-d' this directory
+		will be created
+ -d FILE	DER file for KEK
+ -p FILE	PEM file for KEK
+ -r FILE	RSA private key file for KEK
+
+Tests to try:
+ 1. Updates signed with entry in KEK that we control (should succeed):
+    $ sb-testsuite -k /tmp/valid-kek -p kek.pem -d kek.der -r kek.rsa
+    $ sbkeysync --no-default-keystores --keystore /tmp/valid-kek --verbose --dry-run
+    $ sudo sbkeysync --no-default-keystores --keystore /tmp/valid-kek
+ 2. Updates signed with 3rd party entry in KEK (should succeed)
+    $ mkdir /tmp/valid-kek-3rd /tmp/valid-kek-3rd/{db,dbx}
+    $ mkdir /tmp/valid-kek-3rd/{db,dbx}
+    $ cp <path to>/db.signed /tmp/valid-kek-3rd/db
+    $ cp <path to>/dbx.signed /tmp/valid-kek-3rd/dbx
+    $ sb-testsuite -k /tmp/valid-kek-3rd
+    $ sbkeysync --no-default-keystores --keystore /tmp/valid-kek-3rd --verbose --dry-run
+    $ sudo sbkeysync --no-default-keystores --keystore /tmp/valid-kek-3rd
+ 3. Updates signed with entry not in KEK (should fail with permission denied):
+    $ sb-testsuite -k /tmp/invalid-kek
+    $ sbkeysync --no-default-keystores --keystore /tmp/invalid-kek --verbose --dry-run
+    $ sudo sbkeysync --no-default-keystores --keystore /tmp/invalid-kek
+EOM
+}
+
+#
+# MAIN
+#
+
+
+while getopts "hd:k:p:r:" opt
+do
+    case "$opt" in
+        d) kek_der="$OPTARG";;
+        k) keystore="$OPTARG";;
+        p) kek_pem="$OPTARG";;
+        r) kek_rsa="$OPTARG";;
+        h) help ; exit 0;;
+        ?) help;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "$keystore" ]; then
+    help
+    exit 1
+fi
+
+if [ -n "$kek_der" ] || [ -n "$kek_pem" ] || [ -n "$kek_rsa" ]; then
+    if [ ! -s "$kek_der" ]; then
+        echo "Could not find '$kek_der'"
+        exit 1
+    fi
+
+    if [ ! -s "$kek_pem" ]; then
+        echo "Could not find '$kek_pem'"
+        exit 1
+    fi
+
+    if [ ! -s "$kek_rsa" ]; then
+        echo "Could not find '$kek_rsa'"
+        exit 1
+    fi
+
+    if [ -e "$keystore" ]; then
+        echo "$keystore already exists"
+        exit 1
+    fi
+fi
+
+if [ ! -e "$keystore" ]; then
+    mkdir "$keystore"
+fi
+
+cd "$keystore"
+
+if [ -n "$kek_der" ] && [ -n "$kek_pem" ]; then
+    # We specified KEK keys. Let's create an update signed with it
+    create_update db
+    create_update dbx
+    echo ""
+    show_sbkeysync_cmds
+    echo "Expected result: success"
+elif [ -d "$keystore/db" ] || [ -d "$keystore/dbx" ]; then
+    show_sbkeysync_cmds
+    echo "Expected result: success"
+else
+    # We specified a directory without 3rd party signed updates, make something
+    # up
+    create_update db --with-ca
+    create_update dbx --with-ca
+
+    echo ""
+    show_sbkeysync_cmds
+    echo "Expected result: permission denied"
+fi
+

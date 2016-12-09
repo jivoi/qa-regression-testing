@@ -1,0 +1,39 @@
+On Ubuntu 11.04, the builds fail with something like on local builds, but
+work fine on soyuz buildds:
+xsltproc -o gdm-uk.omf --stringparam db2omf.basename gdm --stringparam db2omf.format 'docbook' --stringparam db2omf.dtd "-//OASIS//DTD DocBook XML V4.1.2//EN" --stringparam db2omf.lang uk --stringparam db2omf.omf_dir "/usr/share/omf" --stringparam db2omf.help_dir "/usr/share/gnome/help" --stringparam db2omf.omf_in "/tmp/buildd/gdm-2.27.90/docs/gdm.omf.in" `/usr/bin/pkg-config --variable db2omf gnome-doc-utils` uk/gdm.xml || { rm -f "gdm-uk.omf"; exit 1; }
+...
+http://www.oasis-open.org/docbook/xml/4.1.2/dbhierx.mod:236: parser error : ContentDecl : Name or '(' expected
+ | keywordset | itermset | %bibliocomponent.mix;)+)>
+                                                ^
+...
+http://www.oasis-open.org/docbook/xml/4.1.2/dbhierx.mod:243: validity error : All markup of the conditional section is not in the same entity
+<!ATTLIST setinfo
+    ^
+http://www.oasis-open.org/docbook/xml/4.1.2/dbhierx.mod:243: parser error : Content error in the external subset
+<!ATTLIST setinfo
+       ^
+unable to parse uk/gdm.xml
+make[3]: *** [gdm-uk.omf] Error 1
+make[3]: Leaving directory `/tmp/buildd/gdm-2.27.90/docs'
+make[2]: *** [all-recursive] Error 1
+make[2]: Leaving directory `/tmp/buildd/gdm-2.27.90'
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/tmp/buildd/gdm-2.27.90'
+make: *** [debian/stamp-makefile-build] Error 2
+dpkg-buildpackage: error: debian/rules build gave error exit status 2
+
+
+
+We can see what is happening in the soyuz build log:
+xsltproc -o gdm-C.omf --stringparam db2omf.basename gdm --stringparam db2omf.format 'docbook' --stringparam db2omf.dtd "-//OASIS//DTD DocBook XML V4.1.2//EN" --stringparam db2omf.lang C --stringparam db2omf.omf_dir "/usr/share/omf" --stringparam db2omf.help_dir "/usr/share/gnome/help" --stringparam db2omf.omf_in "/build/buildd/gdm-2.32.1/docs/gdm.omf.in"  `/usr/bin/pkg-config --variable db2omf gnome-doc-utils` C/gdm.xml || { rm -f "gdm-C.omf"; exit 1; }
+error : No such file or directory
+C/gdm.xml:9: warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
+]>
+  ^
+
+So on the local builds, the dtd can be fetched and then there is an error, but
+on the soyuz buildd, it can't be fetched, but the error is non-fatal. Therefore
+do something like the following to build gdm on natty:
+$ sudo iptables -I OUTPUT -d `host www.oasis-open.org | grep 'has address' | cut -d ' ' -f 4` -j REJECT
+$ umt build
+$ sudo iptables -D OUTPUT -d `host www.oasis-open.org | grep 'has address' | cut -d ' ' -f 4` -j REJECT

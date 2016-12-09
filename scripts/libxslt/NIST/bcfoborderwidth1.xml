@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBorderWidth1" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="background-color" value="red"/>
+    <parentProperty name="height" value="2.0in"/>
+    <parentProperty name="width" value="2.0in"/>
+    <parentProperty name="border-before-width" value="0.3in"/>
+    <parentProperty name="border-after-width" value="0.3in"/>
+    <parentProperty name="border-start-width" value="0.3in"/>
+    <parentProperty name="border-end-width" value="0.3in"/>
+    <parentProperty name="border-before-style" value="solid"/>
+    <parentProperty name="border-after-style" value="solid"/>
+    <parentProperty name="border-start-style" value="solid"/>
+    <parentProperty name="border-end-style" value="solid"/>
+      <fo foName="block">
+       <foText>The border width properties of this block container were set to "0.3in".</foText>
+      </fo>
+  </testcase>

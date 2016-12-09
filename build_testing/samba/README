@@ -1,0 +1,24 @@
+Build Testing
+-------------
+To get this to work, need to add to debian/rules in the configure line:
+--enable-socket-wrapper \
+
+Then build:
+dpkg-buildpackage -rfakeroot
+
+Then run the test:
+cd source
+sudo make test  (may want to run as non-root first, since it builds programs.
+                if you do it will fail all the tests, but after which can run
+                under sudo)
+
+
+Dapper and Edgy-- died when building.  Need to adjust source Makefile* to have:
+...
+MNT_OBJ = client/smbmnt.o lib/replace.o $(VERSION_OBJ) $(SNPRINTF_OBJ) $(SOCKET_WRAPPER_OBJ)
+...
+UMOUNT_OBJ = client/smbumount.o $(SOCKET_WRAPPER_OBJ)
+...
+
+Keep in mind edgy and dapper's testsuite is *very* limited
+

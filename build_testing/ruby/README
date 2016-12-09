@@ -1,0 +1,77 @@
+Ruby Build Testing
+------------------
+
+make check (Current as of utopic)
+---------------------------------
+
+ruby1.8 and ruby1.9.1 run the test suite during build, so check the
+build logs.
+
+ruby2.0 and ruby2.1 do not.
+
+How to run the test suite in a VM:
+
+$ sudo apt-get build-dep ruby2.0
+$ sudo apt-get install devscripts
+$ apt-get source ruby2.0
+$ cd ruby2.0*
+$ debuild
+$ make check > /tmp/output.txt 2>&1
+
+
+Rails (possibly outdated info)
+-----
+Rails supposedly has a good test suite for ruby, so can use the following:
+
+# apt-get source rails
+# apt-get build-dep rails
+# apt-get install rails ruby1.8 rubygems 	# omit rubygems on dapper
+$ fakeroot debian/rules build
+
+dapper needs this (rubygems-0.8.11.tgz checked into bzr also):
+# apt-get install wget
+$ wget http://rubyforge.org/frs/download.php/5207/rubygems-0.8.11.tgz
+$ tar xvfz rubygems-0.8.11.tgz
+# ruby1.8 setup.rb
+# gem update --system (not needed, but might be useful)
+
+# feisty (from the top-level directory of the rails source):
+$ cd vendor/rails
+
+# on all releases
+$ for d in actionmailer actionpack actionwebservice activerecord activesupport railties ; do echo "=== $d ===" ; cd $d || continue ; RAILS_PKG_DESTINATION="`pwd`/../build" rake test ; cd .. ; done > ../rake_test.`grep CODENAME /etc/lsb-release | cut -d '=' -f 2` 2>&1
+
+See results/ for expected failures.
+
+
+Gems (TODO) (possibly outdated info)
+-----------
+From hardy's rubygems/README.Debian:
+* Directory where gems are to be installed
+
+/var/lib/gems is used in Debian. However, you can override it by defining
+GEM_HOME environment variable. If you go with your GEM_HOME, some files should
+be manually installed.
+  $ cp -r /var/lib/gems/1.8/gems/sources-0.0.1 $GEM_HOME/gems/
+  $ cp    /var/lib/gems/1.8/specifications/sources-0.0.1.gemspec \
+          $GEM_HOME/specifications/
+Replace version numbers above with what you really have.
+
+
+* Executables in gems
+
+Gems which Debian's RubyGems will install are stored at /var/lib/gems instead
+of /usr/lib/ruby/gems. Executables of the gems will be put at
+/var/lib/gems/1.8/bin (for Ruby 1.8). In order to use them you manually have to
+add the directory in your PATH environment variable or make symbolic links at
+/usr/bin.
+
+
+Rspec (TODO) (possibly outdated info)
+------------
+Known to have a good test suite:
+http://rspec.info/
+
+Get source with:
+git clone git://github.com/dchelimsky/rspec.git
+

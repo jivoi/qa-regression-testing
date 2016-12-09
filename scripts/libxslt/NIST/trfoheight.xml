@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="trfoHeight" parentName="table" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+     <fo foName="table-body">
+        <fo foName="table-row">
+          <foProperty name="height" value="0.5in"/>
+          <foProperty name="background-color" value="red"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-row with "height" set to "0.5" inch.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="height" value="0.75in"/>
+          <foProperty name="background-color" value="blue"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-row with "height" set to "0.75" inch.</foText>
+           </fo>
+          </fo>
+        </fo>
+        <fo foName="table-row">
+          <foProperty name="height" value="1.0in"/>
+          <foProperty name="background-color" value="yellow"/>
+          <fo foName="table-cell">
+           <fo foName="block">
+             <foText>this is a table-row with "height" set to "1.0" inch.</foText>
+           </fo>
+          </fo>
+        </fo>
+     </fo>
+  </testcase>

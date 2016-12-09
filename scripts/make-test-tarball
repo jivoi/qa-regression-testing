@@ -1,0 +1,151 @@
+#!/bin/sh -e
+#
+#    make-test-tarball
+#    Copyright (C) 2009-2012 Canonical Ltd.
+#    Author: Jamie Strandboge <jamie@canonical.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License version 3,
+#    as published by the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# export HOSTS="sec-intrepid-amd64 sec-hardy-amd64 sec-dapper-amd64"
+# export TEST=test-glibc-security
+# ./make-test-tarball $TEST.py
+# for i in $HOSTS; do
+#   scp /tmp/qrt-$TEST.tar.gz $i.local:
+# done
+# for i in $HOSTS; do
+#   ssh -t $i.local "hostname; rm -rf qrt-$TEST; tar zxf qrt-$TEST.tar.gz; cd qrt-$TEST && sudo ./install-packages $TEST.py && ./$TEST.py -v"
+# done
+
+help() {
+    echo "USAGE:"
+    echo "make-test-tarball <test script>"
+}
+
+copy_dep() {
+    for dep in $@ ; do
+        if echo "$dep" | egrep -q "\.\./"; then
+            echo "Skipping '$dep' (bad path)"
+            continue
+        elif echo "$dep" | egrep -q "private/" && [ ! -d "private/" ]; then
+            echo "Skipping '$dep' (couldn't find 'private')"
+            continue
+        elif echo "$dep" | egrep -q "private/" && [ ! -e "$dep" ]; then
+            echo "Skipping '$dep' (does not exist)"
+            continue
+        elif echo "$dep" | egrep -q "^/"; then
+            echo "Copying: $dep"
+            if echo "$dep" | egrep -q ":"; then
+                src=`echo "$dep" | cut -d ':' -f 1`
+                dst=`echo "$dep" | cut -d ':' -f 2`
+                cp -rfL "$src" "$tmpdir/$dst"
+            else
+                cp -rfL "$dep" "$tmpdir"
+            fi
+        else
+            echo "Copying: $dep"
+            src="$dep"
+            dst="$dep"
+            if echo "$dep" | egrep -q ":"; then
+                src=`echo "$dep" | cut -d ':' -f 1`
+                dst=`echo "$dep" | cut -d ':' -f 2`
+            fi
+            depdir=""
+            if echo "$dst" | egrep -q "/" ; then
+                depdir=`dirname "$dst"`
+                mkdir -p "$tmpdir/$depdir" 2>/dev/null || true
+            fi
+            if [ -d "$src" ]; then
+                tmp_dst="$tmpdir/$depdir/`basename $dst`"
+                cp -rfL "$src" "$tmp_dst"
+                # This is pretty ugly-- a copy then remove. bleh. Why do this
+                # here? Cause it was easy. We really don't want to copy these
+                # huge unpacked directories when the test script does it for
+                # us. FIXME: use rsync or anything with --exclude
+                for d in qatest qatest-virtio ; do
+                    if [ -d "$tmp_dst/$d" ]; then
+                        echo " (removing `basename $dst`/$d from tarball)"
+                        rm -rf "$tmp_dst/$d"
+                    fi
+                done
+            else
+                cp -rfL "$src" "$tmpdir/$depdir"
+            fi
+        fi
+        if [ -f "$src" ]; then
+            copy_dep `get_depends "$src"`
+        fi
+    done
+}
+
+get_depends() {
+    depends=`egrep '^# QRT-Depends: ' "$1" 2>/dev/null | sed 's/^# QRT-Depends: //g'`
+    echo "$depends"
+}
+
+if [ -z "$1" ]; then
+    help
+    exit 1
+fi
+
+for script_path in "$@"
+do
+    if [ ! -e "$script_path" ]; then
+        echo "Could not find '$script_path'. Aborting" >&2
+        exit 1
+    fi
+
+    script_dir=`dirname $script_path`
+    script=`basename $script_path`
+    OPWD=`pwd`
+
+    cd "$script_dir"
+    tmptop=`mktemp -d`
+    trap "rm -rf $tmptop" EXIT HUP INT QUIT TERM
+
+    tmpdir="$tmptop/qrt-`echo $script | sed 's/\.[a-z]\+$//g'`"
+    mkdir "$tmpdir"
+
+    # Copy script and common requirements
+    for dep in "$script" "testlib.py" "install-packages"; do
+        echo "Copying: $dep"
+        cp "$dep" "$tmpdir"
+    done
+
+    copy_dep `get_depends "$script"`
+
+    if [ -d "$tmpdir/private" ]; then
+        echo "Make private importable"
+        touch "$tmpdir/private/__init__.py"
+        if [ -d "$tmpdir/private/qrt" ]; then
+            touch "$tmpdir/private/qrt/__init__.py"
+        fi
+    fi
+
+    tarname="`basename $tmpdir`.tar.gz"
+    tar -C "$tmptop" -zcf "$tmptop/$tarname" "`basename $tmpdir`"
+    mv -f "$tmptop/$tarname" ${TMPDIR:-/tmp}
+    cat <<EOM
+
+Test files: ${TMPDIR:-/tmp}/$tarname
+
+To run, copy the tarball somewhere, then do:
+$ tar -zxf $tarname
+$ cd ./`basename $tmpdir`
+$ sudo ./install-packages $script
+$ ./$script -v
+EOM
+
+    cd "$OPWD"
+    rm -rf $tmptop
+    trap "" EXIT HUP INT QUIT TERM
+done

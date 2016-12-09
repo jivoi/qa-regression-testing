@@ -1,0 +1,20 @@
+-----------
+qatest-i386
+-----------
+Grab the qatest-i386 image and put in this directory with:
+$ wget http://people.canonical.com/~jamie/libvirt/qatest.tar.bz2.asc
+$ wget http://people.canonical.com/~jamie/libvirt/qatest.tar.bz2
+$ gpg --verify qatest.tar.bz2.asc qatest.tar.bz2
+
+The qatest-i386 image runs Ubuntu 6.06 LTS with the following users:
+
+User	Password
+----------------
+root	pass
+qatest	pass
+
+This image is ubuntu-minimal with openssh-server installed. It uses 128M of
+RAM and has a 448M ide disk with a 384M root partition (hda1) and a 64M swap
+(hda2). It was created using vm-builder with kvm, but because we want to use
+nested virtualization, the VM was converted to qemu.
+

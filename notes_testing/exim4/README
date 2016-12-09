@@ -1,0 +1,18 @@
+Exim4 has a particular way of handling configuration.
+
+In the debian/ directory, there are EDITME.* files that contain the
+configuration options for a particular setup. If those options need to
+change during a security update, you must proceed the following way:
+
+mkdir /tmp/EXIM
+cd /tmp/EXIM
+cp -a /{original-location}/exim4-4.72 .
+make -f debian/rules unpack-configs
+
+You can then modify the EDITME.* files. Once done:
+
+make -f debian/rules pack-configs
+
+This will place the new EDITME files into the debian/ directory.
+You can then copy them over to your real debian/ directory location.
+

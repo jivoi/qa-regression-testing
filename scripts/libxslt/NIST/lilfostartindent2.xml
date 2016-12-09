@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="lilfoStartIndent2" parentName="list-block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+      <parentProperty name="background-color" value="red"/>
+      <parentProperty name="provisional-distance-between-starts" value="40pt"/>
+      <fo foName="list-item">
+       <fo foName="list-item-label">
+        <foProperty name="start-indent" value="5pt"/>
+        <fo foName="block">
+         <foText>1)</foText>
+        </fo>
+       </fo>
+       <fo foName="list-item-body">
+        <fo foName="block">
+         <foText>The "start-indent" for the label in this list item was set to 5pt.</foText>
+        </fo>
+       </fo>
+      </fo>
+      <fo foName="list-item">
+       <fo foName="list-item-label">
+        <foProperty name="start-indent" value="10pt"/>
+        <fo foName="block">
+         <foText>1)</foText>
+        </fo>
+       </fo>
+       <fo foName="list-item-body">
+        <fo foName="block">
+         <foText>The "start-indent" for the label in this list item was set to 10pt.</foText>
+        </fo>
+       </fo>
+      </fo>
+   </testcase>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block border-bottom-color="purple" border-bottom-width="10px" border-bottom-style="double">This element should have a purple, double, 10-pixel bottom border.
+Individual properties are tested here.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

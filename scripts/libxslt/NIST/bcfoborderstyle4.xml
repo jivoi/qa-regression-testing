@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="bcfoBorderStyle4" parentName="block-container" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <parentProperty name="background-color" value="red"/>
+    <parentProperty name="height" value="2.0in"/>
+    <parentProperty name="width" value="2.0in"/>
+    <parentProperty name="border-before-style" value="groove"/>
+    <parentProperty name="border-after-style" value="groove"/>
+    <parentProperty name="border-start-style" value="groove"/>
+    <parentProperty name="border-end-style" value="groove"/>
+      <fo foName="block">
+       <foText>The border style properties of this block container were set to "groove".</foText>
+      </fo>
+  </testcase>

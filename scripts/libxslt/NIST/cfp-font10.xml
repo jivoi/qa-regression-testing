@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should be in a sans-serif font, oblique and not small-caps, with a weight of 700.
+Its font-size should be 18 pixels, and its line-height should be 36px (200% this element's font size).  Extra
+text is included for the purposes of testing this more effectively.  Individual properties are tested here.</PARAGRAPH>
+</TEST>

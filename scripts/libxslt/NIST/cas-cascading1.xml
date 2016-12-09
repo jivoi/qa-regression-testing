@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+<SPAN>"This span element"</SPAN> should be gray (inheriting from parent element, which is
+gray.</PARAGRAPH>
+</TEST> 

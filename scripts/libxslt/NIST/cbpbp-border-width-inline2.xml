@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>
+This element has a border-width of 25px and border-style of solid.  However, it contains an <SPAN> inline
+ element of border-width 25px</SPAN>, which should have no border width
+because no border style was set.  Individual properties are being tested here.</PARAGRAPH>
+</TEST>

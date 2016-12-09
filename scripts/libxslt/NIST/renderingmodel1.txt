@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in" margin-left="1.0in" margin-top="1.0in" margin-right="1.0in" margin-bottom="1.0in">
+      <fo:region-body margin-top="1.0in" margin-left="1.0in" margin-right="3.0in" margin-bottom="1.0in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="red">Background Mark 1</fo:block>
+      <fo:block background-color="green">Background Mark 2</fo:block>
+      <fo:block background-color="blue">Background Mark 3</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

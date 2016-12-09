@@ -1,0 +1,6 @@
+LIBSNDFILE TESTING
+------------------
+During build, libsndfile runs it's test suite. Comparing the build logs
+with the previous release should be sufficient to notice any regressions.
+
+Copyright (C) 2009 Canonical Ltd.

@@ -1,0 +1,22 @@
+diff -Naur paste-1.7.2.ori//setup.py paste-1.7.2/setup.py
+--- paste-1.7.2.ori//setup.py	2008-10-28 22:29:41.000000000 -0400
++++ paste-1.7.2/setup.py	2010-12-06 14:00:33.000000000 -0500
+@@ -134,6 +134,8 @@
+       package_data=finddata.find_package_data(),
+       namespace_packages=['paste'],
+       zip_safe=False,
++      test_suite='nose.collector',
++      tests_require=['nose>=0.11'],
+       extras_require={
+         'subprocess': [],
+         'hotshot': [],
+diff -Naur paste-1.7.2.ori//tests/test_proxy.py paste-1.7.2/tests/test_proxy.py
+--- paste-1.7.2.ori//tests/test_proxy.py	2008-10-28 22:29:35.000000000 -0400
++++ paste-1.7.2/tests/test_proxy.py	2010-12-06 14:00:48.000000000 -0500
+@@ -8,5 +8,5 @@
+     app = proxy.Proxy('http://pythonpaste.org')
+     app = TestApp(app)
+     res = app.get('/')
+-    assert 'Documentation' in res
++    assert 'documentation' in res
+     

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>These sentences should be in a sans-serif font, not fantasy,
+if fantasy is not supported.  Fantasy is the first one in the list, but if it is not supported, then
+sans-serif (the second one in the list) should be used, if sans-serif is
+supported.</PARAGRAPH>
+</TEST>

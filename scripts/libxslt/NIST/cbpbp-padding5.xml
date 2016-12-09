@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have an overall padding of 25%, which is calculated with respect to the width of the 
+parent element.  Both the content background and the padding should be aqua (light blue).
+Individual properties are tested here.</PARAGRAPH>
+</TEST>

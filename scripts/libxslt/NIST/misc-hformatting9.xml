@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>Since auto is an invalid value for padding, the right-margin of this
+paragraph should be reset to auto and thus be expanded to 50% and it should
+only occupy the left half of the viewport.</PARAGRAPH>
+</TEST>

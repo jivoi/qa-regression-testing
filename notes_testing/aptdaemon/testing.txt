@@ -1,0 +1,18 @@
+aptdaemon has some tests that are _not_ run at build time.
+
+In a graphical VM, do the following:
+
+sudo apt-get build-dep aptdaemon
+sudo apt-get install python-unittest2 python-nose fakeroot python-mock lintian
+
+Go into the source directory, and:
+
+$sudo nosetests
+$sudo nosetests3 (trusty+ only)
+
+On Trusty and above, all tests are expected to pass.
+On Precise, one test is currently failing.
+
+Using software-center to install and uninstall packages also tests
+aptdaemon extensively.
+

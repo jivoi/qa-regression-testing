@@ -1,0 +1,15 @@
+{
+  "name": "com.example.lp1245677",
+  "version": "0.1",
+  "maintainer": "Büggy McJerkerson <buggy@bad.soft.warez>",
+  "title": "Am I confined?",
+  "description": "Example app to see if confined",
+  "framework": "ubuntu-sdk-13.10",
+  "architecture": "###ARCH###",
+  "hooks": {
+    "lp1245677": {
+      "apparmor": "lp1245677.json",
+      "desktop": "lp1245677.desktop"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This paragraph should be centered horizontally along the width of
+ the page and its width should be half of the width of the page.  Its background
+should be silver.</PARAGRAPH>
+</TEST>

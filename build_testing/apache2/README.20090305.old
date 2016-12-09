@@ -1,0 +1,176 @@
+No built-in automated build tests.  There is a './test' directory, but it is not
+for build testing per its README.
+
+Thoughts
+--------
+* test apache2-mpm-worker, apache2-mpm-event, apache2-prefork, apache2-mpm-itk,
+  apache2-mpm-perchild
+* test the LAMP stack
+* use upstream's httpd-framework in combination with the qa-regression-testing
+  script.
+
+
+apache-mpm-itk
+--------------
+This is a universe package and has to be rebuilt everytime apache2 is update
+(gutsy and higher) as it depends on a versions apache2-common.
+
+After building, verify with:
+dpkg -I apache2-mpm-itk*deb
+
+
+Httpd-Framework
+--------------
+Can see:
+http://httpd.apache.org/test/
+
+svn checkout http://svn.apache.org/repos/asf/httpd/test/framework/trunk/ httpd-framework
+
+This directory includes a tarball that was downloaded on 2009-03-05:
+httpd-framework_svn750459.tar.gz
+
+Usage:
+apt-get -y install libcrypt-ssleay-perl libdevel-corestack-perl libdevel-symdump-perl perl-modules perl libhtml-tagset-perl libhtml-parser-perl libwww-perl libipc-run3-perl libhttp-dav-perl netbase
+
+Depending on which server is being tested, need to do:
+apt-get -y install apache2-prefork-dev apache2-mpm-prefork libapache2-mod-php5
+apt-get -y install apache2-threaded-dev apache2-mpm-worker
+apt-get -y install apache2-threaded-dev apache2-mpm-itk (gutsy and later, but a
+	universe package and not from apache2 source)
+apt-get -y install apache2-threaded-dev apache2-mpm-event (gutsy and later, but
+	broken on gutsy i386 (#187690))
+apt-get -y install apache2-threaded-dev apache2-mpm-perchild (dapper, hardy only)
+
+-----------------
+
+** IMPORTANT **
+Debian's apache2 has a configuration format that httpd-framework does not
+understand. To get it to work need to use the included shell script:
+
+$ sudo fix-apache2-conf-dapper.sh
+
+or
+
+$ sudo fix-apache2-conf-dapper.sh
+
+This script will also enable all apache2 modules.
+
+-----------------
+
+Also, apxs2 on Debian doesn't support 'apxs2 -q PREFIX' properly, so need to
+just hard code it (found with "grep -r PREFIX ./* |grep apxs | grep '.pm:'"):
+
+$ cd httpd-framework
+$ patch -p1 < ../httpd-framework-debian-apxs.patch
+
+Instead of the patch, you can also run:
+sed -i "s,\$self->apxs('PREFIX'),'/usr'," Apache-Test/lib/Apache/TestConfigParse.pm
+
+and if you ran 'make test' already, then need to do this:
+$ sed -i "s,\$self->apxs('PREFIX'),'/usr'," blib/lib/Apache/TestConfigParse.pm
+
+------------------
+
+On Dapper-Jaunty, the test suite fails with:
+Syntax error on line 125 of /home/mdeslaur/temp/httpd-framework/t/conf/httpd.conf:
+Invalid command '<IfVersion', perhaps mis-spelled or defined by a module not included
+in the server configuration.
+
+The IfVersion command didn't exist in old apache2 versions, so, we need to apply
+a patch:
+$ patch -p1 < ../httpd-framework-ifversion.patch
+
+------------------
+
+We can now build the test suite:
+
+perl ./Makefile.PL -apxs /usr/bin/apxs2
+make test
+
+Log to a file with:
+make test > test.log 2>&1
+
+Alternatively, can use:
+./t/TEST
+
+See httpd-framework/README for more information.
+
+
+If get this error:
+[  error] configure() has failed:
+Can't figure out what Apache server generation we are running at
+/tmp/gutsy/httpd-test/perl-framework/Apache-Test/lib/Apache/TestServer.pm line
+93.
+
+Need to make sure you have apache2-threaded-dev or apache2-prefork-dev
+installed.
+
+Adding Modules
+--------------
+a2enmod include
+perl ./Makefile.PL -apxs /usr/bin/apxs2
+make test
+
+Testing just one module (note that 'make test' needs to have run it at least
+once):
+./t/TEST ./t/modules/include.t
+
+There is also a verbose option that can be added to aid debugging:
+./t/TEST -verbose ./t/modules/include.t
+
+
+Workflow
+--------
+run_framework.sh attempts to automate the above. To use:
+
+$ scp -r qa-regression-testing/build_testing/apache2 <vm>:/tmp
+$ ssh <vm>
+$ cd /tmp/apache2
+$ ./run_framework.sh
+
+This should give you log output of the form of:
+<release>-<version>-<package>.txt
+
+Eg:
+dapper-2.0.55-4ubuntu2.5-apache2-mpm-prefork.txt
+
+
+----------------
+Release Specific
+----------------
+case_filter and case_filter_in are experimental and not compiled.
+bucketeer is not available
+
+----------------
+Test results:
+
+See qa-regression-testing/results/apache2 directory for current test results.
+
+----------------
+Testing the lamp stack
+----------------
+
+To test the lamp stack, you can install mysql-server and phpmyadmin from
+universe:
+
+apt-get -y install mysql-server phpmyadmin
+
+Enter a password if mysql-server asks for one. If not, leave it blank.
+
+On gutsy and higher, do:
+cp /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin
+
+Connect to the webpage:
+
+http://localhost/phpmyadmin (login using the mysql password)
+
+See if you can browse the default mysql databases. This should test apache2,
+mysql and php.
+
+Currently Not Checked
+---------------------
+Not-exhaustive list by any means:
+proxy_ftp
+
+
+Copyright (C) 2008 Canonical Ltd.

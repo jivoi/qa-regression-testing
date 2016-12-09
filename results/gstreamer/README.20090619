@@ -1,0 +1,42 @@
+Tests were done with KVM virtual machines.
+
+Dapper amd64:
+welcome3.wmv doesn't show video
+zelda.flv doesn't have a decoder
+luckynight.shn doesn't play
+talk109-q5.spx has low volume
+sf_44khz_stereo_16bit.tta is completely distorted
+
+Dapper i386:
+welcome3.wmv doesn't show video
+zelda.flv doesn't have a decoder
+luckynight.shn doesn't play
+talk109-q5.spx has low volume
+
+Hardy amd64:
+welcome3.wmv doesn't play
+luckynight.shn plays wrong
+talk109-q5.spx has low volume
+sf_44khz_stereo_16bit.tta is completely distorted
+
+Hardy i386:
+welcome3.wmv doesn't play
+talk109-q5.spx has low volume
+luckynight.shn plays wrong
+
+Intrepid amd64:
+sf_44khz_stereo_16bit.tta is completely distorted
+talk109-q5.spx has low volume
+
+Intrepid i386:
+talk109-q5.spx has low volume
+
+Jaunty amd64:
+ct_faac-adts.aac gives a "Could not decode stream" error
+sf_44khz_stereo_16bit.tta is completely distorted
+talk109-q5.spx has low volume
+
+Jaunty amd64:
+ct_faac-adts.aac gives a "Could not decode stream" error
+talk109-q5.spx has low volume
+

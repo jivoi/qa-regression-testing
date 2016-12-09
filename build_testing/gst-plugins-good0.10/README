@@ -1,0 +1,14 @@
+gst-plugin-good0.10
+-------------------
+
+Build testing consists of:
+$ dpkg-buildpackage -rfakeroot
+$ make check
+
+Results on amd64:
+Dapper: 1 failure
+Feisty: 7 failures
+Gutsy:  6 failures
+Hardy:  0 failures
+
+Hardy runs this automatically during the build.

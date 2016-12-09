@@ -1,0 +1,4 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>Because this paragaph has width 100%, the auto margins become zero so, it should not be centered.</PARAGRAPH> 
+</TEST>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+      <fo:region-before extent="0.3in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block margin-left="40px" margin-right="40px" background-color="aqua" padding-left="40px" padding-right="40px">This text is inside an element.  The border, padding, and
+margins for this paragraph should line up with the boundaries denoted; the edges
+of the light blue background should line up with the boundary between "padding"
+and "border" which would be as indicated.  There should be no top or bottom 
+margin; anything above or below should be flush with this paragraph.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

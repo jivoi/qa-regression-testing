@@ -1,0 +1,991 @@
+$ ./run_tempest.sh -N --smoke # about 20 minutes)setUpClass (tempest.api.baremetal.admin.test_api_discovery
+    TestApiDiscovery)                                                 SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_chassis
+    TestChassis)                                                      SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_drivers
+    TestDrivers)                                                      SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_nodes
+    TestNodes)                                                        SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_nodestates
+    TestNodeStates)                                                   SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_ports
+    TestPorts)                                                        SKIP  0.00
+setUpClass (tempest.api.baremetal.admin.test_ports_negative
+    TestPortsNegative)                                                SKIP  0.00
+setUpClass (tempest.api.compute.admin.test_baremetal_nodes
+    BaremetalNodesAdminTestJSON)                                      SKIP  0.00
+tempest.api.compute.admin.test_quotas.QuotasAdminTestJSON
+    test_get_default_quotas[gate,smoke]                               OK  0.33
+setUpClass (tempest.api.compute.admin.test_security_group_default_rules
+    SecurityGroupDefaultRulesTest)                                    SKIP  0.00
+tempest.api.compute.admin.test_security_groups.SecurityGroupsTestAdminJSON
+    test_list_security_groups_list_all_tenants_filter[gate,network,smoke]SKIP  0.00
+tempest.api.compute.flavors.test_flavors.FlavorsV2TestJSON
+    test_get_flavor[gate,smoke]                                       OK  0.35
+    test_list_flavors[gate,smoke]                                     OK  0.31
+    test_list_flavors_with_detail[gate,smoke]                         OK  0.08
+tempest.api.compute.images.test_images_oneserver.ImagesOneServerTestJSON
+    test_create_delete_image[gate,smoke]                              OK  7.43
+tempest.api.compute.images.test_list_images.ListImagesTestJSON
+    test_get_image[gate,smoke]                                        OK  0.77
+    test_list_images[gate,smoke]                                      OK  0.71
+    test_list_images_with_detail[gate,smoke]                          OK  0.07
+tempest.api.compute.security_groups.test_security_group_rules.SecurityGroupRulesTestJSON
+    test_security_group_rules_create[gate,network,smoke]              OK  1.13
+    test_security_group_rules_create_with_optional_cidr[gate,network,smoke]OK  0.17
+    test_security_group_rules_create_with_optional_group_id[gate,network,smoke]OK  0.32
+    test_security_group_rules_delete_when_peer_group_deleted[gate,network,smoke]OK  0.52
+    test_security_group_rules_list[gate,network,smoke]                OK  0.47
+tempest.api.compute.security_groups.test_security_group_rules_negative.SecurityGroupRulesNegativeTestJSON
+    test_create_security_group_rule_duplicate[gate,negative,network,smoke]OK  1.25
+    test_create_security_group_rule_with_invalid_from_port[gate,negative,network,smoke]OK  0.11
+    test_create_security_group_rule_with_invalid_id[gate,negative,network,smoke]OK  0.01
+    test_create_security_group_rule_with_invalid_ip_protocol[gate,negative,network,smoke]OK  0.10
+    test_create_security_group_rule_with_invalid_port_range[gate,negative,network,smoke]OK  0.10
+    test_create_security_group_rule_with_invalid_to_port[gate,negative,network,smoke]OK  0.11
+    test_create_security_group_rule_with_non_existent_id[gate,negative,network,smoke]OK  0.03
+    test_delete_security_group_rule_with_non_existent_id[gate,negative,network,smoke]OK  0.03
+tempest.api.compute.security_groups.test_security_groups.SecurityGroupsTestJSON
+    test_security_group_create_get_delete[gate,network,smoke]         OK  1.15
+    test_security_groups_create_list_delete[gate,network,smoke]       OK  0.73
+    test_server_security_groups[gate,network,smoke]                   OK  45.76
+    test_update_security_groups[gate,network,smoke]                   OK  0.19
+tempest.api.compute.security_groups.test_security_groups_negative.SecurityGroupsNegativeTestJSON
+    test_delete_nonexistent_security_group[gate,negative,network,smoke]OK  1.91
+    test_delete_security_group_without_passing_id[gate,negative,network,smoke]OK  0.01
+    test_delete_the_default_security_group[gate,negative,network,smoke]OK  0.15
+    test_security_group_create_with_duplicate_name[gate,negative,network,smoke]SKIP  0.00
+    test_security_group_create_with_invalid_group_description[gate,negative,network,smoke]SKIP  0.00
+    test_security_group_create_with_invalid_group_name[gate,negative,network,smoke]SKIP  0.00
+    test_security_group_get_nonexistent_group[gate,negative,network,smoke]OK  0.12
+    test_update_non_existent_security_group[gate,negative,network,smoke]OK  0.11
+    test_update_security_group_with_invalid_sg_des[gate,negative,network,smoke]SKIP  0.00
+    test_update_security_group_with_invalid_sg_id[gate,negative,network,smoke]SKIP  0.00
+    test_update_security_group_with_invalid_sg_name[gate,negative,network,smoke]SKIP  0.00
+tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON
+    test_add_remove_fixed_ip[gate,network,smoke]                      OK  39.49
+    test_create_list_show_delete_interfaces[gate,network,smoke]       OK  49.97
+tempest.api.compute.servers.test_create_server.ServersTestJSON
+    test_list_servers[gate,smoke]                                     OK  0.07
+    test_list_servers_with_detail[gate,smoke]                         OK  0.11
+    test_verify_server_details[gate,smoke]                            OK  0.00
+tempest.api.compute.servers.test_create_server.ServersTestManualDisk
+    test_list_servers[gate,smoke]                                     OK  0.06
+    test_list_servers_with_detail[gate,smoke]                         OK  0.11
+    test_verify_server_details[gate,smoke]                            OK  0.00
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON
+    test_reboot_server_hard[gate,smoke]                               OK  2.97
+    test_reboot_server_soft[gate,smoke]                               SKIP  0.33
+    test_rebuild_server[gate,smoke]                                   OK  68.00
+    test_resize_server_confirm[gate,smoke]                            OK  22.94
+    test_resize_server_confirm_from_stopped[gate,smoke]               OK  24.59
+tempest.api.compute.servers.test_server_addresses.ServerAddressesTestJSON
+    test_list_server_addresses[gate,network,smoke]                    OK  0.07
+    test_list_server_addresses_by_network[gate,network,smoke]         OK  0.13
+tempest.api.compute.servers.test_server_rescue.ServerRescueTestJSON
+    test_rescue_unrescue_instance[gate,smoke]                         OK  19.25
+tempest.api.compute.test_quotas.QuotasTestJSON
+    test_compare_tenant_quotas_with_default_quotas[gate,smoke]        OK  0.59
+    test_get_default_quotas[gate,smoke]                               OK  0.03
+    test_get_quotas[gate,smoke]                                       OK  0.05
+tempest.api.compute.volumes.test_volumes_get.VolumesGetTestJSON
+    test_volume_create_get_delete[gate,smoke]                         OK  4.60
+setUpClass (tempest.api.data_processing.test_cluster_templates
+    ClusterTemplateTest)                                              SKIP  0.00
+setUpClass (tempest.api.data_processing.test_data_sources
+    DataSourceTest)                                                   SKIP  0.00
+setUpClass (tempest.api.data_processing.test_job_binaries
+    JobBinaryTest)                                                    SKIP  0.00
+setUpClass (tempest.api.data_processing.test_job_binary_internals
+    JobBinaryInternalTest)                                            SKIP  0.00
+setUpClass (tempest.api.data_processing.test_jobs
+    JobTest)                                                          SKIP  0.00
+setUpClass (tempest.api.data_processing.test_node_group_templates
+    NodeGroupTemplateTest)                                            SKIP  0.00
+setUpClass (tempest.api.data_processing.test_plugins
+    PluginsTest)                                                      SKIP  0.00
+setUpClass (tempest.api.database.flavors.test_flavors
+    DatabaseFlavorsTest)                                              SKIP  0.00
+setUpClass (tempest.api.database.limits.test_limits
+    DatabaseLimitsTest)                                               SKIP  0.00
+setUpClass (tempest.api.database.versions.test_versions
+    DatabaseVersionsTest)                                             SKIP  0.00
+tempest.api.identity.admin.test_services.ServicesTestJSON
+    test_create_get_delete_service[gate,smoke]                        OK  0.48
+    test_list_services[gate,smoke]                                    OK  0.92
+tempest.api.identity.admin.test_users.UsersTestJSON
+    test_create_user[gate,smoke]                                      OK  0.28
+    test_create_user_with_enabled[gate,smoke]                         OK  0.30
+    test_delete_user[gate,smoke]                                      OK  0.49
+    test_get_users[gate,smoke]                                        OK  0.41
+    test_update_user[gate,smoke]                                      OK  0.65
+    test_update_user_password[gate,smoke]                             OK  0.67
+    test_user_authentication[gate,smoke]                              OK  0.52
+tempest.api.identity.admin.v3.test_credentials.CredentialsTestJSON
+    test_credentials_create_get_update_delete[gate,smoke]             OK  0.44
+    test_credentials_list_delete[gate,smoke]                          OK  0.46
+tempest.api.identity.admin.v3.test_default_project_id.TestDefaultProjectId
+    test_default_project_id[gate,smoke]                               FAIL
+tempest.api.identity.admin.v3.test_domains.DomainsTestJSON
+    test_create_update_delete_domain[gate,smoke]                      OK  0.66
+    test_list_domains[gate,smoke]                                     OK  1.06
+tempest.api.identity.admin.v3.test_endpoints.EndPointsTestJSON
+    test_update_endpoint[gate,smoke]                                  OK  0.43
+tempest.api.identity.admin.v3.test_groups.GroupsV3TestJSON
+    test_group_create_update_get[gate,smoke]                          OK  0.47
+    test_group_users_add_list_delete[gate,smoke]                      OK  1.33
+    test_list_groups[gate,smoke]                                      OK  0.57
+    test_list_user_groups[gate,smoke]                                 OK  0.83
+tempest.api.identity.admin.v3.test_policies.PoliciesTestJSON
+    test_create_update_delete_policy[gate,smoke]                      OK  0.44
+    test_list_policies[gate,smoke]                                    OK  0.46
+tempest.api.identity.admin.v3.test_regions.RegionsTestJSON
+    test_create_region_with_specific_id[gate,smoke]                   OK  0.20
+tempest.api.identity.admin.v3.test_roles.RolesV3TestJSON
+    test_grant_list_revoke_role_to_group_on_domain[gate,smoke]        OK  0.25
+    test_grant_list_revoke_role_to_group_on_project[gate,smoke]       OK  0.72
+    test_grant_list_revoke_role_to_user_on_domain[gate,smoke]         OK  0.33
+    test_grant_list_revoke_role_to_user_on_project[gate,smoke]        OK  0.30
+    test_role_create_update_get_list[gate,smoke]                      OK  0.35
+tempest.api.identity.admin.v3.test_services.ServicesTestJSON
+    test_create_service_without_description[gate,smoke]               OK  0.28
+    test_create_update_get_service[gate,smoke]                        OK  0.51
+    test_list_services[gate,smoke]                                    OK  0.52
+tempest.api.identity.admin.v3.test_tokens.TokensV3TestJSON
+    test_tokens[gate,smoke]                                           OK  0.81
+tempest.api.identity.admin.v3.test_trusts.TrustsV3TestJSON
+    test_get_trusts_all[gate,smoke]                                   OK  1.76
+    test_get_trusts_query[gate,smoke]                                 OK  1.61
+    test_trust_expire[gate,smoke]                                     OK  2.48
+    test_trust_expire_invalid[gate,smoke]                             OK  1.19
+    test_trust_impersonate[gate,smoke]                                OK  2.47
+    test_trust_noimpersonate[gate,smoke]                              OK  2.38
+setUpClass (tempest.api.messaging.test_claims
+    TestClaims)                                                       SKIP  0.00
+setUpClass (tempest.api.messaging.test_messages
+    TestMessages)                                                     SKIP  0.00
+setUpClass (tempest.api.messaging.test_queues
+    TestManageQueue)                                                  SKIP  0.00
+    TestQueues)                                                       SKIP  0.00
+tempest.api.network.admin.test_agent_management.AgentManagementTestJSON
+    test_list_agent[gate,smoke]                                       OK  0.23
+    test_list_agents_non_admin[gate,smoke]                            OK  0.35
+    test_show_agent[gate,smoke]                                       OK  0.01
+    test_update_agent_description[gate,smoke]                         OK  0.08
+    test_update_agent_status[gate,smoke]                              OK  0.04
+2015-07-31 21:38:54.019 3390 WARNING tempest.common.isolated_creds [-] user with name: AgentManagementTestJSON-837096379 not found for delete
+2015-07-31 21:38:54.237 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AgentManagementTestJSON-531692966 not found for delete
+2015-07-31 21:38:54.352 3390 WARNING tempest.common.isolated_creds [-] user with name: AgentManagementTestJSON-1324620854 not found for delete
+2015-07-31 21:38:54.587 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AgentManagementTestJSON-1573555510 not found for delete
+tempest.api.network.admin.test_dhcp_agent_scheduler.DHCPAgentSchedulersTestJSON
+    test_add_remove_network_from_dhcp_agent[gate,smoke]               OK  1.02
+    test_list_dhcp_agent_hosting_network[gate,smoke]                  OK  0.02
+    test_list_networks_hosted_by_one_dhcp[gate,smoke]                 OK  0.08
+2015-07-31 21:39:00.587 3390 WARNING tempest.common.isolated_creds [-] user with name: DHCPAgentSchedulersTestJSON-335829437 not found for delete
+2015-07-31 21:39:00.871 3390 WARNING tempest.common.isolated_creds [-] tenant with name: DHCPAgentSchedulersTestJSON-702573496 not found for delete
+2015-07-31 21:39:00.992 3390 WARNING tempest.common.isolated_creds [-] user with name: DHCPAgentSchedulersTestJSON-1987215430 not found for delete
+2015-07-31 21:39:01.219 3390 WARNING tempest.common.isolated_creds [-] tenant with name: DHCPAgentSchedulersTestJSON-1080362303 not found for delete
+tempest.api.network.admin.test_floating_ips_admin_actions.FloatingIPAdminTestJSON
+    test_list_floating_ips_from_admin_and_nonadmin[gate,smoke]        OK  1.63
+2015-07-31 21:39:08.267 3390 WARNING tempest.common.isolated_creds [-] user with name: FloatingIPAdminTestJSON-401317421 not found for delete
+2015-07-31 21:39:08.492 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FloatingIPAdminTestJSON-906470269 not found for delete
+2015-07-31 21:39:08.663 3390 WARNING tempest.common.isolated_creds [-] user with name: FloatingIPAdminTestJSON-1775270381 not found for delete
+2015-07-31 21:39:08.903 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FloatingIPAdminTestJSON-200432021 not found for delete
+2015-07-31 21:39:09.025 3390 WARNING tempest.common.isolated_creds [-] user with name: FloatingIPAdminTestJSON-1784636120 not found for delete
+2015-07-31 21:39:09.303 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FloatingIPAdminTestJSON-459888073 not found for delete
+tempest.api.network.admin.test_l3_agent_scheduler.L3AgentSchedulerTestJSON
+    test_add_list_remove_router_on_l3_agent[gate,smoke]               OK  0.92
+    test_list_routers_on_l3_agent[gate,smoke]                         OK  0.04
+2015-07-31 21:39:14.045 3390 WARNING tempest.common.isolated_creds [-] user with name: L3AgentSchedulerTestJSON-1183002104 not found for delete
+2015-07-31 21:39:14.282 3390 WARNING tempest.common.isolated_creds [-] tenant with name: L3AgentSchedulerTestJSON-884437501 not found for delete
+2015-07-31 21:39:14.400 3390 WARNING tempest.common.isolated_creds [-] user with name: L3AgentSchedulerTestJSON-720514778 not found for delete
+2015-07-31 21:39:14.693 3390 WARNING tempest.common.isolated_creds [-] tenant with name: L3AgentSchedulerTestJSON-1770732961 not found for delete
+tempest.api.network.admin.test_lbaas_agent_scheduler.LBaaSAgentSchedulerTestJSON
+    test_list_pools_on_lbaas_agent[gate,smoke]                        OK  0.66
+    test_show_lbaas_agent_hosting_pool[gate,smoke]                    OK  0.02
+2015-07-31 21:39:20.400 3390 WARNING tempest.common.isolated_creds [-] user with name: LBaaSAgentSchedulerTestJSON-1160839627 not found for delete
+2015-07-31 21:39:20.640 3390 WARNING tempest.common.isolated_creds [-] tenant with name: LBaaSAgentSchedulerTestJSON-1733224051 not found for delete
+2015-07-31 21:39:20.763 3390 WARNING tempest.common.isolated_creds [-] user with name: LBaaSAgentSchedulerTestJSON-2029374807 not found for delete
+2015-07-31 21:39:20.984 3390 WARNING tempest.common.isolated_creds [-] tenant with name: LBaaSAgentSchedulerTestJSON-2128201870 not found for delete
+tempest.api.network.admin.test_load_balancer_admin_actions.LoadBalancerAdminTestJSON
+    test_create_health_monitor_as_admin_for_another_tenant[gate,smoke]OK  0.48
+    test_create_member_from_admin_user_other_tenant[gate,smoke]       OK  0.37
+    test_create_pool_from_admin_user_other_tenant[gate,smoke]         OK  0.19
+    test_create_vip_as_admin_for_another_tenant[gate,smoke]           OK  0.64
+2015-07-31 21:39:27.593 3390 WARNING tempest.common.isolated_creds [-] user with name: LoadBalancerAdminTestJSON-7298350 not found for delete
+2015-07-31 21:39:27.811 3390 WARNING tempest.common.isolated_creds [-] tenant with name: LoadBalancerAdminTestJSON-330559281 not found for delete
+2015-07-31 21:39:27.922 3390 WARNING tempest.common.isolated_creds [-] user with name: LoadBalancerAdminTestJSON-51871868 not found for delete
+2015-07-31 21:39:28.147 3390 WARNING tempest.common.isolated_creds [-] tenant with name: LoadBalancerAdminTestJSON-55618859 not found for delete
+setUpClass (tempest.api.network.test_allowed_address_pair
+    AllowedAddressPairIpV6TestJSON)                                   SKIP  0.00
+tempest.api.network.test_allowed_address_pair.AllowedAddressPairTestJSON
+    test_create_list_port_with_address_pair[gate,smoke]               OK  0.42
+    test_update_port_with_address_pair[gate,smoke]                    OK  0.56
+    test_update_port_with_cidr_address_pair[gate,smoke]               OK  0.54
+    test_update_port_with_multiple_ip_mac_address_pair[gate,smoke]    OK  0.83
+2015-07-31 21:39:34.270 3390 WARNING tempest.common.isolated_creds [-] user with name: AllowedAddressPairTestJSON-337233941 not found for delete
+2015-07-31 21:39:34.502 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AllowedAddressPairTestJSON-457384959 not found for delete
+tempest.api.network.test_extensions.ExtensionsTestJSON
+    test_list_show_extensions[gate,smoke]                             OK  0.73
+2015-07-31 21:39:37.318 3390 WARNING tempest.common.isolated_creds [-] user with name: ExtensionsTestJSON-585221942 not found for delete
+2015-07-31 21:39:37.535 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ExtensionsTestJSON-489914420 not found for delete
+setUpClass (tempest.api.network.test_extra_dhcp_options
+    ExtraDHCPOptionsIpV6TestJSON)                                     SKIP  0.00
+tempest.api.network.test_extra_dhcp_options.ExtraDHCPOptionsTestJSON
+    test_create_list_port_with_extra_dhcp_options[gate,smoke]         OK  0.35
+    test_update_show_port_with_extra_dhcp_options[gate,smoke]         OK  0.15
+2015-07-31 21:39:41.963 3390 WARNING tempest.common.isolated_creds [-] user with name: ExtraDHCPOptionsTestJSON-1872075423 not found for delete
+2015-07-31 21:39:42.266 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ExtraDHCPOptionsTestJSON-723665773 not found for delete
+tempest.api.network.test_floating_ips.FloatingIPTestJSON
+    test_create_floating_ip_specifying_a_fixed_ip_address[gate,smoke] OK  0.54
+    test_create_list_show_update_delete_floating_ip[gate,smoke]       OK  0.79
+    test_create_update_floatingip_with_port_multiple_ip_address[gate,smoke]OK  1.18
+    test_floating_ip_delete_port[gate,smoke]                          OK  0.87
+    test_floating_ip_update_different_router[gate,smoke]              OK  2.03
+2015-07-31 21:39:53.582 3390 WARNING tempest.common.isolated_creds [-] user with name: FloatingIPTestJSON-1563348478 not found for delete
+2015-07-31 21:39:53.820 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FloatingIPTestJSON-2140586853 not found for delete
+tempest.api.network.test_floating_ips_negative.FloatingIPNegativeTestJSON
+    test_associate_floatingip_port_ext_net_unreachable[gate,negative,smoke]OK  0.28
+    test_create_floatingip_in_private_network[gate,negative,smoke]    OK  0.03
+    test_create_floatingip_with_port_ext_net_unreachable[gate,negative,smoke]OK  0.17
+2015-07-31 21:39:58.854 3390 WARNING tempest.common.isolated_creds [-] user with name: FloatingIPNegativeTestJSON-129519299 not found for delete
+2015-07-31 21:39:59.077 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FloatingIPNegativeTestJSON-1591936781 not found for delete
+tempest.api.network.test_fwaas_extensions.FWaaSExtensionTestJSON
+    test_firewall_rule_insertion_position_removal_rule_from_policy[gate,smoke]OK  0.62
+2015-07-31 21:40:02.659 3390 WARNING tempest.common.isolated_creds [-] user with name: FWaaSExtensionTestJSON-132923296 not found for delete
+2015-07-31 21:40:02.890 3390 WARNING tempest.common.isolated_creds [-] tenant with name: FWaaSExtensionTestJSON-1598911809 not found for delete
+tempest.api.network.test_load_balancer.LoadBalancerTestJSON
+    test_associate_disassociate_health_monitor_with_pool[gate,smoke]  OK  0.32
+    test_create_health_monitor_http_type[gate,smoke]                  OK  0.11
+    test_create_update_delete_health_monitor[gate,smoke]              OK  0.14
+    test_create_update_delete_member[gate,smoke]                      OK  0.21
+    test_create_update_delete_pool_vip[gate,smoke]                    OK  1.00
+    test_get_lb_pool_stats[gate,smoke]                                OK  0.05
+    test_list_health_monitors[gate,smoke]                             OK  0.01
+    test_list_health_monitors_with_filters[gate,smoke]                OK  0.19
+    test_list_members[gate,smoke]                                     OK  0.01
+    test_list_members_with_filters[gate,smoke]                        OK  0.23
+    test_list_pools[gate,smoke]                                       OK  0.03
+    test_list_pools_with_filters[gate,smoke]                          OK  0.43
+    test_list_vips[gate,smoke]                                        OK  0.03
+    test_list_vips_with_filter[gate,smoke]                            OK  1.10
+    test_show_health_monitor[gate,smoke]                              OK  0.02
+    test_show_member[gate,smoke]                                      OK  0.01
+    test_show_members_associated_with_pool[gate,smoke]                OK  0.03
+    test_show_pool[gate,smoke]                                        OK  0.20
+    test_show_vip[gate,smoke]                                         OK  0.04
+    test_show_vip_associated_with_pool[gate,smoke]                    OK  0.05
+    test_update_admin_state_up_of_pool[gate,smoke]                    OK  0.13
+    test_update_health_monitor_http_method[gate,smoke]                OK  0.14
+    test_update_list_of_health_monitors_associated_with_pool[gate,smoke]OK  0.35
+    test_update_member_weight[gate,smoke]                             OK  0.12
+    test_update_pool_related_to_member[gate,smoke]                    OK  0.41
+2015-07-31 21:40:12.967 3390 WARNING tempest.common.isolated_creds [-] user with name: LoadBalancerTestJSON-1846526776 not found for delete
+2015-07-31 21:40:13.263 3390 WARNING tempest.common.isolated_creds [-] tenant with name: LoadBalancerTestJSON-717809164 not found for delete
+setUpClass (tempest.api.network.test_metering_extensions
+    MeteringIpV6TestJSON)                                             SKIP  0.00
+tempest.api.network.test_metering_extensions.MeteringTestJSON
+    test_create_delete_metering_label_rule_with_filters[gate,smoke]   OK  0.15
+    test_create_delete_metering_label_with_filters[gate,smoke]        OK  0.19
+    test_list_metering_label_rules[gate,smoke]                        OK  0.01
+    test_list_metering_labels[gate,smoke]                             OK  0.01
+    test_show_metering_label[gate,smoke]                              OK  0.02
+    test_show_metering_label_rule[gate,smoke]                         OK  0.01
+2015-07-31 21:40:18.296 3390 WARNING tempest.common.isolated_creds [-] user with name: MeteringTestJSON-309278797 not found for delete
+2015-07-31 21:40:18.557 3390 WARNING tempest.common.isolated_creds [-] tenant with name: MeteringTestJSON-1744159204 not found for delete
+2015-07-31 21:40:18.685 3390 WARNING tempest.common.isolated_creds [-] user with name: MeteringTestJSON-964209765 not found for delete
+2015-07-31 21:40:18.921 3390 WARNING tempest.common.isolated_creds [-] tenant with name: MeteringTestJSON-1790078829 not found for delete
+tempest.api.network.test_networks.BulkNetworkOpsTestJSON
+    test_bulk_create_delete_network[gate,smoke]                       OK  1.06
+    test_bulk_create_delete_port[gate,smoke]                          OK  0.81
+    test_bulk_create_delete_subnet[gate,smoke]                        OK  0.86
+2015-07-31 21:40:24.262 3390 WARNING tempest.common.isolated_creds [-] user with name: BulkNetworkOpsTestJSON-1022519276 not found for delete
+2015-07-31 21:40:24.491 3390 WARNING tempest.common.isolated_creds [-] tenant with name: BulkNetworkOpsTestJSON-744937685 not found for delete
+setUpClass (tempest.api.network.test_networks
+    NetworksIpV6TestAttrs)                                            SKIP  0.00
+    NetworksIpV6TestJSON)                                             SKIP  0.00
+tempest.api.network.test_networks.NetworksTestJSON
+    test_create_delete_subnet_all_attributes[gate,smoke]              OK  0.48
+    test_create_delete_subnet_with_allocation_pools[gate,smoke]       OK  0.49
+    test_create_delete_subnet_with_dhcp_enabled[gate,smoke]           OK  0.35
+    test_create_delete_subnet_with_gw[gate,smoke]                     OK  0.36
+    test_create_delete_subnet_with_gw_and_allocation_pools[gate,smoke]OK  0.56
+    test_create_delete_subnet_with_host_routes_and_dns_nameservers[gate,smoke]OK  0.40
+    test_create_delete_subnet_without_gateway[gate,smoke]             OK  0.36
+    test_create_update_delete_network_subnet[gate,smoke]              OK  0.62
+    test_delete_network_with_subnet[gate,smoke]                       OK  0.45
+    test_external_network_visibility[gate,smoke]                      OK  0.05
+    test_list_networks[gate,smoke]                                    OK  0.03
+    test_list_networks_fields[gate,smoke]                             OK  0.04
+    test_list_subnets[gate,smoke]                                     OK  0.02
+    test_list_subnets_fields[gate,smoke]                              OK  0.02
+    test_show_network[gate,smoke]                                     OK  0.03
+    test_show_network_fields[gate,smoke]                              OK  0.03
+    test_show_subnet[gate,smoke]                                      OK  0.02
+    test_show_subnet_fields[gate,smoke]                               OK  0.02
+    test_update_subnet_gw_dns_host_routes_dhcp[gate,smoke]            OK  0.49
+2015-07-31 21:40:33.257 3390 WARNING tempest.common.isolated_creds [-] user with name: NetworksTestJSON-186169648 not found for delete
+2015-07-31 21:40:33.564 3390 WARNING tempest.common.isolated_creds [-] tenant with name: NetworksTestJSON-1572029665 not found for delete
+tempest.api.network.test_networks_negative.NetworksNegativeTestJSON
+    test_delete_non_existent_network[gate,negative,smoke]             OK  0.41
+    test_show_non_existent_network[gate,negative,smoke]               OK  0.29
+    test_show_non_existent_port[gate,negative,smoke]                  OK  0.01
+    test_show_non_existent_subnet[gate,negative,smoke]                OK  0.01
+    test_update_non_existent_network[gate,negative,smoke]             OK  0.01
+2015-07-31 21:40:36.214 3390 WARNING tempest.common.isolated_creds [-] user with name: NetworksNegativeTestJSON-1403134356 not found for delete
+2015-07-31 21:40:36.437 3390 WARNING tempest.common.isolated_creds [-] tenant with name: NetworksNegativeTestJSON-1981611560 not found for delete
+setUpClass (tempest.api.network.test_ports
+    PortsAdminExtendedAttrsIpV6TestJSON)                              SKIP  0.00
+tempest.api.network.test_ports.PortsAdminExtendedAttrsTestJSON
+    test_create_port_binding_ext_attr[gate,smoke]                     OK  1.32
+    test_list_ports_binding_ext_attr[gate,smoke]                      OK  0.45
+    test_show_port_binding_ext_attr[gate,smoke]                       OK  0.29
+    test_update_port_binding_ext_attr[gate,smoke]                     OK  0.44
+2015-07-31 21:40:44.901 3390 WARNING tempest.common.isolated_creds [-] user with name: PortsAdminExtendedAttrsTestJSON-67028287 not found for delete
+2015-07-31 21:40:45.221 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PortsAdminExtendedAttrsTestJSON-2103782463 not found for delete
+2015-07-31 21:40:45.370 3390 WARNING tempest.common.isolated_creds [-] user with name: PortsAdminExtendedAttrsTestJSON-130139674 not found for delete
+2015-07-31 21:40:45.883 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PortsAdminExtendedAttrsTestJSON-687056730 not found for delete
+setUpClass (tempest.api.network.test_ports
+    PortsIpV6TestJSON)                                                SKIP  0.00
+tempest.api.network.test_ports.PortsTestJSON
+    test_create_port_in_allowed_allocation_pools[gate,smoke]          OK  0.82
+    test_create_port_with_no_securitygroups[gate,smoke]               OK  0.73
+    test_create_show_delete_port_user_defined_mac[gate,smoke]         OK  0.62
+    test_create_update_delete_port[gate,smoke]                        OK  0.56
+    test_create_update_port_with_second_ip[gate,smoke]                OK  2.05
+    test_list_ports[gate,smoke]                                       OK  0.03
+    test_list_ports_fields[gate,smoke]                                OK  0.03
+    test_port_list_filter_by_router_id[gate,smoke]                    OK  1.17
+    test_show_port[gate,smoke]                                        OK  0.03
+    test_show_port_fields[gate,smoke]                                 OK  0.05
+    test_update_port_with_security_group_and_extra_attributes[gate,smoke]OK  1.39
+    test_update_port_with_two_security_groups_and_extra_attributes[gate,smoke]OK  1.58
+2015-07-31 21:40:59.733 3390 WARNING tempest.common.isolated_creds [-] user with name: PortsTestJSON-796397077 not found for delete
+2015-07-31 21:40:59.975 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PortsTestJSON-984277106 not found for delete
+setUpClass (tempest.api.network.test_routers
+    RoutersIpV6Test)                                                  SKIP  0.00
+tempest.api.network.test_routers.RoutersTest
+    test_add_multiple_router_interfaces[gate,smoke]                   OK  2.74
+    test_add_remove_router_interface_with_port_id[gate,smoke]         OK  1.04
+    test_add_remove_router_interface_with_subnet_id[gate,smoke]       OK  1.17
+    test_create_router_setting_tenant_id[gate,smoke]                  OK  1.23
+    test_create_router_with_default_snat_value[gate,smoke]            OK  0.43
+    test_create_router_with_snat_explicit[gate,smoke]                 OK  0.67
+    test_create_show_list_update_delete_router[gate,smoke]            OK  0.97
+    test_update_extra_route[gate,smoke]                               OK  1.50
+    test_update_router_admin_state[gate,smoke]                        OK  0.53
+    test_update_router_reset_gateway_without_snat[gate,smoke]         OK  0.91
+    test_update_router_set_gateway[gate,smoke]                        OK  0.81
+    test_update_router_set_gateway_with_snat_explicit[gate,smoke]     OK  0.81
+    test_update_router_set_gateway_without_snat[gate,smoke]           OK  0.91
+    test_update_router_unset_gateway[gate,smoke]                      OK  0.72
+2015-07-31 21:41:20.410 3390 WARNING tempest.common.isolated_creds [-] user with name: RoutersTest-2098951083 not found for delete
+2015-07-31 21:41:20.644 3390 WARNING tempest.common.isolated_creds [-] tenant with name: RoutersTest-1911509228 not found for delete
+2015-07-31 21:41:20.777 3390 WARNING tempest.common.isolated_creds [-] user with name: RoutersTest-455763398 not found for delete
+2015-07-31 21:41:21.065 3390 WARNING tempest.common.isolated_creds [-] tenant with name: RoutersTest-271638742 not found for delete
+setUpClass (tempest.api.network.test_routers_negative
+    RoutersNegativeIpV6Test)                                          SKIP  0.00
+tempest.api.network.test_routers_negative.RoutersNegativeTest
+    test_add_router_interfaces_on_overlapping_subnets_returns_400[gate,negative,smoke]OK  1.15
+    test_delete_non_existent_router_returns_404[gate,negative,smoke]  OK  0.04
+    test_router_add_gateway_invalid_network_returns_404[gate,negative,smoke]OK  0.20
+    test_router_add_gateway_net_not_external_returns_400[gate,negative,smoke]OK  0.40
+    test_router_remove_interface_in_use_returns_409[gate,negative,smoke]OK  0.34
+    test_show_non_existent_router_returns_404[gate,negative,smoke]    OK  0.05
+    test_update_non_existent_router_returns_404[gate,negative,smoke]  OK  0.05
+2015-07-31 21:41:29.172 3390 WARNING tempest.common.isolated_creds [-] user with name: RoutersNegativeTest-1552889554 not found for delete
+2015-07-31 21:41:29.395 3390 WARNING tempest.common.isolated_creds [-] tenant with name: RoutersNegativeTest-1188188227 not found for delete
+2015-07-31 21:41:29.529 3390 WARNING tempest.common.isolated_creds [-] user with name: RoutersNegativeTest-1195367807 not found for delete
+2015-07-31 21:41:29.750 3390 WARNING tempest.common.isolated_creds [-] tenant with name: RoutersNegativeTest-1107773427 not found for delete
+setUpClass (tempest.api.network.test_security_groups
+    SecGroupIPv6Test)                                                 SKIP  0.00
+tempest.api.network.test_security_groups.SecGroupTest
+    test_create_list_update_show_delete_security_group[gate,smoke]    OK  1.00
+    test_create_security_group_rule_with_additional_args[gate,smoke]  OK  0.25
+    test_create_security_group_rule_with_icmp_type_code[gate,smoke]   OK  0.63
+    test_create_security_group_rule_with_protocol_integer_value[gate,smoke]OK  0.21
+    test_create_security_group_rule_with_remote_group_id[gate,smoke]  OK  0.41
+    test_create_security_group_rule_with_remote_ip_prefix[gate,smoke] OK  0.26
+    test_create_show_delete_security_group_rule[gate,smoke]           OK  0.40
+    test_list_security_groups[gate,smoke]                             OK  0.02
+2015-07-31 21:41:34.970 3390 WARNING tempest.common.isolated_creds [-] user with name: SecGroupTest-1388916947 not found for delete
+2015-07-31 21:41:35.206 3390 WARNING tempest.common.isolated_creds [-] tenant with name: SecGroupTest-369471074 not found for delete
+setUpClass (tempest.api.network.test_security_groups_negative
+    NegativeSecGroupIPv6Test)                                         SKIP  0.00
+2015-07-31 21:41:38.222 3390 WARNING tempest.common.isolated_creds [-] user with name: NegativeSecGroupTest-1507593485 not found for delete
+2015-07-31 21:41:38.508 3390 WARNING tempest.common.isolated_creds [-] tenant with name: NegativeSecGroupTest-982926318 not found for delete
+tempest.api.network.test_security_groups_negative.NegativeSecGroupTest
+    test_create_additional_default_security_group_fails[gate,negative,smoke]OK  0.35
+    test_create_duplicate_security_group_rule_fails[gate,negative,smoke]OK  0.53
+    test_create_security_group_rule_with_non_existent_security_group[gate,negative,smoke]OK  0.04
+tempest.api.network.test_service_type_management.ServiceTypeManagementTestJSON
+    test_service_provider_list[gate,smoke]                            SKIP  0.00
+2015-07-31 21:41:40.683 3390 WARNING tempest.common.isolated_creds [-] user with name: ServiceTypeManagementTestJSON-36994976 not found for delete
+2015-07-31 21:41:40.928 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ServiceTypeManagementTestJSON-1662284495 not found for delete
+tempest.api.network.test_vpnaas_extensions.VPNaaSTestJSON
+    test_admin_create_ike_policy_for_tenant[gate,smoke]               OK  0.49
+    test_admin_create_ipsec_policy_for_tenant[gate,smoke]             OK  0.13
+    test_admin_create_vpn_service_for_tenant[gate,smoke]              OK  1.19
+    test_create_update_delete_ike_policy[gate,smoke]                  OK  0.22
+    test_create_update_delete_ipsec_policy[gate,smoke]                OK  0.18
+    test_create_update_delete_vpn_service[gate,smoke]                 OK  0.80
+    test_list_ike_policies[gate,smoke]                                OK  0.01
+    test_list_ipsec_policies[gate,smoke]                              OK  0.02
+    test_list_vpn_services[gate,smoke]                                OK  0.02
+    test_show_ike_policy[gate,smoke]                                  OK  0.02
+    test_show_ipsec_policy[gate,smoke]                                OK  0.02
+    test_show_vpn_service[gate,smoke]                                 OK  0.02
+2015-07-31 21:41:52.659 3390 WARNING tempest.common.isolated_creds [-] user with name: VPNaaSTestJSON-1377096265 not found for delete
+2015-07-31 21:41:52.945 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VPNaaSTestJSON-1461858011 not found for delete
+2015-07-31 21:41:53.081 3390 WARNING tempest.common.isolated_creds [-] user with name: VPNaaSTestJSON-234799975 not found for delete
+2015-07-31 21:41:53.309 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VPNaaSTestJSON-1777134480 not found for delete
+tempest.api.object_storage.test_account_quotas.AccountQuotasTest
+    test_admin_modify_quota[gate,smoke]                               OK  0.40
+    test_upload_valid_object[gate,smoke]                              OK  0.09
+2015-07-31 21:42:00.378 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasTest-1934517697 not found for delete
+2015-07-31 21:42:00.642 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasTest-908537891 not found for delete
+2015-07-31 21:42:00.767 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasTest-456024925 not found for delete
+2015-07-31 21:42:01.024 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasTest-1641336792 not found for delete
+2015-07-31 21:42:01.162 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasTest-2111220150 not found for delete
+2015-07-31 21:42:01.391 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasTest-1769874642 not found for delete
+tempest.api.object_storage.test_account_quotas_negative.AccountQuotasNegativeTest
+    test_upload_large_object[gate,negative,smoke]                     SKIP  0.29
+    test_user_modify_quota[gate,negative,smoke]                       OK  0.06
+2015-07-31 21:42:08.532 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasNegativeTest-880647806 not found for delete
+2015-07-31 21:42:08.832 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasNegativeTest-1304629037 not found for delete
+2015-07-31 21:42:08.962 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasNegativeTest-1373160292 not found for delete
+2015-07-31 21:42:09.202 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasNegativeTest-1488909976 not found for delete
+2015-07-31 21:42:09.334 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountQuotasNegativeTest-549154340 not found for delete
+2015-07-31 21:42:09.592 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountQuotasNegativeTest-1999787658 not found for delete
+tempest.api.object_storage.test_account_services.AccountTest
+    test_list_account_metadata[gate,smoke]                            OK  0.05
+    test_list_containers[gate,smoke]                                  OK  0.02
+    test_list_containers_with_end_marker[gate,smoke]                  OK  0.03
+    test_list_containers_with_format_json[gate,smoke]                 OK  0.02
+    test_list_containers_with_format_xml[gate,smoke]                  OK  0.02
+    test_list_containers_with_limit[gate,smoke]                       OK  0.07
+    test_list_containers_with_limit_and_end_marker[gate,smoke]        OK  0.02
+    test_list_containers_with_limit_and_marker[gate,smoke]            OK  0.17
+    test_list_containers_with_limit_and_marker_and_end_marker[gate,smoke]OK  0.02
+    test_list_containers_with_marker[gate,smoke]                      OK  0.04
+    test_list_containers_with_marker_and_end_marker[gate,smoke]       OK  0.01
+    test_list_extensions[gate,smoke]                                  OK  0.01
+    test_list_no_account_metadata[gate,smoke]                         OK  0.01
+    test_list_no_containers[gate,smoke]                               OK  1.24
+    test_update_account_metadata_with_create_and_delete_metadata[gate,smoke]OK  0.08
+    test_update_account_metadata_with_create_matadata_key[gate,smoke] OK  0.04
+    test_update_account_metadata_with_create_metadata[gate,smoke]     OK  0.05
+    test_update_account_metadata_with_delete_matadata[gate,smoke]     OK  0.07
+    test_update_account_metadata_with_delete_matadata_key[gate,smoke] OK  0.06
+2015-07-31 21:42:17.850 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountTest-177562712 not found for delete
+2015-07-31 21:42:18.083 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountTest-676041454 not found for delete
+2015-07-31 21:42:18.216 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountTest-390871948 not found for delete
+2015-07-31 21:42:18.459 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountTest-1301832421 not found for delete
+2015-07-31 21:42:18.641 3390 WARNING tempest.common.isolated_creds [-] user with name: AccountTest-2080249832 not found for delete
+2015-07-31 21:42:18.929 3390 WARNING tempest.common.isolated_creds [-] tenant with name: AccountTest-348629254 not found for delete
+tempest.api.object_storage.test_container_acl.ObjectTestACLs
+    test_read_object_with_rights[gate,smoke]                          OK  0.90
+    test_write_object_with_rights[gate,smoke]                         OK  0.17
+2015-07-31 21:42:26.260 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTestACLs-1262871303 not found for delete
+2015-07-31 21:42:26.484 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTestACLs-734827626 not found for delete
+2015-07-31 21:42:26.623 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTestACLs-1469643492 not found for delete
+2015-07-31 21:42:26.893 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTestACLs-40144091 not found for delete
+2015-07-31 21:42:27.024 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTestACLs-1524748269 not found for delete
+2015-07-31 21:42:27.263 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTestACLs-1227814340 not found for delete
+tempest.api.object_storage.test_container_acl_negative.ObjectACLsNegativeTest
+    test_delete_object_without_write_rights[gate,negative,smoke]      OK  0.85
+    test_read_object_without_rights[gate,negative,smoke]              OK  0.17
+    test_write_object_without_rights[gate,negative,smoke]             OK  0.12
+    test_write_object_without_write_rights[gate,negative,smoke]       OK  0.12
+2015-07-31 21:42:34.690 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectACLsNegativeTest-801043858 not found for delete
+2015-07-31 21:42:34.998 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectACLsNegativeTest-719659261 not found for delete
+2015-07-31 21:42:35.147 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectACLsNegativeTest-1919988662 not found for delete
+2015-07-31 21:42:35.382 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectACLsNegativeTest-292577533 not found for delete
+2015-07-31 21:42:35.516 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectACLsNegativeTest-1281648197 not found for delete
+2015-07-31 21:42:35.736 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectACLsNegativeTest-1090595532 not found for delete
+tempest.api.object_storage.test_container_quotas.ContainerQuotasTest
+    test_upload_large_object[gate,smoke]                              OK  0.56
+    test_upload_too_many_objects[gate,smoke]                          OK  0.28
+    test_upload_valid_object[gate,smoke]                              OK  0.20
+2015-07-31 21:42:42.044 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerQuotasTest-1309234485 not found for delete
+2015-07-31 21:42:42.302 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerQuotasTest-2087294982 not found for delete
+2015-07-31 21:42:42.438 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerQuotasTest-1332700496 not found for delete
+2015-07-31 21:42:42.685 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerQuotasTest-972049637 not found for delete
+2015-07-31 21:42:42.821 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerQuotasTest-863051692 not found for delete
+2015-07-31 21:42:43.068 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerQuotasTest-456405135 not found for delete
+tempest.api.object_storage.test_container_services.ContainerTest
+    test_create_container[gate,smoke]                                 OK  0.56
+    test_create_container_overwrite[gate,smoke]                       OK  0.12
+    test_create_container_with_metadata_key[gate,smoke]               OK  0.10
+    test_create_container_with_metadata_value[gate,smoke]             OK  0.10
+    test_create_container_with_remove_metadata_key[gate,smoke]        OK  0.13
+    test_create_container_with_remove_metadata_value[gate,smoke]      OK  0.14
+    test_delete_container[gate,smoke]                                 OK  0.07
+    test_list_container_contents[gate,smoke]                          OK  0.17
+    test_list_container_contents_with_delimiter[gate,smoke]           OK  0.20
+    test_list_container_contents_with_end_marker[gate,smoke]          OK  0.15
+    test_list_container_contents_with_format_json[gate,smoke]         OK  0.17
+    test_list_container_contents_with_format_xml[gate,smoke]          OK  0.17
+    test_list_container_contents_with_limit[gate,smoke]               OK  0.17
+    test_list_container_contents_with_marker[gate,smoke]              OK  0.18
+    test_list_container_contents_with_no_object[gate,smoke]           OK  0.10
+    test_list_container_contents_with_path[gate,smoke]                OK  0.19
+    test_list_container_contents_with_prefix[gate,smoke]              OK  0.17
+    test_list_container_metadata[gate,smoke]                          OK  0.10
+    test_list_no_container_metadata[gate,smoke]                       OK  0.10
+    test_update_container_metadata_with_create_and_delete_matadata[gate,smoke]OK  0.14
+    test_update_container_metadata_with_create_matadata_key[gate,smoke]OK  0.12
+    test_update_container_metadata_with_create_metadata[gate,smoke]   OK  0.11
+    test_update_container_metadata_with_delete_metadata[gate,smoke]   OK  0.10
+    test_update_container_metadata_with_delete_metadata_key[gate,smoke]OK  0.10
+2015-07-31 21:42:51.764 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-1908416784 not found for delete
+2015-07-31 21:42:52.122 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-1995281995 not found for delete
+2015-07-31 21:42:52.259 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-1668094979 not found for delete
+2015-07-31 21:42:52.497 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-1765518746 not found for delete
+2015-07-31 21:42:52.632 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-1930611753 not found for delete
+2015-07-31 21:42:52.879 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-703146742 not found for delete
+tempest.api.object_storage.test_object_services.ObjectTest
+    test_copy_object_2d_way[gate,smoke]                               OK  0.11
+    test_copy_object_across_containers[gate,smoke]                    OK  0.26
+    test_copy_object_in_same_container[gate,smoke]                    OK  0.11
+    test_copy_object_to_itself[gate,smoke]                            OK  0.10
+    test_copy_object_with_x_fresh_metadata[gate,smoke]                OK  0.09
+    test_copy_object_with_x_object_meta[gate,smoke]                   OK  0.09
+    test_copy_object_with_x_object_metakey[gate,smoke]                OK  0.10
+    test_get_object[gate,smoke]                                       OK  0.04
+    test_get_object_with_if_match[gate,smoke]                         OK  0.04
+    test_get_object_with_if_modified_since[gate,smoke]                OK  0.04
+    test_get_object_with_if_unmodified_since[gate,smoke]              OK  0.04
+    test_get_object_with_metadata[gate,smoke]                         OK  0.04
+    test_get_object_with_range[gate,smoke]                            OK  0.04
+    test_get_object_with_x_newest[gate,smoke]                         OK  0.06
+    test_get_object_with_x_object_manifest[gate,smoke]                OK  0.50
+    test_list_no_object_metadata[gate,smoke]                          OK  0.04
+    test_list_object_metadata[gate,smoke]                             OK  0.07
+    test_list_object_metadata_with_x_object_manifest[gate,smoke]      OK  0.33
+    test_update_object_metadata[gate,smoke]                           OK  0.08
+    test_update_object_metadata_with_create_and_remove_metadata[gate,smoke]OK  0.08
+    test_update_object_metadata_with_x_object_manifest[gate,smoke]    OK  0.34
+    test_update_object_metadata_with_x_remove_object_metakey[gate,smoke]OK  0.09
+2015-07-31 21:43:02.338 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTest-1039511961 not found for delete
+2015-07-31 21:43:02.580 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTest-1339549563 not found for delete
+2015-07-31 21:43:02.717 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTest-50617094 not found for delete
+2015-07-31 21:43:02.999 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTest-704926090 not found for delete
+2015-07-31 21:43:03.184 3390 WARNING tempest.common.isolated_creds [-] user with name: ObjectTest-1453619777 not found for delete
+2015-07-31 21:43:03.494 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ObjectTest-1973790158 not found for delete
+tempest.api.object_storage.test_object_services.PublicObjectTest
+    test_access_public_container_object_without_using_creds[gate,smoke]OK  0.69
+    test_access_public_object_with_another_user_creds[gate,smoke]     OK  0.57
+2015-07-31 21:43:09.745 3390 WARNING tempest.common.isolated_creds [-] user with name: PublicObjectTest-1915513446 not found for delete
+2015-07-31 21:43:09.993 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PublicObjectTest-74572108 not found for delete
+2015-07-31 21:43:10.132 3390 WARNING tempest.common.isolated_creds [-] user with name: PublicObjectTest-2083979845 not found for delete
+2015-07-31 21:43:10.380 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PublicObjectTest-982462655 not found for delete
+2015-07-31 21:43:10.516 3390 WARNING tempest.common.isolated_creds [-] user with name: PublicObjectTest-1009071440 not found for delete
+2015-07-31 21:43:10.773 3390 WARNING tempest.common.isolated_creds [-] tenant with name: PublicObjectTest-900359824 not found for delete
+tempest.api.object_storage.test_object_version.ContainerTest
+    test_versioned_container[gate,smoke]                              OK  0.86
+2015-07-31 21:43:16.769 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-680091858 not found for delete
+2015-07-31 21:43:17.011 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-467679466 not found for delete
+2015-07-31 21:43:17.151 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-2032466452 not found for delete
+2015-07-31 21:43:17.395 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-1550656955 not found for delete
+2015-07-31 21:43:17.533 3390 WARNING tempest.common.isolated_creds [-] user with name: ContainerTest-1538574788 not found for delete
+2015-07-31 21:43:17.768 3390 WARNING tempest.common.isolated_creds [-] tenant with name: ContainerTest-212351073 not found for delete
+tempest.api.orchestration.stacks.test_resource_types.ResourceTypesTest
+    test_resource_type_list[gate,smoke]                               OK  0.45
+    test_resource_type_show[gate,smoke]                               FAIL
+    test_resource_type_template[gate,smoke]                           OK  0.03
+tempest.api.orchestration.stacks.test_soft_conf.TestSoftwareConfig
+    test_get_deployment_list[gate,smoke]                              OK  0.69
+    test_get_deployment_metadata[gate,smoke]                          OK  0.33
+    test_get_software_config[gate,smoke]                              OK  0.34
+    test_software_deployment_create_validate[gate,smoke]              OK  0.31
+    test_software_deployment_update_no_metadata_change[gate,smoke]    OK  0.42
+    test_software_deployment_update_with_metadata_change[gate,smoke]  OK  0.41
+tempest.api.orchestration.stacks.test_stacks.StacksTestJSON
+    test_stack_crud_no_resources[gate,smoke]                          OK  2.89
+    test_stack_list_responds[gate,smoke]                              OK  0.03
+2015-07-31 21:43:28.702 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeMultiBackendV1Test-1042262391 not found for delete
+2015-07-31 21:43:29.011 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeMultiBackendV1Test-1799107490 not found for delete
+2015-07-31 21:43:29.156 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeMultiBackendV1Test-1319415796 not found for delete
+2015-07-31 21:43:29.390 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeMultiBackendV1Test-1700504985 not found for delete
+setUpClass (tempest.api.telemetry.test_telemetry_notification_api
+    TelemetryNotificationAPITestJSON)                                 SKIP  0.00
+setUpClass (tempest.api.volume.admin.test_multi_backend
+    VolumeMultiBackendV1Test)                                         SKIP  0.00
+2015-07-31 21:43:33.100 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeMultiBackendV2Test-389218285 not found for delete
+2015-07-31 21:43:33.352 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeMultiBackendV2Test-1678729010 not found for delete
+2015-07-31 21:43:33.492 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeMultiBackendV2Test-134144522 not found for delete
+2015-07-31 21:43:33.730 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeMultiBackendV2Test-1778702523 not found for delete
+    VolumeMultiBackendV2Test)                                         SKIP  0.00
+tempest.api.volume.admin.test_volume_types.VolumeTypesV1Test
+    test_volume_crud_with_volume_type_and_extra_specs[gate,smoke]     OK  5.74
+    test_volume_type_create_get_delete[gate,smoke]                    OK  0.10
+    test_volume_type_encryption_create_get_delete[gate,smoke]         OK  0.25
+    test_volume_type_list[gate,smoke]                                 OK  0.02
+2015-07-31 21:43:43.922 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesV1Test-2081295217 not found for delete
+2015-07-31 21:43:44.224 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesV1Test-851911558 not found for delete
+2015-07-31 21:43:44.369 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesV1Test-141630641 not found for delete
+2015-07-31 21:43:44.622 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesV1Test-171139154 not found for delete
+tempest.api.volume.admin.test_volume_types.VolumeTypesV2Test
+    test_volume_crud_with_volume_type_and_extra_specs[gate,smoke]     OK  5.17
+    test_volume_type_create_get_delete[gate,smoke]                    OK  0.11
+    test_volume_type_encryption_create_get_delete[gate,smoke]         OK  0.27
+    test_volume_type_list[gate,smoke]                                 OK  0.02
+2015-07-31 21:43:54.279 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesV2Test-7859745 not found for delete
+2015-07-31 21:43:54.514 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesV2Test-1815228470 not found for delete
+2015-07-31 21:43:54.650 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesV2Test-1074627640 not found for delete
+2015-07-31 21:43:54.900 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesV2Test-1279717076 not found for delete
+tempest.api.volume.admin.test_volume_types_extra_specs.VolumeTypesExtraSpecsV1Test
+    test_volume_type_extra_spec_create_get_delete[gate,smoke]         OK  0.38
+    test_volume_type_extra_specs_list[gate,smoke]                     OK  0.06
+2015-07-31 21:43:59.681 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesExtraSpecsV1Test-522223601 not found for delete
+2015-07-31 21:43:59.919 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesExtraSpecsV1Test-2032066120 not found for delete
+2015-07-31 21:44:00.061 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesExtraSpecsV1Test-734987472 not found for delete
+2015-07-31 21:44:00.310 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesExtraSpecsV1Test-1994426169 not found for delete
+tempest.api.volume.admin.test_volume_types_extra_specs.VolumeTypesExtraSpecsV2Test
+    test_volume_type_extra_spec_create_get_delete[gate,smoke]         OK  0.33
+    test_volume_type_extra_specs_list[gate,smoke]                     OK  0.05
+2015-07-31 21:44:05.352 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesExtraSpecsV2Test-1790987924 not found for delete
+2015-07-31 21:44:05.587 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesExtraSpecsV2Test-24159620 not found for delete
+2015-07-31 21:44:05.781 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumeTypesExtraSpecsV2Test-961332433 not found for delete
+2015-07-31 21:44:06.014 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumeTypesExtraSpecsV2Test-335859635 not found for delete
+2015-07-31 21:44:09.867 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesBackupsV1Test-1198734457 not found for delete
+2015-07-31 21:44:10.110 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesBackupsV1Test-481894660 not found for delete
+2015-07-31 21:44:10.256 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesBackupsV1Test-783310954 not found for delete
+2015-07-31 21:44:10.541 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesBackupsV1Test-462471378 not found for delete
+setUpClass (tempest.api.volume.admin.test_volumes_backup
+    VolumesBackupsV1Test)                                             SKIP  0.00
+2015-07-31 21:44:14.461 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesBackupsV2Test-118796866 not found for delete
+2015-07-31 21:44:14.726 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesBackupsV2Test-2066670512 not found for delete
+2015-07-31 21:44:14.882 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesBackupsV2Test-1347203739 not found for delete
+2015-07-31 21:44:15.142 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesBackupsV2Test-4040221 not found for delete
+    VolumesBackupsV2Test)                                             SKIP  0.00
+tempest.api.volume.test_qos.QosSpecsV1TestJSON
+    test_associate_disassociate_qos[gate,smoke]                       OK  0.92
+    test_create_delete_qos_with_both_consumer[gate,smoke]             OK  0.10
+    test_get_qos[gate,smoke]                                          OK  0.02
+    test_list_qos[gate,smoke]                                         OK  0.02
+    test_set_unset_qos_key[gate,smoke]                                OK  0.12
+2015-07-31 21:44:20.766 3390 WARNING tempest.common.isolated_creds [-] user with name: QosSpecsV1TestJSON-160130347 not found for delete
+2015-07-31 21:44:21.071 3390 WARNING tempest.common.isolated_creds [-] tenant with name: QosSpecsV1TestJSON-1989936845 not found for delete
+2015-07-31 21:44:21.224 3390 WARNING tempest.common.isolated_creds [-] user with name: QosSpecsV1TestJSON-1498296050 not found for delete
+2015-07-31 21:44:21.456 3390 WARNING tempest.common.isolated_creds [-] tenant with name: QosSpecsV1TestJSON-1507825795 not found for delete
+tempest.api.volume.test_qos.QosSpecsV2TestJSON
+    test_associate_disassociate_qos[gate,smoke]                       OK  0.84
+    test_create_delete_qos_with_both_consumer[gate,smoke]             OK  0.13
+    test_get_qos[gate,smoke]                                          OK  0.02
+    test_list_qos[gate,smoke]                                         OK  0.02
+    test_set_unset_qos_key[gate,smoke]                                OK  0.15
+2015-07-31 21:44:27.094 3390 WARNING tempest.common.isolated_creds [-] user with name: QosSpecsV2TestJSON-2113532839 not found for delete
+2015-07-31 21:44:27.351 3390 WARNING tempest.common.isolated_creds [-] tenant with name: QosSpecsV2TestJSON-1452267382 not found for delete
+2015-07-31 21:44:27.501 3390 WARNING tempest.common.isolated_creds [-] user with name: QosSpecsV2TestJSON-1309948213 not found for delete
+2015-07-31 21:44:27.750 3390 WARNING tempest.common.isolated_creds [-] tenant with name: QosSpecsV2TestJSON-946753276 not found for delete
+tempest.api.volume.test_volumes_actions.VolumesV1ActionsTest
+    test_attach_detach_volume_to_instance[compute,gate,smoke,stress]  OK  1.22
+2015-07-31 21:45:10.087 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV1ActionsTest-740144580 not found for delete
+2015-07-31 21:45:10.347 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV1ActionsTest-774876742 not found for delete
+tempest.api.volume.test_volumes_actions.VolumesV2ActionsTest
+    test_attach_detach_volume_to_instance[compute,gate,smoke,stress]  OK  1.23
+2015-07-31 21:45:52.831 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV2ActionsTest-789445328 not found for delete
+2015-07-31 21:45:53.087 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV2ActionsTest-1940574244 not found for delete
+tempest.api.volume.test_volumes_get.VolumesV1GetTest
+    test_volume_create_get_update_delete[gate,smoke]                  OK  5.78
+    test_volume_create_get_update_delete_from_image[gate,image,smoke] OK  9.16
+2015-07-31 21:46:10.429 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV1GetTest-1513648704 not found for delete
+2015-07-31 21:46:10.676 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV1GetTest-802196564 not found for delete
+tempest.api.volume.test_volumes_get.VolumesV2GetTest
+    test_volume_create_get_update_delete[gate,smoke]                  OK  6.19
+    test_volume_create_get_update_delete_from_image[gate,image,smoke] OK  9.48
+2015-07-31 21:46:28.689 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV2GetTest-832779475 not found for delete
+2015-07-31 21:46:28.986 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV2GetTest-589584491 not found for delete
+tempest.api.volume.test_volumes_list.VolumesV1ListTestJSON
+    test_volume_list[gate,smoke]                                      OK  0.04
+2015-07-31 21:46:40.305 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV1ListTestJSON-2141684638 not found for delete
+2015-07-31 21:46:40.671 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV1ListTestJSON-1660626552 not found for delete
+tempest.api.volume.test_volumes_list.VolumesV2ListTestJSON
+    test_volume_list[gate,smoke]                                      OK  0.04
+2015-07-31 21:46:52.139 3390 WARNING tempest.common.isolated_creds [-] user with name: VolumesV2ListTestJSON-1843001910 not found for delete
+2015-07-31 21:46:52.387 3390 WARNING tempest.common.isolated_creds [-] tenant with name: VolumesV2ListTestJSON-1818107219 not found for delete
+tempest.cli.simple_read_only.network.test_neutron.SimpleReadOnlyNeutronClientTest
+    test_neutron_agent_list[gate,smoke]                               OK  0.89
+    test_neutron_debug_net_list[gate,smoke]                           OK  0.82
+    test_neutron_dhcp_agent_list_hosting_net[gate,smoke]              OK  0.85
+    test_neutron_ext_list[gate,smoke]                                 OK  1.19
+    test_neutron_fake_action[gate,smoke]                              OK  0.65
+2015-07-31 21:47:00.555 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_firewall_list[gate,smoke]                            OK  1.05
+2015-07-31 21:47:01.364 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_firewall_policy_list[gate,smoke]                     OK  0.81
+2015-07-31 21:47:02.217 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_firewall_rule_list[gate,smoke]                       OK  0.85
+    test_neutron_floatingip_list[gate,smoke]                          OK  0.83
+    test_neutron_help[gate,smoke]                                     OK  0.42
+2015-07-31 21:47:04.287 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_ipsec_site_connection_list[gate,smoke]               OK  0.82
+    test_neutron_lb_healthmonitor_list[gate,smoke]                    OK  1.24
+    test_neutron_lb_member_list[gate,smoke]                           OK  0.96
+    test_neutron_lb_pool_list[gate,smoke]                             OK  0.84
+    test_neutron_lb_vip_list[gate,smoke]                              OK  0.80
+    test_neutron_meter_label_list[gate,smoke]                         OK  0.77
+    test_neutron_meter_label_rule_list[gate,smoke]                    OK  0.78
+    test_neutron_net_external_list[gate,smoke]                        OK  0.90
+    test_neutron_net_list[gate,smoke]                                 OK  0.88
+    test_neutron_port_list[gate,smoke]                                OK  0.79
+    test_neutron_quiet_net_list[gate,smoke]                           OK  1.02
+    test_neutron_quota_list[gate,smoke]                               OK  0.76
+    test_neutron_router_list[gate,smoke]                              OK  0.81
+    test_neutron_security_group_list[gate,smoke]                      OK  0.88
+    test_neutron_security_group_rule_list[gate,smoke]                 OK  0.82
+    test_neutron_subnet_list[gate,smoke]                              OK  0.81
+    test_neutron_version[gate,smoke]                                  OK  0.34
+2015-07-31 21:47:18.601 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_vpn_ikepolicy_list[gate,smoke]                       OK  0.85
+2015-07-31 21:47:19.392 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_vpn_ipsecpolicy_list[gate,smoke]                     OK  0.79
+2015-07-31 21:47:20.165 3390 WARNING tempest_lib.cli.output_parser [-] skipping invalid table line: 
+    test_neutron_vpn_service_list[gate,smoke]                         OK  0.77
+2015-07-31 21:48:10.939 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.72 ([Errno 111] Connection refused). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:48:13.447 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:13.609 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:13.988 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:14.148 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:14.269 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:14.429 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:17.023 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:17.181 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:17.319 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:17.477 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:17.623 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:17.783 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:17.954 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:18.119 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:18.273 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:18.433 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:48:19.453 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 192.168.0.17 via a ssh connection from: 10.5.150.72.
+2015-07-31 21:48:20.574 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:48:20.733 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps
+    test_hotplug_nic[compute,gate,network,smoke]                      OK  64.62
+2015-07-31 21:49:13.076 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.74 ([Errno 111] Connection refused). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:49:15.585 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:15.729 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:49:15.920 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:16.065 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:49:16.211 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:16.362 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:49:16.507 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:16.661 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:49:16.820 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:16.978 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:49:17.102 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:49:17.254 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:50:02.708 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.74 ([Errno 111] Connection refused). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:50:05.215 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:50:05.353 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_network_basic_ops[compute,gate,network,smoke]                OK  105.40
+    test_subnet_details[compute,gate,network,smoke]                   SKIP  0.00
+2015-07-31 21:50:58.857 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:50:58.995 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:51:06.488 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:51:06.636 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_update_instance_port_admin_state[compute,gate,network,smoke] OK  59.00
+2015-07-31 21:51:58.873 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:51:59.110 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:52:05.775 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:52:05.988 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_update_router_admin_state[compute,gate,network,smoke]        OK  59.27
+2015-07-31 21:53:01.211 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.80 ([Errno 113] No route to host). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:53:03.719 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:03.930 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:04.050 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:04.266 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:50.771 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.82 ([Errno 113] No route to host). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:53:53.277 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.82 ([Errno 111] Connection refused). Number attempts: 2. Retry after 3 seconds.
+2015-07-31 21:53:56.786 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:56.916 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:57.041 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:57.192 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:57.375 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:57.597 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:57.718 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:57.936 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:58.954 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 10.5.150.82 via a ssh connection from: 10.5.150.80.
+2015-07-31 21:53:59.147 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:59.364 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:53:59.485 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:53:59.701 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:00.717 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 10.5.150.82 via a ssh connection from: 10.5.150.80.
+2015-07-31 21:54:01.837 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:02.051 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:02.187 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:02.338 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:02.468 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:02.619 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:03.646 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 10.5.150.80 via a ssh connection from: 10.5.150.82.
+2015-07-31 21:54:03.828 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:03.979 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:04.108 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:04.255 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:54:05.294 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 10.5.150.80 via a ssh connection from: 10.5.150.82.
+2015-07-31 21:54:06.415 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:54:06.568 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps
+    test_cross_tenant_traffic[compute,gate,network,smoke]             OK  120.47
+2015-07-31 21:55:01.419 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.84 ([Errno 113] No route to host). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:55:03.927 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:04.082 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:04.209 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:04.374 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:43.681 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:43.838 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:43.961 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:44.119 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:45.138 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 192.168.0.4 via a ssh connection from: 10.5.150.84.
+2015-07-31 21:55:45.785 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:45.943 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:46.067 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:46.223 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:55:47.245 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 192.168.0.4 via a ssh connection from: 10.5.150.84.
+2015-07-31 21:55:48.366 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:55:48.523 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_in_tenant_traffic[compute,gate,network,smoke]                OK  100.85
+2015-07-31 21:56:41.047 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.86 ([Errno 113] No route to host). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:56:43.558 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:56:43.696 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:56:43.822 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:56:43.971 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:56:47.280 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:56:47.429 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_multiple_security_groups[compute,gate,network,smoke]         OK  55.30
+2015-07-31 21:57:37.599 3390 WARNING tempest.common.ssh [-] Failed to establish authenticated ssh connection to cirros@10.5.150.88 ([Errno 113] No route to host). Number attempts: 1. Retry after 2 seconds.
+2015-07-31 21:57:40.107 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:57:40.263 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:57:40.388 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:57:40.543 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:58:19.473 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:58:19.619 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:58:19.765 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:58:19.910 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:58:20.954 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 192.168.0.4 via a ssh connection from: 10.5.150.88.
+2015-07-31 21:58:21.535 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:58:21.690 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+2015-07-31 21:58:22.710 3390 WARNING tempest.scenario.manager [-] Failed to ping IP: 192.168.0.4 via a ssh connection from: 10.5.150.88.
+2015-07-31 21:58:23.830 3390 INFO paramiko.transport [-] Connected (version 2.0, client dropbear_2012.55)
+2015-07-31 21:58:23.979 3390 INFO paramiko.transport [-] Authentication (publickey) successful!
+    test_port_update_new_security_group[compute,gate,network,smoke]   OK  100.21
+
+Slowest 10 tests took 783.10 secs:
+tempest.api.compute.servers.test_attach_interfaces.AttachInterfacesTestJSON
+    test_create_list_show_delete_interfaces[gate,network,smoke]           49.97
+tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON
+    test_rebuild_server[gate,smoke]                                       68.00
+tempest.scenario.test_network_basic_ops.TestNetworkBasicOps
+    test_hotplug_nic[compute,gate,network,smoke]                          64.62
+    test_network_basic_ops[compute,gate,network,smoke]                    105.40
+    test_update_instance_port_admin_state[compute,gate,network,smoke]     59.00
+    test_update_router_admin_state[compute,gate,network,smoke]            59.27
+tempest.scenario.test_security_groups_basic_ops.TestSecurityGroupsBasicOps
+    test_cross_tenant_traffic[compute,gate,network,smoke]                 120.47
+    test_in_tenant_traffic[compute,gate,network,smoke]                    100.85
+    test_multiple_security_groups[compute,gate,network,smoke]             55.30
+    test_port_update_new_security_group[compute,gate,network,smoke]       100.21
+
+======================================================================
+FAIL: tempest.api.identity.admin.v3.test_default_project_id.TestDefaultProjectId.test_default_project_id[gate,smoke]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+_StringException: Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/identity/admin/v3/test_default_project_id.py", line 64, in test_default_project_id
+    admin_role_id = admin_role['id']
+TypeError: 'NoneType' object has no attribute '__getitem__'
+Traceback (most recent call last):
+_StringException: Empty attachments:
+  pythonlogging:''
+  stderr
+  stdout
+
+Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/identity/admin/v3/test_default_project_id.py", line 64, in test_default_project_id
+    admin_role_id = admin_role['id']
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+Traceback (most recent call last):
+_StringException: Empty attachments:
+  pythonlogging:''
+  stderr
+  stdout
+
+Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/identity/admin/v3/test_default_project_id.py", line 64, in test_default_project_id
+    admin_role_id = admin_role['id']
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+
+======================================================================
+FAIL: tempest.api.orchestration.stacks.test_resource_types.ResourceTypesTest.test_resource_type_show[gate,smoke]
+----------------------------------------------------------------------
+Traceback (most recent call last):
+_StringException: Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/orchestration/stacks/test_resource_types.py", line 33, in test_resource_type_show
+    type_schema = self.client.get_resource_type(resource_type)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/services/orchestration/json/orchestration_client.py", line 301, in get_resource_type
+    resp, body = self.get(url)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 172, in get
+    return self.request('GET', url, extra_headers, headers)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/common/service_client.py", line 60, in request
+    headers=headers, body=body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 388, in request
+    resp, resp_body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 439, in _error_checker
+    raise exceptions.BadRequest(resp_body)
+BadRequest: Bad request
+Details: {u'title': u'Bad Request', u'explanation': u'The server could not comply with the request since it is either malformed or otherwise incorrect.', u'code': 400, u'error': {u'message': u'Could not fetch remote template "file:///etc/heat/templates/AWS_CloudWatch_Alarm.yaml": Failed to retrieve template: <urlopen error [Errno 2] No such file or directory: \'/etc/heat/templates/AWS_CloudWatch_Alarm.yaml\'>', u'traceback': None, u'type': u'StackValidationFailed'}}
+Traceback (most recent call last):
+_StringException: Empty attachments:
+  pythonlogging:''
+  stderr
+  stdout
+
+Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/orchestration/stacks/test_resource_types.py", line 33, in test_resource_type_show
+    type_schema = self.client.get_resource_type(resource_type)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/services/orchestration/json/orchestration_client.py", line 301, in get_resource_type
+    resp, body = self.get(url)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 172, in get
+    return self.request('GET', url, extra_headers, headers)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/common/service_client.py", line 60, in request
+    headers=headers, body=body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 388, in request
+    resp, resp_body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 439, in _error_checker
+    raise exceptions.BadRequest(resp_body)
+BadRequest: Bad request
+Details: {u'title': u'Bad Request', u'explanation': u'The server could not comply with the request since it is either malformed or otherwise incorrect.', u'code': 400, u'error': {u'message': u'Could not fetch remote template "file:///etc/heat/templates/AWS_CloudWatch_Alarm.yaml": Failed to retrieve template: <urlopen error [Errno 2] No such file or directory: \'/etc/heat/templates/AWS_CloudWatch_Alarm.yaml\'>', u'traceback': None, u'type': u'StackValidationFailed'}}
+
+Traceback (most recent call last):
+_StringException: Empty attachments:
+  pythonlogging:''
+  stderr
+  stdout
+
+Traceback (most recent call last):
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/api/orchestration/stacks/test_resource_types.py", line 33, in test_resource_type_show
+    type_schema = self.client.get_resource_type(resource_type)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/services/orchestration/json/orchestration_client.py", line 301, in get_resource_type
+    resp, body = self.get(url)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 172, in get
+    return self.request('GET', url, extra_headers, headers)
+  File "/home/ubuntu/openstack-charm-testing/tempest/tempest/common/service_client.py", line 60, in request
+    headers=headers, body=body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 388, in request
+    resp, resp_body)
+  File "/usr/local/lib/python2.7/dist-packages/tempest_lib/common/rest_client.py", line 439, in _error_checker
+    raise exceptions.BadRequest(resp_body)
+BadRequest: Bad request
+Details: {u'title': u'Bad Request', u'explanation': u'The server could not comply with the request since it is either malformed or otherwise incorrect.', u'code': 400, u'error': {u'message': u'Could not fetch remote template "file:///etc/heat/templates/AWS_CloudWatch_Alarm.yaml": Failed to retrieve template: <urlopen error [Errno 2] No such file or directory: \'/etc/heat/templates/AWS_CloudWatch_Alarm.yaml\'>', u'traceback': None, u'type': u'StackValidationFailed'}}
+
+
+Ran 446 tests in 1800.815s
+
+FAILED (failures=2)
+

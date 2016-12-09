@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase id="egfoBorderColor2" parentName="block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+      <parentText>The border color properties for image were set to different colors.</parentText>
+      <fo foName="external-graphic">
+       <foProperty name="src" value="nist.jpg"/>
+       <foProperty name="border-before-color" value="red"/>
+       <foProperty name="border-after-color" value="blue"/>
+       <foProperty name="border-start-color" value="yellow"/>
+       <foProperty name="border-end-color" value="green"/>
+       <foProperty name="border-before-style" value="solid"/>
+       <foProperty name="border-after-style" value="solid"/>
+       <foProperty name="border-start-style" value="solid"/>
+       <foProperty name="border-end-style" value="solid"/>
+      </fo>
+  </testcase>

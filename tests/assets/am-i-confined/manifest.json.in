@@ -1,0 +1,15 @@
+{
+  "name": "com.example.am-i-confined",
+  "version": "0.1",
+  "maintainer": "Jamie Strandboge <jamie@ubuntu.com>",
+  "title": "Am I confined?",
+  "description": "Example app to see if confined",
+  "framework": "ubuntu-sdk-13.10",
+  "architecture": "###ARCH###",
+  "hooks": {
+    "am-i-confined": {
+      "apparmor": "am-i-confined.json",
+      "desktop": "am-i-confined.desktop"
+    }
+  }
+}

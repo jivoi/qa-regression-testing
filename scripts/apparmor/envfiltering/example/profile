@@ -1,0 +1,17 @@
+#include <tunables/global>
+@{HOME}/tmp/aa/ux/exe {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+
+  # needed by script
+  /bin/sed ix,
+  /usr/bin/cut ix,
+  /bin/egrep ix,
+  /usr/bin/basename ix,
+
+  @{HOME}/tmp/aa/ux/exe r,
+
+  @{HOME}/tmp/aa/ux/Ux Uxr,
+  @{HOME}/tmp/aa/ux/ux uxr,
+  @{HOME}/tmp/aa/ux/ix ixr,
+}

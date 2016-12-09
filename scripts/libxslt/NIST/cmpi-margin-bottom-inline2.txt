@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="test-page-master" page-width="8.5in" page-height="11in">
+      <fo:region-body margin-top="0.4in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:block background-color="gray">
+This element is unstyled save for a background color of gray.  However, it contains
+an <fo:inline background-color="red" margin-bottom="-10px">inline element of margin-bottom -10px and background-color of red, giving it a
+red background and a -10px bottom margin</fo:inline>.  Margins on inline elements do not affect
+line-height calculations, so all lines in this element should have the same line-height.</fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

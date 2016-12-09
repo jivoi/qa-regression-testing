@@ -1,0 +1,135 @@
+#!/bin/sh
+################################################################################
+# Copyright 2013 Canonical Ltd.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation; version 2.1.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Author: Jamie Strandboge <jamie@canonical.com>
+################################################################################
+
+set -e
+
+# Failure counter
+F_I=0
+
+# Success counter
+S_I=0
+
+# Total counter
+T_I=0
+
+export LC_ALL=C
+
+cleanup() {
+    # clean up just in case something went wrong in the above
+    echo "(running /lib/ufw/ufw-init force-stop)"
+    /lib/ufw/ufw-init force-stop
+
+    echo "(restoring /etc/default/ufw)" # trap handles this
+    cp -f /etc/ufw/default_ufw.image-test-backup /etc/default/ufw
+
+    echo "(restoring /etc/ufw/sysctl.conf)"
+    cp -f /etc/ufw/sysctl.conf.image-test-backup /etc/ufw/sysctl.conf
+
+    echo
+}
+
+trap "cleanup" EXIT HUP INT QUIT TERM
+
+# backup /etc/default/ufw-- /etc/ufw is rw on ro images, so backup there
+echo "(backing up /etc/default/ufw)"
+cp -a /etc/default/ufw /etc/ufw/default_ufw.image-test-backup
+sed 's/^DEFAULT_FORWARD_POLICY="DROP"/DEFAULT_FORWARD_POLICY="ACCEPT"/g' \
+    /etc/ufw/default_ufw.image-test-backup > /etc/default/ufw
+
+echo "(backing up /etc/ufw/sysctl.conf)"
+cp -a /etc/ufw/sysctl.conf /etc/ufw/sysctl.conf.image-test-backup
+sed -i -e 's,^#net/ipv4/ip_forward=1,net/ipv4/ip_forward=1,g' \
+       -e 's,#net/ipv6/conf/default/forwarding=1,net/ipv6/conf/default/forwarding=1,g' \
+       -e 's,#net/ipv6/conf/all/forwarding=1,net/ipv6/conf/all/forwarding=1,g' \
+       /etc/ufw/sysctl.conf
+
+# Make sure we start with a known good state
+echo "(running /lib/ufw/ufw-init force-stop)"
+/lib/ufw/ufw-init force-stop
+
+echo
+echo -n "Checking 'ufw default allow' ... "
+if ufw default allow >/dev/null ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'ufw -f enable' ... "
+if ufw -f enable | grep -q 'enabled' ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'ufw status (active)' ... "
+if ufw status | grep -q 'Status: active' ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'ufw disable' ... "
+if ufw disable | grep -q 'disabled'; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'ufw status (inactive)' ... "
+if ufw status | grep -q 'Status: inactive' ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+echo -n "Checking 'ufw default deny' ... "
+if ufw default deny >/dev/null ; then
+    echo "[OK]"
+    S_I=$(($S_I +1))
+else
+    echo "!FAIL!"
+    F_I=$(($F_I +1))
+fi
+T_I=$(($T_I +1))
+
+#######################################
+# Print summary
+echo
+echo "ufw tests:"
+echo " Passed: ${S_I}/${T_I}"
+echo " Failed: ${F_I}/${T_I}"
+echo
+
+exit ${F_I}

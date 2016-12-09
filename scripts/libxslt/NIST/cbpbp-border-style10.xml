@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This element should have, in clockwise order from the top, a double, grooved, ridged, and inset
+thick border.  The color of all four sides should be based on purple.
+Individual properties are being tested here.</PARAGRAPH>
+</TEST>

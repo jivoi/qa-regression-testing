@@ -1,0 +1,130 @@
+Testing Samba with Active Directory (AD)
+----------------------------------------
+There may be times when an AD backend is needed for testing. When this mode of
+operation is in use, "security = ADS" will be specified in the smb.conf file.
+
+There are two Samba pages I found helpful while setting Samba up:
+
+http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/domain-member.html
+http://wiki.samba.org/index.php/Samba_&_Active_Directory
+
+Here are some notes on the process:
+
+1) The first thing to do is decide how you want DNS handled. All AD setup
+   documents that I found say that it is best to let the Domain Controller
+   handle DNS. I didn't follow this recommendation because my Domain Controller
+   and all of my domain members were virtualized and connected to libvirt's
+   "default" network. The dnsmasq process spawned by libvirt would handle DNS
+   for me. I set an explicit DNS domain for the default network:
+
+   $ sudo virsh net-edit default
+
+   Add <domain name='DOMAIN'/> just under the <mac ... /> line. Replace DOMAIN
+   with the DNS domain you wish to use.
+
+2) The next thing to do is to set up a Domain Controller. Samba4, which is
+   still in alpha at the time of writing, has the ability to act as a Domain
+   Controller. However, the most obvious Domain Controller would be a Windows
+   Server installation. Windows Server 2008 trial downloads are available from
+   Microsoft and successfully install as a QEMU/KVM guest on Precise.
+
+   I followed this guide to set up Active Directory on win2k8:
+
+   http://www.elmajdal.net/win2k8/setting_up_your_first_domain_controller_with_windows_server_2008.aspx
+
+3) Next, you'll need to install and configure Samba and Kerberos in your Ubuntu
+   guest:
+
+   $ sudo apt-get install samba winbind krb5-user
+
+   You'll be prompted for a few values when krb5-config is being configured.
+   'Default Kerberos version 5 realm' is the DNS domain in all caps. 'Kerberos
+   servers for your realm' and 'Administrative server for your Kerberos realm'
+   is the FQDN of the Domain Controller.
+
+4) Replace the contents of /etc/samba/smb.conf with the minimal configuration
+   below. Adjust the first three config variables to the appropriate values for
+   your environment.
+
+---
+[global]
+   # The NetBIOS name can be 15 chars max. If the samba server's hostname is
+   # longer than 15 chars, truncate it here.
+   netbios name = sec-precise-amd
+
+   # The domain NetBIOS name. By default, "the leftmost label in the DNS domain
+   # name up to the first 15 bytes". You may have changed it to something else
+   # in the Active Directory Domain Services Installation Wizard.
+   workgroup = NETBIOSDOMAIN
+
+   # The kerberos realm. This should match default_realm in krb5.conf.
+   realm = REALM
+
+   # Nothing below should need to be modified. See smb.conf(5) for details.
+   security = ADS
+   encrypt passwords = yes
+   idmap uid = 1200-2000
+   idmap gid = 1200-2000
+   winbind enum users = yes
+   winbind enum groups = yes
+---
+
+   You may wish to set up shares at this point, but that is not required to
+   join the AD domain.
+
+5) Open /etc/nsswitch.conf and append 'winbind' to the end of the passwd, group and shadow lines. The modified lines of the file will look like this:
+
+---
+passwd:         compat winbind
+group:          compat winbind
+shadow:         compat winbind
+---
+
+6) Restart winbind and smbd:
+
+   $ sudo sh -c 'service winbind stop && service smbd restart && service winbind start'
+
+7) Obtain and cache Kerberos ticket-granting ticket:
+
+   $ kinit Administrator@V.TIHIX.COM
+
+   The command above, and all preceding commands, assumes that 'Administrator'
+   is the AD domain administrator. You'll be prompted for account password.
+
+8) Join the domain:
+
+   $ sudo net ads join -U Administrator
+
+   If this is being done in a test environment, you may want to specify
+   passwords on the command line. The net program's -U option takes a
+   user%password argument, like so:
+
+   $ sudo net ads join -U Administrator%ubuntu-win2k8
+
+   Obviously, this should not be used in a production environment.
+
+9) It seems like you need to restart winbind and smbd again for everything to
+   work correctly:
+
+   $ sudo sh -c 'service winbind stop && service smbd restart && service winbind start'
+
+10) Now you can get a user listing throughought the AD domain:
+
+   $ getent passwd
+
+   You'll see that remote user account ID's are mapped starting at the 'idmap
+   uid' range specified in smb.conf. You can su to those remotes accounts, too:
+
+   $ su - WORKGROUP\\foo
+
+   Replace WORKGROUP with the workgroup specified in smb.conf and foo with the
+   remote user name.
+
+11) You can list, grant, and revoke Microsoft Local Security Authority (LSA)
+    privileges associated with each account:
+
+   $ net rpc rights list foo -U Administrator%ubuntu-win2k8 -S $(hostname)
+
+   $ net rpc rights grant foo SeTakeOwnershipPrivilege -U Administrator%ubuntu-win2k8
+
+   $ net rpc rights revoke foo SeTakeOwnershipPrivilege -U Administrator%ubuntu-win2k8

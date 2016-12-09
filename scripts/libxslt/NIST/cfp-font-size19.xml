@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<PARAGRAPH>This sentence should be normal size, since no negative values are allowed and
+therefore should be ignored.</PARAGRAPH>
+</TEST>

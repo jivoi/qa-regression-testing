@@ -1,0 +1,13 @@
+To build:
+
+$ sudo apt-get install build-essential click
+$ cd confined-basic
+$ ./make-binaries
+
+This creates binaries in $arch/
+
+dbus-message.c
+--------------
+gcc dbus_message.c -o dbus_message $(pkg-config --cflags --libs dbus-1)
+$ ./dbus_message --session --name=com.foo.bar --type=method_call /com/foo/bar com.foo.bar.Method
+$ ./dbus_message --session --name=com.foo.bar --type=signal /com/foo/bar com.foo.bar.SomeSignal

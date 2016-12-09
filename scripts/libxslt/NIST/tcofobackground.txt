@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master page-height="11in" page-width="8.5in" margin-left="1.0in" margin-top="0.2in" margin-bottom="1.0in" margin-right="1.0in" master-name="test-page-master">
+      <fo:region-body margin-left="1.0in" margin-top="0.2in" margin-right="1.0in" margin-bottom="1.0in"/>
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-name="test-page-master">
+    <fo:flow flow-name="xsl-region-body">
+      <fo:table>
+        <fo:table-column column-width="1.0in" background-color="red"/>
+        <fo:table-column column-width="1.0in" background-color="blue"/>
+        <fo:table-column column-width="1.0in" background-color="yellow"/>
+        <fo:table-body>
+          <fo:table-row>
+            <fo:table-cell>
+              <fo:block>This is a red table column.</fo:block>
+            </fo:table-cell>
+            <fo:table-cell>
+              <fo:block>This is a blue table column.</fo:block>
+            </fo:table-cell>
+            <fo:table-cell>
+              <fo:block>This is a yellow table column.</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

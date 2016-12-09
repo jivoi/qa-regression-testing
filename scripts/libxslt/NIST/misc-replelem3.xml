@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TEST>
+<IMG SRC="oransqr.jpg"/>
+<PARAGRAPH>The second image should be a square resized to 50% (width) of the first image.</PARAGRAPH>
+</TEST>

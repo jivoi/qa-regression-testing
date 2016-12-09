@@ -1,0 +1,8 @@
+{
+  "template": "###TEMPLATE###",
+  "policy_groups": [
+    ###POLICYGROUPS###
+  ],
+  "policy_vendor": "###POLICYVENDOR###",
+  "policy_version": "###POLICYVERSION###"
+}

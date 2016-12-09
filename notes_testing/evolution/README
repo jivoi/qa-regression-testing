@@ -1,0 +1,64 @@
+Migrating to a New Computer (old)
+---------------------------------
+
+To migrate settings from one system to another, see:
+https://help.ubuntu.com/community/MigrateEvolutionToNewComputer
+
+Basically:
+
+1.  Run these two command on both the source and the target computer (these
+stop the programs that might interfere with your copy):
+$ gconftool-2 --shutdown
+$ evolution --force-shutdown
+
+2.  Copy the directories ~/.evolution, ~/.gconf/apps/evolution and
+~/.gnome2_private/Evolution from the source computer to the same place on the
+target computer.
+
+3.  Start Evolution on the target computer (this will automatically start the
+programs that you stopped in step 1).
+
+Note: Take care not to start any Gnome applications between steps 1 and 2, as
+these will automatically restart the programs that you want to have stopped.
+
+
+Migrating to a New Computer (new: Ubuntu Hardy and later)
+---------------------------------------------------------
+1. Go to File/Backup Settings...
+2. Save somewhere (eg /home/<username>/evolution-backup.tar.gz
+3. Copy evolution-backup.tar.gz to new computer.
+4. Open evolution and choose to import evolution-backup.tar.gz
+
+
+Resetting Evolution
+-------------------
+It is often useful to completely remove evolution's settings when testing, as
+evolution crashes may corrupt it's configuration and files.
+
+1. run 'evolution --force-shutdown'
+2. logout out of X
+3. run these commands
+$ gconftool-2 --shutdown
+$ rm -rf ~/.evolution, ~/.gconf/apps/evolution ~/.gnome2_private/Evolution
+4. log back in
+
+Note: you will have to completely reconfigure evolution on startup
+
+
+NSS
+---
+See notes_testing/nss/README for more information. To preconfigure evolution
+with the nss settings in the README:
+1. copy evolution-repack.sh and evolution-backup-hardy.tar.gz from this folder
+   to the new machine
+2. run './evolution-repack.sh ./evolution-backup-hardy.tar.gz' as the user
+   which will be conducting the test
+3. start evolution by importing evolution-backup-$USER.tar.gz
+
+These were created by setting up all the accounts, then doing 'File/Backup
+Settings...'. Seems each release needs its own backup since the version is
+checked. Can verify it is ok with:
+$ /usr/lib/evolution/2*/evolution-backup --check ~/evolution-backup-<release>.tar.gz
+
+Look in plugins/backup-restore/backup.c for how evolution creates and verifies
+the backups.

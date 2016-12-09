@@ -1,0 +1,9 @@
+- test on i386 and amd64
+- test desktop environment (gnome)
+- test complex applications (firefox)
+- test Java applications (azureus)
+- test video applications (mplayer, vlc)
+- full compiz effects
+
+
+Copyright (C) 2008 Canonical Ltd.

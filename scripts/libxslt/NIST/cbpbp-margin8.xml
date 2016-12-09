@@ -1,0 +1,4 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This element should have an overall margin of 1cm.  Individual properties are tested here.</PARAGRAPH>
+</TEST>

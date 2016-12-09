@@ -1,0 +1,8 @@
+<?xml version="1.0"?> 
+<TEST>
+<PARAGRAPH>This text is inside an element.  The border, padding, and
+margins for this paragraph should line up with the boundaries denoted; the edges
+of the light blue background should line up with the boundary between "padding"
+and "border" which would be as indicated.  There should be no top or bottom 
+margin; anything above or below should be flush with this paragraph.</PARAGRAPH>
+</TEST>

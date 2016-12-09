@@ -1,0 +1,235 @@
+TESTING
+-------
+testsuite: works on saucy, raring, quantal was broken (see below), and precise
+has different test suite, but it is run during the build
+# http://docs.openstack.org/developer/swift/development_guidelines.html
+
+
+== Saucy ==
+(saucy-i386)# apt-get build-dep swift
+(saucy-i386)# apt-get install python-tox libffi-dev
+(saucy-i386)$ su <your username>
+(saucy-i386)$ export TOXENV=py27,pep8
+(saucy-i386)$ tox
+
+If there is a problem with dependencies, then try to fix them up and do:
+$ tox --recreate
+
+Expected failures:
+======================================================================
+FAIL: test_translations (test.unit.locale.test_locale.TestTranslations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jamie/ubuntu/sbuild/swift/saucy/swift-1.10.0/test/unit/locale/test_locale.py", line 37, in test_translations
+    self.assertEquals(translated_message, 'testo mesaĝon\n')
+AssertionError: 'test message\n' != 'testo mesa\xc4\x9don\n'
+    "'test message\\n' != 'testo mesa\\xc4\\x9don\\n'" = '%s != %s' % (safe_repr('test message\n'), safe_repr('testo mesa\xc4\x9don\n'))
+    "'test message\\n' != 'testo mesa\\xc4\\x9don\\n'" = self._formatMessage("'test message\\n' != 'testo mesa\\xc4\\x9don\\n'", "'test message\\n' != 'testo mesa\\xc4\\x9don\\n'")
+>>  raise self.failureException("'test message\\n' != 'testo mesa\\xc4\\x9don\\n'")
+
+
+======================================================================
+FAIL: test_COPY (test.unit.proxy.test_server.TestObjectController)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jamie/ubuntu/sbuild/swift/saucy/swift-1.10.0/test/unit/proxy/test_server.py", line 3020, in test_COPY
+    self.assertEquals(resp.status_int, 413)
+AssertionError: 404 != 413
+    '404 != 413' = '%s != %s' % (safe_repr(404), safe_repr(413))
+    '404 != 413' = self._formatMessage('404 != 413', '404 != 413')
+>>  raise self.failureException('404 != 413')
+
+
+======================================================================
+FAIL: test_copy_from (test.unit.proxy.test_server.TestObjectController)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jamie/ubuntu/sbuild/swift/saucy/swift-1.10.0/test/unit/proxy/test_server.py", line 2890, in test_copy_from
+    self.assertEquals(resp.status_int, 413)
+AssertionError: 404 != 413
+    '404 != 413' = '%s != %s' % (safe_repr(404), safe_repr(413))
+    '404 != 413' = self._formatMessage('404 != 413', '404 != 413')
+>>  raise self.failureException('404 != 413')
+
+
+
+TOTAL                                      12309   1115   4910    703    89%
+Slowest 5 tests took 17.40 secs:
+    3.60    TestObjectController.test_version_manifest
+    3.55    TestObjectController.test_version_manifest_utf8_version_container
+    3.48    TestObjectController.test_version_manifest_utf8_container_utf_object
+    3.42    TestObjectController.test_version_manifest_utf8
+    3.35    TestObjectController.test_version_manifest_utf8_object
+----------------------------------------------------------------------
+Ran 1552 tests in 78.162s
+
+FAILED (failures=3)
+
+
+pep8 also fails:
+pkg_resources.VersionConflict: (pbr 0.6 (/home/jamie/ubuntu/sbuild/swift/saucy/swift-1.10.0/.tox/pep8/lib/python2.7/site-packages), Requirement.parse('pbr>=0.5.10,<0.6'))
+ERROR: InvocationError: '/home/jamie/ubuntu/sbuild/swift/saucy/swift-1.10.0/.tox/pep8/bin/flake8'
+
+Adjusting ./requirements.txt to have 'pbr>=0.5.21,<0.7' didn't help.
+
+
+== Raring ==
+# raring
+(raring-i386)# apt-get build-dep swift
+(raring-i386)# apt-get install python-tox libffi-dev
+(raring-i386)$ su <your username>
+(raring-i386)$ export TOXENV=py27,pep8
+(raring-i386)$ tox
+
+If there is a problem with dependencies, then try to fix them up and do:
+$ tox --recreate
+
+In addition to the above apt-gettable packages, known to work with:
+- eventlet-0.14.0.tar.gz
+- greenlet-0.4.1.zip
+- netifaces-0.8.tar.gz
+- PasteDeploy-1.5.0.tar.gz
+- simplejson-3.3.1.tar.gz
+- xattr-0.7.2.tar.gz
+
+
+Expected failures:
+
+======================================================================
+FAIL: test_COPY (test.unit.proxy.test_server.TestObjectController)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jamie/ubuntu/sbuild/swift/raring/foo/swift-1.8.0/test/unit/proxy/test_server.py", line 2453, in test_COPY
+    self.assertEquals(resp.status_int, 413)
+AssertionError: 404 != 413
+    '404 != 413' = '%s != %s' % (safe_repr(404), safe_repr(413))
+    '404 != 413' = self._formatMessage('404 != 413', '404 != 413')
+>>  raise self.failureException('404 != 413')
+
+
+======================================================================
+FAIL: test_copy_from (test.unit.proxy.test_server.TestObjectController)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/jamie/ubuntu/sbuild/swift/raring/foo/swift-1.8.0/test/unit/proxy/test_server.py", line 2324, in test_copy_from
+    self.assertEquals(resp.status_int, 413)
+AssertionError: 404 != 413
+    '404 != 413' = '%s != %s' % (safe_repr(404), safe_repr(413))
+    '404 != 413' = self._formatMessage('404 != 413', '404 != 413')
+>>  raise self.failureException('404 != 413')
+    
+
+Slowest 5 tests took 11.52 secs:
+    5.01    TestSegmentedIterable.test_app_iter_range_with_many_segments
+    2.14    TestRing.test_get_more_nodes
+    1.79    TestObjectController.test_version_manifest
+    1.51    TestProxyServer.test_node_timing
+    1.07    TestObjectController.test_chunked_put_lobjects
+----------------------------------------------------------------------
+Ran 1246 tests in 34.625s
+
+FAILED (SKIP=8, failures=2)
+ERROR: InvocationError: '/home/jamie/ubuntu/sbuild/swift/raring/foo/swift-1.8.0/.tox/py27/bin/nosetests test/unit'
+pep8 create: /home/jamie/ubuntu/sbuild/swift/raring/foo/swift-1.8.0/.tox/pep8
+pep8 installdeps: pep8==1.3.3
+pep8 sdist-inst: /home/jamie/ubuntu/sbuild/swift/raring/foo/swift-1.8.0/.tox/dist/swift-1.8.0.zip
+pep8 runtests: commands[0]
+pep8 runtests: commands[1]
+__________________________________________________________________________ summary ___________________________________________________________________________
+ERROR:   py27: commands failed
+  pep8: commands succeeded
+
+
+
+== Quantal ==
+# quantal - same as above, but need to update ./tools/pip-requires
+(quantal-i386)# apt-get build-dep swift
+(quantal-i386)# apt-get install python-pip libffi-dev && pip install tox
+(quantal-i386)# su <your username>
+(quantal-i386)$ sed -i 's/^netifaces==0.6/netifaces==0.8/g' ./tools/pip-requires
+(quantal-i386)$ export TOXENV=py27,pep8
+(quantal-i386)$ tox
+
+Known to work with (via pip-requires):
+- tox-1.6.1.tar.gz
+- virtualenv-1.10.1.tar.gz
+- py-1.4.17.tar.gz
+
+Quantal is expected to pass all tests:
+...
+Ran 944 tests in 22.889s
+
+OK (SKIP=8)
+...
+  py27: commands succeeded
+  pep8: commands succeeded
+  congratulations :)
+
+
+If there is a problem with dependencies, then try to fix them up and do:
+$ tox --recreate
+
+
+== precise ==
+$ sudo apt-get build-dep swift
+* fakeroot ./debian/rules build
+
+or:
+$ python ./setup.py test
+
+Functional tests are disabled because they need a working swift environment.
+As such, can run against a VM as configured here:
+https://wiki.ubuntu.com/SecurityTeam/TestingOpenStack
+
+Alternatively, see (Swift-All-In-One):
+doc/source/development_saio.rst
+
+IMPORTANT: ~/bin/resetswift from doc/source/development_saio.rst should use
+'chown -R swift:swift /srv/[1-4]/' after the 'mkdir -p /srv/1/node/sdb1 ...'.
+
+swift-aio.precise was written to implement doc/source/development_saio.rst in
+script form and can be run with:
+$ sudo ./swift-aio.precise
+...
+
+The script will now give output on how to start swift, reset it, run tests,
+etc. If there are errors with authentication, try:
+
+To run individual tests, look at ./.unittests and ./.functests
+
+Note, the following tests are known to fail (this seems to be fixed in
+1.4.8-0ubuntu2.5):
+test_metadata (test.functionalnosetests.test_account.TestAccount) ... ERROR
+test_multi_metadata (test.functionalnosetests.test_account.TestAccount) ... ERROR
+test_POST_bad_metadata (test.functionalnosetests.test_container.TestContainer) ... ERROR
+
+/var/log/syslog shows:
+raise HTTPException("got more than %d headers" % _MAXHEADERS)#012HTTPException: got more than 100 headers (txn: txef2138b32fc64a098ebd49cce100177b)
+
+for each. This appears to be a bug in httplib:
+http://stackoverflow.com/questions/23055378/http-client-httpexception-got-more-than-100-headers
+
+
+Perhaps this can be reset by doing (this seems the only way to expire the
+tokens):
+sudo rm -f /srv/swift-disk
+sudo dd if=/dev/zero of=/srv/swift-disk bs=1024 count=0 seek=1000000
+sudo ~/bin/remakerings
+sudo ~/bin/resetswift
+sudo ~/bin/startmain
+
+Then rerun the functional tests (see swift-aio.precise output)
+
+
+== trusty ==
+Like precise, but use:
+$ sudo ./swift-aio.trusty
+
+probetests have some issues that seem to be related to testsuite issues
+
+
+== vivid ==
+Like precise, but use:
+$ sudo ./swift-aio.vivid
+
+probetests have some issues that seem to be related to testsuite issues

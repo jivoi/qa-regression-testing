@@ -1,0 +1,225 @@
+Origin: CVS patchsets 20853, 21391, 21396 and 21397
+Description: Start of fix for test suite breakage. This patch is broken, but
+ grabs patches from upstream to try to resolve testsuite breakage in 2.4.9
+Bug: ITS#5355 http://www.mail-archive.com/openldap-its@openldap.org/msg00520.html
+
+Index: openldap2.3-2.4.9/servers/slapd/back-meta/init.c
+===================================================================
+--- openldap2.3-2.4.9.orig/servers/slapd/back-meta/init.c	2011-03-30 13:52:58.000000000 -0500
++++ openldap2.3-2.4.9/servers/slapd/back-meta/init.c	2011-03-30 14:06:29.000000000 -0500
+@@ -93,6 +93,15 @@
+ {
+ 	metainfo_t	*mi;
+ 	int		i;
++	BackendInfo	*bi;
++
++	bi = backend_info( "ldap" );
++	if ( !bi || !bi->bi_extra ) {
++		Debug( LDAP_DEBUG_ANY,
++			"meta_back_db_init: needs back-ldap\n",
++			0, 0, 0 );
++		return 1;
++	}
+ 
+ 	mi = ch_calloc( 1, sizeof( metainfo_t ) );
+ 	if ( mi == NULL ) {
+@@ -127,6 +136,8 @@
+ 	}
+ 	mi->mi_conn_priv_max = LDAP_BACK_CONN_PRIV_DEFAULT;
+ 	
++	mi->mi_ldap_extra = (ldap_extra_t *)bi->bi_extra;
++
+ 	be->be_private = mi;
+ 
+ 	return 0;
+@@ -138,7 +149,6 @@
+ 	ConfigReply	*cr )
+ {
+ 	metainfo_t	*mi = (metainfo_t *)be->be_private;
+-	BackendInfo *bi;
+ 
+ 	int		i,
+ 			not_always = 0,
+@@ -383,7 +393,7 @@
+ 				if ( META_BACK_TGT_QUARANTINE( mt ) ) {
+ 					if ( mt->mt_quarantine.ri_num != mi->mi_quarantine.ri_num )
+ 					{
+-						slap_retry_info_destroy( &mt->mt_quarantine );
++						mi->mi_ldap_extra->retry_info_destroy( &mt->mt_quarantine );
+ 					}
+ 
+ 					ldap_pvt_thread_mutex_destroy( &mt->mt_quarantine_mutex );
+@@ -411,7 +421,7 @@
+ 		}
+ 
+ 		if ( META_BACK_QUARANTINE( mi ) ) {
+-			slap_retry_info_destroy( &mi->mi_quarantine );
++			mi->mi_ldap_extra->retry_info_destroy( &mi->mi_quarantine );
+ 		}
+ 	}
+ 
+Index: openldap2.3-2.4.9/servers/slapd/back-ldap/back-ldap.h
+===================================================================
+--- openldap2.3-2.4.9.orig/servers/slapd/back-ldap/back-ldap.h	2011-03-30 13:52:58.000000000 -0500
++++ openldap2.3-2.4.9/servers/slapd/back-ldap/back-ldap.h	2011-03-30 14:03:05.000000000 -0500
+@@ -428,6 +428,11 @@
+ 	int (*proxy_authz_ctrl)( Operation *op, SlapReply *rs, struct berval *bound_ndn,
+ 		int version, slap_idassert_t *si, LDAPControl	*ctrl );
+ 	int (*controls_free)( Operation *op, SlapReply *rs, LDAPControl ***pctrls );
++	int (*idassert_authzfrom_parse_cf)( const char *fname, int lineno, const char *arg, slap_idassert_t *si );
++	int (*idassert_parse_cf)( const char *fname, int lineno, int argc, char *argv[], slap_idassert_t *si );
++	void (*retry_info_destroy)( slap_retry_info_t *ri );
++	int (*retry_info_parse)( char *in, slap_retry_info_t *ri, char *buf, ber_len_t buflen );
++	int (*retry_info_unparse)( slap_retry_info_t *ri, struct berval *bvout );
+ } ldap_extra_t;
+ 
+ LDAP_END_DECL
+Index: openldap2.3-2.4.9/servers/slapd/back-ldap/init.c
+===================================================================
+--- openldap2.3-2.4.9.orig/servers/slapd/back-ldap/init.c	2011-03-30 13:52:58.000000000 -0500
++++ openldap2.3-2.4.9/servers/slapd/back-ldap/init.c	2011-03-30 14:03:05.000000000 -0500
+@@ -34,7 +34,12 @@
+ 
+ static const ldap_extra_t ldap_extra = {
+ 	ldap_back_proxy_authz_ctrl,
+-	ldap_back_controls_free
++	ldap_back_controls_free,
++	slap_idassert_authzfrom_parse_cf,
++	slap_idassert_parse_cf,
++	slap_retry_info_destroy,
++	slap_retry_info_parse,
++	slap_retry_info_unparse
+ };
+ 
+ int
+Index: openldap2.3-2.4.9/servers/slapd/back-ldap/proto-ldap.h
+===================================================================
+--- openldap2.3-2.4.9.orig/servers/slapd/back-ldap/proto-ldap.h	2011-03-30 14:02:38.000000000 -0500
++++ openldap2.3-2.4.9/servers/slapd/back-ldap/proto-ldap.h	2011-03-30 14:03:05.000000000 -0500
+@@ -63,22 +63,6 @@
+ 
+ extern ldapconn_t * ldap_back_conn_delete( ldapinfo_t *li, ldapconn_t *lc );
+ 
+-#if 0
+-extern int
+-ldap_back_proxy_authz_ctrl(
+-		struct berval	*bound_ndn,
+-		int		version,
+-		slap_idassert_t	*si,
+-		Operation	*op,
+-		SlapReply	*rs,
+-		LDAPControl	***pctrls );
+-
+-extern int
+-ldap_back_proxy_authz_ctrl_free(
+-		Operation	*op,
+-		LDAPControl	***pctrls );
+-#endif
+-
+ extern int
+ ldap_back_proxy_authz_ctrl(
+ 		Operation	*op,
+Index: openldap2.3-2.4.9/servers/slapd/back-meta/config.c
+===================================================================
+--- openldap2.3-2.4.9.orig/servers/slapd/back-meta/config.c	2011-03-30 14:02:49.000000000 -0500
++++ openldap2.3-2.4.9/servers/slapd/back-meta/config.c	2011-03-30 14:03:05.000000000 -0500
+@@ -1089,7 +1089,7 @@
+ 			}
+ 			cargv[ 2 ] = binddn;
+ 
+-			rc = slap_idassert_parse_cf( fname, lineno, cargc, cargv, &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
++			rc = mi->mi_ldap_extra->idassert_parse_cf( fname, lineno, cargc, cargv, &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
+ 			if ( rc == 0 ) {
+ 				struct berval	bv;
+ 
+@@ -1159,7 +1159,7 @@
+ 			return 1;
+ 		}
+ 
+-		return slap_idassert_parse_cf( fname, lineno, argc, argv, &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
++		return mi->mi_ldap_extra->idassert_parse_cf( fname, lineno, argc, argv, &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
+ 
+ 	/* idassert-authzFrom */
+ 	} else if ( strcasecmp( argv[ 0 ], "idassert-authzFrom" ) == 0 ) {
+@@ -1188,7 +1188,7 @@
+ 			return 1;
+ 		}
+ 
+-		return slap_idassert_authzfrom_parse_cf( fname, lineno, argv[ 1 ], &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
++		return mi->mi_ldap_extra->idassert_authzfrom_parse_cf( fname, lineno, argv[ 1 ], &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_idassert );
+ 
+ 	/* quarantine */
+ 	} else if ( strcasecmp( argv[ 0 ], "quarantine" ) == 0 ) {
+@@ -1232,7 +1232,7 @@
+ 			ldap_pvt_thread_mutex_init( &mi->mi_targets[ mi->mi_ntargets - 1 ]->mt_quarantine_mutex );
+ 		}
+ 
+-		if ( slap_retry_info_parse( argv[ 1 ], ri, buf, sizeof( buf ) ) ) {
++		if ( mi->mi_ldap_extra->retry_info_parse( argv[ 1 ], ri, buf, sizeof( buf ) ) ) {
+ 			Debug( LDAP_DEBUG_ANY,
+ 				"%s line %d: %s.\n",
+ 				fname, lineno, buf );
+Index: openldap2.3-2.4.9/tests/data/slapd-meta.conf
+===================================================================
+--- openldap2.3-2.4.9.orig/tests/data/slapd-meta.conf	2011-03-30 14:07:32.000000000 -0500
++++ openldap2.3-2.4.9/tests/data/slapd-meta.conf	2011-03-30 14:07:40.000000000 -0500
+@@ -22,18 +22,12 @@
+ pidfile		@TESTDIR@/slapd.m.pid
+ argsfile	@TESTDIR@/slapd.m.args
+ 
+-#mod#modulepath	../servers/slapd/back-@BACKEND@/
+-#mod#moduleload	back_@BACKEND@.la
+-#relaymod#modulepath ../servers/slapd/back-relay/
+-#relaymod#moduleload back_relay.la
+ #ldapmod#modulepath ../servers/slapd/back-ldap/
+ #ldapmod#moduleload back_ldap.la
+ #metamod#modulepath ../servers/slapd/back-meta/
+ #metamod#moduleload back_meta.la
+ #monitormod#modulepath ../servers/slapd/back-monitor/
+ #monitormod#moduleload back_monitor.la
+-#rwmmod#modulepath ../servers/slapd/overlays/
+-#rwmmod#moduleload rwm.la
+ 
+ # seems to improve behavior under very heavy load
+ # (i.e. it alleviates load on target systems)
+@@ -53,6 +47,8 @@
+ # 1 sec timeout for binds
+ bind-timeout	1000000
+ 
++idle-timeout	10
++
+ # local
+ uri		"@URI2@ou=Meta,o=Example,c=US"
+ suffixmassage	"ou=Meta,o=Example,c=US" "ou=Meta,dc=example,dc=com"
+Index: openldap2.3-2.4.9/tests/scripts/test035-meta
+===================================================================
+--- openldap2.3-2.4.9.orig/tests/scripts/test035-meta	2011-03-30 14:07:32.000000000 -0500
++++ openldap2.3-2.4.9/tests/scripts/test035-meta	2011-03-30 14:07:40.000000000 -0500
+@@ -23,6 +23,11 @@
+ 	exit 0
+ fi
+ 
++if test $BACKLDAP = ldapno ; then 
++	echo "ldap backend not available, test skipped"
++	exit 0
++fi
++
+ rm -rf $TESTDIR
+ 
+ mkdir -p $TESTDIR $DBDIR1 $DBDIR2
+Index: openldap2.3-2.4.9/tests/scripts/test036-meta-concurrency
+===================================================================
+--- openldap2.3-2.4.9.orig/tests/scripts/test036-meta-concurrency	2011-03-30 14:07:32.000000000 -0500
++++ openldap2.3-2.4.9/tests/scripts/test036-meta-concurrency	2011-03-30 14:07:40.000000000 -0500
+@@ -23,6 +23,11 @@
+ 	exit 0
+ fi
+ 
++if test $BACKLDAP = ldapno ; then 
++	echo "ldap backend not available, test skipped"
++	exit 0
++fi
++
+ if test x$TESTLOOPS = x ; then
+ 	TESTLOOPS=50
+ fi

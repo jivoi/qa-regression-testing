@@ -1,0 +1,21 @@
+ubuntuone-storage-protocol has an excellent test suite that needs to be run
+manually.
+
+In a VM (natty and later):
+- apt-get build-dep ubuntuone-storage-protocol
+- apt-get install ubuntuone-dev-tools python-mocker pyflakes pep8
+- get the source:
+  - original: apt-get source ubuntuone-storage-protocol
+  - patched: copy over source tree to VM
+- enter source tree
+- ./run-tests > /tmp/results.txt 2>&1
+
+In a VM (lucid):
+- apt-get build-dep ubuntuone-storage-protocol
+- apt-get install python-distutils-extra python-twisted pylint
+- get the source:
+  - original: apt-get source ubuntuone-storage-protocol
+  - patched: copy over source tree to VM
+- enter source tree
+- ./setup.py build
+- ./setup.py check > /tmp/results.txt 2>&1
